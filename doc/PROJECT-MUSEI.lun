@@ -1387,7 +1387,7 @@ SCHEMA-LOGICO-NO-GER-NOLABEL
 
 1-1-1
 20201124
-20201124
+20201125
 F
 E
 
@@ -1535,7 +1535,7 @@ SCHEMA-LOGICO-NO-GER-INFO
 
 1-1-1
 20201124
-20201124
+20201125
 F
 E
 
@@ -1704,7 +1704,7 @@ SCHEMA-LOGICO-NO-GER
 
 1-1
 20201124
-20201124
+20201125
 T
 E
 
@@ -9501,7 +9501,7 @@ Diviso
 *5
 7555
 0
-Compilare
+Compila
 
 
 
@@ -9672,7 +9672,7 @@ Creato
 *5
 7537
 0
-Quando
+Periodo
 
 
 
@@ -9900,7 +9900,7 @@ Diviso
 *5
 7119
 0
-Compilare
+Compila
 
 
 
@@ -10071,7 +10071,7 @@ Creato
 *5
 7101
 0
-Quando
+Periodo
 
 
 
@@ -10318,7 +10318,7 @@ Creato
 *5
 6641
 0
-Quando
+Periodo
 
 
 
@@ -10565,7 +10565,7 @@ Diviso
 *5
 5212
 0
-Compilare
+Compila
 
 
 
@@ -10736,7 +10736,7 @@ Creato
 *5
 5194
 0
-Quando
+Periodo
 
 
 
@@ -11097,7 +11097,7 @@ Museo_FamigliaMusei
 *5
 4793
 0
-Quando
+Periodo
 
 
 
@@ -11268,7 +11268,7 @@ Aperto
 *5
 4775
 0
-Compilare
+Compila
 
 
 
