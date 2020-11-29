@@ -1,9 +1,9 @@
 -- *********************************************
--- * Standard SQL generation                   
+-- * Academic SQL generation                   
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.1              
 -- * Generator date: Dec  4 2018              
--- * Generation date: Sun Nov 29 12:36:38 2020 
+-- * Generation date: Sun Nov 29 12:45:40 2020 
 -- * LUN file: Z:\Database project\MuseumsManager\doc\PROJECT-MUSEI.lun 
 -- * Schema: SCHEMA-LOGICO-NO-GER-NOLABEL/1-1-1 
 -- ********************************************* 
@@ -27,7 +27,9 @@ create table Biglietto (
      DataValidita date not null,
      idMuseo numeric(1) not null,
      idTipoBiglietto numeric(1) not null,
-     constraint ID_Biglietto_ID primary key (idBiglietto));
+     primary key (idBiglietto),
+     foreign key (idMuseo) references Museo,
+     foreign key (idTipoBiglietto) references TipoBiglietto);
 
 create table CalendarioApertureSpeciali (
      idCalendarioApertureSpeciali numeric(1) not null,
@@ -36,13 +38,15 @@ create table CalendarioApertureSpeciali (
      OrarioChiusura date not null,
      NumBigliettiMax char(1) not null,
      idMuseo numeric(1) not null,
-     constraint ID_CalendarioApertureSpeciali_ID primary key (idCalendarioApertureSpeciali));
+     primary key (idCalendarioApertureSpeciali),
+     foreign key (idMuseo) references Museo);
 
 create table CalendarioChiusure (
      idCalendarioChiusure numeric(1) not null,
      Data date not null,
      idMuseo numeric(1) not null,
-     constraint ID_CalendarioChiusure_ID primary key (idCalendarioChiusure));
+     primary key (idCalendarioChiusure),
+     foreign key (idMuseo) references Museo);
 
 create table Contenuto (
      idContenuto numeric(1) not null,
@@ -54,17 +58,27 @@ create table Contenuto (
      idProvenienza numeric(1) not null,
      idPeriodoStorico numeric(1) not null,
      idSezione numeric(1) not null,
-     constraint ID_Contenuto_ID primary key (idContenuto));
+     primary key (idContenuto) ,
+     check(exists(select * from Contenuto_Tipologia
+                  where Contenuto_Tipologia.idContenuto = idContenuto)),
+     foreign key (idContenutoPadre) references Contenuto,
+     foreign key (idProvenienza) references Provenienza,
+     foreign key (idPeriodoStorico) references PeriodoStorico,
+     foreign key (idSezione) references Sezione);
 
 create table Contenuto_Tipologia (
      idContenuto numeric(1) not null,
      idTipoContenuto numeric(1) not null,
-     constraint ID_Contenuto_Tipologia_ID primary key (idContenuto, idTipoContenuto));
+     primary key (idContenuto, idTipoContenuto),
+     foreign key (idTipoContenuto) references TipoContenuto,
+     foreign key (idContenuto) references Contenuto);
 
 create table Creato (
      idContenuto numeric(1) not null,
      idCreatore numeric(1) not null,
-     constraint ID_Creato_ID primary key (idContenuto, idCreatore));
+     primary key (idContenuto, idCreatore),
+     foreign key (idCreatore) references Creatore,
+     foreign key (idContenuto) references Contenuto);
 
 create table Creatore (
      idCreatore numeric(1) not null,
@@ -72,12 +86,18 @@ create table Creatore (
      Cognome varchar(150) not null,
      Descrizione varchar(150) not null,
      AnnoNascita numeric(1) not null,
-     constraint ID_Creatore_ID primary key (idCreatore));
+     primary key (idCreatore) ,
+     check(exists(select * from Creato
+                  where Creato.idCreatore = idCreatore)) ,
+     check(exists(select * from Museo_Creatore
+                  where Museo_Creatore.idCreatore = idCreatore)));
 
 create table FamigliaMusei (
      idFamiglia char(1) not null,
      Nome char(1) not null,
-     constraint ID_FamigliaMusei_ID primary key (idFamiglia));
+     primary key (idFamiglia) ,
+     check(exists(select * from Museo
+                  where Museo.idFamiglia = idFamiglia)));
 
 create table Museo (
      idMuseo numeric(1) not null,
@@ -87,27 +107,44 @@ create table Museo (
      OrarioChiusuraGenerale date not null,
      NumBigliettiMaxGenerale numeric(1) not null,
      idFamiglia char(1),
-     constraint ID_Museo_ID primary key (idMuseo));
+     primary key (idMuseo) ,
+     check(exists(select * from Sezione
+                  where Sezione.idMuseo = idMuseo)) ,
+     check(exists(select * from Personale
+                  where Personale.idMuseo = idMuseo)) ,
+     check(exists(select * from Museo_Tipologia
+                  where Museo_Tipologia.idMuseo = idMuseo)) ,
+     check(exists(select * from TipoBiglietto
+                  where TipoBiglietto.idMuseo = idMuseo)),
+     foreign key (idFamiglia) references FamigliaMusei);
 
 create table Museo_Creatore (
      idCreatore numeric(1) not null,
      idMuseo numeric(1) not null,
-     constraint ID_Museo_Creatore_ID primary key (idCreatore, idMuseo));
+     primary key (idCreatore, idMuseo),
+     foreign key (idMuseo) references Museo,
+     foreign key (idCreatore) references Creatore);
 
 create table Museo_PeriodoStorico (
      idMuseo numeric(1) not null,
      idPeriodoStorico numeric(1) not null,
-     constraint ID_Museo_PeriodoStorico_ID primary key (idPeriodoStorico, idMuseo));
+     primary key (idPeriodoStorico, idMuseo),
+     foreign key (idPeriodoStorico) references PeriodoStorico,
+     foreign key (idMuseo) references Museo);
 
 create table Museo_Provenienza (
      idMuseo numeric(1) not null,
      idProvenienza numeric(1) not null,
-     constraint ID_Museo_Provenienza_ID primary key (idProvenienza, idMuseo));
+     primary key (idProvenienza, idMuseo),
+     foreign key (idProvenienza) references Provenienza,
+     foreign key (idMuseo) references Museo);
 
 create table Museo_Tipologia (
      idMuseo numeric(1) not null,
      idTipoMuseo numeric(1) not null,
-     constraint ID_Museo_Tipologia_ID primary key (idTipoMuseo, idMuseo));
+     primary key (idTipoMuseo, idMuseo),
+     foreign key (idTipoMuseo) references TipoMuseo,
+     foreign key (idMuseo) references Museo);
 
 create table PeriodoStorico (
      idPeriodoStorico numeric(1) not null,
@@ -115,7 +152,9 @@ create table PeriodoStorico (
      Descrizione varchar(150) not null,
      AnnoInizio numeric(1) not null,
      AnnoFine char(1) not null,
-     constraint ID_PeriodoStorico_ID primary key (idPeriodoStorico));
+     primary key (idPeriodoStorico) ,
+     check(exists(select * from Museo_PeriodoStorico
+                  where Museo_PeriodoStorico.idPeriodoStorico = idPeriodoStorico)));
 
 create table Personale (
      idPersonale numeric(1) not null,
@@ -125,18 +164,27 @@ create table Personale (
      Email char(1) not null,
      StipendioOra numeric(1) not null,
      idMuseo numeric(1),
-     constraint ID_Personale_ID primary key (idPersonale));
+     primary key (idPersonale) ,
+     check(exists(select * from Personale_Tipologia
+                  where Personale_Tipologia.idPersonale = idPersonale)),
+     foreign key (idMuseo) references Museo);
 
 create table Personale_Tipologia (
      idPersonale numeric(1) not null,
      idTipoPersonale numeric(1) not null,
-     constraint ID_Personale_Tipologia_ID primary key (idPersonale, idTipoPersonale));
+     primary key (idPersonale, idTipoPersonale),
+     foreign key (idTipoPersonale) references TipoPersonale,
+     foreign key (idPersonale) references Personale);
 
 create table Provenienza (
      idProvenienza numeric(1) not null,
      Nome varchar(150) not null,
      Descrizione varchar(150) not null,
-     constraint ID_Provenienza_ID primary key (idProvenienza));
+     primary key (idProvenienza) ,
+     check(exists(select * from Museo_Provenienza
+                  where Museo_Provenienza.idProvenienza = idProvenienza)) ,
+     check(exists(select * from Contenuto
+                  where Contenuto.idProvenienza = idProvenienza)));
 
 create table RegistroManutenzioni (
      idManutenzione numeric(1) not null,
@@ -144,16 +192,18 @@ create table RegistroManutenzioni (
      Data date not null,
      Descrizione varchar(1) not null,
      Prezzo numeric(1) not null,
-     constraint ID_RegistroManutenzioni_ID primary key (idManutenzione),
-     constraint FKRegistareManutenzione_ID unique (idMuseo));
+     primary key (idManutenzione),
+     unique (idMuseo),
+     foreign key (idMuseo) references Museo);
 
 create table RegistroPresenze (
      idRegistro numeric(1) not null,
      idPersonale numeric(1) not null,
      DataEntrata date not null,
      DataUscita date not null,
-     constraint ID_RegistroPresenze_ID primary key (idRegistro),
-     constraint FKCompila_ID unique (idPersonale));
+     primary key (idRegistro),
+     unique (idPersonale),
+     foreign key (idPersonale) references Personale);
 
 create table Sezione (
      idSezione numeric(1) not null,
@@ -161,12 +211,18 @@ create table Sezione (
      Descrizione char(1) not null,
      idSezionePadre numeric(1) not null,
      idMuseo numeric(1) not null,
-     constraint ID_Sezione_ID primary key (idSezione));
+     primary key (idSezione) ,
+     check(exists(select * from Sezione_Tipologia
+                  where Sezione_Tipologia.idSezione = idSezione)),
+     foreign key (idSezionePadre) references Sezione,
+     foreign key (idMuseo) references Museo);
 
 create table Sezione_Tipologia (
      idSezione numeric(1) not null,
      idTipoSezione numeric(1) not null,
-     constraint ID_Sezione_Tipologia_ID primary key (idTipoSezione, idSezione));
+     primary key (idTipoSezione, idSezione),
+     foreign key (idTipoSezione) references TipoSezione,
+     foreign key (idSezione) references Sezione);
 
 create table Statistiche (
      idStatistiche numeric(1) not null,
@@ -178,404 +234,213 @@ create table Statistiche (
      NumManutenzioni numeric(1) not null,
      NumContenutiNuovi numeric(1) not null,
      NumChiusure numeric(1) not null,
-     constraint ID_Statistiche_ID primary key (idStatistiche));
+     primary key (idStatistiche));
 
 create table StatisticheFamigliaMusei (
      idStatistiche numeric(1) not null,
      idFamiglia char(1) not null,
-     constraint FKStatistiche_FamigliaMuseo_ID primary key (idStatistiche));
+     primary key (idStatistiche),
+     foreign key (idStatistiche) references Statistiche,
+     foreign key (idFamiglia) references FamigliaMusei);
 
 create table StatisticheMuseo (
      idStatistiche numeric(1) not null,
      idMuseo numeric(1) not null,
-     constraint FKStatistiche_Museo_ID primary key (idStatistiche));
+     primary key (idStatistiche),
+     foreign key (idStatistiche) references Statistiche,
+     foreign key (idMuseo) references Museo);
 
 create table TipoBiglietto (
      idTipoBiglietto numeric(1) not null,
      Prezzo numeric(1) not null,
      Descrizione char(1) not null,
      idMuseo numeric(1) not null,
-     constraint ID_TipoBiglietto_ID primary key (idTipoBiglietto));
+     primary key (idTipoBiglietto),
+     foreign key (idMuseo) references Museo);
 
 create table TipoContenuto (
      idTipoContenuto numeric(1) not null,
      Descrizione char(1) not null,
-     constraint ID_TipoContenuto_ID primary key (idTipoContenuto));
+     primary key (idTipoContenuto));
 
 create table TipoMuseo (
      idTipoMuseo numeric(1) not null,
      Descrizione char(1) not null,
-     constraint ID_TipoMuseo_ID primary key (idTipoMuseo));
+     primary key (idTipoMuseo));
 
 create table TipoPersonale (
      idTipoPersonale numeric(1) not null,
      Descrizione char(1) not null,
-     constraint ID_TipoPersonale_ID primary key (idTipoPersonale));
+     primary key (idTipoPersonale));
 
 create table TipoSezione (
      idTipoSezione numeric(1) not null,
      Descrizione char(1) not null,
-     constraint ID_TipoSezione_ID primary key (idTipoSezione));
-
-
--- Constraints Section
--- ___________________ 
-
-alter table Biglietto add constraint FKVenduto_FK
-     foreign key (idMuseo)
-     references Museo;
-
-alter table Biglietto add constraint FKBiglietto_Tipologia_FK
-     foreign key (idTipoBiglietto)
-     references TipoBiglietto;
-
-alter table CalendarioApertureSpeciali add constraint FKAperto_FK
-     foreign key (idMuseo)
-     references Museo;
-
-alter table CalendarioChiusure add constraint FKChiuso_FK
-     foreign key (idMuseo)
-     references Museo;
-
-alter table Contenuto add constraint ID_Contenuto_CHK
-     check(exists(select * from Contenuto_Tipologia
-                  where Contenuto_Tipologia.idContenuto = idContenuto)); 
-
-alter table Contenuto add constraint FKSottocontenuto_FK
-     foreign key (idContenutoPadre)
-     references Contenuto;
-
-alter table Contenuto add constraint FKProviene_FK
-     foreign key (idProvenienza)
-     references Provenienza;
-
-alter table Contenuto add constraint FKPeriodo_FK
-     foreign key (idPeriodoStorico)
-     references PeriodoStorico;
-
-alter table Contenuto add constraint FKContiene_FK
-     foreign key (idSezione)
-     references Sezione;
-
-alter table Contenuto_Tipologia add constraint FKCon_Tip_FK
-     foreign key (idTipoContenuto)
-     references TipoContenuto;
-
-alter table Contenuto_Tipologia add constraint FKCon_Con
-     foreign key (idContenuto)
-     references Contenuto;
-
-alter table Creato add constraint FKCre_Cre_FK
-     foreign key (idCreatore)
-     references Creatore;
-
-alter table Creato add constraint FKCre_Con
-     foreign key (idContenuto)
-     references Contenuto;
-
-alter table Creatore add constraint ID_Creatore_CHK
-     check(exists(select * from Creato
-                  where Creato.idCreatore = idCreatore)); 
-
-alter table Creatore add constraint ID_Creatore_CHK
-     check(exists(select * from Museo_Creatore
-                  where Museo_Creatore.idCreatore = idCreatore)); 
-
-alter table FamigliaMusei add constraint ID_FamigliaMusei_CHK
-     check(exists(select * from Museo
-                  where Museo.idFamiglia = idFamiglia)); 
-
-alter table Museo add constraint ID_Museo_CHK
-     check(exists(select * from Sezione
-                  where Sezione.idMuseo = idMuseo)); 
-
-alter table Museo add constraint ID_Museo_CHK
-     check(exists(select * from Personale
-                  where Personale.idMuseo = idMuseo)); 
-
-alter table Museo add constraint ID_Museo_CHK
-     check(exists(select * from Museo_Tipologia
-                  where Museo_Tipologia.idMuseo = idMuseo)); 
-
-alter table Museo add constraint ID_Museo_CHK
-     check(exists(select * from TipoBiglietto
-                  where TipoBiglietto.idMuseo = idMuseo)); 
-
-alter table Museo add constraint FKMuseo_FamigliaMusei_FK
-     foreign key (idFamiglia)
-     references FamigliaMusei;
-
-alter table Museo_Creatore add constraint FKMus_Mus_1_FK
-     foreign key (idMuseo)
-     references Museo;
-
-alter table Museo_Creatore add constraint FKMus_Cre
-     foreign key (idCreatore)
-     references Creatore;
-
-alter table Museo_PeriodoStorico add constraint FKMus_Per
-     foreign key (idPeriodoStorico)
-     references PeriodoStorico;
-
-alter table Museo_PeriodoStorico add constraint FKMus_Mus_FK
-     foreign key (idMuseo)
-     references Museo;
-
-alter table Museo_Provenienza add constraint FKMus_Pro
-     foreign key (idProvenienza)
-     references Provenienza;
-
-alter table Museo_Provenienza add constraint FKMus_Mus_2_FK
-     foreign key (idMuseo)
-     references Museo;
-
-alter table Museo_Tipologia add constraint FKMus_Tip
-     foreign key (idTipoMuseo)
-     references TipoMuseo;
-
-alter table Museo_Tipologia add constraint FKMus_Mus_3_FK
-     foreign key (idMuseo)
-     references Museo;
-
-alter table PeriodoStorico add constraint ID_PeriodoStorico_CHK
-     check(exists(select * from Museo_PeriodoStorico
-                  where Museo_PeriodoStorico.idPeriodoStorico = idPeriodoStorico)); 
-
-alter table Personale add constraint ID_Personale_CHK
-     check(exists(select * from Personale_Tipologia
-                  where Personale_Tipologia.idPersonale = idPersonale)); 
-
-alter table Personale add constraint FKLavorano_FK
-     foreign key (idMuseo)
-     references Museo;
-
-alter table Personale_Tipologia add constraint FKPer_Tip_FK
-     foreign key (idTipoPersonale)
-     references TipoPersonale;
-
-alter table Personale_Tipologia add constraint FKPer_Per
-     foreign key (idPersonale)
-     references Personale;
-
-alter table Provenienza add constraint ID_Provenienza_CHK
-     check(exists(select * from Museo_Provenienza
-                  where Museo_Provenienza.idProvenienza = idProvenienza)); 
-
-alter table Provenienza add constraint ID_Provenienza_CHK
-     check(exists(select * from Contenuto
-                  where Contenuto.idProvenienza = idProvenienza)); 
-
-alter table RegistroManutenzioni add constraint FKRegistareManutenzione_FK
-     foreign key (idMuseo)
-     references Museo;
-
-alter table RegistroPresenze add constraint FKCompila_FK
-     foreign key (idPersonale)
-     references Personale;
-
-alter table Sezione add constraint ID_Sezione_CHK
-     check(exists(select * from Sezione_Tipologia
-                  where Sezione_Tipologia.idSezione = idSezione)); 
-
-alter table Sezione add constraint FKSottosezione_FK
-     foreign key (idSezionePadre)
-     references Sezione;
-
-alter table Sezione add constraint FKDiviso_FK
-     foreign key (idMuseo)
-     references Museo;
-
-alter table Sezione_Tipologia add constraint FKSez_Tip
-     foreign key (idTipoSezione)
-     references TipoSezione;
-
-alter table Sezione_Tipologia add constraint FKSez_Sez_FK
-     foreign key (idSezione)
-     references Sezione;
-
-alter table StatisticheFamigliaMusei add constraint FKStatistiche_FamigliaMuseo_FK
-     foreign key (idStatistiche)
-     references Statistiche;
-
-alter table StatisticheFamigliaMusei add constraint FKFamigliaMusei_Statistiche_FK
-     foreign key (idFamiglia)
-     references FamigliaMusei;
-
-alter table StatisticheMuseo add constraint FKStatistiche_Museo_FK
-     foreign key (idStatistiche)
-     references Statistiche;
-
-alter table StatisticheMuseo add constraint FKMuseo_Statistiche_FK
-     foreign key (idMuseo)
-     references Museo;
-
-alter table TipoBiglietto add constraint FKMuseo_TipoBiglietto_FK
-     foreign key (idMuseo)
-     references Museo;
+     primary key (idTipoSezione));
 
 
 -- Index Section
 -- _____________ 
 
-create unique index ID_Biglietto_IND
+create unique index ID_Biglietto
      on Biglietto (idBiglietto);
 
-create index FKVenduto_IND
+create index REF_Bigli_Museo
      on Biglietto (idMuseo);
 
-create index FKBiglietto_Tipologia_IND
+create index REF_Bigli_TipoB
      on Biglietto (idTipoBiglietto);
 
-create unique index ID_CalendarioApertureSpeciali_IND
+create unique index ID_CalendarioApertureSpeciali
      on CalendarioApertureSpeciali (idCalendarioApertureSpeciali);
 
-create index FKAperto_IND
+create index REF_Calen_Museo_1
      on CalendarioApertureSpeciali (idMuseo);
 
-create unique index ID_CalendarioChiusure_IND
+create unique index ID_CalendarioChiusure
      on CalendarioChiusure (idCalendarioChiusure);
 
-create index FKChiuso_IND
+create index REF_Calen_Museo
      on CalendarioChiusure (idMuseo);
 
-create unique index ID_Contenuto_IND
+create unique index ID_Contenuto
      on Contenuto (idContenuto);
 
-create index FKSottocontenuto_IND
+create index REF_Conte_Conte
      on Contenuto (idContenutoPadre);
 
-create index FKProviene_IND
+create index EQU_Conte_Prove
      on Contenuto (idProvenienza);
 
-create index FKPeriodo_IND
+create index REF_Conte_Perio
      on Contenuto (idPeriodoStorico);
 
-create index FKContiene_IND
+create index REF_Conte_Sezio
      on Contenuto (idSezione);
 
-create unique index ID_Contenuto_Tipologia_IND
+create unique index ID_Contenuto_Tipologia
      on Contenuto_Tipologia (idContenuto, idTipoContenuto);
 
-create index FKCon_Tip_IND
+create index REF_Conte_TipoC
      on Contenuto_Tipologia (idTipoContenuto);
 
-create unique index ID_Creato_IND
+create unique index ID_Creato
      on Creato (idContenuto, idCreatore);
 
-create index FKCre_Cre_IND
+create index EQU_Creat_Creat
      on Creato (idCreatore);
 
-create unique index ID_Creatore_IND
+create unique index ID_Creatore
      on Creatore (idCreatore);
 
-create unique index ID_FamigliaMusei_IND
+create unique index ID_FamigliaMusei
      on FamigliaMusei (idFamiglia);
 
-create unique index ID_Museo_IND
+create unique index ID_Museo
      on Museo (idMuseo);
 
-create index FKMuseo_FamigliaMusei_IND
+create index EQU_Museo_Famig
      on Museo (idFamiglia);
 
-create unique index ID_Museo_Creatore_IND
+create unique index ID_Museo_Creatore
      on Museo_Creatore (idCreatore, idMuseo);
 
-create index FKMus_Mus_1_IND
+create index REF_Museo_Museo_2
      on Museo_Creatore (idMuseo);
 
-create unique index ID_Museo_PeriodoStorico_IND
+create unique index ID_Museo_PeriodoStorico
      on Museo_PeriodoStorico (idPeriodoStorico, idMuseo);
 
-create index FKMus_Mus_IND
+create index REF_Museo_Museo_1
      on Museo_PeriodoStorico (idMuseo);
 
-create unique index ID_Museo_Provenienza_IND
+create unique index ID_Museo_Provenienza
      on Museo_Provenienza (idProvenienza, idMuseo);
 
-create index FKMus_Mus_2_IND
+create index REF_Museo_Museo
      on Museo_Provenienza (idMuseo);
 
-create unique index ID_Museo_Tipologia_IND
+create unique index ID_Museo_Tipologia
      on Museo_Tipologia (idTipoMuseo, idMuseo);
 
-create index FKMus_Mus_3_IND
+create index EQU_Museo_Museo
      on Museo_Tipologia (idMuseo);
 
-create unique index ID_PeriodoStorico_IND
+create unique index ID_PeriodoStorico
      on PeriodoStorico (idPeriodoStorico);
 
-create unique index ID_Personale_IND
+create unique index ID_Personale
      on Personale (idPersonale);
 
-create index FKLavorano_IND
+create index EQU_Perso_Museo
      on Personale (idMuseo);
 
-create unique index ID_Personale_Tipologia_IND
+create unique index ID_Personale_Tipologia
      on Personale_Tipologia (idPersonale, idTipoPersonale);
 
-create index FKPer_Tip_IND
+create index REF_Perso_TipoP
      on Personale_Tipologia (idTipoPersonale);
 
-create unique index ID_Provenienza_IND
+create unique index ID_Provenienza
      on Provenienza (idProvenienza);
 
-create unique index ID_RegistroManutenzioni_IND
+create unique index ID_RegistroManutenzioni
      on RegistroManutenzioni (idManutenzione);
 
-create unique index FKRegistareManutenzione_IND
+create unique index SID_Regis_Museo
      on RegistroManutenzioni (idMuseo);
 
-create unique index ID_RegistroPresenze_IND
+create unique index ID_RegistroPresenze
      on RegistroPresenze (idRegistro);
 
-create unique index FKCompila_IND
+create unique index SID_Regis_Perso
      on RegistroPresenze (idPersonale);
 
-create unique index ID_Sezione_IND
+create unique index ID_Sezione
      on Sezione (idSezione);
 
-create index FKSottosezione_IND
+create index REF_Sezio_Sezio
      on Sezione (idSezionePadre);
 
-create index FKDiviso_IND
+create index EQU_Sezio_Museo
      on Sezione (idMuseo);
 
-create unique index ID_Sezione_Tipologia_IND
+create unique index ID_Sezione_Tipologia
      on Sezione_Tipologia (idTipoSezione, idSezione);
 
-create index FKSez_Sez_IND
+create index EQU_Sezio_Sezio
      on Sezione_Tipologia (idSezione);
 
-create unique index ID_Statistiche_IND
+create unique index ID_Statistiche
      on Statistiche (idStatistiche);
 
-create unique index FKStatistiche_FamigliaMuseo_IND
+create unique index ID_Stati_Stati_1
      on StatisticheFamigliaMusei (idStatistiche);
 
-create index FKFamigliaMusei_Statistiche_IND
+create index REF_Stati_Famig
      on StatisticheFamigliaMusei (idFamiglia);
 
-create unique index FKStatistiche_Museo_IND
+create unique index ID_Stati_Stati
      on StatisticheMuseo (idStatistiche);
 
-create index FKMuseo_Statistiche_IND
+create index REF_Stati_Museo
      on StatisticheMuseo (idMuseo);
 
-create unique index ID_TipoBiglietto_IND
+create unique index ID_TipoBiglietto
      on TipoBiglietto (idTipoBiglietto);
 
-create index FKMuseo_TipoBiglietto_IND
+create index EQU_TipoB_Museo
      on TipoBiglietto (idMuseo);
 
-create unique index ID_TipoContenuto_IND
+create unique index ID_TipoContenuto
      on TipoContenuto (idTipoContenuto);
 
-create unique index ID_TipoMuseo_IND
+create unique index ID_TipoMuseo
      on TipoMuseo (idTipoMuseo);
 
-create unique index ID_TipoPersonale_IND
+create unique index ID_TipoPersonale
      on TipoPersonale (idTipoPersonale);
 
-create unique index ID_TipoSezione_IND
+create unique index ID_TipoSezione
      on TipoSezione (idTipoSezione);
 
