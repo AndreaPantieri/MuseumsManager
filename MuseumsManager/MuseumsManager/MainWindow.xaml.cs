@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,31 @@ namespace MuseumsManager
         public MainWindow()
         {
             InitializeComponent();
+
+        }
+
+        void insertIntoTest()
+        {
+            string queryString = "INSERT INTO TipoMuseo (Descrizione) VALUES (@Descrizione)";
+            string connectionString = "Data Source=ARTOLINK\\SQLEXPRESS;Initial Catalog=MuseumsManagerDB;Integrated Security=True";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@Descrizione", "ciao");
+                connection.Open();
+
+                int result = command.ExecuteNonQuery();
+
+                // Check Error
+                if (result < 0)
+                    Console.WriteLine("Error inserting data into Database!");
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            insertIntoTest();
         }
     }
 }
