@@ -11,6 +11,16 @@ namespace Entities
     {
         private static readonly string ConnectionString = "Data Source=LAPTOP-A2UM0TN5;Initial Catalog=MuseumsManagerDB;Integrated Security=True";
 
-        private readonly SqlConnection connection = new SqlConnection(ConnectionString);
+        public SqlConnection Connection { get; } = new SqlConnection(ConnectionString);
+
+        public DBConnection()
+        {
+            this.Connection.Open();
+        }
+
+        public void InsertQuery(SqlCommand sqlCommand)
+        {
+            sqlCommand.ExecuteNonQuery();
+        }
     }
 }
