@@ -123,8 +123,9 @@
                         <Canvas x:Name="cnv_eliminazioneMuseo4" Margin="0,0,-2,-4">
                             <Label Content="Aperto dal:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="78"/>
                             <Label Content="Al:" Canvas.Left="10" Canvas.Top="36" FontWeight="Bold" Width="78"/>
-                            <Label Content="Sezioni del museo:" Canvas.Left="10" Canvas.Top="167" FontWeight="Bold" Width="553"/>
-                            <Label Content="Sezioni del museo:" Canvas.Left="10" Canvas.Top="84" FontWeight="Bold" Width="553"/>
+                            <Label Content="Sezioni del museo:" Canvas.Left="10" Canvas.Top="301" FontWeight="Bold" Width="553"/>
+                            <Label Content="Tipo del museo:" Canvas.Left="10" Canvas.Top="106" FontWeight="Bold" Width="553"/>
+                            <Label Content="Famiglia di cui fa parte il museo:" Canvas.Left="10" Canvas.Top="165" FontWeight="Bold" Width="553"/>
                         </Canvas>
                     </GroupBox>
                 </Grid>
