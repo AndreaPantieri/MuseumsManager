@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class FamigliaMusei
+    public class Contenuto_Tipologia
     {
-        public int idFamiglia;
-        public string Nome;
+        public int idContenuto;
+        public int idTipoContenuto;
     }
 }

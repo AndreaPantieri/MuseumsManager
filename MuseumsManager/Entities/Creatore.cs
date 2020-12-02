@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class FamigliaMusei
+    public class Creatore
     {
-        public int idFamiglia;
+        public int idCreatore;
         public string Nome;
+        public string Cognome;
+        public string Descrizione;
+        public int AnnoNascita;
     }
 }

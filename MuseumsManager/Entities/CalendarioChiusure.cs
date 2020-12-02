@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class FamigliaMusei
+    public class CalendarioChiusure
     {
-        public int idFamiglia;
-        public string Nome;
+        public int idCalendarioChiusure;
+        public DateTime Data;
+        public int idMuseo;
     }
 }

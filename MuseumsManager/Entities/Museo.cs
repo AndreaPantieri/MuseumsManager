@@ -8,12 +8,12 @@ namespace Entities
 {
     public class Museo
     {
-        private int idMuseo;
-        private string Nome;
-        private string Luogo;
-        private TimeSpan OrarioAperturaGenerale;
-        private TimeSpan OrarioChiusuraGenerale;
-        private int NumBigliettiMaxGenerale;
-        private int idFamiglia;
+        public int idMuseo;
+        public string Nome;
+        public string Luogo;
+        public TimeSpan OrarioAperturaGenerale;
+        public TimeSpan OrarioChiusuraGenerale;
+        public int NumBigliettiMaxGenerale;
+        public int idFamiglia;
     }
 }

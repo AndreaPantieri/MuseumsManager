@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class FamigliaMusei
+    public class Biglietto
     {
-        public int idFamiglia;
-        public string Nome;
+        public int idBiglietto;
+        public DateTime DataValidita;
+        public int idMuseo;
+        public int idTipoBiglietto;
     }
 }
