@@ -131,13 +131,40 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="tbi_calendario" Header="Calendario" IsEnabled="False">
-                <Grid x:Name="grid_calendario" Background="#FFE5E5E5"/>
+                <Grid x:Name="grid_calendario">
+                    <GroupBox x:Name="gpb_eliminazioneMuseo_Copy4" Header="Giornate di apertura speciale" HorizontalAlignment="Left" Height="310" Margin="10,10,0,0" VerticalAlignment="Top" Width="375" IsEnabled="False" FontWeight="Bold">
+                        <Canvas x:Name="cnv_eliminazioneMuseo5" Margin="0,0,-2,-4">
+
+                            <Button x:Name="btn_elimina3_Copy1" Content="Inserisci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="86" Canvas.Left="269" Canvas.Top="106" FontWeight="Normal" Height="23"/>
+                            <Calendar Height="168" Width="196" Canvas.Left="10" Canvas.Top="41"/>
+                            <Label Content="Inserisci una nuova giornata di apertura speciale:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="292"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo orario di apertura" VerticalAlignment="Top" Width="145" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" Canvas.Left="210" Canvas.Top="46"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo orario di chiusura" VerticalAlignment="Top" Width="145" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" Canvas.Left="210" Canvas.Top="78"/>
+                            <Label Content="Elimina una giornata di apertura speciale:" Canvas.Left="10" Canvas.Top="230" FontWeight="Bold" Width="341"/>
+                            <ComboBox Height="20" Width="254" Canvas.Left="10" Canvas.Top="261" FontWeight="Normal"/>
+                            <Button x:Name="btn_elimina1_Copy6" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="86" Canvas.Left="269" Canvas.Top="261" FontWeight="Normal"/>
+                        </Canvas>
+                    </GroupBox>
+                    <GroupBox x:Name="gpb_eliminazioneMuseo_Copy5" Header="Giornate di chiusura" HorizontalAlignment="Left" Height="310" Margin="10,325,0,0" VerticalAlignment="Top" Width="375" IsEnabled="False" FontWeight="Bold">
+                        <Canvas x:Name="cnv_eliminazioneMuseo6" Margin="0,0,-2,-4">
+
+                            <Button x:Name="btn_elimina3_Copy2" Content="Inserisci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="273" Canvas.Top="41" FontWeight="Normal"/>
+                            <Calendar Height="168" Width="196" Canvas.Left="10" Canvas.Top="41"/>
+                            <Label Content="Inserisci una nuova giornata di chiusura:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="292"/>
+                            <Label Content="Elimina una giornata di chiusura:" Canvas.Left="10" Canvas.Top="230" FontWeight="Bold" Width="345"/>
+                            <ComboBox Height="20" Width="258" Canvas.Left="10" Canvas.Top="261" FontWeight="Normal"/>
+                            <Button x:Name="btn_elimina1_Copy7" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="273" Canvas.Top="261" FontWeight="Normal"/>
+                        </Canvas>
+                    </GroupBox>
+                    <DataGrid Margin="390,10,10,322"/>
+                    <DataGrid Margin="390,325,10,7"/>
+                </Grid>
             </TabItem>
             <TabItem x:Name="tbi_contenuti" Header="Contenuti" IsEnabled="False">
                 <Grid x:Name="grid_contenuti" Background="#FFE5E5E5"/>
             </TabItem>
             <TabItem x:Name="tbi_biglietti" Header="Biglietti" IsEnabled="False">
-                <Grid x:Name="grid_biglietti" Background="#FFE5E5E5"></Grid>
+                <Grid x:Name="grid_biglietti"></Grid>
             </TabItem>
             <TabItem x:Name="tbi_personale" Header="Personale" IsEnabled="False">
                 <Grid x:Name="grid_personale" Background="#FFE5E5E5"></Grid>
