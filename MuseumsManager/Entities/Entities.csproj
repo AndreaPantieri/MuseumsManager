@@ -41,10 +41,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Biglietto.cs" />
+    <Compile Include="CalendarioApertureSpeciali.cs" />
+    <Compile Include="CalendarioChiusure.cs" />
+    <Compile Include="Contenuto.cs" />
+    <Compile Include="Contenuto_Tipologia.cs" />
+    <Compile Include="Creato.cs" />
+    <Compile Include="Creatore.cs" />
     <Compile Include="DBConnection.cs" />
     <Compile Include="FamigliaMusei.cs" />
     <Compile Include="Museo.cs" />
+    <Compile Include="Museo_Creatore.cs" />
+    <Compile Include="Museo_PeriodoStorico.cs" />
+    <Compile Include="Museo_Provenienza.cs" />
+    <Compile Include="Museo_Tipologia.cs" />
+    <Compile Include="PeriodoStorico.cs" />
+    <Compile Include="Personale.cs" />
+    <Compile Include="Personale_Tipologia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provenienza.cs" />
+    <Compile Include="RegistroManutenzioni.cs" />
+    <Compile Include="RegistroPresenze.cs" />
+    <Compile Include="Sezione.cs" />
+    <Compile Include="Sezione_Tipologia.cs" />
+    <Compile Include="Statistiche.cs" />
+    <Compile Include="StatisticheFamigliaMusei.cs" />
+    <Compile Include="StatisticheMuseo.cs" />
+    <Compile Include="TipoBiglietto.cs" />
+    <Compile Include="TipoContenuto.cs" />
+    <Compile Include="TipoMuseo.cs" />
+    <Compile Include="TipoPersonale.cs" />
+    <Compile Include="TipoSezione.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
