@@ -22,5 +22,10 @@ namespace Entities
         {
             sqlCommand.ExecuteNonQuery();
         }
+
+        public SqlDataReader SelectQuery(SqlCommand sqlCommand)
+        {
+            return sqlCommand.ExecuteReader();
+        }
     }
 }
