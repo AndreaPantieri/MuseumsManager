@@ -27,6 +27,9 @@ namespace MuseumsManager
 
         }
 
+        int idMuseoSelezionato = 0;
+
+        /**
         void insertIntoTest()
         {
             string queryString = "INSERT INTO TipoMuseo (Descrizione) VALUES (@Descrizione)";
@@ -50,5 +53,6 @@ namespace MuseumsManager
         {
             insertIntoTest();
         }
+        */
     }
 }

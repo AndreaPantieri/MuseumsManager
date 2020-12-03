@@ -8,63 +8,7 @@
         Title="MuseumsManager" ResizeMode="NoResize" Width="1280" Height="720">
     <Grid x:Name="grid_mainWindow" Margin="0,0,0,0">
         <TabControl x:Name="tab_finestre" HorizontalAlignment="Left" Height="672" Margin="10,0,0,0" VerticalAlignment="Top" Width="1245">
-            <TabItem x:Name="tbi_museoCreazione" Header="Museo: creazione">
-                <Grid x:Name="grid_museoCreazione">
-                    <GroupBox x:Name="gpb_creazioneMuseo" Header="Museo" HorizontalAlignment="Left" Height="535" Margin="10,10,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
-                        <Canvas x:Name="cnv_creazioneMuseo" Margin="0,0,-2,-4">
-                            <TextBox x:Name="txt_nome" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal"/>
-                            <TextBox x:Name="txt_luogo" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Luogo" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="69" FontStyle="Italic" FontWeight="Normal"/>
-                            <TextBox x:Name="txt_orarioApertura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Orario di apertura" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="97" FontStyle="Italic" FontWeight="Normal"/>
-                            <TextBox x:Name="txt_orarioChiusura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Orario di chiusura" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="125" FontStyle="Italic" FontWeight="Normal"/>
-                            <Button x:Name="btn_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="184" FontWeight="Normal"/>
-                            <ComboBox Height="26" Width="134" Canvas.Left="110" Canvas.Top="153" FontWeight="Normal"/>
-                            <Label Content="Tipo del museo:" Canvas.Left="10" Canvas.Top="153" FontWeight="Normal" Width="95"/>
-                            <Label Content="Crea un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
-                            <Label Content="Modifica il tipo di un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="230"/>
-                            <ComboBox Height="26" Width="176" Canvas.Left="68" Canvas.Top="261" FontWeight="Normal"/>
-                            <ComboBox Height="26" Width="146" Canvas.Left="98" Canvas.Top="323" FontWeight="Normal"/>
-                            <Label Content="Museo:" Canvas.Left="10" FontWeight="Normal" Width="53" Canvas.Top="261"/>
-                            <Label Content="Nuovo tipo:" Canvas.Left="10" FontWeight="Normal" Width="83" Canvas.Top="323"/>
-                            <Button x:Name="btn_crea_Copy" Content="Modifica" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="354" FontWeight="Normal"/>
-                            <Label Content="Tipo attuale:" Canvas.Left="10" FontWeight="Normal" Width="83" Canvas.Top="292"/>
-                            <Label Content="" Canvas.Left="98" FontWeight="Normal" Width="146" Canvas.Top="292"/>
-                            <Label Content="Elimina un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="413"/>
-                            <ComboBox Height="26" Width="108" Canvas.Left="136" Canvas.Top="444" FontWeight="Normal"/>
-                            <Button x:Name="btn_elimina_Copy" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Canvas.Left="161" Canvas.Top="484" FontWeight="Normal"/>
-                            <Label Content="Museo da eliminare:" Canvas.Left="10" Canvas.Top="444" Width="121" FontWeight="Normal"/>
-                        </Canvas>
-                    </GroupBox>
-                    <GroupBox x:Name="gpb_creazioneMuseo_Copy" Header="Famiglia di musei" HorizontalAlignment="Left" Height="435" Margin="279,10,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
-                        <Canvas x:Name="cnv_creazioneMuseo1" Margin="0,0,-2,-4">
-                            <TextBox x:Name="txt_nome1" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="165" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal"/>
-                            <Button x:Name="btn_crea1" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="41" FontWeight="Normal"/>
-                            <Label Content="Crea una nuova famiglia:" Canvas.Left="10" FontWeight="Bold" Width="283" Canvas.Top="10"/>
-                            <Label Content="Aggiungi un museo ad una famiglia:" Canvas.Left="10" FontWeight="Bold" Width="283" Canvas.Top="88"/>
-                            <ComboBox Height="26" Width="173" Canvas.Left="71" Canvas.Top="119" FontWeight="Normal"/>
-                            <Button x:Name="btn_elimina1_Copy1" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="163" Canvas.Top="181" FontWeight="Normal"/>
-                            <ComboBox Height="26" Width="174" Canvas.Left="71" Canvas.Top="150" FontWeight="Normal"/>
-                            <Label Content="Museo:" Canvas.Left="15" Canvas.Top="119" FontWeight="Normal" Width="56"/>
-                            <Label Content="Famiglia:" Canvas.Left="10" Canvas.Top="150" FontWeight="Normal"/>
-                            <Label Content="Rimuovi un museo da una famiglia:" Canvas.Left="10" FontWeight="Bold" Width="283" Canvas.Top="226"/>
-                            <ComboBox Height="26" Width="173" Canvas.Left="71" Canvas.Top="257" FontWeight="Normal"/>
-                            <Button x:Name="btn_elimina1_Copy5" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="288" FontWeight="Normal"/>
-                            <Label Content="Museo:" Canvas.Left="10" Canvas.Top="257" FontWeight="Normal" Width="56"/>
-                        </Canvas>
-                    </GroupBox>
-                    <GroupBox x:Name="gpb_creazioneMuseo_Copy1" Header="Categoria" HorizontalAlignment="Left" Height="287" Margin="548,10,0,0" VerticalAlignment="Top" Width="313" FontWeight="Bold">
-                        <Canvas x:Name="cnv_creazioneMuseo2" Margin="0,0,-2,-4">
-                            <Button x:Name="btn_elimina3" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="41" FontWeight="Normal"/>
-                            <TextBox HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="196" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic"/>
-                            <Label Content="Crea un nuovo tipo di museo:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="283"/>
-                            <Label Content="Elimina un tipo di museo:" Canvas.Left="10" Canvas.Top="66" FontWeight="Bold" Width="283"/>
-                            <ComboBox Height="20" Width="196" Canvas.Left="10" Canvas.Top="97" FontWeight="Normal"/>
-                            <Button x:Name="btn_elimina1_Copy2" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="97" FontWeight="Normal"/>
-                        </Canvas>
-                    </GroupBox>
-                </Grid>
-
-            </TabItem>
-            <TabItem x:Name="tbi_museo" Header="Museo: generale" Height="22" VerticalAlignment="Bottom">
+            <TabItem x:Name="tbi_museo" Header="Museo" Height="22" VerticalAlignment="Bottom">
                 <Grid x:Name="grid_museo">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -107,7 +51,7 @@
                             <Label Content="" Canvas.Left="136" Canvas.Top="67" FontWeight="Normal" Width="152"/>
                         </Canvas>
                     </GroupBox>
-                    <Label Content="NOME MUSEO" FontWeight="Bold" Margin="10,41,10,560" FontSize="24" HorizontalAlignment="Center"/>
+                    <Label Content="NOME MUSEO" FontWeight="Bold" Margin="10,41,10,560" FontSize="24" HorizontalAlignment="Center" Width="1219" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                     <GroupBox x:Name="gpb_eliminazioneMuseo_Copy2" Header="Categoria" HorizontalAlignment="Left" Height="287" Margin="598,87,0,0" VerticalAlignment="Top" Width="313" IsEnabled="False" FontWeight="Bold">
                         <Canvas x:Name="cnv_eliminazioneMuseo3" Margin="0,0,-2,-4">
 
@@ -121,21 +65,26 @@
                     </GroupBox>
                     <GroupBox x:Name="gpb_eliminazioneMuseo_Copy3" Header="Riepilogo" HorizontalAlignment="Left" Height="545" Margin="10,87,0,0" VerticalAlignment="Top" Width="583" IsEnabled="False" FontWeight="Bold">
                         <Canvas x:Name="cnv_eliminazioneMuseo4" Margin="0,0,-2,-4">
-                            <Label Content="Aperto dal:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="78"/>
-                            <Label Content="Al:" Canvas.Left="10" Canvas.Top="36" FontWeight="Bold" Width="78"/>
-                            <Label Content="Sezioni del museo:" Canvas.Left="10" Canvas.Top="301" FontWeight="Bold" Width="553"/>
-                            <Label Content="Tipo del museo:" Canvas.Left="10" Canvas.Top="106" FontWeight="Bold" Width="553"/>
-                            <Label Content="Famiglia di cui fa parte il museo:" Canvas.Left="10" Canvas.Top="165" FontWeight="Bold" Width="553"/>
+                            <Label Content="Aperto dalle:" Canvas.Left="10" Canvas.Top="41" FontWeight="Bold" Width="85"/>
+                            <Label Content="Alle:" Canvas.Left="10" Canvas.Top="72" FontWeight="Bold" Width="85"/>
+                            <Label Content="Sezioni del museo:" Canvas.Left="10" Canvas.Top="368" FontWeight="Bold" Width="553"/>
+                            <Label Content="Tipo del museo:" Canvas.Left="10" Canvas.Top="174" FontWeight="Bold" Width="553"/>
+                            <Label Content="Famiglia di cui fa parte:" Canvas.Top="264" FontWeight="Bold" Width="553" Canvas.Left="10"/>
+                            <Label Content="Attualmente:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="85"/>
+                            <Label Content="Aperto" Canvas.Left="100" Canvas.Top="10" FontWeight="Bold" Width="54" Foreground="Green"/>
+                            <Label Content="Chiuso" Canvas.Left="159" Canvas.Top="10" FontWeight="Bold" Width="54" Foreground="Red"/>
+                            <Label Content="" Canvas.Left="100" Canvas.Top="41" FontWeight="Bold" Width="120"/>
+                            <Label Content="" Canvas.Left="100" Canvas.Top="72" FontWeight="Bold" Width="113"/>
                         </Canvas>
                     </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tbi_calendario" Header="Calendario" IsEnabled="False">
                 <Grid x:Name="grid_calendario">
-                    <GroupBox x:Name="gpb_eliminazioneMuseo_Copy4" Header="Giornate di apertura speciale" HorizontalAlignment="Left" Height="310" Margin="10,10,0,0" VerticalAlignment="Top" Width="375" IsEnabled="False" FontWeight="Bold">
+                    <GroupBox x:Name="gpb_eliminazioneMuseo_Copy4" Header="Giornate di apertura speciale" HorizontalAlignment="Left" Height="310" Margin="10,10,0,0" VerticalAlignment="Top" Width="375" FontWeight="Bold">
                         <Canvas x:Name="cnv_eliminazioneMuseo5" Margin="0,0,-2,-4">
 
-                            <Button x:Name="btn_elimina3_Copy1" Content="Inserisci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="86" Canvas.Left="269" Canvas.Top="106" FontWeight="Normal" Height="23"/>
+                            <Button x:Name="btn_elimina3_Copy1" Content="Inserisci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="86" Canvas.Left="269" Canvas.Top="131" FontWeight="Normal" Height="22"/>
                             <Calendar Height="168" Width="196" Canvas.Left="10" Canvas.Top="41"/>
                             <Label Content="Inserisci una nuova giornata di apertura speciale:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="292"/>
                             <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo orario di apertura" VerticalAlignment="Top" Width="145" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" Canvas.Left="210" Canvas.Top="46"/>
@@ -143,9 +92,10 @@
                             <Label Content="Elimina una giornata di apertura speciale:" Canvas.Left="10" Canvas.Top="230" FontWeight="Bold" Width="341"/>
                             <ComboBox Height="20" Width="254" Canvas.Left="10" Canvas.Top="261" FontWeight="Normal"/>
                             <Button x:Name="btn_elimina1_Copy6" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="86" Canvas.Left="269" Canvas.Top="261" FontWeight="Normal"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Numero di biglietti max" VerticalAlignment="Top" Width="145" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" Canvas.Left="210" Canvas.Top="106"/>
                         </Canvas>
                     </GroupBox>
-                    <GroupBox x:Name="gpb_eliminazioneMuseo_Copy5" Header="Giornate di chiusura" HorizontalAlignment="Left" Height="310" Margin="10,325,0,0" VerticalAlignment="Top" Width="375" IsEnabled="False" FontWeight="Bold">
+                    <GroupBox x:Name="gpb_eliminazioneMuseo_Copy5" Header="Giornate di chiusura" HorizontalAlignment="Left" Height="310" Margin="10,325,0,0" VerticalAlignment="Top" Width="375" FontWeight="Bold">
                         <Canvas x:Name="cnv_eliminazioneMuseo6" Margin="0,0,-2,-4">
 
                             <Button x:Name="btn_elimina3_Copy2" Content="Inserisci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="273" Canvas.Top="41" FontWeight="Normal"/>
@@ -164,13 +114,155 @@
                 <Grid x:Name="grid_contenuti" Background="#FFE5E5E5"/>
             </TabItem>
             <TabItem x:Name="tbi_biglietti" Header="Biglietti" IsEnabled="False">
-                <Grid x:Name="grid_biglietti"></Grid>
+                <Grid x:Name="grid_biglietti">
+                    <GroupBox x:Name="gpb_creazioneMuseo_Copy2" Header="Tipo di biglietto" HorizontalAlignment="Left" Height="622" VerticalAlignment="Top" Width="264" FontWeight="Bold" Margin="965,10,0,0">
+                        <Canvas x:Name="cnv_creazioneMuseo3" Margin="0,0,-2,-4">
+                            <TextBox x:Name="txt_nome2" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Prezzo" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_luogo1" HorizontalAlignment="Left" Height="79" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="69" FontStyle="Italic" FontWeight="Normal"/>
+                            <Button x:Name="btn_crea2" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="153" FontWeight="Normal"/>
+                            <Label Content="Crea un nuovo tipo di biglietto:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
+                            <Label Content="Modifica un tipo di biglietto:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="244"/>
+                            <ComboBox Height="26" Width="172" Canvas.Left="72" Canvas.Top="275" FontWeight="Normal"/>
+                            <Label Content="Biglietto:" Canvas.Left="10" FontWeight="Normal" Width="57" Canvas.Top="275"/>
+                            <Button x:Name="btn_crea_Copy1" Content="Modifica" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="418" FontWeight="Normal"/>
+                            <Label Content="Elimina un tipo di biglietto:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="542"/>
+                            <ComboBox Height="20" Width="146" Canvas.Left="10" Canvas.Top="573" FontWeight="Normal"/>
+                            <Button x:Name="btn_elimina_Copy1" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Canvas.Left="161" Canvas.Top="573" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_nome2_Copy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo prezzo" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="306" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_luogo1_Copy" HorizontalAlignment="Left" Height="79" TextWrapping="Wrap" Text="Nuova descrizione" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="334" FontStyle="Italic" FontWeight="Normal"/>
+                        </Canvas>
+                    </GroupBox>
+                    <DataGrid Margin="10,10,279,10"/>
+                </Grid>
             </TabItem>
             <TabItem x:Name="tbi_personale" Header="Personale" IsEnabled="False">
-                <Grid x:Name="grid_personale" Background="#FFE5E5E5"></Grid>
+                <Grid x:Name="grid_personale">
+                    <DataGrid Margin="10,10,548,10"/>
+                    <GroupBox x:Name="gpb_creazioneMuseo_Copy3" Header="Personale" HorizontalAlignment="Left" Height="622" VerticalAlignment="Top" Width="264" FontWeight="Bold" Margin="696,10,0,0">
+                        <Canvas x:Name="cnv_creazioneMuseo4" Margin="0,0,-2,-4">
+                            <TextBox x:Name="txt_nome3" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal"/>
+                            <Button x:Name="btn_crea3" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="210" FontWeight="Normal"/>
+                            <Label Content="Aggiungi un nuovo personale:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
+                            <Label Content="Aggiorna informazioni di un personale:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="281"/>
+                            <ComboBox Height="26" Width="172" Canvas.Left="72" Canvas.Top="312" FontWeight="Normal"/>
+                            <Label Content="Persona:" Canvas.Left="10" FontWeight="Normal" Width="57" Canvas.Top="312" HorizontalContentAlignment="Right"/>
+                            <Button x:Name="btn_crea_Copy2" Content="Aggiorna" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="427" FontWeight="Normal"/>
+                            <Label Content="Licenzia un personale:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="542"/>
+                            <ComboBox Height="20" Width="146" Canvas.Left="10" Canvas.Top="573" FontWeight="Normal"/>
+                            <Button x:Name="btn_elimina_Copy2" Content="Licenzia" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Canvas.Left="161" Canvas.Top="573" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_nome2_Copy1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo numero di cellulare" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="343" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_nome3_Copy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Cognome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="69" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_nome3_Copy1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Cellulare" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="97" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_nome3_Copy2" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Email" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="125" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_nome3_Copy3" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Stipendio orario" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="153" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_nome2_Copy2" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuova email" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="371" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_nome2_Copy3" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo stipendio orario" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="399" FontStyle="Italic" FontWeight="Normal"/>
+                            <Label Content="Ruolo:" Canvas.Left="10" FontWeight="Normal" Width="57" Canvas.Top="181" Height="24" HorizontalContentAlignment="Right"/>
+                            <ComboBox Height="24" Width="172" Canvas.Left="72" Canvas.Top="181" FontWeight="Normal"/>
+                        </Canvas>
+                    </GroupBox>
+                    <GroupBox x:Name="gpb_creazioneMuseo_Copy4" Header="Ruolo" HorizontalAlignment="Left" Height="622" VerticalAlignment="Top" Width="264" FontWeight="Bold" Margin="965,10,0,0">
+                        <Canvas x:Name="cnv_creazioneMuseo5" Margin="0,0,-2,-4">
+                            <TextBox x:Name="txt_nome4" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal"/>
+                            <Button x:Name="btn_crea4" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="181" FontWeight="Normal"/>
+                            <Label Content="Crea un nuovo ruolo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
+                            <Label Content="Aggiungi nuovo ruolo ad una persona:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="284"/>
+                            <ComboBox Height="26" Width="145" Canvas.Left="99" Canvas.Top="315" FontWeight="Normal"/>
+                            <Label Content="Persona:" Canvas.Left="10" FontWeight="Normal" Width="84" Canvas.Top="315" HorizontalContentAlignment="Right"/>
+                            <Button x:Name="btn_crea_Copy3" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="377" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_nome3_Copy4" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Cognome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="69" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_nome3_Copy5" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Cellulare" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="97" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_nome3_Copy6" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Email" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="125" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_nome3_Copy7" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Stipendio orario" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="153" FontStyle="Italic" FontWeight="Normal"/>
+                            <Label Content="Nuovo ruolo:" Canvas.Left="10" FontWeight="Normal" Width="84" Canvas.Top="346" HorizontalContentAlignment="Right"/>
+                            <ComboBox Height="26" Width="145" Canvas.Left="99" Canvas.Top="346" FontWeight="Normal"/>
+                            <Label Content="Rimuovi un ruolo da una persona:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="480"/>
+                            <ComboBox Height="26" Width="171" Canvas.Left="73" Canvas.Top="511" FontWeight="Normal"/>
+                            <Label Content="Persona:" Canvas.Left="10" FontWeight="Normal" Width="58" Canvas.Top="511" HorizontalContentAlignment="Right"/>
+                            <Button x:Name="btn_crea_Copy4" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="573" FontWeight="Normal"/>
+                            <Label Content="ruolo da eliminare:" Canvas.Left="10" FontWeight="Normal" Width="113" Canvas.Top="542" HorizontalContentAlignment="Right"/>
+                            <ComboBox Height="26" Width="116" Canvas.Left="128" Canvas.Top="542" FontWeight="Normal"/>
+                        </Canvas>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tbi_registri" Header="Registri" IsEnabled="False">
+                <Grid x:Name="grid_registri">
+                    <GroupBox x:Name="gpb_eliminazioneMuseo_Copy6" Header="Manutenzioni" HorizontalAlignment="Left" Height="253" VerticalAlignment="Top" Width="603" FontWeight="Bold" Margin="626,49,0,0">
+                        <Canvas x:Name="cnv_creazioneMuseo23" Margin="0,0,-2,-4">
+                            <Label Height="23" Width="261" Canvas.Left="10" Canvas.Top="10" Content="Inserisci nuova manutenzione:" HorizontalContentAlignment="Right"></Label>
+                            <TextBox x:Name="txt_nome3_Copy9" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Prezzo" VerticalAlignment="Top" Width="151" Foreground="Gray" FontStyle="Italic" FontWeight="Normal" Canvas.Left="432" Canvas.Top="10"/>
+                            <TextBox x:Name="txt_nome3_Copy8" HorizontalAlignment="Left" Height="65" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="307" Foreground="Gray" FontStyle="Italic" FontWeight="Normal" Canvas.Left="276" Canvas.Top="38"/>
+                            <DatePicker HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="276" Canvas.Top="10" FontWeight="Normal" Width="151" Height="23" RenderTransformOrigin="0.06,1.565"/>
+                            <Button Content="Inserisci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Canvas.Left="507" Canvas.Top="108" FontWeight="Normal"/>
+                            <Label Height="23" Width="180" Canvas.Left="91" Canvas.Top="201" Content="Rimuovi manutenzione:" HorizontalContentAlignment="Right"/>
+                            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="226" Canvas.Left="276" Canvas.Top="204" Height="20"/>
+                            <Button Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Canvas.Left="507" Canvas.Top="204" FontWeight="Normal"/>
+                        </Canvas>
+                    </GroupBox>
+                    <DataGrid HorizontalAlignment="Left" Height="253" Margin="10,49,0,0" VerticalAlignment="Top" Width="611" RenderTransformOrigin="-1.615,-0.45"/>
+                    <DataGrid HorizontalAlignment="Left" Height="286" Margin="10,346,0,0" VerticalAlignment="Top" Width="1219" RenderTransformOrigin="-1.615,-0.45"/>
+                    <Label Content="Presenze mensili:" HorizontalAlignment="Left" Margin="10,307,0,0" VerticalAlignment="Top" Width="1219" FontWeight="Bold" Height="34" FontSize="20"/>
+                    <Label Content="Manutenzioni:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="593" FontWeight="Bold" Height="34" FontSize="20"/>
+                </Grid>
             </TabItem>
             <TabItem x:Name="tbi_statistiche" Header="Statistiche" IsEnabled="False">
                 <Grid x:Name="grid_statistiche" Background="#FFE5E5E5"></Grid>
+            </TabItem>
+            <TabItem x:Name="tbi_museoCreazione" Header="Nuovo">
+                <Grid x:Name="grid_museoCreazione">
+                    <GroupBox x:Name="gpb_creazioneMuseo" Header="Museo" HorizontalAlignment="Left" Height="622" Margin="10,10,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
+                        <Canvas x:Name="cnv_creazioneMuseo" Margin="0,0,-2,-4">
+                            <TextBox x:Name="txt_nome" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_luogo" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Luogo" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="69" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_orarioApertura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Orario di apertura" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="97" FontStyle="Italic" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_orarioChiusura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Orario di chiusura" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="125" FontStyle="Italic" FontWeight="Normal"/>
+                            <Button x:Name="btn_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="212" FontWeight="Normal"/>
+                            <ComboBox Height="26" Width="134" Canvas.Left="110" Canvas.Top="181" FontWeight="Normal"/>
+                            <Label Content="Tipo del museo:" Canvas.Left="10" Canvas.Top="181" FontWeight="Normal" Width="95"/>
+                            <Label Content="Crea un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
+                            <Label Content="Modifica il tipo di un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="296"/>
+                            <ComboBox Height="26" Width="176" Canvas.Left="68" Canvas.Top="327" FontWeight="Normal"/>
+                            <ComboBox Height="26" Width="146" Canvas.Left="98" Canvas.Top="389" FontWeight="Normal"/>
+                            <Label Content="Museo:" Canvas.Left="10" FontWeight="Normal" Width="53" Canvas.Top="327"/>
+                            <Label Content="Nuovo tipo:" Canvas.Left="10" FontWeight="Normal" Width="83" Canvas.Top="389"/>
+                            <Button x:Name="btn_crea_Copy" Content="Modifica" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="420" FontWeight="Normal"/>
+                            <Label Content="Tipo attuale:" Canvas.Left="10" FontWeight="Normal" Width="83" Canvas.Top="358"/>
+                            <Label Content="" Canvas.Left="98" FontWeight="Normal" Width="146" Canvas.Top="358"/>
+                            <Label Content="Elimina un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="542"/>
+                            <ComboBox Height="20" Width="143" Canvas.Left="10" Canvas.Top="573" FontWeight="Normal"/>
+                            <Button x:Name="btn_elimina_Copy" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Canvas.Left="161" Canvas.Top="573" FontWeight="Normal"/>
+                            <TextBox x:Name="txt_orarioChiusura_Copy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Numero di biglietti max giornalieri" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="153" FontStyle="Italic" FontWeight="Normal"/>
+                        </Canvas>
+                    </GroupBox>
+                    <GroupBox x:Name="gpb_creazioneMuseo_Copy" Header="Famiglia di musei" HorizontalAlignment="Left" Height="470" Margin="279,10,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
+                        <Canvas x:Name="cnv_creazioneMuseo1" Margin="0,0,-2,-4">
+                            <TextBox x:Name="txt_nome1" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="165" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal"/>
+                            <Button x:Name="btn_crea1" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="41" FontWeight="Normal"/>
+                            <Label Content="Crea una nuova famiglia:" Canvas.Left="10" FontWeight="Bold" Width="283" Canvas.Top="10"/>
+                            <Label Content="Aggiungi un museo ad una famiglia:" Canvas.Left="9" FontWeight="Bold" Width="234" Canvas.Top="152"/>
+                            <ComboBox Height="26" Width="173" Canvas.Left="70" Canvas.Top="183" FontWeight="Normal"/>
+                            <Button x:Name="btn_elimina1_Copy1" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="245" FontWeight="Normal"/>
+                            <ComboBox Height="26" Width="174" Canvas.Left="70" Canvas.Top="214" FontWeight="Normal"/>
+                            <Label Content="Museo:" Canvas.Left="14" Canvas.Top="183" FontWeight="Normal" Width="51"/>
+                            <Label Content="Famiglia:" Canvas.Left="9" Canvas.Top="214" FontWeight="Normal"/>
+                            <Label Content="Rimuovi un museo da una famiglia:" Canvas.Left="10" FontWeight="Bold" Width="283" Canvas.Top="359"/>
+                            <ComboBox Height="26" Width="173" Canvas.Left="71" Canvas.Top="390" FontWeight="Normal"/>
+                            <Button x:Name="btn_elimina1_Copy5" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="421" FontWeight="Normal"/>
+                            <Label Content="Museo:" Canvas.Left="10" Canvas.Top="390" FontWeight="Normal" Width="56"/>
+                        </Canvas>
+                    </GroupBox>
+                    <GroupBox x:Name="gpb_creazioneMuseo_Copy1" Header="Categoria" HorizontalAlignment="Left" Height="147" Margin="279,485,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
+                        <Canvas x:Name="cnv_creazioneMuseo2" Margin="0,0,-2,-4">
+                            <Button x:Name="btn_elimina3" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="41" FontWeight="Normal"/>
+                            <TextBox HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="147" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic"/>
+                            <Label Content="Crea un nuovo tipo di museo:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="283"/>
+                            <Label Content="Elimina un tipo di museo:" Canvas.Left="10" Canvas.Top="66" FontWeight="Bold" Width="234"/>
+                            <ComboBox Height="20" Width="147" Canvas.Left="10" Canvas.Top="97" FontWeight="Normal"/>
+                            <Button x:Name="btn_elimina1_Copy2" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="97" FontWeight="Normal"/>
+                        </Canvas>
+                    </GroupBox>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>
