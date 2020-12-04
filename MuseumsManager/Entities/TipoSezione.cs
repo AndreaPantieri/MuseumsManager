@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class TipoSezione
+    public class TipoSezione : DBEntity
     {
-        public int idTipoSezione;
-        public string Descrizione;
+        public int idTipoSezione { get; set; }
+        public string Descrizione { get; set; }
+
+        public TipoSezione(int idTipoSezione) : base(idTipoSezione) { }
     }
 }

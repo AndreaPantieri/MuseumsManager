@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class TipoBiglietto
+    public class TipoBiglietto : DBEntity
     {
-        public int idTipoBiglietto;
-        public float Prezzo;
-        public string Descrizione;
-        public int idMuseo;
+        public int idTipoBiglietto { get; set; }
+        public float Prezzo { get; set; }
+        public string Descrizione { get; set; }
+        public int idMuseo { get; set; }
+
+        public TipoBiglietto(int idTipoBiglietto) : base(idTipoBiglietto) { }
     }
 }

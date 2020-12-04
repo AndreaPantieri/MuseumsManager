@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class CalendarioApertureSpeciali
+    public class CalendarioApertureSpeciali : DBEntity
     {
-        public int idCalendarioApertureSpeciali;
-        public DateTime Data;
-        public TimeSpan OrarioApertura;
-        public TimeSpan OrarioChiusura;
-        public int NumBigliettiMax;
-        public int idMuseo;
+        public int idCalendarioApertureSpeciali { get; set; }
+        public DateTime Data { get; set; }
+        public TimeSpan OrarioApertura { get; set; }
+        public TimeSpan OrarioChiusura { get; set; }
+        public int NumBigliettiMax { get; set; }
+        public int idMuseo { get; set; }
+
+        public CalendarioApertureSpeciali(int idCalendarioApertureSpeciali) : base(idCalendarioApertureSpeciali) { }
     }
 }

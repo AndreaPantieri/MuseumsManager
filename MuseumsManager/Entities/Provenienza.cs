@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Provenienza
+    public class Provenienza : DBEntity
     {
-        public int idProvenienza;
-        public string Nome;
-        public string Descrizione;
+        public int idProvenienza { get; set; }
+        public string Nome { get; set; }
+        public string Descrizione { get; set; }
+
+        public Provenienza(int idProvenienza) : base(idProvenienza) { }
     }
 }

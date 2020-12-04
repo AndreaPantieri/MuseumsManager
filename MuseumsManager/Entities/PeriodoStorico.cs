@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class PeriodoStorico
+    public class PeriodoStorico : DBEntity
     {
-        public int idPeriodoStorico;
-        public string Nome;
-        public string Descrizione;
-        public int AnnoInizio;
-        public int AnnoFine;
+        public int idPeriodoStorico { get; set; }
+        public string Nome { get; set; }
+        public string Descrizione { get; set; }
+        public int AnnoInizio { get; set; }
+        public int AnnoFine { get; set; }
+
+        public PeriodoStorico(int idPeriodoStorico) : base(idPeriodoStorico) { }
     }
 }

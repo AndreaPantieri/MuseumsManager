@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class RegistroManutenzioni
+    public class RegistroManutenzioni : DBEntity
     {
-        public int idManutenzione;
-        public DateTime Data;
-        public string Descrizione;
-        public float Prezzo;
-        public int idMuseo;
+        public int idManutenzione { get; set; }
+        public DateTime Data { get; set; }
+        public string Descrizione { get; set; }
+        public float Prezzo { get; set; }
+        public int idMuseo { get; set; }
+
+        public RegistroManutenzioni(int idManutenzione) : base(idManutenzione) { }
     }
 }

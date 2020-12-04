@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class TipoContenuto
+    public class TipoContenuto : DBEntity
     {
-        public int idTipoContenuto;
-        public string Descrizione;
+        public int idTipoContenuto { get; set; }
+        public string Descrizione { get; set; }
+
+        public TipoContenuto(int idTipoContenuto) : base(idTipoContenuto) { }
     }
 }

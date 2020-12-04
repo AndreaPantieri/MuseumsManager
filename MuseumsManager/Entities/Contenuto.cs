@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Contenuto
+    public class Contenuto : DBEntity
     {
-        public int idContenuto;
-        public string Nome;
-        public string Descrizione;
-        public DateTime DataRitrovamento;
-        public DateTime DataArrivoMuseo;
-        public int idContenutoPadre;
-        public int idProvenienza;
-        public int idPeriodoStorico;
-        public int idSezione;
+        public int idContenuto { get; set; }
+        public string Nome { get; set; }
+        public string Descrizione { get; set; }
+        public DateTime DataRitrovamento { get; set; }
+        public DateTime DataArrivoMuseo { get; set; }
+        public int idContenutoPadre { get; set; }
+        public int idProvenienza { get; set; }
+        public int idPeriodoStorico { get; set; }
+        public int idSezione { get; set; }
+
+        public Contenuto(int idContenuto) : base(idContenuto) { }
     }
 }

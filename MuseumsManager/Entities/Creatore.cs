@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Creatore
+    public class Creatore : DBEntity
     {
-        public int idCreatore;
-        public string Nome;
-        public string Cognome;
-        public string Descrizione;
-        public int AnnoNascita;
+        public int idCreatore { get; set; }
+        public string Nome { get; set; }
+        public string Cognome { get; set; }
+        public string Descrizione { get; set; }
+        public int AnnoNascita { get; set; }
+
+        public Creatore(int idCretore) : base(idCretore) { }
     }
 }
