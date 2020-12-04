@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class DBConnection
+    public class DBConnection : IDisposable
     {
         private static readonly string ConnectionString = "Data Source=LAPTOP-A2UM0TN5;Initial Catalog=MuseumsManagerDB;Integrated Security=True";
 
@@ -20,12 +20,29 @@ namespace Entities
 
         public void InsertQuery(SqlCommand sqlCommand)
         {
+            sqlCommand.Connection = this.Connection;
             sqlCommand.ExecuteNonQuery();
         }
 
         public SqlDataReader SelectQuery(SqlCommand sqlCommand)
         {
+            sqlCommand.Connection = this.Connection;
             return sqlCommand.ExecuteReader();
+        }
+
+        public void Close()
+        {
+            this.Connection.Close();
+        }
+
+        public void Dispose()
+        {
+            Close();
+        }
+
+        ~DBConnection()
+        {
+            Close();
         }
     }
 }

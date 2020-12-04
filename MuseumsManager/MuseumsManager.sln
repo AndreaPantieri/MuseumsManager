@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuseumsManager", "MuseumsMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{8BD4BA2F-3364-4764-8753-512EA5B4E5E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDB", "TestDB\TestDB.csproj", "{98B86AA8-AAD7-4ECE-8357-DE0A65CFC96C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8BD4BA2F-3364-4764-8753-512EA5B4E5E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BD4BA2F-3364-4764-8753-512EA5B4E5E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BD4BA2F-3364-4764-8753-512EA5B4E5E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98B86AA8-AAD7-4ECE-8357-DE0A65CFC96C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98B86AA8-AAD7-4ECE-8357-DE0A65CFC96C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98B86AA8-AAD7-4ECE-8357-DE0A65CFC96C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98B86AA8-AAD7-4ECE-8357-DE0A65CFC96C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

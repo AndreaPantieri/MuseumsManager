@@ -13,3 +13,18 @@ C:\Users\Andrea\Desktop\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\M
 C:\Users\Andrea\Desktop\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.csproj.CoreCompileInputs.cache
 C:\Users\Andrea\Desktop\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.exe
 C:\Users\Andrea\Desktop\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.pdb
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\MuseumsManager.exe.config
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\MuseumsManager.exe
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\MuseumsManager.pdb
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.csprojAssemblyReference.cache
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MainWindow.g.cs
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\App.g.cs
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager_MarkupCompile.cache
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager_MarkupCompile.lref
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MainWindow.baml
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.g.resources
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.Properties.Resources.resources
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.csproj.GenerateResource.cache
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.csproj.CoreCompileInputs.cache
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.exe
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.pdb
