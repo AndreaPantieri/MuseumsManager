@@ -24,7 +24,6 @@ namespace MuseumsManager
         public MainWindow()
         {
             InitializeComponent();
-
         }
 
         int idMuseoSelezionato = 0;
