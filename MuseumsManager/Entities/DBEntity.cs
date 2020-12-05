@@ -8,13 +8,8 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class DBEntity
+    public class DBEntity : DBObject
     {
-        protected bool isDBNull(object DBValue)
-        {
-            return DBNull.Value.Equals(DBValue);
-        }
-
         public DBEntity(int id)
         {
             Type t = this.GetType();
@@ -31,7 +26,7 @@ namespace Entities
                         lpi.ForEach(pi =>
                         {
                             object value;
-                            if (isDBNull(sqlDataReader[pi.Name]))
+                            if (IsDBNull(sqlDataReader[pi.Name]))
                             {
                                 value = Activator.CreateInstance(pi.PropertyType);
                             }

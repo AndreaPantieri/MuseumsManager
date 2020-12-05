@@ -50,6 +50,8 @@
     <Compile Include="Creatore.cs" />
     <Compile Include="DBConnection.cs" />
     <Compile Include="DBEntity.cs" />
+    <Compile Include="DBObject.cs" />
+    <Compile Include="DBRelationN2NOnlyIndexes.cs" />
     <Compile Include="FamigliaMusei.cs" />
     <Compile Include="Museo.cs" />
     <Compile Include="Museo_Creatore.cs" />

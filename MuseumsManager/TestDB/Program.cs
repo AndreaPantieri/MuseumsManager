@@ -11,14 +11,10 @@ namespace TestDB
     {
         static void Main(string[] args)
         {
-            Museo museo = new Museo(1);
-            Console.WriteLine("Nome = " + museo.Nome);
-            Console.WriteLine("Luogo = " + museo.Luogo);
-            Console.WriteLine("OrarioAperturaGenerale = " + museo.OrarioAperturaGenerale);
-            Console.WriteLine("OrarioChiusuraGenerale = " + museo.OrarioChiusuraGenerale);
-            Console.WriteLine("NumBigliettiMaxGenerale = " + museo.NumBigliettiMaxGenerale);
-            Console.WriteLine("idFamiglia = " + museo.idFamiglia);
-            Console.ReadKey();
+            Museo_Tipologia museo_Tipologia = new Museo_Tipologia(1, 1);
+            Console.WriteLine("idMuseo = " + museo_Tipologia.idMuseo);
+            Console.WriteLine("idTipoMuseo = " + museo_Tipologia.idTipoMuseo);
+            Console.ReadLine();
         }
     }
 }

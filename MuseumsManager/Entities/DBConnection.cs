@@ -18,10 +18,10 @@ namespace Entities
             this.Connection.Open();
         }
 
-        public void InsertQuery(SqlCommand sqlCommand)
+        public int InsertQuery(SqlCommand sqlCommand)
         {
             sqlCommand.Connection = this.Connection;
-            sqlCommand.ExecuteNonQuery();
+            return sqlCommand.ExecuteNonQuery();
         }
 
         public SqlDataReader SelectQuery(SqlCommand sqlCommand)

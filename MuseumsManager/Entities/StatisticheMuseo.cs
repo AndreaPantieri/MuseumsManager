@@ -7,28 +7,11 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class StatisticheMuseo
+    public class StatisticheMuseo : DBRelationN2NOnlyIndexes
     {
         public int idStatistiche { get; set; }
         public int idMuseo { get; set; }
 
-        public StatisticheMuseo(int idStatistiche, int idMuseo)
-        {
-            using (DBConnection dBConnection = new DBConnection())
-            {
-                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM StatisticheMuseo WHERE idStatistiche = @idStatistiche AND idMuseo = @idMuseo");
-                sqlCommand.Parameters.AddWithValue("@idStatistiche", idStatistiche);
-                sqlCommand.Parameters.AddWithValue("@idMuseo", idMuseo);
-
-                using (SqlDataReader sqlDataReader = dBConnection.SelectQuery(sqlCommand))
-                {
-                    while (sqlDataReader.Read())
-                    {
-                        this.idStatistiche = DBNull.Value.Equals(sqlDataReader["idStatistiche"]) ? default(int) : (int)sqlDataReader["idStatistiche"];
-                        this.idMuseo = DBNull.Value.Equals(sqlDataReader["idMuseo"]) ? default(int) : (int)sqlDataReader["idMuseo"];
-                    }
-                }
-            }
-        }
+        public StatisticheMuseo(int idStatistiche, int idMuseo) : base(idStatistiche, idMuseo) { }
     }
 }
