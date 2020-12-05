@@ -30,7 +30,6 @@ namespace Entities
                     {
                         lpi.ForEach(pi =>
                         {
-                            Type type = pi.PropertyType;
                             object value;
                             if (isDBNull(sqlDataReader[pi.Name]))
                             {
