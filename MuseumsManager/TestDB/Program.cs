@@ -12,7 +12,7 @@ namespace TestDB
         static void Main(string[] args)
         {
             Museo museo = new Museo();
-            museo.Insert("idMuseo", 6, "Nome", "Rocca Malatestiana", "Luogo", "Cesena", "OrarioAperturaGenerale", new TimeSpan(7, 0, 0), "OrarioChiusuraGenerale", new TimeSpan(18, 0, 0), "NumBigliettiMaxGenerale", 10, "idFamiglia", 1);
+            museo.Insert("Nome", "Rocca Malatestiana", "Luogo", "Cesena", "OrarioAperturaGenerale", new TimeSpan(7, 0, 0), "OrarioChiusuraGenerale", new TimeSpan(18, 0, 0), "NumBigliettiMaxGenerale", 10, "idFamiglia", 1);
             Console.ReadLine();
         }
     }
