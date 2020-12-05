@@ -17,6 +17,7 @@ namespace Entities
         public int NumBigliettiMaxGenerale { get; set; }
         public int idFamiglia { get; set; }
 
+        public Museo() : base() { }
         public Museo(int idMuseo) : base(idMuseo) { }
     }
 }
