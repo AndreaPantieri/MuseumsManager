@@ -18,7 +18,7 @@ namespace Entities
                 throw new Exception("Wrong number of params");
             }
 
-            string sqlCommandString = "INSERT INTO " + this.GetType().Name + "(";
+            string sqlCommandString = "INSERT INTO '" + this.GetType().Name + "'(";
             for (int i = 0; i < list.Length; i += 2)
             {
                 sqlCommandString += list[i];

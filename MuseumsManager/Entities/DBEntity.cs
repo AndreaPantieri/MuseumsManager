@@ -43,5 +43,45 @@ namespace Entities
             }
             
         }
+
+        public int Update(string idName, int idValue, params object[] list)
+        {
+            if (list.Length == 0 || list.Length % 2 != 0)
+            {
+                throw new Exception("Wrong number of params");
+            }
+
+            string sqlCommandString = "UPDATE '" + this.GetType().Name + "' SET '";
+            for (int i = 0; i < list.Length; i += 2)
+            {
+                sqlCommandString += list[i];
+                sqlCommandString += "'= '";
+                sqlCommandString += list[i + 1];
+                if (i < list.Length - 2)
+                {
+                    sqlCommandString += "', '";
+                }
+            }
+            sqlCommandString += "' WHERE '" + idName + "' = '" + idValue + "';";
+            int ret;
+            using (DBConnection dBConnection = new DBConnection())
+            {
+                SqlCommand sqlCommand = new SqlCommand(sqlCommandString);
+                ret = dBConnection.InsertQuery(sqlCommand);
+            }
+            return ret;
+        }
+
+        public int Delete(string idName, int idValue)
+        {
+            string sqlCommandString = "DELETE FROM '" + this.GetType().Name + "' WHERE '" + idName + "' = '" + idValue + "';";
+            int ret;
+            using (DBConnection dBConnection = new DBConnection())
+            {
+                SqlCommand sqlCommand = new SqlCommand(sqlCommandString);
+                ret = dBConnection.InsertQuery(sqlCommand);
+            }
+            return ret;
+        }
     }
 }

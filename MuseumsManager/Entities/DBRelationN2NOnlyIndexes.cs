@@ -48,5 +48,17 @@ namespace Entities
             }
             
         }
+
+        public int Delete(string idName1, int idValue1, string idName2, int idValue2)
+        {
+            string sqlCommandString = "DELETE FROM '" + this.GetType().Name + "' WHERE '" + idName1 + "' = '" + idValue1 + "' AND '" + idName2 + "' = '" + idValue2 + "';";
+            int ret;
+            using (DBConnection dBConnection = new DBConnection())
+            {
+                SqlCommand sqlCommand = new SqlCommand(sqlCommandString);
+                ret = dBConnection.InsertQuery(sqlCommand);
+            }
+            return ret;
+        }
     }
 }
