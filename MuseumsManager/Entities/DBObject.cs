@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace Entities
                 throw new Exception("Wrong number of params");
             }
 
-            string sqlCommandString = "INSERT INTO '" + this.GetType().Name + "'(";
+            string sqlCommandString = "INSERT INTO " + this.GetType().Name + "(";
             for (int i = 0; i < list.Length; i += 2)
             {
                 sqlCommandString += list[i];
@@ -38,9 +39,10 @@ namespace Entities
             }
             sqlCommandString += "');";
             int ret;
+            Debug.WriteLine(sqlCommandString);
             using (DBConnection dBConnection = new DBConnection())
             {
-                SqlCommand sqlCommand = new SqlCommand(sqlCommandString);
+                SqlCommand sqlCommand = new SqlCommand(sqlCommandString, dBConnection.Connection);
                 ret = dBConnection.InsertQuery(sqlCommand);
             }
             return ret;

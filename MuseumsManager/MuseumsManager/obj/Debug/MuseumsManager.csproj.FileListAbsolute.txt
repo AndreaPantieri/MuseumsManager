@@ -28,3 +28,6 @@ D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\Museu
 D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.csproj.CoreCompileInputs.cache
 D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.exe
 D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.pdb
+C:\Users\Andrea\Desktop\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\Entities.dll
+C:\Users\Andrea\Desktop\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\Entities.pdb
+C:\Users\Andrea\Desktop\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.csproj.CopyComplete
