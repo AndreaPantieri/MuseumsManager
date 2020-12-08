@@ -337,7 +337,7 @@
                     <GroupBox x:Name="gpb_categoriaMuseo" Header="Categoria" HorizontalAlignment="Left" Height="212" Margin="279,420,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
                         <Canvas x:Name="cnv_categoriaMuseo" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_categoriaMuseo_descrizione" HorizontalAlignment="Left" Height="53" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="234" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic"/>
-                            <Button x:Name="btn_categoriaMuseo_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="99" FontWeight="Normal"/>
+                            <Button x:Name="btn_categoriaMuseo_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="99" FontWeight="Normal" Click="btn_categoriaMuseo_crea_Click"/>
                             <Label x:Name="lbl_categoriaMuseo_creaTipoMuseo" Content="Crea un nuovo tipo di museo:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="234"/>
                         </Canvas>
                     </GroupBox>

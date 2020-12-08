@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -27,6 +28,16 @@ namespace MuseumsManager
         }
 
         int idMuseoSelezionato = 0;
+
+        /// <summary>
+        /// Metodo di creazione di un nuovo tipo per un museo.
+        /// </summary>
+        private void btn_categoriaMuseo_crea_Click(object sender, RoutedEventArgs e)
+        {
+            string tmp = txt_categoriaMuseo_descrizione.Text;
+
+            TipoMuseo t = new TipoMuseo();
+        }
 
         /**
         void insertIntoTest()

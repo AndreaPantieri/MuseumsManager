@@ -10,7 +10,7 @@ namespace Entities
     {
         public int idTipoMuseo { get; set; }
         public string Descrizione { get; set; }
-
+        public TipoMuseo() : base() { }
         public TipoMuseo(int idTipoMuseo) : base(idTipoMuseo) { }
     }
 }
