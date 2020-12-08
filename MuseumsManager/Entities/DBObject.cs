@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,6 +47,43 @@ namespace Entities
                 ret = dBConnection.InsertQuery(sqlCommand);
             }
             return ret;
+        }
+
+        public List<DBObject> SelectAll()
+        {
+            Type t = this.GetType();
+            List<DBObject> dBObjects = new List<DBObject>();
+            using(DBConnection dBConnection = new DBConnection())
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM " + t.Name + ";", dBConnection.Connection);
+                
+
+                using (SqlDataReader sqlDataReader = dBConnection.SelectQuery(sqlCommand))
+                {
+                    while (sqlDataReader.Read())
+                    {
+                        DBObject tmp = (DBObject)Activator.CreateInstance(t);
+                        List<PropertyInfo> lpi = new List<PropertyInfo>(tmp.GetType().GetProperties());
+                        lpi.ForEach(pi =>
+                        {
+                            object value;
+                            if (IsDBNull(sqlDataReader[pi.Name]))
+                            {
+                                value = Activator.CreateInstance(pi.PropertyType);
+                            }
+                            else
+                            {
+                                value = sqlDataReader[pi.Name];
+                            }
+                            pi.SetValue(this, value);
+                        });
+
+                        dBObjects.Add(tmp);
+                    }
+                }
+            }
+
+            return dBObjects;
         }
     }
 }
