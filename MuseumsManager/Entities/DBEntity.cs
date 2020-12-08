@@ -51,35 +51,35 @@ namespace Entities
                 throw new Exception("Wrong number of params");
             }
 
-            string sqlCommandString = "UPDATE '" + this.GetType().Name + "' SET '";
+            string sqlCommandString = "UPDATE " + this.GetType().Name + " SET ";
             for (int i = 0; i < list.Length; i += 2)
             {
                 sqlCommandString += list[i];
-                sqlCommandString += "'= '";
+                sqlCommandString += "= '";
                 sqlCommandString += list[i + 1];
                 if (i < list.Length - 2)
                 {
-                    sqlCommandString += "', '";
+                    sqlCommandString += "', ";
                 }
             }
-            sqlCommandString += "' WHERE '" + idName + "' = '" + idValue + "';";
+            sqlCommandString += "' WHERE " + idName + " = '" + idValue + "';";
             int ret;
             using (DBConnection dBConnection = new DBConnection())
             {
                 SqlCommand sqlCommand = new SqlCommand(sqlCommandString);
-                ret = dBConnection.InsertQuery(sqlCommand);
+                ret = dBConnection.GenericQuery(sqlCommand);
             }
             return ret;
         }
 
         public int Delete(string idName, int idValue)
         {
-            string sqlCommandString = "DELETE FROM '" + this.GetType().Name + "' WHERE '" + idName + "' = '" + idValue + "';";
+            string sqlCommandString = "DELETE FROM " + this.GetType().Name + " WHERE " + idName + " = '" + idValue + "';";
             int ret;
             using (DBConnection dBConnection = new DBConnection())
             {
                 SqlCommand sqlCommand = new SqlCommand(sqlCommandString);
-                ret = dBConnection.InsertQuery(sqlCommand);
+                ret = dBConnection.GenericQuery(sqlCommand);
             }
             return ret;
         }

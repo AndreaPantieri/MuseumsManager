@@ -44,7 +44,7 @@ namespace Entities
             using (DBConnection dBConnection = new DBConnection())
             {
                 SqlCommand sqlCommand = new SqlCommand(sqlCommandString, dBConnection.Connection);
-                ret = dBConnection.InsertQuery(sqlCommand);
+                ret = dBConnection.GenericQuery(sqlCommand);
             }
             return ret;
         }

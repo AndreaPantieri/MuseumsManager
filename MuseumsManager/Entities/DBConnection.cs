@@ -18,7 +18,7 @@ namespace Entities
             this.Connection.Open();
         }
 
-        public int InsertQuery(SqlCommand sqlCommand)
+        public int GenericQuery(SqlCommand sqlCommand)
         {
             sqlCommand.Connection = this.Connection;
             return sqlCommand.ExecuteNonQuery();
