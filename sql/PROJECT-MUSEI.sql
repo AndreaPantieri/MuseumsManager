@@ -170,19 +170,19 @@ create table TipoBiglietto (
 
 create table TipoContenuto (
      idTipoContenuto int not null primary key identity(1,1),
-     Descrizione nvarchar(512) not null);
+     Descrizione nvarchar(512) not null unique);
 
 create table TipoMuseo (
      idTipoMuseo int not null primary key identity(1,1),
-     Descrizione nvarchar(512) not null);
+     Descrizione nvarchar(512) not null unique);
 
 create table TipoPersonale (
      idTipoPersonale int not null primary key identity(1,1),
-     Descrizione nvarchar(512) not null);
+     Descrizione nvarchar(512) not null unique);
 
 create table TipoSezione (
      idTipoSezione int not null primary key identity(1,1),
-     Descrizione nvarchar(512) not null);
+     Descrizione nvarchar(512) not null unique);
 
 
 -- Constraints Section
