@@ -18,7 +18,7 @@ using System.Windows.Shapes;
 namespace MuseumsManager
 {
     /// <summary>
-    /// Logica di interazione per MainWindow.xaml
+    /// Controller 
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -34,9 +34,14 @@ namespace MuseumsManager
         /// </summary>
         private void btn_categoriaMuseo_crea_Click(object sender, RoutedEventArgs e)
         {
+            TipoMuseo t = new TipoMuseo();
             string tmp = txt_categoriaMuseo_descrizione.Text;
 
-            TipoMuseo t = new TipoMuseo();
+            int ok = t.Insert("Descrizione", tmp);
+            if (ok == 0) 
+            {
+                MessageBox.Show("Errore provando ad inserire il tipo nel database");
+            }
         }
 
         /**
