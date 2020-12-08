@@ -14,6 +14,7 @@ namespace Entities
         public int AnnoInizio { get; set; }
         public int AnnoFine { get; set; }
 
+        public PeriodoStorico() : base() { }
         public PeriodoStorico(int idPeriodoStorico) : base(idPeriodoStorico) { }
     }
 }

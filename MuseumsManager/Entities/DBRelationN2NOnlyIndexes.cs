@@ -10,6 +10,7 @@ namespace Entities
 {
     public class DBRelationN2NOnlyIndexes : DBObject
     {
+        public DBRelationN2NOnlyIndexes() { }
         public DBRelationN2NOnlyIndexes(int id1, int id2)
         {
             Type t = this.GetType();

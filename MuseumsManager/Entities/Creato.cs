@@ -12,6 +12,7 @@ namespace Entities
         public int idContenuto { get; set; }
         public int idCreatore { get; set; }
 
+        public Creato() : base() { }
         public Creato(int idContenuto, int idCreatore) : base(idContenuto, idCreatore) { }
     }
 }

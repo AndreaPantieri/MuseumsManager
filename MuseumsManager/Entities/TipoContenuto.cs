@@ -11,6 +11,7 @@ namespace Entities
         public int idTipoContenuto { get; set; }
         public string Descrizione { get; set; }
 
+        public TipoContenuto() : base() { }
         public TipoContenuto(int idTipoContenuto) : base(idTipoContenuto) { }
     }
 }

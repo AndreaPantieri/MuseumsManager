@@ -12,6 +12,7 @@ namespace Entities
         public string Nome { get; set; }
         public string Descrizione { get; set; }
 
+        public Provenienza() : base() { }
         public Provenienza(int idProvenienza) : base(idProvenienza) { }
     }
 }

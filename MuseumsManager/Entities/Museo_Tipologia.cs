@@ -12,6 +12,7 @@ namespace Entities
         public int idMuseo { get; set; }
         public int idTipoMuseo { get; set; }
 
+        public Museo_Tipologia() : base() { }
         public Museo_Tipologia(int idMuseo, int idTipoMuseo) : base(idMuseo, idTipoMuseo) { }
     }
 }

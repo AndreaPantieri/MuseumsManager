@@ -11,6 +11,7 @@ namespace Entities
         public int idFamiglia { get; set; }
         public string Nome { get; set; }
 
+        public FamigliaMusei() : base() { }
         public FamigliaMusei(int idFamiglia) : base(idFamiglia) { }
     }
 }

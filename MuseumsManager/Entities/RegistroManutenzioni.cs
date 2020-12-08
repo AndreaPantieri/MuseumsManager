@@ -14,6 +14,7 @@ namespace Entities
         public float Prezzo { get; set; }
         public int idMuseo { get; set; }
 
+        public RegistroManutenzioni() : base() { }
         public RegistroManutenzioni(int idManutenzione) : base(idManutenzione) { }
     }
 }

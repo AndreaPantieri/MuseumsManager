@@ -13,6 +13,7 @@ namespace Entities
         public DateTime DataUscita { get; set; }
         public int idPersonale { get; set; }
 
+        public RegistroPresenze() : base() { }
         public RegistroPresenze(int idRegistro) : base(idRegistro) { }
     }
 }

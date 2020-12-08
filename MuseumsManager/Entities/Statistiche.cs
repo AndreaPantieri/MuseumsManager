@@ -18,6 +18,7 @@ namespace Entities
         public int NumContenutiNuovi { get; set; }
         public int NumChiusure { get; set; }
 
+        public Statistiche() : base() { }
         public Statistiche(int idStatistiche) : base(idStatistiche) { }
     }
 }

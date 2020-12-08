@@ -15,6 +15,7 @@ namespace Entities
         public int NumBigliettiMax { get; set; }
         public int idMuseo { get; set; }
 
+        public CalendarioApertureSpeciali() : base() { }
         public CalendarioApertureSpeciali(int idCalendarioApertureSpeciali) : base(idCalendarioApertureSpeciali) { }
     }
 }

@@ -11,7 +11,8 @@ namespace Entities
         public int idCalendarioChiusure { get; set; }
         public DateTime Data { get; set; }
         public int idMuseo { get; set; }
-        
+
+        public CalendarioChiusure() : base() { }
         public CalendarioChiusure(int idCalendarioChiusure) : base(idCalendarioChiusure) { }
     }
 }

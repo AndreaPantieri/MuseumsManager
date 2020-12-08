@@ -16,6 +16,7 @@ namespace Entities
         public float StipendioOra { get; set; }
         public int idMuseo { get; set; }
 
+        public Personale() : base() { }
         public Personale(int idPersonale) : base(idPersonale) { }
     }
 }

@@ -12,6 +12,7 @@ namespace Entities
         public int idPersonale { get; set; }
         public int idTipoPersonale { get; set; }
 
+        public Personale_Tipologia() : base() { }
         public Personale_Tipologia(int idPersonale, int idTipoPersonale) : base(idPersonale, idTipoPersonale) { }
     }
 }

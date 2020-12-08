@@ -14,6 +14,7 @@ namespace Entities
         public string Descrizione { get; set; }
         public int AnnoNascita { get; set; }
 
+        public Creatore() : base() { }
         public Creatore(int idCretore) : base(idCretore) { }
     }
 }

@@ -14,6 +14,7 @@ namespace Entities
         public int idSezionePadre { get; set; }
         public int idMuseo { get; set; }
 
+        public Sezione() : base() { }
         public Sezione(int idSezione) : base(idSezione) { }
     }
 }

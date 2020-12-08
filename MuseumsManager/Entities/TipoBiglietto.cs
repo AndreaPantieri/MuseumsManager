@@ -13,6 +13,7 @@ namespace Entities
         public string Descrizione { get; set; }
         public int idMuseo { get; set; }
 
+        public TipoBiglietto() : base() { }
         public TipoBiglietto(int idTipoBiglietto) : base(idTipoBiglietto) { }
     }
 }

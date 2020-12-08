@@ -18,6 +18,7 @@ namespace Entities
         public int idPeriodoStorico { get; set; }
         public int idSezione { get; set; }
 
+        public Contenuto() : base() { }
         public Contenuto(int idContenuto) : base(idContenuto) { }
     }
 }
