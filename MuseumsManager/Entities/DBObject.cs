@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public abstract class DBObject
+    public abstract class DBObject<T>
     {
-        protected bool IsDBNull(object DBValue) => DBNull.Value.Equals(DBValue);
+        protected static bool IsDBNull(object DBValue) => DBNull.Value.Equals(DBValue);
 
         public int Insert(params object[] list)
         {
@@ -49,10 +49,10 @@ namespace Entities
             return ret;
         }
 
-        public List<DBObject> SelectAll()
+        public static List<T> SelectAll()
         {
-            Type t = this.GetType();
-            List<DBObject> dBObjects = new List<DBObject>();
+            Type t = typeof(T);
+            List<T> dBObjects = new List<T>();
             using(DBConnection dBConnection = new DBConnection())
             {
                 SqlCommand sqlCommand = new SqlCommand("SELECT * FROM " + t.Name + ";");
@@ -62,7 +62,7 @@ namespace Entities
                 {
                     while (sqlDataReader.Read())
                     {
-                        DBObject tmp = (DBObject)Activator.CreateInstance(t);
+                        T tmp = (T)Activator.CreateInstance(t);
                         List<PropertyInfo> lpi = new List<PropertyInfo>(tmp.GetType().GetProperties());
                         lpi.ForEach(pi =>
                         {

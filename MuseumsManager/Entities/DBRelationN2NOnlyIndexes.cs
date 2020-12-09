@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class DBRelationN2NOnlyIndexes : DBObject
+    public class DBRelationN2NOnlyIndexes : DBObject<DBRelationN2NOnlyIndexes>
     {
         public DBRelationN2NOnlyIndexes() { }
         public DBRelationN2NOnlyIndexes(int id1, int id2)

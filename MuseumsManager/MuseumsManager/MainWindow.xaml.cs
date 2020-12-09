@@ -598,8 +598,7 @@ namespace MuseumsManager
         private void cmb_museoCreazione_tipoMuseo_DropDownOpened(object sender, EventArgs e)
         {
             cmb_museoCreazione_tipoMuseo.Items.Clear();
-            TipoMuseo tmp = new TipoMuseo();
-            tmp.SelectAll().ForEach(x => cmb_museoCreazione_tipoMuseo.Items.Add(((TipoMuseo)x).Descrizione));
+            DBObject<TipoMuseo>.SelectAll().ForEach(x => cmb_museoCreazione_tipoMuseo.Items.Add(((TipoMuseo)x).Descrizione));
             /*List<TipoMuseo> lstmp = tmp.SelectAll().Select(x => (TipoMuseo)x).ToList();
             lstmp.ForEach(x => cmb_museoCreazione_tipoMuseo.Items.Add(x.Descrizione));
             */
@@ -622,8 +621,7 @@ namespace MuseumsManager
         {
             cmb_museo_selezionaMuseo.Items.Clear();
 
-            TipoMuseo tmp = new TipoMuseo();
-            tmp.SelectAll().Select(x => cmb_museo_selezionaMuseo.Items.Add(((TipoMuseo)x).Descrizione));
+            DBObject<TipoMuseo>.SelectAll().Select(x => cmb_museo_selezionaMuseo.Items.Add(((TipoMuseo)x).Descrizione));
             /*
             using (DBConnection dBConnection = new DBConnection())
             {

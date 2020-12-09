@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class DBEntity : DBObject
+    public class DBEntity : DBObject<DBEntity>
     {
         public DBEntity() { }
 

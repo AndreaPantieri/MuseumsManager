@@ -11,9 +11,6 @@ namespace TestDB
     {
         static void Main(string[] args)
         {
-            TipoMuseo tmp = new TipoMuseo();
-            List<TipoMuseo> ltmp = tmp.SelectAll().Select(x => (TipoMuseo) x).ToList();
-            Console.WriteLine(ltmp.Count);
             Console.ReadLine();
         }
     }
