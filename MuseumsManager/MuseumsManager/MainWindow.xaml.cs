@@ -598,8 +598,13 @@ namespace MuseumsManager
         private void cmb_museoCreazione_tipoMuseo_DropDownOpened(object sender, EventArgs e)
         {
             cmb_museoCreazione_tipoMuseo.Items.Clear();
+            TipoMuseo tmp = new TipoMuseo();
+            tmp.SelectAll().ForEach(x => cmb_museoCreazione_tipoMuseo.Items.Add(((TipoMuseo)x).Descrizione));
+            /*List<TipoMuseo> lstmp = tmp.SelectAll().Select(x => (TipoMuseo)x).ToList();
+            lstmp.ForEach(x => cmb_museoCreazione_tipoMuseo.Items.Add(x.Descrizione));
+            */
 
-            using (DBConnection dBConnection = new DBConnection())
+            /*using (DBConnection dBConnection = new DBConnection())
             {
                 SqlCommand sqlCommand = new SqlCommand("SELECT * FROM TipoMuseo;", dBConnection.Connection);
 
@@ -610,19 +615,15 @@ namespace MuseumsManager
                         cmb_museoCreazione_tipoMuseo.Items.Add(sqlDataReader[1]);
                     }
                 }
-            }
+            }*/
         }
 
         private void cmb_museo_selezionaMuseo_DropDownOpened(object sender, EventArgs e)
         {
             cmb_museo_selezionaMuseo.Items.Clear();
 
-            List<DBObject> tmp = new List<DBObject>(new Museo().SelectAll());
-
-            for (int i = 0; i < tmp.Count; i++)
-            {
-                cmb_museo_selezionaMuseo.Items.Add(((Museo)tmp[i]).Nome);
-            }
+            TipoMuseo tmp = new TipoMuseo();
+            tmp.SelectAll().Select(x => cmb_museo_selezionaMuseo.Items.Add(((TipoMuseo)x).Descrizione));
             /*
             using (DBConnection dBConnection = new DBConnection())
             {
