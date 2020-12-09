@@ -55,14 +55,20 @@ namespace Entities
             for (int i = 0; i < list.Length; i += 2)
             {
                 sqlCommandString += list[i];
-                sqlCommandString += "= '";
+                sqlCommandString += "= ";
+
+                if(!list[i + 1].Equals("NULL"))
+                    sqlCommandString += "'";
+
                 sqlCommandString += list[i + 1];
+                if (!list[i + 1].Equals("NULL"))
+                    sqlCommandString += "'";
                 if (i < list.Length - 2)
                 {
-                    sqlCommandString += "', ";
+                    sqlCommandString += ", ";
                 }
             }
-            sqlCommandString += "' WHERE " + idName + " = '" + idValue + "';";
+            sqlCommandString += " WHERE " + idName + " = '" + idValue + "';";
             int ret;
             using (DBConnection dBConnection = new DBConnection())
             {

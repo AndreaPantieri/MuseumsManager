@@ -30,16 +30,23 @@ namespace Entities
                     sqlCommandString += ", ";
                 }
             }
-            sqlCommandString += ") VALUES ('";
+            sqlCommandString += ") VALUES (";
             for (int i = 1; i < list.Length; i += 2)
             {
+                if (!list[i].Equals("NULL"))
+                    sqlCommandString += "'";
+
                 sqlCommandString += list[i];
+
+                if (!list[i].Equals("NULL"))
+                    sqlCommandString += "'";
+
                 if (i < list.Length - 1)
                 {
-                    sqlCommandString += "', '";
+                    sqlCommandString += ", ";
                 }
             }
-            sqlCommandString += "');";
+            sqlCommandString += ");";
 
             if (t.IsSubclassOf(typeof(DBEntity)))
             {

@@ -766,7 +766,7 @@ namespace MuseumsManager
 
             if(fm != null && m != null)
             {
-                m.Update("idMuseo", m.idMuseo, "idFamiglia", 0);
+                m.Update("idMuseo", m.idMuseo, "idFamiglia", "NULL");
             }
         }
     }
