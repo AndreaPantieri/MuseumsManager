@@ -120,6 +120,50 @@ namespace MuseumsManager
                 MessageBox.Show("Qualche parametro che si sta cercando di inserire non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        /// <summary>
+        /// Creazione nuova famiglia da zero
+        /// </summary>
+        private void btn_famigliaMusei_crea_Click(object sender, RoutedEventArgs e)
+        {
+            if (txt_famigliaMusei_nome.Text != "" && txt_famigliaMusei_nome.Text != "Nome")
+            {
+                if (checkQueryResult(DBObject<FamigliaMusei>.Insert("Nome", txt_famigliaMusei_nome.Text)))
+                    MessageBox.Show("Famiglia musei inserito correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                txt_famigliaMusei_nome.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Aggiunta museo a famiglia di musei
+        /// </summary>
+        private void btn_famigliaMusei_aggiungiMuseo_Click(object sender, RoutedEventArgs e)
+        {
+            cmb_famigliaMusei_selezionaMuseo.Items.Clear();
+            cmb_famigliaMusei_selezionaFamiglia.Items.Clear();
+            int res = (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).Update("idMuseo", (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).idMuseo, "idFamiglia", (cmb_famigliaMusei_selezionaFamiglia.SelectedItem as FamigliaMusei).idFamiglia);
+            if (checkQueryResult(res))
+                MessageBox.Show("Aggiunto museo alla famiglia musei correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        /// <summary>
+        /// Rimuovi museo da famiglia
+        /// </summary>
+        private void btn_famigliaMusei_rimuovi_Click(object sender, RoutedEventArgs e)
+        {
+            cmb_famigliaMusei_rimuoviMuseo_famiglia.Items.Clear();
+            cmb_famigliaMusei_rimuoviMuseo.Items.Clear();
+
+            FamigliaMusei fm = cmb_famigliaMusei_rimuoviMuseo_famiglia.SelectedItem as FamigliaMusei;
+            Museo m = cmb_famigliaMusei_rimuoviMuseo.SelectedItem as Museo;
+
+            if (fm != null && m != null)
+            {
+                int res = m.Update("idMuseo", m.idMuseo, "idFamiglia", "NULL");
+                if (checkQueryResult(res))
+                    MessageBox.Show("Aggiunto museo alla famiglia musei correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
 
 
 
@@ -678,31 +722,6 @@ namespace MuseumsManager
             }*/
         }
 
-        //Eventi SelectionChanged
-        private void cmb_museo_selezionaMuseo_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (cmb_museo_selezionaMuseo.SelectedIndex != -1)
-            {
-                tbi_calendario.IsEnabled = true;
-                tbi_biglietti.IsEnabled = true;
-                tbi_contenuti.IsEnabled = true;
-                tbi_personale.IsEnabled = true;
-                tbi_registri.IsEnabled = true;
-                tbi_statistiche.IsEnabled = true;
-                gpb_sezioni.IsEnabled = true;
-                gpb_categoriaSezione.IsEnabled = true;
-                gpb_orari.IsEnabled = true;
-            }
-        }
-
-        /// <summary>
-        /// Creazione nuova famiglia da zero
-        /// </summary>
-        private void btn_famigliaMusei_crea_Click(object sender, RoutedEventArgs e)
-        {
-            checkQueryResult(DBObject<FamigliaMusei>.Insert("Nome", txt_famigliaMusei_nome.Text));
-        }
-
         /// <summary>
         /// Lista dei musei esistenti
         /// </summary>
@@ -724,15 +743,6 @@ namespace MuseumsManager
         }
 
         /// <summary>
-        /// Aggiunta museo a famiglia di musei
-        /// </summary>
-        private void btn_famigliaMusei_aggiungiMuseo_Click(object sender, RoutedEventArgs e)
-        {
-            int res = (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).Update("idMuseo", (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).idMuseo, "idFamiglia", (cmb_famigliaMusei_selezionaFamiglia.SelectedItem as FamigliaMusei).idFamiglia);
-            checkQueryResult(res);
-        }
-
-        /// <summary>
         /// Lista delle famiglie esistenti
         /// </summary>
         private void cmb_famigliaMusei_rimuoviMuseo_famiglia_DropDownOpened(object sender, EventArgs e)
@@ -748,7 +758,7 @@ namespace MuseumsManager
         private void cmb_famigliaMusei_rimuoviMuseo_DropDownOpened(object sender, EventArgs e)
         {
             FamigliaMusei fm = cmb_famigliaMusei_rimuoviMuseo_famiglia.SelectedItem as FamigliaMusei;
-            if(fm != null)
+            if (fm != null)
             {
                 List<Museo> lm = new List<Museo>(DBObject<Museo>.SelectAll().Where(m => m.idFamiglia == fm.idFamiglia));
                 cmb_famigliaMusei_rimuoviMuseo.ItemsSource = lm;
@@ -756,18 +766,26 @@ namespace MuseumsManager
             }
         }
 
-        /// <summary>
-        /// Rimuovi museo da famiglia
-        /// </summary>
-        private void btn_famigliaMusei_rimuovi_Click(object sender, RoutedEventArgs e)
+        //Eventi SelectionChanged
+        private void cmb_museo_selezionaMuseo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            FamigliaMusei fm = cmb_famigliaMusei_rimuoviMuseo_famiglia.SelectedItem as FamigliaMusei;
-            Museo m = cmb_famigliaMusei_rimuoviMuseo.SelectedItem as Museo;
-
-            if(fm != null && m != null)
+            if (cmb_museo_selezionaMuseo.SelectedIndex != -1)
             {
-                m.Update("idMuseo", m.idMuseo, "idFamiglia", "NULL");
+                tbi_calendario.IsEnabled = true;
+                tbi_biglietti.IsEnabled = true;
+                tbi_contenuti.IsEnabled = true;
+                tbi_personale.IsEnabled = true;
+                tbi_registri.IsEnabled = true;
+                tbi_statistiche.IsEnabled = true;
+                gpb_sezioni.IsEnabled = true;
+                gpb_categoriaSezione.IsEnabled = true;
+                gpb_orari.IsEnabled = true;
             }
         }
+
+
+        
+
+        
     }
 }
