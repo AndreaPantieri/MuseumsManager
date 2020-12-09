@@ -14,7 +14,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label x:Name="lbl_museo_nomeMuseo" Content="NOME MUSEO" FontWeight="Bold" Margin="10,41,10,560" FontSize="24" HorizontalAlignment="Center" Width="1219" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                    <ComboBox x:Name="cmb_museo_selezionaMuseo" Height="26" Margin="187,10,876,606" FontWeight="Bold"/>
+                    <ComboBox x:Name="cmb_museo_selezionaMuseo" Height="26" Margin="187,10,876,606" DropDownOpened="cmb_museo_selezionaMuseo_DropDownOpened" SelectionChanged="cmb_museo_selezionaMuseo_SelectionChanged"/>
                     <Label x:Name="lbl_museo_selezionaMuseo" Content="Seleziona il museo da visionare:" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top"/>
                     <GroupBox x:Name="gpb_sezioni" Header="Sezioni" HorizontalAlignment="Left" Height="545" Margin="598,87,0,0" VerticalAlignment="Top" Width="313" IsEnabled="False" FontWeight="Bold">
                         <Canvas x:Name="cnv_sezioni" Margin="0,0,-2,-4">
@@ -266,16 +266,16 @@
                     <Label x:Name="lbl_manutenzioni_periodo" Content="Periodo:" Width="100" Margin="10,132,1129,484" FontStyle="Italic" Grid.ColumnSpan="2"/>
                     <CheckBox x:Name="ckb_manutenzioni_mensili" Content="Mensile" Grid.Column="1" Margin="3,163,1086,463"/>
                     <CheckBox x:Name="ckb_manutenzioni_annuali" Content="Annuale" Grid.Column="1" Margin="3,184,1086,442"/>
-                    <GroupBox x:Name="gpb_manutenzioni" Header="Manutenzioni" HorizontalAlignment="Left" Height="220" VerticalAlignment="Top" Width="522" FontWeight="Bold" Margin="675,54,0,0" Grid.Column="1">
+                    <GroupBox x:Name="gpb_manutenzioni" Header="Manutenzioni" HorizontalAlignment="Left" Height="248" VerticalAlignment="Top" Width="522" FontWeight="Bold" Margin="675,54,0,0" Grid.Column="1">
                         <Canvas x:Name="cnv_manutenzioni" Margin="0,0,-2,-4">
                             <Label x:Name="lbl_manutenzioni_inserisci" Height="23" Width="180" Canvas.Left="10" Canvas.Top="10" Content="Inserisci nuova manutenzione:" HorizontalContentAlignment="Right"></Label>
                             <DatePicker x:Name="dtp_manutenzioni_data" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="195" Canvas.Top="10" FontWeight="Normal" Width="151" Height="23" RenderTransformOrigin="0.06,1.565"/>
                             <TextBox x:Name="txt_manutenzioni_prezzo" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Prezzo" VerticalAlignment="Top" Width="151" Foreground="Gray" FontStyle="Italic" FontWeight="Normal" Canvas.Left="351" Canvas.Top="10" GotFocus="txt_manutenzioni_prezzo_GotFocus" LostFocus="txt_manutenzioni_prezzo_LostFocus"/>
                             <TextBox x:Name="txt_manutenzioni_descrizione" HorizontalAlignment="Left" Height="65" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="307" Foreground="Gray" FontStyle="Italic" FontWeight="Normal" Canvas.Left="195" Canvas.Top="38" GotFocus="txt_manutenzioni_descrizione_GotFocus" LostFocus="txt_manutenzioni_descrizione_LostFocus"/>
                             <Button x:Name="btn_manutenzioni_inserisci" Content="Inserisci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Canvas.Left="426" Canvas.Top="108" FontWeight="Normal"/>
-                            <Label x:Name="lbl_manutenzioni_rimuovi" Height="23" Width="180" Canvas.Left="10" Canvas.Top="164" Content="Rimuovi manutenzione:" HorizontalContentAlignment="Right"/>
-                            <ComboBox x:Name="cmb_manutenzioni_rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="226" Canvas.Left="195" Canvas.Top="167" Height="20"/>
-                            <Button x:Name="btn_manutenzioni_elimina" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Canvas.Left="426" Canvas.Top="167" FontWeight="Normal"/>
+                            <Label x:Name="lbl_manutenzioni_rimuovi" Height="23" Width="180" Canvas.Left="10" Canvas.Top="196" Content="Rimuovi manutenzione:" HorizontalContentAlignment="Right"/>
+                            <ComboBox x:Name="cmb_manutenzioni_rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="226" Canvas.Left="195" Canvas.Top="199" Height="20"/>
+                            <Button x:Name="btn_manutenzioni_elimina" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Canvas.Left="426" Canvas.Top="199" FontWeight="Normal"/>
                         </Canvas>
                     </GroupBox>
                     <DataGrid x:Name="dtg_manutenzioni" HorizontalAlignment="Left" Height="248" Margin="126,54,0,0" VerticalAlignment="Top" Width="544" RenderTransformOrigin="-1.615,-0.45" Grid.Column="1"/>
@@ -300,8 +300,8 @@
                             <TextBox x:Name="txt_museoCreazione_orarioApertura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Orario di apertura" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="97" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_museoCreazione_orarioApertura_GotFocus" LostFocus="txt_museoCreazione_orarioApertura_LostFocus"/>
                             <TextBox x:Name="txt_museoCreazione_orarioChiusura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Orario di chiusura" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="125" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_museoCreazione_orarioChiusura_GotFocus" LostFocus="txt_museoCreazione_orarioChiusura_LostFocus"/>
                             <TextBox x:Name="txt_museoCreazione_numeroBigliettiMax" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Numero di biglietti max giornalieri" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="153" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_museoCreazione_numeroBigliettiMax_GotFocus" LostFocus="txt_museoCreazione_numeroBigliettiMax_LostFocus"/>
-                            <ComboBox x:Name="cmb_museoCreazione_tipoMuseo" Height="26" Width="134" Canvas.Left="110" Canvas.Top="181" FontWeight="Normal"/>
-                            <Button x:Name="btn_museoCreazione_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="212" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_museoCreazione_tipoMuseo" Height="26" Width="134" Canvas.Left="110" Canvas.Top="181" FontWeight="Normal" DropDownOpened="cmb_museoCreazione_tipoMuseo_DropDownOpened"/>
+                            <Button x:Name="btn_museoCreazione_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="212" FontWeight="Normal" Click="btn_museoCreazione_crea_Click"/>
                             <Label x:Name="lbl_museoCreazione_tipoMuseo" Content="Tipo del museo:" Canvas.Left="10" Canvas.Top="181" FontWeight="Normal" Width="95"/>
                             <Label x:Name="lbl_museoCreazione_creaMuseo" Content="Crea un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
                             <Label x:Name="lbl_museoCreazione_modificaMuseo" Content="Modifica il tipo assegnato a un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="296"/>

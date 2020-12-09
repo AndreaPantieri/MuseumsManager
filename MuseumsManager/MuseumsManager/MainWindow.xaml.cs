@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -58,6 +59,13 @@ namespace MuseumsManager
             }
         }
 
+        void checkQueryResult(int queryResult)
+        {
+            if (queryResult == 0)
+            {
+                MessageBox.Show("Errore, ciò che si vuole creare è già presente, oppure il sistema non riesce a connettersi al database");
+            }
+        }
 
 
         //Eventi INSERT INTO
@@ -68,13 +76,7 @@ namespace MuseumsManager
         private void btn_categoriaMuseo_crea_Click(object sender, RoutedEventArgs e)
         {
             TipoMuseo t = new TipoMuseo();
-
-            int ok = t.Insert("Descrizione", txt_categoriaMuseo_descrizione.Text);
-
-            if(ok == 0) 
-            {
-                MessageBox.Show("Errore, il tipo che si vuole creare è già presente, oppure il sistema non riesce a connettersi al database");
-            }
+            checkQueryResult(t.Insert("Descrizione", txt_categoriaMuseo_descrizione.Text));
         }
 
 
@@ -589,6 +591,96 @@ namespace MuseumsManager
         private void txt_orari_nuovoOrarioChiusura_LostFocus(object sender, RoutedEventArgs e)
         {
             restoreTextBoxParameters(e);
+        }
+
+
+        //Eventi DropDownOpened
+        private void cmb_museoCreazione_tipoMuseo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_museoCreazione_tipoMuseo.Items.Clear();
+
+            using (DBConnection dBConnection = new DBConnection())
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM TipoMuseo;", dBConnection.Connection);
+
+                using (SqlDataReader sqlDataReader = dBConnection.SelectQuery(sqlCommand))
+                {
+                    while (sqlDataReader.Read())
+                    {
+                        cmb_museoCreazione_tipoMuseo.Items.Add(sqlDataReader[1]);
+                    }
+                }
+            }
+        }
+
+        private void cmb_museo_selezionaMuseo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_museo_selezionaMuseo.Items.Clear();
+
+            List<DBObject> tmp = new List<DBObject>(new Museo().SelectAll());
+
+            for (int i = 0; i < tmp.Count; i++)
+            {
+                cmb_museo_selezionaMuseo.Items.Add(((Museo)tmp[i]).Nome);
+            }
+            /*
+            using (DBConnection dBConnection = new DBConnection())
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Museo;", dBConnection.Connection);
+
+                using (SqlDataReader sqlDataReader = dBConnection.SelectQuery(sqlCommand))
+                {
+                    while (sqlDataReader.Read())
+                    {
+                        cmb_museo_selezionaMuseo.Items.Add(sqlDataReader[1]);
+                    }
+                }
+            }*/
+        }
+
+
+
+        //Eventi Click
+        private void btn_museoCreazione_crea_Click(object sender, RoutedEventArgs e)
+        {
+            Museo m = new Museo();
+
+            if (!txt_museoCreazione_nome.Text.Equals("Nome") &&
+                !txt_museoCreazione_luogo.Text.Equals("Luogo") &&
+                !txt_museoCreazione_orarioApertura.Text.Equals("Orario di apertura") &&
+                !txt_museoCreazione_orarioChiusura.Text.Equals("Orario di chiusura") &&
+                !txt_museoCreazione_numeroBigliettiMax.Text.Equals("Numero di biglietti max giornalieri") &&
+                TimeSpan.TryParse(txt_museoCreazione_orarioApertura.Text, out TimeSpan tA) &&
+                TimeSpan.TryParse(txt_museoCreazione_orarioChiusura.Text, out TimeSpan tC) &&
+                int.TryParse(txt_museoCreazione_numeroBigliettiMax.Text, out int nBMax))
+            {
+                //manca il tipo Museo
+                checkQueryResult(m.Insert("Nome", txt_museoCreazione_nome.Text, "Luogo", txt_museoCreazione_luogo.Text, "OrarioAperturaGenerale", tA, "OrarioChiusuraGenerale", tC, "NumBigliettiMaxGenerale", nBMax));
+            } 
+            else 
+            {
+                MessageBox.Show("Qualche parametro che si sta cercando di inserire non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+
+
+        //Eventi SelectionChanged
+        private void cmb_museo_selezionaMuseo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmb_museo_selezionaMuseo.SelectedIndex != -1)
+            {
+                tbi_calendario.IsEnabled = true;
+                tbi_biglietti.IsEnabled = true;
+                tbi_contenuti.IsEnabled = true;
+                tbi_personale.IsEnabled = true;
+                tbi_registri.IsEnabled = true;
+                tbi_statistiche.IsEnabled = true;
+                gpb_sezioni.IsEnabled = true;
+                gpb_categoriaSezione.IsEnabled = true;
+                gpb_orari.IsEnabled = true;
+            }
         }
     }
 }
