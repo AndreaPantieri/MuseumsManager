@@ -59,23 +59,65 @@ namespace MuseumsManager
             }
         }
 
-        void checkQueryResult(int queryResult)
+        bool checkQueryResult(int returnedIndex)
         {
-            if (queryResult < 1)
+            if (returnedIndex < 1)
             {
-                MessageBox.Show("Errore, ciò che si vuole creare è già presente, oppure il sistema non riesce a connettersi al database");
+                MessageBox.Show("Errore, ciò che si vuole creare è già presente, oppure il sistema non riesce a connettersi al database", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
             }
+            return true;
         }
 
 
         //Eventi INSERT INTO
 
         /// <summary>
+        /// Metodo di creazione di un nuovo museo.
+        /// </summary>
+        private void btn_museoCreazione_crea_Click(object sender, RoutedEventArgs e)
+        {
+            Museo m = new Museo();
+
+            if (!txt_museoCreazione_nome.Text.Equals("Nome") &&
+                !txt_museoCreazione_nome.Text.Equals("") &&
+                !txt_museoCreazione_luogo.Text.Equals("Luogo") &&
+                !txt_museoCreazione_luogo.Text.Equals("") &&
+                !txt_museoCreazione_orarioApertura.Text.Equals("Orario di apertura") &&
+                !txt_museoCreazione_orarioApertura.Text.Equals("") &&
+                !txt_museoCreazione_orarioChiusura.Text.Equals("Orario di chiusura") &&
+                !txt_museoCreazione_orarioChiusura.Text.Equals("") &&
+                !txt_museoCreazione_numeroBigliettiMax.Text.Equals("Numero di biglietti max giornalieri") &&
+                !txt_museoCreazione_numeroBigliettiMax.Text.Equals("") &&
+                cmb_museoCreazione_tipoMuseo.SelectedIndex != -1 &&
+                TimeSpan.TryParse(txt_museoCreazione_orarioApertura.Text, out TimeSpan tA) &&
+                TimeSpan.TryParse(txt_museoCreazione_orarioChiusura.Text, out TimeSpan tC) &&
+                int.TryParse(txt_museoCreazione_numeroBigliettiMax.Text, out int nBMax))
+            {
+                m.idMuseo = DBObject<Museo>.Insert("Nome", txt_museoCreazione_nome.Text, "Luogo", txt_museoCreazione_luogo.Text, "OrarioAperturaGenerale", tA, "OrarioChiusuraGenerale", tC, "NumBigliettiMaxGenerale", nBMax);
+                int idMuseo_Tipologia = DBObject<Museo_Tipologia>.Insert("idMuseo", m.idMuseo, "idTipoMuseo", cmb_museoCreazione_tipoMuseo.SelectedIndex + 1);
+
+                if (checkQueryResult(m.idMuseo) && checkQueryResult(idMuseo_Tipologia))
+                    MessageBox.Show("Museo inserito correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show("Qualche parametro che si sta cercando di inserire non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        /// <summary>
         /// Metodo di creazione di un nuovo tipo per un museo.
         /// </summary>
         private void btn_categoriaMuseo_crea_Click(object sender, RoutedEventArgs e)
         {
-            checkQueryResult(DBObject<TipoMuseo>.Insert("Descrizione", txt_categoriaMuseo_descrizione.Text));
+            if (!txt_categoriaMuseo_descrizione.Text.Equals("") && !txt_categoriaMuseo_descrizione.Text.Equals("Descrizione"))
+            {
+                int index = DBObject<TipoMuseo>.Insert("Descrizione", txt_categoriaMuseo_descrizione.Text);
+
+                if (checkQueryResult(index))
+                    MessageBox.Show("Categoria di museo inserita correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show("Qualche parametro che si sta cercando di inserire non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
 
@@ -635,38 +677,6 @@ namespace MuseumsManager
                 }
             }*/
         }
-
-
-
-        //Eventi Click
-        private void btn_museoCreazione_crea_Click(object sender, RoutedEventArgs e)
-        {
-            Museo m = new Museo();
-
-            if (!txt_museoCreazione_nome.Text.Equals("Nome") &&
-                !txt_museoCreazione_luogo.Text.Equals("Luogo") &&
-                !txt_museoCreazione_orarioApertura.Text.Equals("Orario di apertura") &&
-                !txt_museoCreazione_orarioChiusura.Text.Equals("Orario di chiusura") &&
-                !txt_museoCreazione_numeroBigliettiMax.Text.Equals("Numero di biglietti max giornalieri") &&
-                TimeSpan.TryParse(txt_museoCreazione_orarioApertura.Text, out TimeSpan tA) &&
-                TimeSpan.TryParse(txt_museoCreazione_orarioChiusura.Text, out TimeSpan tC) &&
-                int.TryParse(txt_museoCreazione_numeroBigliettiMax.Text, out int nBMax))
-            {                
-                m.idMuseo = DBObject<Museo>.Insert("Nome", txt_museoCreazione_nome.Text, "Luogo", txt_museoCreazione_luogo.Text, "OrarioAperturaGenerale", tA, "OrarioChiusuraGenerale", tC, "NumBigliettiMaxGenerale", nBMax);
-                checkQueryResult(m.idMuseo);
-
-                int tmp = 0;
-                tmp = DBObject<Museo_Tipologia>.Insert("idMuseo", m.idMuseo, "idTipoMuseo", cmb_museoCreazione_tipoMuseo.SelectedIndex + 1);
-                checkQueryResult(tmp);
-            } 
-            else 
-            {
-                MessageBox.Show("Qualche parametro che si sta cercando di inserire non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-
-
 
         //Eventi SelectionChanged
         private void cmb_museo_selezionaMuseo_SelectionChanged(object sender, SelectionChangedEventArgs e)

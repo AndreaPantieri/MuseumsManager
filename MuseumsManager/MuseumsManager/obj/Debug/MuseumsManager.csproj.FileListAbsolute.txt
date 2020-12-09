@@ -34,3 +34,21 @@ C:\Users\Andrea\Desktop\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\M
 D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\Entities.dll
 D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\Entities.pdb
 D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.csproj.CopyComplete
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\MuseumsManager.exe.config
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\MuseumsManager.exe
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\MuseumsManager.pdb
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\Entities.dll
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\Entities.pdb
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.csprojAssemblyReference.cache
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MainWindow.g.cs
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\App.g.cs
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager_MarkupCompile.cache
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager_MarkupCompile.lref
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MainWindow.baml
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.g.resources
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.Properties.Resources.resources
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.csproj.GenerateResource.cache
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.csproj.CoreCompileInputs.cache
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.csproj.CopyComplete
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.exe
+C:\Users\Andrea\Desktop\clone\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.pdb
