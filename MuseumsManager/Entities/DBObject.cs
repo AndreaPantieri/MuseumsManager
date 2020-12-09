@@ -13,14 +13,15 @@ namespace Entities
     {
         protected static bool IsDBNull(object DBValue) => DBNull.Value.Equals(DBValue);
 
-        public int Insert(params object[] list)
+        public static int Insert(params object[] list)
         {
             if (list.Length == 0 || list.Length % 2 != 0)
             {
                 throw new Exception("Wrong number of params");
             }
 
-            string sqlCommandString = "INSERT INTO " + this.GetType().Name + "(";
+            Type t = typeof(T);
+            string sqlCommandString = "INSERT INTO " + t.Name + "(";
             for (int i = 0; i < list.Length; i += 2)
             {
                 sqlCommandString += list[i];

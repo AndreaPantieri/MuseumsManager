@@ -75,8 +75,7 @@ namespace MuseumsManager
         /// </summary>
         private void btn_categoriaMuseo_crea_Click(object sender, RoutedEventArgs e)
         {
-            TipoMuseo t = new TipoMuseo();
-            checkQueryResult(t.Insert("Descrizione", txt_categoriaMuseo_descrizione.Text));
+            checkQueryResult(DBObject<TipoMuseo>.Insert("Descrizione", txt_categoriaMuseo_descrizione.Text));
         }
 
 
@@ -654,7 +653,7 @@ namespace MuseumsManager
                 int.TryParse(txt_museoCreazione_numeroBigliettiMax.Text, out int nBMax))
             {
                 //manca il tipo Museo
-                checkQueryResult(m.Insert("Nome", txt_museoCreazione_nome.Text, "Luogo", txt_museoCreazione_luogo.Text, "OrarioAperturaGenerale", tA, "OrarioChiusuraGenerale", tC, "NumBigliettiMaxGenerale", nBMax));
+                checkQueryResult(DBObject<Museo>.Insert("Nome", txt_museoCreazione_nome.Text, "Luogo", txt_museoCreazione_luogo.Text, "OrarioAperturaGenerale", tA, "OrarioChiusuraGenerale", tC, "NumBigliettiMaxGenerale", nBMax));
             } 
             else 
             {
