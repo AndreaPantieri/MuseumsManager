@@ -31,3 +31,6 @@ D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\Museu
 C:\Users\Andrea\Desktop\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\Entities.dll
 C:\Users\Andrea\Desktop\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\Entities.pdb
 C:\Users\Andrea\Desktop\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.csproj.CopyComplete
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\Entities.dll
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\bin\Debug\Entities.pdb
+D:\Database project\MuseumsManager\MuseumsManager\MuseumsManager\obj\Debug\MuseumsManager.csproj.CopyComplete

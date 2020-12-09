@@ -9,7 +9,7 @@ namespace Entities
 {
     public class DBConnection : IDisposable
     {
-        private static readonly string ConnectionString = "Data Source=ARTOLINK\\SQLEXPRESS;Initial Catalog=MuseumsManagerDB;Integrated Security=True";
+        private static readonly string ConnectionString = "Data Source=LAPTOP-A2UM0TN5;Initial Catalog=MuseumsManagerDB;Integrated Security=True";
 
         public SqlConnection Connection { get; } = new SqlConnection(ConnectionString);
 

@@ -11,8 +11,9 @@ namespace TestDB
     {
         static void Main(string[] args)
         {
-            Museo museo = new Museo();
-            museo.Insert("Nome", "Rocca Malatestiana", "Luogo", "Cesena", "OrarioAperturaGenerale", new TimeSpan(7, 0, 0), "OrarioChiusuraGenerale", new TimeSpan(18, 0, 0), "NumBigliettiMaxGenerale", 10, "idFamiglia", 1);
+            TipoMuseo tmp = new TipoMuseo();
+            List<TipoMuseo> ltmp = tmp.SelectAll().Select(x => (TipoMuseo) x).ToList();
+            Console.WriteLine(ltmp.Count);
             Console.ReadLine();
         }
     }

@@ -55,7 +55,7 @@ namespace Entities
             List<DBObject> dBObjects = new List<DBObject>();
             using(DBConnection dBConnection = new DBConnection())
             {
-                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM " + t.Name + ";", dBConnection.Connection);
+                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM " + t.Name + ";");
                 
 
                 using (SqlDataReader sqlDataReader = dBConnection.SelectQuery(sqlCommand))
@@ -75,7 +75,7 @@ namespace Entities
                             {
                                 value = sqlDataReader[pi.Name];
                             }
-                            pi.SetValue(this, value);
+                            pi.SetValue(tmp, value);
                         });
 
                         dBObjects.Add(tmp);
