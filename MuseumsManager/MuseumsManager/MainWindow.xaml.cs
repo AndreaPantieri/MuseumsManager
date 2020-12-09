@@ -721,5 +721,43 @@ namespace MuseumsManager
             int res = (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).Update("idMuseo", (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).idMuseo, "idFamiglia", (cmb_famigliaMusei_selezionaFamiglia.SelectedItem as FamigliaMusei).idFamiglia);
             checkQueryResult(res);
         }
+
+        /// <summary>
+        /// Lista delle famiglie esistenti
+        /// </summary>
+        private void cmb_famigliaMusei_rimuoviMuseo_famiglia_DropDownOpened(object sender, EventArgs e)
+        {
+            List<FamigliaMusei> lfm = new List<FamigliaMusei>(DBObject<FamigliaMusei>.SelectAll());
+            cmb_famigliaMusei_rimuoviMuseo_famiglia.ItemsSource = lfm;
+            cmb_famigliaMusei_rimuoviMuseo_famiglia.DisplayMemberPath = "Nome";
+        }
+
+        /// <summary>
+        /// Lista dei musei esistenti collegati alla famiglia
+        /// </summary>
+        private void cmb_famigliaMusei_rimuoviMuseo_DropDownOpened(object sender, EventArgs e)
+        {
+            FamigliaMusei fm = cmb_famigliaMusei_rimuoviMuseo_famiglia.SelectedItem as FamigliaMusei;
+            if(fm != null)
+            {
+                List<Museo> lm = new List<Museo>(DBObject<Museo>.SelectAll().Where(m => m.idFamiglia == fm.idFamiglia));
+                cmb_famigliaMusei_rimuoviMuseo.ItemsSource = lm;
+                cmb_famigliaMusei_rimuoviMuseo.DisplayMemberPath = "Nome";
+            }
+        }
+
+        /// <summary>
+        /// Rimuovi museo da famiglia
+        /// </summary>
+        private void btn_famigliaMusei_rimuovi_Click(object sender, RoutedEventArgs e)
+        {
+            FamigliaMusei fm = cmb_famigliaMusei_rimuoviMuseo_famiglia.SelectedItem as FamigliaMusei;
+            Museo m = cmb_famigliaMusei_rimuoviMuseo.SelectedItem as Museo;
+
+            if(fm != null && m != null)
+            {
+                m.Update("idMuseo", m.idMuseo, "idFamiglia", 0);
+            }
+        }
     }
 }

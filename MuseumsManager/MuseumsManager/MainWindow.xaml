@@ -329,11 +329,11 @@
                             <Label x:Name="lbl_famigliaMusei_museo" Content="Museo:" Canvas.Left="10" Canvas.Top="135" FontWeight="Normal" Width="55"/>
                             <Label x:Name="lbl_famigliaMusei_famiglia" Content="Famiglia:" Canvas.Left="10" Canvas.Top="166" FontWeight="Normal" Width="55"/>
                             <Label x:Name="lbl_famigliaMusei_rimuoviMuseo" Content="Rimuovi un museo da una famiglia:" Canvas.Left="10" FontWeight="Bold" Width="233" Canvas.Top="249"/>
-                            <ComboBox x:Name="cmb_famigliaMusei_rimuoviMuseo" Height="26" Width="173" Canvas.Left="71" Canvas.Top="322" FontWeight="Normal"/>
-                            <Button x:Name="btn_famigliaMusei_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="353" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_famigliaMusei_rimuoviMuseo" Height="26" Width="173" Canvas.Left="71" Canvas.Top="322" FontWeight="Normal" DropDownOpened="cmb_famigliaMusei_rimuoviMuseo_DropDownOpened"/>
+                            <Button x:Name="btn_famigliaMusei_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="353" FontWeight="Normal" Click="btn_famigliaMusei_rimuovi_Click"/>
                             <Label x:Name="lbl_famigliaMusei_museoDaRimuovere" Content="Museo:" Canvas.Left="10" Canvas.Top="322" FontWeight="Normal" Width="56" HorizontalContentAlignment="Right"/>
                             <Label x:Name="lbl_famigliaMusei_rimuoviMuseo_famiglia" Content="Famiglia:" Canvas.Left="12" Canvas.Top="292" FontWeight="Normal" Width="55" RenderTransformOrigin="0.538,0.156"/>
-                            <ComboBox x:Name="cmb_famigliaMusei_rimuoviMuseo_famiglia" Height="26" Width="173" Canvas.Left="71" Canvas.Top="291" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_famigliaMusei_rimuoviMuseo_famiglia" Height="26" Width="173" Canvas.Left="71" Canvas.Top="291" FontWeight="Normal" DropDownOpened="cmb_famigliaMusei_rimuoviMuseo_famiglia_DropDownOpened"/>
                         </Canvas>
                     </GroupBox>
                     <GroupBox x:Name="gpb_categoriaMuseo" Header="Categoria" HorizontalAlignment="Left" Height="212" Margin="279,420,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
