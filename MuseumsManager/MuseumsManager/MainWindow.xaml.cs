@@ -684,5 +684,42 @@ namespace MuseumsManager
                 gpb_orari.IsEnabled = true;
             }
         }
+
+        /// <summary>
+        /// Creazione nuova famiglia da zero
+        /// </summary>
+        private void btn_famigliaMusei_crea_Click(object sender, RoutedEventArgs e)
+        {
+            checkQueryResult(DBObject<FamigliaMusei>.Insert("Nome", txt_famigliaMusei_nome.Text));
+        }
+
+        /// <summary>
+        /// Lista dei musei esistenti
+        /// </summary>
+        private void cmb_famigliaMusei_selezionaMuseo_DropDownOpened(object sender, EventArgs e)
+        {
+            List<Museo> lm = new List<Museo>(DBObject<Museo>.SelectAll().Where(m => m.idFamiglia == 0));
+            cmb_famigliaMusei_selezionaMuseo.ItemsSource = lm;
+            cmb_famigliaMusei_selezionaMuseo.DisplayMemberPath = "Nome";
+        }
+
+        /// <summary>
+        /// Lista delle famiglie esistenti
+        /// </summary>
+        private void cmb_famigliaMusei_selezionaFamiglia_DropDownOpened(object sender, EventArgs e)
+        {
+            List<FamigliaMusei> lfm = new List<FamigliaMusei>(DBObject<FamigliaMusei>.SelectAll());
+            cmb_famigliaMusei_selezionaFamiglia.ItemsSource = lfm;
+            cmb_famigliaMusei_selezionaFamiglia.DisplayMemberPath = "Nome";
+        }
+
+        /// <summary>
+        /// Aggiunta museo a famiglia di musei
+        /// </summary>
+        private void btn_famigliaMusei_aggiungiMuseo_Click(object sender, RoutedEventArgs e)
+        {
+            int res = (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).Update("idMuseo", (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).idMuseo, "idFamiglia", (cmb_famigliaMusei_selezionaFamiglia.SelectedItem as FamigliaMusei).idFamiglia);
+            checkQueryResult(res);
+        }
     }
 }

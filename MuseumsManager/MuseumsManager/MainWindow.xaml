@@ -320,18 +320,20 @@
                     <GroupBox x:Name="gpb_famigliaMusei" Header="Famiglia di musei" HorizontalAlignment="Left" Height="405" Margin="279,10,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
                         <Canvas x:Name="cnv_famigliaMusei" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_famigliaMusei_nome" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="165" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_famigliaMusei_nome_GotFocus" LostFocus="txt_famigliaMusei_nome_LostFocus"/>
-                            <Button x:Name="btn_famigliaMusei_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="41" FontWeight="Normal"/>
+                            <Button x:Name="btn_famigliaMusei_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="41" FontWeight="Normal" Click="btn_famigliaMusei_crea_Click"/>
                             <Label x:Name="lbl_famigliaMusei_creaFamiglia" Content="Crea una nuova famiglia:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
                             <Label x:Name="lbl_famigliaMusei_aggiungiMuseo" Content="Aggiungi un museo ad una famiglia:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="104"/>
-                            <ComboBox x:Name="cmb_famigliaMusei_selezionaMuseo" Height="26" Width="174" Canvas.Left="70" Canvas.Top="135" FontWeight="Normal"/>
-                            <ComboBox x:Name="cmb_famigliaMusei_selezionaFamiglia" Height="26" Width="174" Canvas.Left="70" Canvas.Top="166" FontWeight="Normal"/>
-                            <Button x:Name="btn_famigliaMusei_aggiungiMuseo" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="197" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_famigliaMusei_selezionaMuseo" Height="26" Width="174" Canvas.Left="70" Canvas.Top="135" FontWeight="Normal" DropDownOpened="cmb_famigliaMusei_selezionaMuseo_DropDownOpened"/>
+                            <ComboBox x:Name="cmb_famigliaMusei_selezionaFamiglia" Height="26" Width="174" Canvas.Left="70" Canvas.Top="166" FontWeight="Normal" DropDownOpened="cmb_famigliaMusei_selezionaFamiglia_DropDownOpened"/>
+                            <Button x:Name="btn_famigliaMusei_aggiungiMuseo" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="197" FontWeight="Normal" Click="btn_famigliaMusei_aggiungiMuseo_Click"/>
                             <Label x:Name="lbl_famigliaMusei_museo" Content="Museo:" Canvas.Left="10" Canvas.Top="135" FontWeight="Normal" Width="55"/>
                             <Label x:Name="lbl_famigliaMusei_famiglia" Content="Famiglia:" Canvas.Left="10" Canvas.Top="166" FontWeight="Normal" Width="55"/>
-                            <Label x:Name="lbl_famigliaMusei_rimuoviMuseo" Content="Rimuovi un museo da una famiglia:" Canvas.Left="10" FontWeight="Bold" Width="233" Canvas.Top="291"/>
+                            <Label x:Name="lbl_famigliaMusei_rimuoviMuseo" Content="Rimuovi un museo da una famiglia:" Canvas.Left="10" FontWeight="Bold" Width="233" Canvas.Top="249"/>
                             <ComboBox x:Name="cmb_famigliaMusei_rimuoviMuseo" Height="26" Width="173" Canvas.Left="71" Canvas.Top="322" FontWeight="Normal"/>
                             <Button x:Name="btn_famigliaMusei_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="353" FontWeight="Normal"/>
                             <Label x:Name="lbl_famigliaMusei_museoDaRimuovere" Content="Museo:" Canvas.Left="10" Canvas.Top="322" FontWeight="Normal" Width="56" HorizontalContentAlignment="Right"/>
+                            <Label x:Name="lbl_famigliaMusei_rimuoviMuseo_famiglia" Content="Famiglia:" Canvas.Left="12" Canvas.Top="292" FontWeight="Normal" Width="55" RenderTransformOrigin="0.538,0.156"/>
+                            <ComboBox x:Name="cmb_famigliaMusei_rimuoviMuseo_famiglia" Height="26" Width="173" Canvas.Left="71" Canvas.Top="291" FontWeight="Normal"/>
                         </Canvas>
                     </GroupBox>
                     <GroupBox x:Name="gpb_categoriaMuseo" Header="Categoria" HorizontalAlignment="Left" Height="212" Margin="279,420,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
