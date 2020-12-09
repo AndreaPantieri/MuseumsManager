@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class DBRelationN2NOnlyIndexes : DBObject<DBRelationN2NOnlyIndexes>
+    public class DBRelationN2NOnlyIndexes<T> : DBObject<DBRelationN2NOnlyIndexes<T>>
     {
         public DBRelationN2NOnlyIndexes() { }
         public DBRelationN2NOnlyIndexes(int id1, int id2)
@@ -50,9 +50,10 @@ namespace Entities
             
         }
 
-        public int Delete(string idName1, int idValue1, string idName2, int idValue2)
+        public static int Delete(string idName1, int idValue1, string idName2, int idValue2)
         {
-            string sqlCommandString = "DELETE FROM " + this.GetType().Name + " WHERE " + idName1 + " = '" + idValue1 + "' AND " + idName2 + " = '" + idValue2 + "';";
+            Type t = typeof(T);
+            string sqlCommandString = "DELETE FROM " + t.Name + " WHERE " + idName1 + " = '" + idValue1 + "' AND " + idName2 + " = '" + idValue2 + "';";
             int ret;
             using (DBConnection dBConnection = new DBConnection())
             {

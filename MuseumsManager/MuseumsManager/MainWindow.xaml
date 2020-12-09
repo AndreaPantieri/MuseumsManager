@@ -305,20 +305,20 @@
                             <Label x:Name="lbl_museoCreazione_tipoMuseo" Content="Tipo del museo:" Canvas.Left="10" Canvas.Top="181" FontWeight="Normal" Width="95"/>
                             <Label x:Name="lbl_museoCreazione_creaMuseo" Content="Crea un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
                             <Label x:Name="lbl_museoCreazione_aggiungiNuovoTipo" Content="Aggiungi un nuovo tipo ad un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="259"/>
-                            <ComboBox x:Name="cmb_museoCreazione_selezionaMuseo" Height="26" Width="146" Canvas.Left="98" Canvas.Top="290" FontWeight="Normal"/>
-                            <ComboBox x:Name="cmb_museoCreazione_selezionaTipo" Height="26" Width="146" Canvas.Left="98" Canvas.Top="321" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_museoCreazione_selezionaMuseo" Height="26" Width="146" Canvas.Left="98" Canvas.Top="290" FontWeight="Normal" DropDownOpened="cmb_museoCreazione_selezionaMuseo_DropDownOpened" SelectionChanged="cmb_museoCreazione_selezionaMuseo_SelectionChanged"/>
+                            <ComboBox x:Name="cmb_museoCreazione_selezionaTipo" Height="26" Width="146" Canvas.Left="98" Canvas.Top="321" FontWeight="Normal" DropDownOpened="cmb_museoCreazione_selezionaTipo_DropDownOpened"/>
                             <Label x:Name="lbl_museoCreazione_museo" Content="Museo" Canvas.Left="10" FontWeight="Normal" Width="83" Canvas.Top="290" HorizontalContentAlignment="Right"/>
                             <Label x:Name="lbl_museoCreazione_nuovoTipo" Content="Nuovo tipo" Canvas.Left="10" FontWeight="Normal" Width="83" Canvas.Top="321" HorizontalContentAlignment="Right"/>
-                            <Button x:Name="btn_museoCreazione_aggiungi" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="352" FontWeight="Normal"/>
+                            <Button x:Name="btn_museoCreazione_aggiungi" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="352" FontWeight="Normal" Click="btn_museoCreazione_aggiungi_Click"/>
                             <Label x:Name="lbl_museoCreazione_eliminaTipo" Content="Elimina un tipo da un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="395"/>
-                            <ComboBox x:Name="cmb_eliminaTipo_selezionaMuseo" Height="26" Width="146" Canvas.Left="98" Canvas.Top="426" FontWeight="Normal"/>
-                            <ComboBox x:Name="cmb_eliminaTipo_selezionaTipo" Height="26" Width="146" Canvas.Left="98" Canvas.Top="457" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_eliminaTipo_selezionaMuseo" Height="26" Width="146" Canvas.Left="98" Canvas.Top="426" FontWeight="Normal" DropDownOpened="cmb_eliminaTipo_selezionaMuseo_DropDownOpened" SelectionChanged="cmb_eliminaTipo_selezionaMuseo_SelectionChanged"/>
+                            <ComboBox x:Name="cmb_eliminaTipo_selezionaTipo" Height="26" Width="146" Canvas.Left="98" Canvas.Top="457" FontWeight="Normal" DropDownOpened="cmb_eliminaTipo_selezionaTipo_DropDownOpened"/>
                             <Label x:Name="lbl_eliminaTipo_museo" Content="Museo" Canvas.Left="10" FontWeight="Normal" Width="83" Canvas.Top="426" HorizontalContentAlignment="Right"/>
                             <Label x:Name="lbl_eliminaTipo_tipo" Content="Tipo" Canvas.Left="10" FontWeight="Normal" Width="83" Canvas.Top="457" HorizontalContentAlignment="Right"/>
-                            <Button x:Name="btn_eliminaTipo_elimina" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="488" FontWeight="Normal"/>
+                            <Button x:Name="btn_eliminaTipo_elimina" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="488" FontWeight="Normal" Click="btn_eliminaTipo_elimina_Click"/>
                             <Label x:Name="lbl_museoCreazione_eliminaMuseo" Content="Elimina un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="542"/>
-                            <ComboBox x:Name="cmb_museoCreazione_eliminaMuseo" Height="20" Width="143" Canvas.Left="10" Canvas.Top="573" FontWeight="Normal"/>
-                            <Button x:Name="btn_museoCreazione_eliminaMuseo" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Canvas.Left="161" Canvas.Top="573" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_museoCreazione_eliminaMuseo" Height="20" Width="143" Canvas.Left="10" Canvas.Top="573" FontWeight="Normal" DropDownOpened="cmb_museoCreazione_eliminaMuseo_DropDownOpened"/>
+                            <Button x:Name="btn_museoCreazione_eliminaMuseo" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Canvas.Left="161" Canvas.Top="573" FontWeight="Normal" Click="btn_museoCreazione_eliminaMuseo_Click"/>
                         </Canvas>
                     </GroupBox>
                     <GroupBox x:Name="gpb_famigliaMusei" Header="Famiglia di musei" HorizontalAlignment="Left" Height="405" Margin="279,10,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">

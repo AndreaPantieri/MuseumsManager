@@ -63,7 +63,7 @@ namespace MuseumsManager
         {
             if (returnedIndex < 1)
             {
-                MessageBox.Show("Errore, ciò che si vuole creare è già presente, oppure il sistema non riesce a connettersi al database", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Errore, operazione non consentita: E\' possibile che l'operazione sia già stata fatta, oppure il sistema non riesce a connettersi al database", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
             return true;
@@ -95,13 +95,56 @@ namespace MuseumsManager
                 int.TryParse(txt_museoCreazione_numeroBigliettiMax.Text, out int nBMax))
             {
                 m.idMuseo = DBObject<Museo>.Insert("Nome", txt_museoCreazione_nome.Text, "Luogo", txt_museoCreazione_luogo.Text, "OrarioAperturaGenerale", tA, "OrarioChiusuraGenerale", tC, "NumBigliettiMaxGenerale", nBMax);
-                int idMuseo_Tipologia = DBObject<Museo_Tipologia>.Insert("idMuseo", m.idMuseo, "idTipoMuseo", cmb_museoCreazione_tipoMuseo.SelectedIndex + 1);
+                int idMuseo_Tipologia = DBObject<Museo_Tipologia>.Insert("idMuseo", m.idMuseo, "idTipoMuseo", ((TipoMuseo)cmb_museoCreazione_tipoMuseo.SelectedItem).idTipoMuseo);
 
                 if (checkQueryResult(m.idMuseo) && checkQueryResult(idMuseo_Tipologia))
                     MessageBox.Show("Museo inserito correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
                 MessageBox.Show("Qualche parametro che si sta cercando di inserire non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        /// <summary>
+        /// Aggiunge il tipo di museo selezionato al museo selezionato.
+        /// </summary>
+        private void btn_museoCreazione_aggiungi_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmb_museoCreazione_selezionaMuseo.SelectedItem != null && cmb_museoCreazione_selezionaTipo.SelectedItem != null)
+            {
+                if (checkQueryResult(DBObject<Museo_Tipologia>.Insert("idMuseo", ((Museo)cmb_museoCreazione_selezionaMuseo.SelectedItem).idMuseo, "idTipoMuseo", ((TipoMuseo)cmb_museoCreazione_selezionaTipo.SelectedItem).idTipoMuseo)))
+                {
+                    MessageBox.Show("Tipo \""+ ((TipoMuseo)cmb_museoCreazione_selezionaTipo.SelectedItem).Descrizione + "\" assegnato correttamente al museo \"" + ((Museo)cmb_museoCreazione_selezionaMuseo.SelectedItem).Nome + "\"!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                    cmb_museoCreazione_selezionaMuseo.ItemsSource = null;
+                    cmb_museoCreazione_selezionaTipo.ItemsSource = null;
+                }
+            }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        /// <summary>
+        /// Rimuove il tipo di museo selezionato dal museo selezionato.
+        /// </summary>
+        private void btn_eliminaTipo_elimina_Click(object sender, RoutedEventArgs e)
+        {
+            if(cmb_eliminaTipo_selezionaTipo.Items.Count == 1)
+            {
+                MessageBox.Show("Non è possibile eliminare il tipo selezionato: un museo deve possedere almeno un tipo!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                cmb_eliminaTipo_selezionaMuseo.ItemsSource = null;
+                cmb_eliminaTipo_selezionaTipo.ItemsSource = null;
+                return;
+            }
+            if (cmb_eliminaTipo_selezionaMuseo.SelectedItem != null && cmb_eliminaTipo_selezionaTipo.SelectedItem != null)
+            {
+                if (checkQueryResult(DBRelationN2NOnlyIndexes<Museo_Tipologia>.Delete("idMuseo", ((Museo)cmb_eliminaTipo_selezionaMuseo.SelectedItem).idMuseo, "idTipoMuseo", ((TipoMuseo)cmb_eliminaTipo_selezionaTipo.SelectedItem).idTipoMuseo)))
+                {
+                    MessageBox.Show("Tipo \"" + ((TipoMuseo)cmb_eliminaTipo_selezionaTipo.SelectedItem).Descrizione + "\" rimosso correttamente dal museo \"" + ((Museo)cmb_eliminaTipo_selezionaMuseo.SelectedItem).Nome + "\"!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                    cmb_eliminaTipo_selezionaMuseo.ItemsSource = null;
+                    cmb_eliminaTipo_selezionaTipo.ItemsSource = null;
+                }
+            }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         /// <summary>
@@ -121,20 +164,41 @@ namespace MuseumsManager
         }
 
         /// <summary>
-        /// Creazione nuova famiglia da zero
+        /// Metodo di rimozione del museo selezionato.
+        /// </summary>
+        private void btn_museoCreazione_eliminaMuseo_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmb_museoCreazione_eliminaMuseo.SelectedItem != null)
+            {
+                //PANTIE DBEntity NON E' GENERICO E STATICO, BISOGNEREBBE CANCELLARLO E METTERE TUTTO IN DBObject SECONDO ME (ma non mi ricordo perchè li avevi divisi sono sincero, appena vedi questo messaggio mandami un'audio). 
+                //C'è un pò troppa confusione fra DBEntity, DBObject e DBRelationN2NOnlyIndexes, io lascierei solo questi ultimi due se possibile, ma lascio modificare a te la struttura visto che è tua.
+                //BUON LAVORO :) ELIMINA PURE IL COMMENTO UNA VOLTA RISOLTO
+                //PS: Quando elimino un museo dovrei andare ad eliminare anche la relazione N a N in Museo_Tipologia? O si elimina da sola teoricamente? AUDIO grazie :) 
+                if (checkQueryResult(DBObject<Museo>.Delete("idMuseo", ((Museo)cmb_museoCreazione_eliminaMuseo.SelectedItem).idMuseo))) 
+                {
+                    MessageBox.Show("Museo \"" + ((Museo)cmb_eliminaTipo_selezionaMuseo.SelectedItem).Nome + "\" rimosso correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                    cmb_museoCreazione_eliminaMuseo.ItemsSource = null;
+                }
+            }
+            else
+                MessageBox.Show("Nessun museo selezionato!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        /// <summary>
+        /// Creazione di una nuova famiglia di musei.
         /// </summary>
         private void btn_famigliaMusei_crea_Click(object sender, RoutedEventArgs e)
         {
             if (txt_famigliaMusei_nome.Text != "" && txt_famigliaMusei_nome.Text != "Nome")
             {
                 if (checkQueryResult(DBObject<FamigliaMusei>.Insert("Nome", txt_famigliaMusei_nome.Text)))
-                    MessageBox.Show("Famiglia musei inserito correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Nuova famiglia di musei inserita correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 txt_famigliaMusei_nome.Clear();
             }
         }
 
         /// <summary>
-        /// Aggiunta museo a famiglia di musei
+        /// Aggiunta di un museo ad una famiglia di musei.
         /// </summary>
         private void btn_famigliaMusei_aggiungiMuseo_Click(object sender, RoutedEventArgs e)
         {
@@ -146,7 +210,7 @@ namespace MuseumsManager
         }
 
         /// <summary>
-        /// Rimuovi museo da famiglia
+        /// Rimozione di un museo dalla sua famiglia di musei.
         /// </summary>
         private void btn_famigliaMusei_rimuovi_Click(object sender, RoutedEventArgs e)
         {
@@ -682,48 +746,19 @@ namespace MuseumsManager
         //Eventi DropDownOpened
         private void cmb_museoCreazione_tipoMuseo_DropDownOpened(object sender, EventArgs e)
         {
-            cmb_museoCreazione_tipoMuseo.Items.Clear();
-            DBObject<TipoMuseo>.SelectAll().ForEach(x => cmb_museoCreazione_tipoMuseo.Items.Add(((TipoMuseo)x).Descrizione));
-            /*List<TipoMuseo> lstmp = tmp.SelectAll().Select(x => (TipoMuseo)x).ToList();
-            lstmp.ForEach(x => cmb_museoCreazione_tipoMuseo.Items.Add(x.Descrizione));
-            */
+            cmb_museoCreazione_tipoMuseo.ItemsSource = DBObject<TipoMuseo>.SelectAll();
+            cmb_museoCreazione_tipoMuseo.DisplayMemberPath = "Descrizione";
 
-            /*using (DBConnection dBConnection = new DBConnection())
-            {
-                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM TipoMuseo;", dBConnection.Connection);
-
-                using (SqlDataReader sqlDataReader = dBConnection.SelectQuery(sqlCommand))
-                {
-                    while (sqlDataReader.Read())
-                    {
-                        cmb_museoCreazione_tipoMuseo.Items.Add(sqlDataReader[1]);
-                    }
-                }
-            }*/
         }
 
         private void cmb_museo_selezionaMuseo_DropDownOpened(object sender, EventArgs e)
         {
-            cmb_museo_selezionaMuseo.Items.Clear();
-
-            DBObject<Museo>.SelectAll().ForEach(x => cmb_museo_selezionaMuseo.Items.Add(((Museo)x).Nome));
-            /*
-            using (DBConnection dBConnection = new DBConnection())
-            {
-                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Museo;", dBConnection.Connection);
-
-                using (SqlDataReader sqlDataReader = dBConnection.SelectQuery(sqlCommand))
-                {
-                    while (sqlDataReader.Read())
-                    {
-                        cmb_museo_selezionaMuseo.Items.Add(sqlDataReader[1]);
-                    }
-                }
-            }*/
+            cmb_museo_selezionaMuseo.ItemsSource = DBObject<Museo>.SelectAll();
+            cmb_museo_selezionaMuseo.DisplayMemberPath = "Nome";
         }
 
         /// <summary>
-        /// Lista dei musei esistenti
+        /// Lista dei musei esistenti.
         /// </summary>
         private void cmb_famigliaMusei_selezionaMuseo_DropDownOpened(object sender, EventArgs e)
         {
@@ -733,7 +768,7 @@ namespace MuseumsManager
         }
 
         /// <summary>
-        /// Lista delle famiglie esistenti
+        /// Lista delle famiglie esistenti.
         /// </summary>
         private void cmb_famigliaMusei_selezionaFamiglia_DropDownOpened(object sender, EventArgs e)
         {
@@ -743,7 +778,7 @@ namespace MuseumsManager
         }
 
         /// <summary>
-        /// Lista delle famiglie esistenti
+        /// Lista delle famiglie esistenti.
         /// </summary>
         private void cmb_famigliaMusei_rimuoviMuseo_famiglia_DropDownOpened(object sender, EventArgs e)
         {
@@ -753,7 +788,7 @@ namespace MuseumsManager
         }
 
         /// <summary>
-        /// Lista dei musei esistenti collegati alla famiglia
+        /// Lista dei musei esistenti collegati alla famiglia.
         /// </summary>
         private void cmb_famigliaMusei_rimuoviMuseo_DropDownOpened(object sender, EventArgs e)
         {
@@ -766,7 +801,110 @@ namespace MuseumsManager
             }
         }
 
+        /// <summary>
+        /// Lista dei musei dei quali aggiungere un nuovo tipo.
+        /// </summary>
+        private void cmb_museoCreazione_selezionaMuseo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_museoCreazione_selezionaMuseo.ItemsSource = DBObject<Museo>.SelectAll();
+            cmb_museoCreazione_selezionaMuseo.DisplayMemberPath = "Nome";
+        }
+
+        /// <summary>
+        /// Lista dei tipi disponibili da aggiungere ad un museo.
+        /// </summary>
+        private void cmb_museoCreazione_selezionaTipo_DropDownOpened(object sender, EventArgs e)
+        {
+            Museo museoSelezionato = cmb_museoCreazione_selezionaMuseo.SelectedItem as Museo;
+
+            if (museoSelezionato == null)
+                return;
+
+            List<Museo_Tipologia> tabellaMuseoTipologia = new List<Museo_Tipologia>(DBObject<Museo_Tipologia>.SelectAll());
+            List<TipoMuseo> tabellaTipoMuseo = new List<TipoMuseo>(DBObject<TipoMuseo>.SelectAll());
+            List<Museo_Tipologia> parzialeMuseoTipologia = new List<Museo_Tipologia>();            
+            List<TipoMuseo> TipiDisponibili = new List<TipoMuseo>();
+
+            for (int i = 0; i < tabellaMuseoTipologia.Count; i++)
+            {
+                if (museoSelezionato.idMuseo == tabellaMuseoTipologia[i].idMuseo)
+                {
+                    parzialeMuseoTipologia.Add(tabellaMuseoTipologia[i]);
+                }
+            }
+            bool ok;
+
+            for(int i = 0; i < tabellaTipoMuseo.Count; i++)
+            {
+                ok = false;
+
+                for (int j = 0; j < parzialeMuseoTipologia.Count; j++)
+                {
+                    if (tabellaTipoMuseo[i].idTipoMuseo == parzialeMuseoTipologia[j].idTipoMuseo)
+                        ok = true;
+                }
+                if (!ok)
+                    TipiDisponibili.Add(tabellaTipoMuseo[i]);
+            }
+            cmb_museoCreazione_selezionaTipo.ItemsSource = TipiDisponibili;
+            cmb_museoCreazione_selezionaTipo.DisplayMemberPath = "Descrizione";
+        }
+
+        private void cmb_eliminaTipo_selezionaMuseo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_eliminaTipo_selezionaMuseo.ItemsSource = DBObject<Museo>.SelectAll();
+            cmb_eliminaTipo_selezionaMuseo.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_eliminaTipo_selezionaTipo_DropDownOpened(object sender, EventArgs e)
+        {
+            Museo museoSelezionato = cmb_eliminaTipo_selezionaMuseo.SelectedItem as Museo;
+
+            if (museoSelezionato == null)
+                return;
+
+            List<Museo_Tipologia> tabellaMuseoTipologia = new List<Museo_Tipologia>(DBObject<Museo_Tipologia>.SelectAll());
+            List<TipoMuseo> tabellaTipoMuseo = new List<TipoMuseo>(DBObject<TipoMuseo>.SelectAll());
+            List<Museo_Tipologia> parzialeMuseoTipologia = new List<Museo_Tipologia>();
+            List<TipoMuseo> TipiDisponibili = new List<TipoMuseo>();
+
+            for (int i = 0; i < tabellaMuseoTipologia.Count; i++)
+            {
+                if (museoSelezionato.idMuseo == tabellaMuseoTipologia[i].idMuseo)
+                {
+                    parzialeMuseoTipologia.Add(tabellaMuseoTipologia[i]);
+                }
+            }
+            bool ok;
+
+            for (int i = 0; i < tabellaTipoMuseo.Count; i++)
+            {
+                ok = false;
+
+                for (int j = 0; j < parzialeMuseoTipologia.Count; j++)
+                {
+                    if (tabellaTipoMuseo[i].idTipoMuseo == parzialeMuseoTipologia[j].idTipoMuseo)
+                        ok = true;
+                }
+                if (ok)
+                    TipiDisponibili.Add(tabellaTipoMuseo[i]);
+            }
+            cmb_eliminaTipo_selezionaTipo.ItemsSource = TipiDisponibili;
+            cmb_eliminaTipo_selezionaTipo.DisplayMemberPath = "Descrizione";
+        }
+
+        private void cmb_museoCreazione_eliminaMuseo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_museoCreazione_eliminaMuseo.ItemsSource = DBObject<Museo>.SelectAll();
+            cmb_museoCreazione_eliminaMuseo.DisplayMemberPath = "Nome";
+        }
+
         //Eventi SelectionChanged
+
+        /// <summary>
+        /// Evento per la selezione del museo da visualizzare.
+        /// Attiva ogni window relativa al museo.
+        /// </summary>
         private void cmb_museo_selezionaMuseo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cmb_museo_selezionaMuseo.SelectedIndex != -1)
@@ -780,12 +918,24 @@ namespace MuseumsManager
                 gpb_sezioni.IsEnabled = true;
                 gpb_categoriaSezione.IsEnabled = true;
                 gpb_orari.IsEnabled = true;
+                idMuseoSelezionato = ((Museo)cmb_museo_selezionaMuseo.SelectedItem).idMuseo;
             }
         }
 
+        /// <summary>
+        /// Evento per cancellare la lista di tipi disponibili da aggiungere se il museo viene cambiato.
+        /// </summary>
+        private void cmb_museoCreazione_selezionaMuseo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cmb_museoCreazione_selezionaTipo.ItemsSource = null;
+        }
 
-        
-
-        
+        /// <summary>
+        /// Evento per cancellare la lista di tipi disponibili da cancellare se il museo viene cambiato.
+        /// </summary>
+        private void cmb_eliminaTipo_selezionaMuseo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cmb_eliminaTipo_selezionaTipo.ItemsSource = null;
+        }
     }
 }

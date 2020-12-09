@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Museo_Tipologia : DBRelationN2NOnlyIndexes
+    public class Museo_Tipologia : DBRelationN2NOnlyIndexes<Museo_Tipologia>
     {
         public int idMuseo { get; set; }
         public int idTipoMuseo { get; set; }
