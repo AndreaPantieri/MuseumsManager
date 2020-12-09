@@ -61,7 +61,7 @@ namespace MuseumsManager
 
         void checkQueryResult(int queryResult)
         {
-            if (queryResult == 0)
+            if (queryResult < 1)
             {
                 MessageBox.Show("Errore, ciò che si vuole creare è già presente, oppure il sistema non riesce a connettersi al database");
             }
@@ -620,7 +620,7 @@ namespace MuseumsManager
         {
             cmb_museo_selezionaMuseo.Items.Clear();
 
-            DBObject<TipoMuseo>.SelectAll().Select(x => cmb_museo_selezionaMuseo.Items.Add(((TipoMuseo)x).Descrizione));
+            DBObject<Museo>.SelectAll().ForEach(x => cmb_museo_selezionaMuseo.Items.Add(((Museo)x).Nome));
             /*
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -651,9 +651,13 @@ namespace MuseumsManager
                 TimeSpan.TryParse(txt_museoCreazione_orarioApertura.Text, out TimeSpan tA) &&
                 TimeSpan.TryParse(txt_museoCreazione_orarioChiusura.Text, out TimeSpan tC) &&
                 int.TryParse(txt_museoCreazione_numeroBigliettiMax.Text, out int nBMax))
-            {
-                //manca il tipo Museo
-                checkQueryResult(DBObject<Museo>.Insert("Nome", txt_museoCreazione_nome.Text, "Luogo", txt_museoCreazione_luogo.Text, "OrarioAperturaGenerale", tA, "OrarioChiusuraGenerale", tC, "NumBigliettiMaxGenerale", nBMax));
+            {                
+                m.idMuseo = DBObject<Museo>.Insert("Nome", txt_museoCreazione_nome.Text, "Luogo", txt_museoCreazione_luogo.Text, "OrarioAperturaGenerale", tA, "OrarioChiusuraGenerale", tC, "NumBigliettiMaxGenerale", nBMax);
+                checkQueryResult(m.idMuseo);
+
+                int tmp = 0;
+                tmp = DBObject<Museo_Tipologia>.Insert("idMuseo", m.idMuseo, "idTipoMuseo", cmb_museoCreazione_tipoMuseo.SelectedIndex + 1);
+                checkQueryResult(tmp);
             } 
             else 
             {

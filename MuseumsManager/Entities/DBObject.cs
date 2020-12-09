@@ -40,12 +40,18 @@ namespace Entities
                 }
             }
             sqlCommandString += "');";
+
+            if (t.IsSubclassOf(typeof(DBEntity)))
+            {
+                sqlCommandString += " SELECT CONVERT(int, SCOPE_IDENTITY());";
+            }
+
             int ret;
             Debug.WriteLine(sqlCommandString);
             using (DBConnection dBConnection = new DBConnection())
             {
                 SqlCommand sqlCommand = new SqlCommand(sqlCommandString, dBConnection.Connection);
-                ret = dBConnection.GenericQuery(sqlCommand);
+                ret = t.IsSubclassOf(typeof(DBEntity)) ? dBConnection.ScalarQuery(sqlCommand) : dBConnection.GenericQuery(sqlCommand);
             }
             return ret;
         }

@@ -304,7 +304,7 @@
                             <Button x:Name="btn_museoCreazione_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="212" FontWeight="Normal" Click="btn_museoCreazione_crea_Click"/>
                             <Label x:Name="lbl_museoCreazione_tipoMuseo" Content="Tipo del museo:" Canvas.Left="10" Canvas.Top="181" FontWeight="Normal" Width="95"/>
                             <Label x:Name="lbl_museoCreazione_creaMuseo" Content="Crea un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
-                            <Label x:Name="lbl_museoCreazione_modificaMuseo" Content="Modifica il tipo assegnato a un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="296"/>
+                            <Label x:Name="lbl_museoCreazione_AggiungiNuovoTipo" Content="Aggiungi un nuovo tipo ad un museo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="296"/>
                             <ComboBox x:Name="cmb_museoCreazione_selezionaMuseo" Height="26" Width="146" Canvas.Left="98" Canvas.Top="327" FontWeight="Normal"/>
                             <ComboBox x:Name="cmb_museoCreazione_selezionaTipo" Height="26" Width="146" Canvas.Left="98" Canvas.Top="389" FontWeight="Normal"/>
                             <Label x:Name="lbl_museoCreazione_museo" Content="Museo:" Canvas.Left="10" FontWeight="Normal" Width="83" Canvas.Top="327" HorizontalContentAlignment="Right"/>

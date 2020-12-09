@@ -9,7 +9,8 @@ namespace Entities
 {
     public class DBConnection : IDisposable
     {
-        private static readonly string ConnectionString = "Data Source=LAPTOP-A2UM0TN5;Initial Catalog=MuseumsManagerDB;Integrated Security=True";
+        private static readonly string HostName = "ARTOLINK\\SQLEXPRESS";
+        private static readonly string ConnectionString = "Data Source=" + HostName + ";Initial Catalog=MuseumsManagerDB;Integrated Security=True";
 
         public SqlConnection Connection { get; } = new SqlConnection(ConnectionString);
 
@@ -18,10 +19,16 @@ namespace Entities
             this.Connection.Open();
         }
 
+        public int ScalarQuery(SqlCommand sqlCommand)
+        {
+            sqlCommand.Connection = this.Connection;
+            return (int)sqlCommand.ExecuteScalar();
+        }
+
         public int GenericQuery(SqlCommand sqlCommand)
         {
             sqlCommand.Connection = this.Connection;
-            return sqlCommand.ExecuteNonQuery();
+            return (int)sqlCommand.ExecuteNonQuery();
         }
 
         public SqlDataReader SelectQuery(SqlCommand sqlCommand)
