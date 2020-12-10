@@ -388,6 +388,28 @@
                             <ComboBox x:Name="cmb_periodoStorico_nelmuseo" Height="21" Width="173" Canvas.Left="71" Canvas.Top="177" FontWeight="Normal" DropDownOpened="cmb_periodoStorico_nelmuseo_DropDownOpened"/>
                         </Canvas>
                     </GroupBox>
+                    <GroupBox x:Name="gpb_generaleInfoContenuto" Header="Generale per informazioni dei contenuti" HorizontalAlignment="Left" Height="319" Margin="817,313,0,0" VerticalAlignment="Top" Width="412" FontWeight="Bold">
+                        <Canvas x:Name="cnv_generaleInfoContenuto" Margin="0,0,-2,-4">
+                            <Label x:Name="lbl_generaleInfoContenuto_periodoStorico" Content="Collega periodo storico a museo:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="234"/>
+                            <Label x:Name="lbl_generaleInfoContenuto_periodoStorico_museo" Content="Museo:" Canvas.Left="11" Canvas.Top="35" FontWeight="Normal" Width="56" HorizontalContentAlignment="Right"/>
+                            <ComboBox x:Name="cmb_generaleInfoContenuto_periodoStorico_museo" Height="21" Width="173" Canvas.Left="72" Canvas.Top="40" FontWeight="Normal" DropDownOpened="cmb_generaleInfoContenuto_periodoStorico_museo_DropDownOpened"/>
+                            <Label x:Name="lbl_generaleInfoContenuto_periodoStorico2" Content="Periodo storico:" Canvas.Left="10" Canvas.Top="62" FontWeight="Normal" Width="91" HorizontalContentAlignment="Right"/>
+                            <ComboBox x:Name="cmb_generaleInfoContenuto_periodoStorico" Height="21" Width="142" Canvas.Left="103" Canvas.Top="66" FontWeight="Normal" DropDownOpened="cmb_generaleInfoContenuto_periodoStorico_DropDownOpened"/>
+                            <Button x:Name="btn_generaleInfoContenuto_periodoStorico" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="275" Canvas.Top="51" FontWeight="Normal" Click="btn_generaleInfoContenuto_periodoStorico_Click"/>
+                            <Label x:Name="lbl_generaleInfoContenuto_creatore" Content="Collega creatore a museo:" Canvas.Left="10" Canvas.Top="93" FontWeight="Bold" Width="234"/>
+                            <Label x:Name="lbl_generaleInfoContenuto_creatore_museo" Content="Museo:" Canvas.Left="11" Canvas.Top="149" FontWeight="Normal" Width="56" HorizontalContentAlignment="Right"/>
+                            <ComboBox x:Name="cmb_generaleInfoContenuto_creatore_museo" Height="21" Width="173" Canvas.Left="72" Canvas.Top="154" FontWeight="Normal" DropDownOpened="cmb_periodoStorico_nelmuseo_DropDownOpened"/>
+                            <Label x:Name="lbl_generaleInfoContenuto_creatore2" Content="Creatore:" Canvas.Left="11" Canvas.Top="118" FontWeight="Normal" Width="56" HorizontalContentAlignment="Right"/>
+                            <ComboBox x:Name="cmb_generaleInfoContenuto_creatore" Height="21" Width="173" Canvas.Left="72" Canvas.Top="123" FontWeight="Normal" DropDownOpened="cmb_periodoStorico_nelmuseo_DropDownOpened"/>
+                            <Button x:Name="btn_generaleInfoContenuto_creatore" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="275" Canvas.Top="134" FontWeight="Normal" Click="btn_periodoStorico_elimina_Click"/>
+                            <Label x:Name="lbl_generaleInfoContenuto_preovenienza" Content="Collega provenienza a museo:" Canvas.Left="10" Canvas.Top="178" FontWeight="Bold" Width="234"/>
+                            <Label x:Name="lbl_generaleInfoContenuto_provenienza_museo" Content="Museo:" Canvas.Left="11" Canvas.Top="234" FontWeight="Normal" Width="56" HorizontalContentAlignment="Right"/>
+                            <ComboBox x:Name="cmb_generaleInfoContenuto_provenienza_museo" Height="21" Width="173" Canvas.Left="72" Canvas.Top="238" FontWeight="Normal" DropDownOpened="cmb_periodoStorico_nelmuseo_DropDownOpened"/>
+                            <Label x:Name="lbl_generaleInfoContenuto_peovenienza2" Content="Provenienza:" Canvas.Left="11" Canvas.Top="203" FontWeight="Normal" Width="76" HorizontalContentAlignment="Right"/>
+                            <ComboBox x:Name="cmb_generaleInfoContenuto_provenienza" Height="21" Width="153" Canvas.Left="92" Canvas.Top="208" FontWeight="Normal" DropDownOpened="cmb_periodoStorico_nelmuseo_DropDownOpened"/>
+                            <Button x:Name="btn_generaleInfoContenuto_provenienza" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="275" Canvas.Top="219" FontWeight="Normal" Click="btn_periodoStorico_elimina_Click"/>
+                        </Canvas>
+                    </GroupBox>
                 </Grid>
             </TabItem>
         </TabControl>

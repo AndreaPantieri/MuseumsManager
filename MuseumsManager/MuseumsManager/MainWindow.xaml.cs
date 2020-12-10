@@ -276,6 +276,24 @@ namespace MuseumsManager
             }
         }
 
+        /// <summary>
+        /// Collegamento periodo storico a museo
+        /// </summary>
+        private void btn_generaleInfoContenuto_periodoStorico_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(cmb_generaleInfoContenuto_periodoStorico_museo.SelectedItem is null) && !(cmb_generaleInfoContenuto_periodoStorico.SelectedItem is null))
+            {
+                Museo m = cmb_generaleInfoContenuto_periodoStorico_museo.SelectedItem as Museo;
+                PeriodoStorico ps = cmb_generaleInfoContenuto_periodoStorico.SelectedItem as PeriodoStorico;
+
+                int res = DBObject<Museo_PeriodoStorico>.Insert("idMuseo", m.idMuseo, "idPeriodoStorico", ps.idPeriodoStorico);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Aggiunto periodo storico al museo correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                cmb_generaleInfoContenuto_periodoStorico_museo.ItemsSource = null;
+                cmb_generaleInfoContenuto_periodoStorico.ItemsSource = null;
+            }
+        }
+
 
         //Eventi GotFocus
         private void txt_categoriaMuseo_descrizione_GotFocus(object sender, RoutedEventArgs e)
@@ -928,6 +946,28 @@ namespace MuseumsManager
             }
         }
 
+        /// <summary>
+        /// Lista periodi storici
+        /// </summary>
+        private void cmb_generaleInfoContenuto_periodoStorico_DropDownOpened(object sender, EventArgs e)
+        {
+            if(!(cmb_generaleInfoContenuto_periodoStorico_museo.SelectedItem is null)){
+                List<Museo_PeriodoStorico> lmps = DBObject<Museo_PeriodoStorico>.SelectAll().Where(mps => mps.idMuseo == (cmb_generaleInfoContenuto_periodoStorico_museo.SelectedItem as Museo).idMuseo).ToList();
+                cmb_generaleInfoContenuto_periodoStorico.ItemsSource = DBObject<PeriodoStorico>.SelectAll().Where(ps => lmps.Any(mps => mps.idPeriodoStorico == ps.idPeriodoStorico));
+                cmb_generaleInfoContenuto_periodoStorico.DisplayMemberPath = "Nome";
+            }
+            
+        }
+
+        /// <summary>
+        /// Lista dei musei per aggiunta dei periodi storici
+        /// </summary>
+        private void cmb_generaleInfoContenuto_periodoStorico_museo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_generaleInfoContenuto_periodoStorico_museo.ItemsSource = DBObject<Museo>.SelectAll();
+            cmb_generaleInfoContenuto_periodoStorico_museo.DisplayMemberPath = "Nome";
+        }
+
         private void cmb_eliminaTipo_selezionaMuseo_DropDownOpened(object sender, EventArgs e)
         {
             cmb_eliminaTipo_selezionaMuseo.ItemsSource = DBObject<Museo>.SelectAll();
@@ -1015,5 +1055,7 @@ namespace MuseumsManager
         {
             cmb_eliminaTipo_selezionaTipo.ItemsSource = null;
         }
+
+        
     }
 }
