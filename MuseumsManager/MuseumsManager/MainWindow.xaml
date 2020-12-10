@@ -381,7 +381,7 @@
                             <Label x:Name="lbl_periodoStorico_inserisci" Content="Inserisci un nuovo periodo storico:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="234"/>
                             <Label x:Name="lbl_periodoStorico_elimina" Content="Elimina un periodo storico dal museo:" Canvas.Left="10" FontWeight="Bold" Width="233" Canvas.Top="218"/>
                             <Label x:Name="lbl_periodoStorico_museo" Content="Museo:" Canvas.Left="11" Canvas.Top="240" FontWeight="Normal" Width="56" HorizontalContentAlignment="Right"/>
-                            <ComboBox x:Name="cmb_periodoStorico_museo" Height="18" Width="173" Canvas.Left="70" Canvas.Top="243" FontWeight="Normal" DropDownOpened="cmb_periodoStorico_museo_DropDownOpened"/>
+                            <ComboBox x:Name="cmb_periodoStorico_museo" Height="22" Width="173" Canvas.Left="70" Canvas.Top="243" FontWeight="Normal" DropDownOpened="cmb_periodoStorico_museo_DropDownOpened"/>
                             <ComboBox x:Name="cmb_periodoStorico_elimina" Height="20" Width="147" Canvas.Left="10" Canvas.Top="270" FontWeight="Normal" DropDownOpened="cmb_periodoStorico_elimina_DropDownOpened"/>
                             <Button x:Name="btn_periodoStorico_elimina" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="270" FontWeight="Normal" Click="btn_periodoStorico_elimina_Click"/>
                             <Label x:Name="lbl_periodoStorico_nelmuseo" Content="Museo:" Canvas.Left="11" Canvas.Top="176" FontWeight="Normal" Width="56" HorizontalContentAlignment="Right"/>

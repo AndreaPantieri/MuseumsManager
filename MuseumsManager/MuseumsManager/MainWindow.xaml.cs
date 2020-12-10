@@ -202,8 +202,8 @@ namespace MuseumsManager
         /// </summary>
         private void btn_famigliaMusei_aggiungiMuseo_Click(object sender, RoutedEventArgs e)
         {
-            cmb_famigliaMusei_selezionaMuseo.Items.Clear();
-            cmb_famigliaMusei_selezionaFamiglia.Items.Clear();
+            cmb_famigliaMusei_selezionaMuseo.SelectedIndex = 0;
+            cmb_famigliaMusei_selezionaFamiglia.SelectedIndex = 0;
             int res = (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).Update("idMuseo", (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).idMuseo, "idFamiglia", (cmb_famigliaMusei_selezionaFamiglia.SelectedItem as FamigliaMusei).idFamiglia);
             if (checkQueryResult(res))
                 MessageBox.Show("Aggiunto museo alla famiglia musei correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -214,8 +214,8 @@ namespace MuseumsManager
         /// </summary>
         private void btn_famigliaMusei_rimuovi_Click(object sender, RoutedEventArgs e)
         {
-            cmb_famigliaMusei_rimuoviMuseo_famiglia.Items.Clear();
-            cmb_famigliaMusei_rimuoviMuseo.Items.Clear();
+            cmb_famigliaMusei_rimuoviMuseo_famiglia.SelectedIndex = 0;
+            cmb_famigliaMusei_rimuoviMuseo.SelectedIndex = 0;
 
             FamigliaMusei fm = cmb_famigliaMusei_rimuoviMuseo_famiglia.SelectedItem as FamigliaMusei;
             Museo m = cmb_famigliaMusei_rimuoviMuseo.SelectedItem as Museo;
@@ -250,7 +250,7 @@ namespace MuseumsManager
                 txt_periodoStorico_annoInizio.Clear();
                 txt_periodoStorico_annoFine.Clear();
                 txt_periodoStorico_descrizione.Clear();
-                cmb_periodoStorico_nelmuseo.Items.Clear();
+                cmb_periodoStorico_nelmuseo.SelectedIndex = 0;
             }
         }
 
@@ -271,8 +271,8 @@ namespace MuseumsManager
                     if (checkQueryResult(res))
                         MessageBox.Show("Eliminato periodo storico totalmente dal db correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                cmb_periodoStorico_museo.Items.Clear();
-                cmb_periodoStorico_elimina.Items.Clear();
+                cmb_periodoStorico_museo.SelectedIndex = 0;
+                cmb_periodoStorico_elimina.SelectedIndex = 0;
             }
         }
 
@@ -924,7 +924,7 @@ namespace MuseumsManager
                 int idMuseo = (cmb_periodoStorico_museo.SelectedItem as Museo).idMuseo;
                 List<Museo_PeriodoStorico> lmps = DBObject<Museo_PeriodoStorico>.SelectAll().Where(mps => mps.idMuseo == idMuseo).ToList();
                 cmb_periodoStorico_elimina.ItemsSource = DBObject<PeriodoStorico>.SelectAll().Where(ps => lmps.Any(mps => mps.idPeriodoStorico ==  ps.idPeriodoStorico));
-                cmb_periodoStorico_elimina.DataContext = "Nome";
+                cmb_periodoStorico_elimina.DisplayMemberPath = "Nome";
             }
         }
 
@@ -1014,11 +1014,6 @@ namespace MuseumsManager
         private void cmb_eliminaTipo_selezionaMuseo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             cmb_eliminaTipo_selezionaTipo.ItemsSource = null;
-        }
-
-        private void btn_periodoStorico_elimina_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
