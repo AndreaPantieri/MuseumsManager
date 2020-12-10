@@ -78,9 +78,9 @@ namespace Entities
             return ret;
         }
 
-        public int Delete(string idName, int idValue)
+        public static int Delete<T>(string idName, int idValue)
         {
-            string sqlCommandString = "DELETE FROM " + this.GetType().Name + " WHERE " + idName + " = '" + idValue + "';";
+            string sqlCommandString = "DELETE FROM " + typeof(T).Name + " WHERE " + idName + " = '" + idValue + "';";
             int ret;
             using (DBConnection dBConnection = new DBConnection())
             {

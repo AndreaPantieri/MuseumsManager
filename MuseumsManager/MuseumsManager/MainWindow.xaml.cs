@@ -174,7 +174,7 @@ namespace MuseumsManager
                 //C'è un pò troppa confusione fra DBEntity, DBObject e DBRelationN2NOnlyIndexes, io lascierei solo questi ultimi due se possibile, ma lascio modificare a te la struttura visto che è tua.
                 //BUON LAVORO :) ELIMINA PURE IL COMMENTO UNA VOLTA RISOLTO
                 //PS: Quando elimino un museo dovrei andare ad eliminare anche la relazione N a N in Museo_Tipologia? O si elimina da sola teoricamente? AUDIO grazie :) 
-                if (checkQueryResult(DBObject<Museo>.Delete("idMuseo", ((Museo)cmb_museoCreazione_eliminaMuseo.SelectedItem).idMuseo))) 
+                if (checkQueryResult(DBEntity.Delete<Museo>("idMuseo", ((Museo)cmb_museoCreazione_eliminaMuseo.SelectedItem).idMuseo))) 
                 {
                     MessageBox.Show("Museo \"" + ((Museo)cmb_eliminaTipo_selezionaMuseo.SelectedItem).Nome + "\" rimosso correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                     cmb_museoCreazione_eliminaMuseo.ItemsSource = null;
@@ -228,7 +228,53 @@ namespace MuseumsManager
             }
         }
 
+        /// <summary>
+        /// Aggiunta periodo storico
+        /// </summary>
+        private void btn_periodoStorico_inserisci_Click(object sender, RoutedEventArgs e)
+        {
+            if(txt_periodoStorico_nome.Text != "" && txt_periodoStorico_nome.Text != "Nome" &&
+                txt_periodoStorico_annoInizio.Text != "" && txt_periodoStorico_annoInizio.Text != "Anno di inizio" &&
+                txt_periodoStorico_annoFine.Text != "" && txt_periodoStorico_annoFine.Text != "Anno di fine" &&
+                txt_periodoStorico_descrizione.Text != "" && txt_periodoStorico_descrizione.Text != "Descrizione" &&
+                !(cmb_periodoStorico_nelmuseo.SelectedItem is null))
+            {
+                int res = DBObject<PeriodoStorico>.Insert("Nome", txt_periodoStorico_nome.Text, "AnnoInizio", txt_periodoStorico_annoInizio.Text, "AnnoFine", txt_periodoStorico_annoFine.Text, "Descrizione", txt_periodoStorico_descrizione.Text);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Aggiunto periodo storico correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                int res2 = DBObject<Museo_PeriodoStorico>.Insert("idMuseo", (cmb_periodoStorico_nelmuseo.SelectedItem as Museo).idMuseo, "idPeriodoStorico", res);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Aggiunto periodo storico al museo correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
 
+                txt_periodoStorico_nome.Clear();
+                txt_periodoStorico_annoInizio.Clear();
+                txt_periodoStorico_annoFine.Clear();
+                txt_periodoStorico_descrizione.Clear();
+                cmb_periodoStorico_nelmuseo.Items.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Rimozione periodo storico
+        /// </summary>
+        private void btn_periodoStorico_elimina_Click(object sender, RoutedEventArgs e)
+        {
+            if(!(cmb_periodoStorico_museo.SelectedItem is null) && !(cmb_periodoStorico_elimina.SelectedItem is null))
+            {
+                int res = DBRelationN2NOnlyIndexes<Museo_PeriodoStorico>.Delete("idMuseo", (cmb_periodoStorico_museo.SelectedItem as Museo).idMuseo, "idPeriodoStorico", (cmb_periodoStorico_elimina.SelectedItem as PeriodoStorico).idPeriodoStorico);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Eliminato periodo storico dal museo correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                if(!DBObject<Museo_PeriodoStorico>.SelectAll().Any(mps => mps.idPeriodoStorico == (cmb_periodoStorico_elimina.SelectedItem as PeriodoStorico).idPeriodoStorico))
+                {
+                    res = DBEntity.Delete<PeriodoStorico>("idPeriodoStorico", (cmb_periodoStorico_elimina.SelectedItem as PeriodoStorico).idPeriodoStorico);
+                    if (checkQueryResult(res))
+                        MessageBox.Show("Eliminato periodo storico totalmente dal db correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                cmb_periodoStorico_museo.Items.Clear();
+                cmb_periodoStorico_elimina.Items.Clear();
+            }
+        }
 
 
         //Eventi GotFocus
@@ -850,6 +896,38 @@ namespace MuseumsManager
             cmb_museoCreazione_selezionaTipo.DisplayMemberPath = "Descrizione";
         }
 
+        /// <summary>
+        /// Lista musei da selezionare per l'inserimento del periodo storico
+        /// </summary>
+        private void cmb_periodoStorico_nelmuseo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_periodoStorico_nelmuseo.ItemsSource = DBObject<Museo>.SelectAll();
+            cmb_periodoStorico_nelmuseo.DisplayMemberPath = "Nome";
+        }
+
+        /// <summary>
+        /// Lista musei da selezionare per l'eliminazione del periodo storico
+        /// </summary>
+        private void cmb_periodoStorico_museo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_periodoStorico_museo.ItemsSource = DBObject<Museo>.SelectAll();
+            cmb_periodoStorico_museo.DisplayMemberPath = "Nome";
+        }
+
+        /// <summary>
+        /// Lista dei periodi storici da eliminare
+        /// </summary>
+        private void cmb_periodoStorico_elimina_DropDownOpened(object sender, EventArgs e)
+        {
+            if(!(cmb_periodoStorico_museo.SelectedItem is null))
+            {
+                int idMuseo = (cmb_periodoStorico_museo.SelectedItem as Museo).idMuseo;
+                List<Museo_PeriodoStorico> lmps = DBObject<Museo_PeriodoStorico>.SelectAll().Where(mps => mps.idMuseo == idMuseo).ToList();
+                cmb_periodoStorico_elimina.ItemsSource = DBObject<PeriodoStorico>.SelectAll().Where(ps => lmps.Any(mps => mps.idPeriodoStorico ==  ps.idPeriodoStorico));
+                cmb_periodoStorico_elimina.DataContext = "Nome";
+            }
+        }
+
         private void cmb_eliminaTipo_selezionaMuseo_DropDownOpened(object sender, EventArgs e)
         {
             cmb_eliminaTipo_selezionaMuseo.ItemsSource = DBObject<Museo>.SelectAll();
@@ -936,6 +1014,11 @@ namespace MuseumsManager
         private void cmb_eliminaTipo_selezionaMuseo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             cmb_eliminaTipo_selezionaTipo.ItemsSource = null;
+        }
+
+        private void btn_periodoStorico_elimina_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -377,11 +377,15 @@
                             <TextBox x:Name="txt_periodoStorico_annoInizio" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Anno di inizio" VerticalAlignment="Top" Width="233" Foreground="Gray" Canvas.Left="11" Canvas.Top="66" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_periodoStorico_annoInizio_GotFocus" LostFocus="txt_periodoStorico_annoInizio_LostFocus"/>
                             <TextBox x:Name="txt_periodoStorico_annoFine" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Anno di fine" VerticalAlignment="Top" Width="233" Foreground="Gray" Canvas.Left="11" Canvas.Top="91" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_periodoStorico_annoFine_GotFocus" LostFocus="txt_periodoStorico_annoFine_LostFocus"/>
                             <TextBox x:Name="txt_periodoStorico_descrizione" HorizontalAlignment="Left" Height="53" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="234" Canvas.Left="10" Canvas.Top="116" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_periodoStorico_descrizione_GotFocus" LostFocus="txt_periodoStorico_descrizione_LostFocus"/>
-                            <Button x:Name="btn_periodoStorico_inserisci" Content="Inserisci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="174" FontWeight="Normal"/>
+                            <Button x:Name="btn_periodoStorico_inserisci" Content="Inserisci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="203" FontWeight="Normal" Click="btn_periodoStorico_inserisci_Click"/>
                             <Label x:Name="lbl_periodoStorico_inserisci" Content="Inserisci un nuovo periodo storico:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="234"/>
-                            <Label x:Name="lbl_periodoStorico_elimina" Content="Elimina un creatore:" Canvas.Left="10" FontWeight="Bold" Width="233" Canvas.Top="239"/>
-                            <ComboBox x:Name="cmb_periodoStorico_elimina" Height="20" Width="147" Canvas.Left="10" Canvas.Top="270" FontWeight="Normal"/>
-                            <Button x:Name="btn_periodoStorico_elimina" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="270" FontWeight="Normal"/>
+                            <Label x:Name="lbl_periodoStorico_elimina" Content="Elimina un periodo storico dal museo:" Canvas.Left="10" FontWeight="Bold" Width="233" Canvas.Top="218"/>
+                            <Label x:Name="lbl_periodoStorico_museo" Content="Museo:" Canvas.Left="11" Canvas.Top="240" FontWeight="Normal" Width="56" HorizontalContentAlignment="Right"/>
+                            <ComboBox x:Name="cmb_periodoStorico_museo" Height="18" Width="173" Canvas.Left="70" Canvas.Top="243" FontWeight="Normal" DropDownOpened="cmb_periodoStorico_museo_DropDownOpened"/>
+                            <ComboBox x:Name="cmb_periodoStorico_elimina" Height="20" Width="147" Canvas.Left="10" Canvas.Top="270" FontWeight="Normal" DropDownOpened="cmb_periodoStorico_elimina_DropDownOpened"/>
+                            <Button x:Name="btn_periodoStorico_elimina" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="270" FontWeight="Normal" Click="btn_periodoStorico_elimina_Click"/>
+                            <Label x:Name="lbl_periodoStorico_nelmuseo" Content="Museo:" Canvas.Left="11" Canvas.Top="176" FontWeight="Normal" Width="56" HorizontalContentAlignment="Right"/>
+                            <ComboBox x:Name="cmb_periodoStorico_nelmuseo" Height="21" Width="173" Canvas.Left="71" Canvas.Top="177" FontWeight="Normal" DropDownOpened="cmb_periodoStorico_nelmuseo_DropDownOpened"/>
                         </Canvas>
                     </GroupBox>
                 </Grid>
