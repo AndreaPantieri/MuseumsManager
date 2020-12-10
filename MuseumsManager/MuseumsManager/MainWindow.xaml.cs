@@ -202,8 +202,8 @@ namespace MuseumsManager
         /// </summary>
         private void btn_famigliaMusei_aggiungiMuseo_Click(object sender, RoutedEventArgs e)
         {
-            cmb_famigliaMusei_selezionaMuseo.SelectedIndex = 0;
-            cmb_famigliaMusei_selezionaFamiglia.SelectedIndex = 0;
+            cmb_famigliaMusei_selezionaMuseo.ItemsSource = null;
+            cmb_famigliaMusei_selezionaFamiglia.ItemsSource = null;
             int res = (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).Update("idMuseo", (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).idMuseo, "idFamiglia", (cmb_famigliaMusei_selezionaFamiglia.SelectedItem as FamigliaMusei).idFamiglia);
             if (checkQueryResult(res))
                 MessageBox.Show("Aggiunto museo alla famiglia musei correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -214,8 +214,8 @@ namespace MuseumsManager
         /// </summary>
         private void btn_famigliaMusei_rimuovi_Click(object sender, RoutedEventArgs e)
         {
-            cmb_famigliaMusei_rimuoviMuseo_famiglia.SelectedIndex = 0;
-            cmb_famigliaMusei_rimuoviMuseo.SelectedIndex = 0;
+            cmb_famigliaMusei_rimuoviMuseo_famiglia.ItemsSource = null;
+            cmb_famigliaMusei_rimuoviMuseo.ItemsSource = null;
 
             FamigliaMusei fm = cmb_famigliaMusei_rimuoviMuseo_famiglia.SelectedItem as FamigliaMusei;
             Museo m = cmb_famigliaMusei_rimuoviMuseo.SelectedItem as Museo;
@@ -250,7 +250,7 @@ namespace MuseumsManager
                 txt_periodoStorico_annoInizio.Clear();
                 txt_periodoStorico_annoFine.Clear();
                 txt_periodoStorico_descrizione.Clear();
-                cmb_periodoStorico_nelmuseo.SelectedIndex = 0;
+                cmb_periodoStorico_nelmuseo.ItemsSource = null;
             }
         }
 
@@ -271,8 +271,8 @@ namespace MuseumsManager
                     if (checkQueryResult(res))
                         MessageBox.Show("Eliminato periodo storico totalmente dal db correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                cmb_periodoStorico_museo.SelectedIndex = 0;
-                cmb_periodoStorico_elimina.SelectedIndex = 0;
+                cmb_periodoStorico_museo.ItemsSource = null;
+                cmb_periodoStorico_elimina.ItemsSource = null;
             }
         }
 
