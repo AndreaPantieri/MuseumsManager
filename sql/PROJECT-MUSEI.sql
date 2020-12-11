@@ -190,23 +190,23 @@ create table TipoSezione (
 
 alter table Biglietto add constraint REF_Bigli_Museo_FK
      foreign key (idMuseo)
-     references Museo (idMuseo);
+     references Museo (idMuseo) on delete cascade;
 
 alter table Biglietto add constraint REF_Bigli_TipoB_FK
      foreign key (idTipoBiglietto)
-     references TipoBiglietto (idTipoBiglietto);
+     references TipoBiglietto (idTipoBiglietto) on delete cascade;
 
 alter table CalendarioApertureSpeciali add constraint REF_Calen_Museo_1_FK
      foreign key (idMuseo)
-     references Museo (idMuseo);
+     references Museo (idMuseo) on delete cascade;
 
 alter table CalendarioChiusure add constraint REF_Calen_Museo_FK
      foreign key (idMuseo)
-     references Museo (idMuseo);
+     references Museo (idMuseo) on delete cascade;
 
 alter table Contenuto add constraint REF_Conte_Conte_FK
      foreign key (idContenutoPadre)
-     references Contenuto (idContenuto);
+     references Contenuto (idContenuto) on delete cascade;
 
 alter table Contenuto add constraint EQU_Conte_Prove_FK
      foreign key (idProvenienza)
@@ -218,113 +218,113 @@ alter table Contenuto add constraint REF_Conte_Perio_FK
 
 alter table Contenuto add constraint REF_Conte_Sezio_FK
      foreign key (idSezione)
-     references Sezione (idSezione);
+     references Sezione (idSezione) on delete cascade;
 
 alter table Contenuto_Tipologia add constraint REF_Conte_TipoC_FK
      foreign key (idTipoContenuto)
-     references TipoContenuto (idTipoContenuto);
+     references TipoContenuto (idTipoContenuto) on delete cascade;
 
 alter table Contenuto_Tipologia add constraint EQU_Conte_Conte
      foreign key (idContenuto)
-     references Contenuto (idContenuto);
+     references Contenuto (idContenuto) on delete cascade;
 
 alter table Creato add constraint EQU_Creat_Creat_FK
      foreign key (idCreatore)
-     references Creatore (idCreatore);
+     references Creatore (idCreatore) on delete cascade;
 
 alter table Creato add constraint REF_Creat_Conte
      foreign key (idContenuto)
-     references Contenuto (idContenuto);
+     references Contenuto (idContenuto) on delete cascade;
 
 alter table Museo add constraint EQU_Museo_Famig_FK
      foreign key (idFamiglia)
-     references FamigliaMusei (idFamiglia);
+     references FamigliaMusei (idFamiglia) on delete cascade;
 
 alter table Museo_Creatore add constraint REF_Museo_Museo_2_FK
      foreign key (idMuseo)
-     references Museo (idMuseo);
+     references Museo (idMuseo) on delete cascade;
 
 alter table Museo_Creatore add constraint EQU_Museo_Creat
      foreign key (idCreatore)
-     references Creatore (idCreatore);
+     references Creatore (idCreatore) on delete cascade;
 
 alter table Museo_PeriodoStorico add constraint EQU_Museo_Perio
      foreign key (idPeriodoStorico)
-     references PeriodoStorico (idPeriodoStorico);
+     references PeriodoStorico (idPeriodoStorico) on delete cascade;
 
 alter table Museo_PeriodoStorico add constraint REF_Museo_Museo_1_FK
      foreign key (idMuseo)
-     references Museo (idMuseo);
+     references Museo (idMuseo) on delete cascade;
 
 alter table Museo_Provenienza add constraint EQU_Museo_Prove
      foreign key (idProvenienza)
-     references Provenienza (idProvenienza);
+     references Provenienza (idProvenienza) on delete cascade; 
 
 alter table Museo_Provenienza add constraint REF_Museo_Museo_FK
      foreign key (idMuseo)
-     references Museo (idMuseo);
+     references Museo (idMuseo) on delete cascade;
 
 alter table Museo_Tipologia add constraint REF_Museo_TipoM
      foreign key (idTipoMuseo)
-     references TipoMuseo (idTipoMuseo);
+     references TipoMuseo (idTipoMuseo) on delete cascade;
 
 alter table Museo_Tipologia add constraint EQU_Museo_Museo_FK
      foreign key (idMuseo)
-     references Museo (idMuseo);
+     references Museo (idMuseo) on delete cascade;
 
 alter table Personale add constraint EQU_Perso_Museo_FK
      foreign key (idMuseo)
-     references Museo (idMuseo);
+     references Museo (idMuseo) on delete cascade;
 
 alter table Personale_Tipologia add constraint REF_Perso_TipoP_FK
      foreign key (idTipoPersonale)
-     references TipoPersonale (idTipoPersonale);
+     references TipoPersonale (idTipoPersonale) on delete cascade;
 
 alter table Personale_Tipologia add constraint EQU_Perso_Perso
      foreign key (idPersonale)
-     references Personale (idPersonale);
+     references Personale (idPersonale) on delete cascade;
 
 alter table RegistroManutenzioni add constraint SID_Regis_Museo_FK
      foreign key (idMuseo)
-     references Museo (idMuseo);
+     references Museo (idMuseo) on delete cascade;
 
 alter table RegistroPresenze add constraint SID_Regis_Perso_FK
      foreign key (idPersonale)
-     references Personale (idPersonale);
+     references Personale (idPersonale) on delete cascade;
 
 alter table Sezione add constraint REF_Sezio_Sezio_FK
      foreign key (idSezionePadre)
-     references Sezione (idSezione);
+     references Sezione (idSezione) on delete cascade;
 
 alter table Sezione add constraint EQU_Sezio_Museo_FK
      foreign key (idMuseo)
-     references Museo (idMuseo);
+     references Museo (idMuseo) on delete cascade;
 
 alter table Sezione_Tipologia add constraint REF_Sezio_TipoS
      foreign key (idTipoSezione)
-     references TipoSezione (idTipoSezione);
+     references TipoSezione (idTipoSezione) on delete cascade;
 
 alter table Sezione_Tipologia add constraint EQU_Sezio_Sezio_FK
      foreign key (idSezione)
-     references Sezione (idSezione);
+     references Sezione (idSezione) on delete cascade;
 
 alter table StatisticheFamigliaMusei add constraint ID_Stati_Stati_1_FK
      foreign key (idStatistiche)
-     references Statistiche (idStatistiche);
+     references Statistiche (idStatistiche) on delete cascade;
 
 alter table StatisticheFamigliaMusei add constraint REF_Stati_Famig_FK
      foreign key (idFamiglia)
-     references FamigliaMusei (idFamiglia);
+     references FamigliaMusei (idFamiglia) on delete cascade;
 
 alter table StatisticheMuseo add constraint ID_Stati_Stati_FK
      foreign key (idStatistiche)
-     references Statistiche (idStatistiche);
+     references Statistiche (idStatistiche) on delete cascade;
 
 alter table StatisticheMuseo add constraint REF_Stati_Museo_FK
      foreign key (idMuseo)
-     references Museo (idMuseo);
+     references Museo (idMuseo) on delete cascade;
 
 alter table TipoBiglietto add constraint EQU_TipoB_Museo_FK
      foreign key (idMuseo)
-     references Museo (idMuseo);
+     references Museo (idMuseo) on delete cascade;
 
