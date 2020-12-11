@@ -326,6 +326,87 @@ namespace MuseumsManager
                 MessageBox.Show("Nessun creatore selezionato!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        /// <summary>
+        /// Aggiunta data di apertura speciale
+        /// </summary>
+        private void btn_aperturaSpeciale_inserisci_Click(object sender, RoutedEventArgs e)
+        {
+            int nBiglMax = 0;
+            TimeSpan oa = new TimeSpan(), oc = new TimeSpan();
+            if(!(cal_aperturaSpeciale_data.SelectedDate is null) && !(cmb_museo_selezionaMuseo.SelectedItem is null) && int.TryParse(txt_aperturaSpeciale_numBigliettiMax.Text, out nBiglMax) && 
+                TimeSpan.TryParse(txt_aperturaSpeciale_nuovoOrarioApertura.Text, out oa) &&
+                TimeSpan.TryParse(txt_aperturaSpeciale_nuovoOrarioChiusura.Text, out oc))
+            {
+                Museo m = (Museo)cmb_museo_selezionaMuseo.SelectedItem;
+                DateTime date = (DateTime)cal_aperturaSpeciale_data.SelectedDate;
+                string data = date.Date.ToString("dd/MM/yyyy");
+                if(DBObject<CalendarioChiusure>.Select("idMuseo", m.idMuseo, "Data", data).Count == 0)
+                {
+                    int res = DBObject<CalendarioApertureSpeciali>.Insert("Data", data, "idMuseo", m.idMuseo, "OrarioApertura", oa, "OrarioChiusura", oc, "NumBigliettiMax", nBiglMax);
+                    if (checkQueryResult(res))
+                        MessageBox.Show("Giorno di apertura speciale aggiunto correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                txt_aperturaSpeciale_numBigliettiMax.Clear();
+                txt_aperturaSpeciale_nuovoOrarioApertura.Clear();
+                txt_aperturaSpeciale_nuovoOrarioChiusura.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Eliminazione giorno di apertura speciale per museo
+        /// </summary>
+        private void btn_aperturaSpeciale_elimina_Click(object sender, RoutedEventArgs e)
+        {
+            if(!(cmb_aperturaSpeciale_elimina.SelectedItem is null))
+            {
+                CalendarioApertureSpeciali cal = cmb_aperturaSpeciale_elimina.SelectedItem as CalendarioApertureSpeciali;
+
+                int res = DBEntity.Delete<CalendarioApertureSpeciali>("idCalendarioApertureSpeciali", cal.idCalendarioApertureSpeciali);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Giorno di apertura speciale eliminato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                cmb_aperturaSpeciale_elimina.ItemsSource = null;
+            }
+        }
+
+        /// <summary>
+        /// Aggiunta giorno di chiusura
+        /// </summary>
+        private void btn_chiusura_inserisci_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(cal_chiusura_data.SelectedDate is null) && !(cmb_museo_selezionaMuseo.SelectedItem is null))
+            {
+                Museo m = (Museo)cmb_museo_selezionaMuseo.SelectedItem;
+                DateTime date = (DateTime)cal_chiusura_data.SelectedDate;
+                string data = date.Date.ToString("dd/MM/yyyy");
+                if (DBObject<CalendarioApertureSpeciali>.Select("idMuseo", m.idMuseo, "Data", data).Count == 0)
+                {
+                    int res = DBObject<CalendarioChiusure>.Insert("Data", data, "idMuseo", m.idMuseo);
+                    if (checkQueryResult(res))
+                        MessageBox.Show("Giorno di chiusura aggiunto correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Eliminazione giorno di chiusura per museo
+        /// </summary>
+        private void btn_chiusura_elimina_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(cmb_chiusura_elimina.SelectedItem is null))
+            {
+                CalendarioChiusure cal = cmb_chiusura_elimina.SelectedItem as CalendarioChiusure;
+
+                int res = DBEntity.Delete<CalendarioChiusure>("idCalendarioChiusure", cal.idCalendarioChiusure);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Giorno di chiusura eliminato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                cmb_chiusura_elimina.ItemsSource = null;
+            }
+        }
+
+
+
+
         //Eventi GotFocus
         private void txt_categoriaMuseo_descrizione_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -1010,6 +1091,35 @@ namespace MuseumsManager
             cmb_creatore_rimuovi.ItemsSource = DBObject<Creatore>.SelectAll();
         }
 
+        /// <summary>
+        /// Lista di possibili aperture speciali da eliminare per museo
+        /// </summary>
+        private void cmb_aperturaSpeciale_elimina_DropDownOpened(object sender, EventArgs e)
+        {
+            Museo m = cmb_museo_selezionaMuseo.SelectedItem as Museo;
+            if (!(m is null))
+            {
+                cmb_aperturaSpeciale_elimina.ItemsSource = DBObject<CalendarioApertureSpeciali>.Select("idMuseo", m.idMuseo);
+                cmb_aperturaSpeciale_elimina.DisplayMemberPath = "Data";
+                cmb_aperturaSpeciale_elimina.ItemStringFormat = "dd/MM/yyyy";
+            }
+        }
+
+        /// <summary>
+        /// Lista di possibili chiusure da eliminare per museo
+        /// </summary>
+        private void cmb_chiusura_elimina_DropDownOpened(object sender, EventArgs e)
+        {
+            Museo m = cmb_museo_selezionaMuseo.SelectedItem as Museo;
+            if (!(m is null))
+            {
+                cmb_chiusura_elimina.ItemsSource = DBObject<CalendarioChiusure>.Select("idMuseo", m.idMuseo);
+                cmb_chiusura_elimina.DisplayMemberPath = "Data";
+                cmb_chiusura_elimina.ItemStringFormat = "dd/MM/yyyy";
+            }
+        }
+
+
         //Eventi SelectionChanged
 
         /// <summary>
@@ -1063,5 +1173,7 @@ namespace MuseumsManager
         {
             cmb_eliminaTipo_selezionaTipo.ItemsSource = null;
         }
+
+        
     }
 }

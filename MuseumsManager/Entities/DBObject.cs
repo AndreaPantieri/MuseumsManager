@@ -99,5 +99,55 @@ namespace Entities
 
             return dBObjects;
         }
+
+        public static List<T> Select(params object[] list)
+        {
+            Type t = typeof(T);
+            List<T> dBObjects = new List<T>();
+            if (list.Length % 2 == 0)
+            {
+                using (DBConnection dBConnection = new DBConnection())
+                {
+                    string sqlCommandString = "SELECT * FROM " + t.Name + " WHERE ";
+                    for(int i = 0; i < list.Length; i += 2)
+                    {
+                        sqlCommandString += list[i] + " = '" + list[i + 1] + "'";
+                        if (i < list.Length - 2)
+                            sqlCommandString += " AND ";
+                    }
+                    sqlCommandString += ";";
+                    SqlCommand sqlCommand = new SqlCommand(sqlCommandString);
+
+
+                    using (SqlDataReader sqlDataReader = dBConnection.SelectQuery(sqlCommand))
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            T tmp = (T)Activator.CreateInstance(t);
+                            List<PropertyInfo> lpi = new List<PropertyInfo>(tmp.GetType().GetProperties());
+                            lpi.ForEach(pi =>
+                            {
+                                object value;
+                                if (IsDBNull(sqlDataReader[pi.Name]))
+                                {
+                                    value = Activator.CreateInstance(pi.PropertyType);
+                                }
+                                else
+                                {
+                                    value = sqlDataReader[pi.Name];
+                                }
+                                pi.SetValue(tmp, value);
+                            });
+
+                            dBObjects.Add(tmp);
+                        }
+                    }
+                }
+            }
+            
+            
+
+            return dBObjects;
+        }
     }
 }

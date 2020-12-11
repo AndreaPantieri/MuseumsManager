@@ -22,12 +22,14 @@ create table CalendarioApertureSpeciali (
      OrarioApertura time not null,
      OrarioChiusura time not null,
      NumBigliettiMax int,
-     idMuseo int not null);
+     idMuseo int not null,
+	 unique(Data, idMuseo));
 
 create table CalendarioChiusure (
      idCalendarioChiusure int not null primary key identity(1,1),
      Data date not null,
-     idMuseo int not null);
+     idMuseo int not null,
+	 unique(Data, idMuseo));
 
 create table Contenuto (
      idContenuto int not null primary key identity(1,1),
