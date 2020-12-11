@@ -30,7 +30,7 @@ namespace MuseumsManager
         }
 
         //Variabili globali
-        Nullable<int> idMuseoSelezionato;
+        Museo museoSelezionato;
         string defaultSelectedTextBoxValue;
 
         void setPlaceHolder(TextBox textBox, string placeHolder)
@@ -83,6 +83,65 @@ namespace MuseumsManager
             return true;
         }
 
+        /// <summary>
+        /// //Setta lo stato di apertura del museo. (aperto/chiuso)
+        /// </summary>
+        void setMuseumStatus()
+        {
+            String currentDate = DateTime.Today.ToString("dd/MM/yyyy");
+
+            //se: (TUTTI i giorni di chiusura non corrispondono alla data di oggi E, UNO QUALSIASI di quelli di apertura speciale corrisponde alla data di oggi) OPPURE (TUTTI i giorni di chiusura non corrispondono alla data di oggi E, TUTTI quelli di apertura speciale NON CORRISPONDONO alla data di oggi)
+            if (DBObject<CalendarioChiusure>.SelectAll().All(cc => (cc as CalendarioChiusure).Data.ToString("dd/MM/yyyy") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().Any(cas => (cas as CalendarioApertureSpeciali).Data.ToString("dd/MM/yyyy") == currentDate) ||
+                DBObject<CalendarioChiusure>.SelectAll().All(cc => (cc as CalendarioChiusure).Data.ToString("dd/MM/yyyy") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().All(cas => (cas as CalendarioApertureSpeciali).Data.ToString("dd/MM/yyyy") != currentDate))
+            {
+                lbl_riepilogo_statoApertura.Foreground = Brushes.Green;
+                lbl_riepilogo_statoApertura.Content = "Aperto";
+            }
+            else
+            {
+                lbl_riepilogo_statoApertura.Foreground = Brushes.Red;
+                lbl_riepilogo_statoApertura.Content = "Chiuso";
+            }
+        }
+
+        /// <summary>
+        /// //Setta gli orari di apertura/chiusura del museo
+        /// </summary>
+        void setMuseumSchedule()
+        {
+            List<CalendarioApertureSpeciali> cap = new List<CalendarioApertureSpeciali>(DBObject<CalendarioApertureSpeciali>.SelectAll());
+            bool ok = false;
+            for (int i = 0; i < cap.Count; i++)
+            {
+                if (cap[i].Data.ToString("gg/MM/yyyy") == DateTime.Today.ToString("gg/MM/yyyy"))
+                {
+                    ok = true;
+                    lbl_riepilogo_orarioApertura.Content = cap[i].OrarioApertura.ToString();
+                    lbl_riepilogo_orarioChiusura.Content = cap[i].OrarioChiusura.ToString();
+                }
+            }
+            if (!ok)
+            {
+                lbl_riepilogo_orarioApertura.Content = museoSelezionato.OrarioAperturaGenerale;
+                lbl_riepilogo_orarioChiusura.Content = museoSelezionato.OrarioChiusuraGenerale;
+            }             
+        }
+
+        void setMuseumFamily()
+        {
+            List<FamigliaMusei> lfm = new List<FamigliaMusei>(DBObject<FamigliaMusei>.SelectAll());
+            bool ok = false;
+            for (int i = 0; i < lfm.Count; i++)
+            {
+                if (museoSelezionato.idFamiglia == lfm[i].idFamiglia)
+                {
+                    lbl_riepilogo_valoreFamiglia.Content = lfm[i].Nome;
+                    ok = true;
+                }
+            }
+            if (!ok)
+                lbl_riepilogo_valoreFamiglia.Content = "Nessuna";
+        }
 
         //Eventi INSERT INTO
 
@@ -215,11 +274,11 @@ namespace MuseumsManager
         /// </summary>
         private void btn_famigliaMusei_aggiungiMuseo_Click(object sender, RoutedEventArgs e)
         {
-            cmb_famigliaMusei_selezionaMuseo.ItemsSource = null;
-            cmb_famigliaMusei_selezionaFamiglia.ItemsSource = null;
             int res = (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).Update("idMuseo", (cmb_famigliaMusei_selezionaMuseo.SelectedItem as Museo).idMuseo, "idFamiglia", (cmb_famigliaMusei_selezionaFamiglia.SelectedItem as FamigliaMusei).idFamiglia);
             if (checkQueryResult(res))
-                MessageBox.Show("Aggiunto museo alla famiglia musei correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Museo aggiunto correttamente alla famiglia di musei selezionata!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            cmb_famigliaMusei_selezionaMuseo.ItemsSource = null;
+            cmb_famigliaMusei_selezionaFamiglia.ItemsSource = null;
         }
 
         /// <summary>
@@ -227,9 +286,6 @@ namespace MuseumsManager
         /// </summary>
         private void btn_famigliaMusei_rimuovi_Click(object sender, RoutedEventArgs e)
         {
-            cmb_famigliaMusei_rimuoviMuseo_famiglia.ItemsSource = null;
-            cmb_famigliaMusei_rimuoviMuseo.ItemsSource = null;
-
             FamigliaMusei fm = cmb_famigliaMusei_rimuoviMuseo_famiglia.SelectedItem as FamigliaMusei;
             Museo m = cmb_famigliaMusei_rimuoviMuseo.SelectedItem as Museo;
 
@@ -237,8 +293,13 @@ namespace MuseumsManager
             {
                 int res = m.Update("idMuseo", m.idMuseo, "idFamiglia", "NULL");
                 if (checkQueryResult(res))
-                    MessageBox.Show("Aggiunto museo alla famiglia musei correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Museo rimosso correttamente dalla famiglia di musei selezionata!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                cmb_famigliaMusei_rimuoviMuseo_famiglia.ItemsSource = null;
+                cmb_famigliaMusei_rimuoviMuseo.ItemsSource = null;
             }
+            else
+                MessageBox.Show("Non tutti i parametri sono stati compilati!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+
         }
 
         /// <summary>
@@ -440,6 +501,21 @@ namespace MuseumsManager
         }
 
         //Eventi GotFocus
+
+        /// <summary>
+        /// Evento per settare i parametri generali dentro la scheda museo al suo click.
+        /// </summary>
+        private void tbi_museo_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (museoSelezionato != null)
+            {
+                setMuseumStatus();
+                setMuseumSchedule();
+                setMuseumFamily();
+            }
+
+        }
+
         private void txt_categoriaMuseo_descrizione_GotFocus(object sender, RoutedEventArgs e)
         {
             setTextBoxParameters(e);
@@ -1168,6 +1244,8 @@ namespace MuseumsManager
         {
             if (cmb_museo_selezionaMuseo.SelectedIndex != -1)
             {
+                museoSelezionato = (Museo)cmb_museo_selezionaMuseo.SelectedItem;
+                lbl_museo_nomeMuseo.Content = museoSelezionato.Nome;
                 tbi_calendario.IsEnabled = true;
                 tbi_biglietti.IsEnabled = true;
                 tbi_contenuti.IsEnabled = true;
@@ -1176,12 +1254,16 @@ namespace MuseumsManager
                 tbi_statistiche.IsEnabled = true;
                 gpb_sezioni.IsEnabled = true;
                 gpb_categoriaSezione.IsEnabled = true;
-                gpb_orari.IsEnabled = true;
-                idMuseoSelezionato = ((Museo)cmb_museo_selezionaMuseo.SelectedItem).idMuseo;
-                lbl_museo_nomeMuseo.Content = ((Museo)cmb_museo_selezionaMuseo.SelectedItem).Nome; 
+                gpb_orari.IsEnabled = true;            
+                setMuseumStatus();
+                setMuseumSchedule();
+                setMuseumFamily();
+                
+
             }
             else
             {
+                museoSelezionato = null;
                 tbi_calendario.IsEnabled = false;
                 tbi_biglietti.IsEnabled = false;
                 tbi_contenuti.IsEnabled = false;
@@ -1191,8 +1273,12 @@ namespace MuseumsManager
                 gpb_sezioni.IsEnabled = false;
                 gpb_categoriaSezione.IsEnabled = false;
                 gpb_orari.IsEnabled = false;
-                idMuseoSelezionato = null;
                 lbl_museo_nomeMuseo.Content = "NOME MUSEO";
+                lbl_riepilogo_statoApertura.Content = "";
+                lbl_riepilogo_orarioApertura.Content = "";
+                lbl_riepilogo_orarioChiusura.Content = "";
+                lbl_riepilogo_valoreFamiglia.Content = "";
+
             }
         }
 
