@@ -281,8 +281,6 @@ namespace MuseumsManager
         /// </summary>
         private void btn_creatore_inserisci_Click(object sender, RoutedEventArgs e)
         {
-            Creatore c = new Creatore();
-
             if (!txt_creatore_nome.Text.Equals("Nome") &&
                 !txt_creatore_nome.Text.Equals("") &&
                 !txt_creatore_cognome.Text.Equals("Cognome") &&
@@ -404,8 +402,42 @@ namespace MuseumsManager
             }
         }
 
+        private void btn_provenienza_inserisci_Click(object sender, RoutedEventArgs e)
+        {
+            if (!txt_provenienza_nome.Text.Equals("Nome") &&
+                !txt_provenienza_nome.Text.Equals("") &&
+                !txt_provenienza_descrizione.Text.Equals("Descrizione") &&
+                !txt_provenienza_descrizione.Text.Equals(""))
+            {
+                if (checkQueryResult(DBObject<Provenienza>.Insert("Nome", txt_provenienza_nome.Text, "Descrizione", txt_provenienza_descrizione.Text)))
+                    MessageBox.Show("Provenienza inserita correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
 
-
+        private void btn_provenienza_rimuovi_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmb_provenienza_rimuovi.SelectedItem != null)
+            {
+                //if(DBRelationN2NOnlyIndexes<Museo_Provenienza>.SelectAll().Any(mp => ((Museo_Provenienza)mp).idProvenienza == ((Provenienza)cmb_provenienza_rimuovi.SelectedItem).idProvenienza) ||
+                //DBObject<Contenuto>.SelectAll().Any(c => ((Contenuto)c).idProvenienza == ((Provenienza)cmb_creatore_rimuovi.SelectedItem).idProvenienza))
+                //{
+                //MessageBox.Show("Impossibile eliminare la provenienza selezionata: è possibile che essa abbia altre dipendenze in altri musei o contenuti!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                //}
+                //else
+                //{
+                string nomeProvenienza = ((Provenienza)cmb_provenienza_rimuovi.SelectedItem).Nome;
+                if (checkQueryResult(DBEntity.Delete<Provenienza>("idProvenienza", (cmb_provenienza_rimuovi.SelectedItem as Provenienza).idProvenienza)))
+                {
+                    MessageBox.Show("La provenienza \"" + nomeProvenienza + "\" è stata eliminata correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                    cmb_provenienza_rimuovi.ItemsSource = null;
+                }
+                //}
+            }
+            else
+                MessageBox.Show("Nessuna provenienza selezionata!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
 
         //Eventi GotFocus
         private void txt_categoriaMuseo_descrizione_GotFocus(object sender, RoutedEventArgs e)
@@ -1119,6 +1151,12 @@ namespace MuseumsManager
             }
         }
 
+        private void cmb_provenienza_rimuovi_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_provenienza_rimuovi.ItemsSource = DBObject<Provenienza>.SelectAll();
+            cmb_provenienza_rimuovi.DisplayMemberPath = "Nome";
+        }
+
 
         //Eventi SelectionChanged
 
@@ -1173,7 +1211,5 @@ namespace MuseumsManager
         {
             cmb_eliminaTipo_selezionaTipo.ItemsSource = null;
         }
-
-        
     }
 }

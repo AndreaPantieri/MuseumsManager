@@ -158,7 +158,7 @@
                     <Label x:Name="lbl_contenuti_filtroProvenienza" Content="Provenienza" FontWeight="Normal" HorizontalContentAlignment="Right" Margin="10,78,1121,538"/>
                     <Label x:Name="lbl_contenuti_filtroCreatore" Content="Creatore" FontWeight="Normal" HorizontalContentAlignment="Right" Margin="10,109,1121,507"/>
                     <Label x:Name="lbl_contenuti_filtroPeriodoStorico" Content="Periodo Storico" FontWeight="Normal" HorizontalContentAlignment="Right" Margin="10,140,1121,476"/>
-                    <Label x:Name="lbl_contenuti_filtroTipoContenuto" Content="Tipo del cotenuto" FontWeight="Normal" Margin="10,171,1121,445"/>
+                    <Label x:Name="lbl_contenuti_filtroTipoContenuto" Content="Tipo del contenuto" FontWeight="Normal" Margin="10,171,1116,445"/>
                     <Label x:Name="lbl_contenuti_filtroSezione" Content="Sezione" FontWeight="Normal" HorizontalContentAlignment="Right" Margin="10,47,1121,569"/>
                     <GroupBox x:Name="gpb_modificaContenuti" Header="Contenuti" HorizontalAlignment="Left" Height="467" VerticalAlignment="Top" Width="314" FontWeight="Bold" Margin="915,10,0,0">
                         <Canvas x:Name="cnv_modificaContenuti" Margin="0,0,-2,-4">
@@ -366,10 +366,10 @@
                             <Label x:Name="lbl_provenienza_inserisci" Content="Inserisci una nuova provenienza:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
                             <TextBox x:Name="txt_provenienza_nome" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_provenienza_nome_GotFocus" LostFocus="txt_provenienza_nome_LostFocus"/>
                             <TextBox x:Name="txt_provenienza_descrizione" HorizontalAlignment="Left" Height="63" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="66" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_provenienza_descrizione_GotFocus" LostFocus="txt_provenienza_descrizione_LostFocus"/>
-                            <Button x:Name="btn_provenienza_inserisci" Content="Inserisci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="134" FontWeight="Normal"/>
+                            <Button x:Name="btn_provenienza_inserisci" Content="Inserisci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="134" FontWeight="Normal" Click="btn_provenienza_inserisci_Click"/>
                             <Label x:Name="lbl_provenienza_rimuovi" Content="Rimuovi una provenienza:" Canvas.Left="10" FontWeight="Bold" Width="233" Canvas.Top="218"/>
-                            <ComboBox x:Name="cmb_provenienza_rimuovi" Height="20" Width="147" Canvas.Left="10" Canvas.Top="249" FontWeight="Normal"/>
-                            <Button x:Name="btn_provenienza_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="249" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_provenienza_rimuovi" Height="20" Width="147" Canvas.Left="10" Canvas.Top="249" FontWeight="Normal" DropDownOpened="cmb_provenienza_rimuovi_DropDownOpened"/>
+                            <Button x:Name="btn_provenienza_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="249" FontWeight="Normal" Click="btn_provenienza_rimuovi_Click"/>
                         </Canvas>
                     </GroupBox>
                     <GroupBox x:Name="gpb_periodoStorico" Header="Periodo storico" HorizontalAlignment="Left" Height="319" Margin="548,313,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
