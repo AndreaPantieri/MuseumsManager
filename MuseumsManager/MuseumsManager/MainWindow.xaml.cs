@@ -168,15 +168,28 @@ namespace MuseumsManager
         /// </summary>
         private void btn_museoCreazione_eliminaMuseo_Click(object sender, RoutedEventArgs e)
         {
+            Museo museoSelezionato = cmb_museoCreazione_eliminaMuseo.SelectedItem as Museo;
+            string nomeMuseo = ((Museo)cmb_museoCreazione_eliminaMuseo.SelectedItem).Nome;
+
             if (cmb_museoCreazione_eliminaMuseo.SelectedItem != null)
             {
-                //PANTIE DBEntity NON E' GENERICO E STATICO, BISOGNEREBBE CANCELLARLO E METTERE TUTTO IN DBObject SECONDO ME (ma non mi ricordo perchè li avevi divisi sono sincero, appena vedi questo messaggio mandami un'audio). 
-                //C'è un pò troppa confusione fra DBEntity, DBObject e DBRelationN2NOnlyIndexes, io lascierei solo questi ultimi due se possibile, ma lascio modificare a te la struttura visto che è tua.
-                //BUON LAVORO :) ELIMINA PURE IL COMMENTO UNA VOLTA RISOLTO
-                //PS: Quando elimino un museo dovrei andare ad eliminare anche la relazione N a N in Museo_Tipologia? O si elimina da sola teoricamente? AUDIO grazie :) 
-                if (checkQueryResult(DBEntity.Delete<Museo>("idMuseo", ((Museo)cmb_museoCreazione_eliminaMuseo.SelectedItem).idMuseo))) 
+                /*
+               List<Museo_Tipologia> tabellaMuseoTipologia = new List<Museo_Tipologia>(DBObject<Museo_Tipologia>.SelectAll());
+               List<Museo_Tipologia> parzialeMuseoTipologia = new List<Museo_Tipologia>();
+
+               for (int i = 0; i < tabellaMuseoTipologia.Count; i++)
+               {
+                   if (museoSelezionato.idMuseo == tabellaMuseoTipologia[i].idMuseo)
+                   {
+                       parzialeMuseoTipologia.Add(tabellaMuseoTipologia[i]);
+                   }
+               }
+               parzialeMuseoTipologia.ForEach(mt => DBRelationN2NOnlyIndexes<Museo_Tipologia>.Delete("idMuseo", mt.idMuseo, "idTipoMuseo", mt.idTipoMuseo));
+               */
+
+                if (checkQueryResult(DBEntity.Delete<Museo>("idMuseo", museoSelezionato.idMuseo))) 
                 {
-                    MessageBox.Show("Museo \"" + ((Museo)cmb_eliminaTipo_selezionaMuseo.SelectedItem).Nome + "\" rimosso correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Museo \"" + nomeMuseo + "\" rimosso correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                     cmb_museoCreazione_eliminaMuseo.ItemsSource = null;
                 }
             }
@@ -273,24 +286,6 @@ namespace MuseumsManager
                 }
                 cmb_periodoStorico_museo.ItemsSource = null;
                 cmb_periodoStorico_elimina.ItemsSource = null;
-            }
-        }
-
-        /// <summary>
-        /// Collegamento periodo storico a museo
-        /// </summary>
-        private void btn_generaleInfoContenuto_periodoStorico_Click(object sender, RoutedEventArgs e)
-        {
-            if (!(cmb_generaleInfoContenuto_periodoStorico_museo.SelectedItem is null) && !(cmb_generaleInfoContenuto_periodoStorico.SelectedItem is null))
-            {
-                Museo m = cmb_generaleInfoContenuto_periodoStorico_museo.SelectedItem as Museo;
-                PeriodoStorico ps = cmb_generaleInfoContenuto_periodoStorico.SelectedItem as PeriodoStorico;
-
-                int res = DBObject<Museo_PeriodoStorico>.Insert("idMuseo", m.idMuseo, "idPeriodoStorico", ps.idPeriodoStorico);
-                if (checkQueryResult(res))
-                    MessageBox.Show("Aggiunto periodo storico al museo correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
-                cmb_generaleInfoContenuto_periodoStorico_museo.ItemsSource = null;
-                cmb_generaleInfoContenuto_periodoStorico.ItemsSource = null;
             }
         }
 
@@ -915,24 +910,6 @@ namespace MuseumsManager
         }
 
         /// <summary>
-        /// Lista musei da selezionare per l'inserimento del periodo storico
-        /// </summary>
-        private void cmb_periodoStorico_nelmuseo_DropDownOpened(object sender, EventArgs e)
-        {
-            cmb_periodoStorico_nelmuseo.ItemsSource = DBObject<Museo>.SelectAll();
-            cmb_periodoStorico_nelmuseo.DisplayMemberPath = "Nome";
-        }
-
-        /// <summary>
-        /// Lista musei da selezionare per l'eliminazione del periodo storico
-        /// </summary>
-        private void cmb_periodoStorico_museo_DropDownOpened(object sender, EventArgs e)
-        {
-            cmb_periodoStorico_museo.ItemsSource = DBObject<Museo>.SelectAll();
-            cmb_periodoStorico_museo.DisplayMemberPath = "Nome";
-        }
-
-        /// <summary>
         /// Lista dei periodi storici da eliminare
         /// </summary>
         private void cmb_periodoStorico_elimina_DropDownOpened(object sender, EventArgs e)
@@ -944,28 +921,6 @@ namespace MuseumsManager
                 cmb_periodoStorico_elimina.ItemsSource = DBObject<PeriodoStorico>.SelectAll().Where(ps => lmps.Any(mps => mps.idPeriodoStorico ==  ps.idPeriodoStorico));
                 cmb_periodoStorico_elimina.DisplayMemberPath = "Nome";
             }
-        }
-
-        /// <summary>
-        /// Lista periodi storici
-        /// </summary>
-        private void cmb_generaleInfoContenuto_periodoStorico_DropDownOpened(object sender, EventArgs e)
-        {
-            if(!(cmb_generaleInfoContenuto_periodoStorico_museo.SelectedItem is null)){
-                List<Museo_PeriodoStorico> lmps = DBObject<Museo_PeriodoStorico>.SelectAll().Where(mps => mps.idMuseo == (cmb_generaleInfoContenuto_periodoStorico_museo.SelectedItem as Museo).idMuseo).ToList();
-                cmb_generaleInfoContenuto_periodoStorico.ItemsSource = DBObject<PeriodoStorico>.SelectAll().Where(ps => lmps.Any(mps => mps.idPeriodoStorico == ps.idPeriodoStorico));
-                cmb_generaleInfoContenuto_periodoStorico.DisplayMemberPath = "Nome";
-            }
-            
-        }
-
-        /// <summary>
-        /// Lista dei musei per aggiunta dei periodi storici
-        /// </summary>
-        private void cmb_generaleInfoContenuto_periodoStorico_museo_DropDownOpened(object sender, EventArgs e)
-        {
-            cmb_generaleInfoContenuto_periodoStorico_museo.ItemsSource = DBObject<Museo>.SelectAll();
-            cmb_generaleInfoContenuto_periodoStorico_museo.DisplayMemberPath = "Nome";
         }
 
         private void cmb_eliminaTipo_selezionaMuseo_DropDownOpened(object sender, EventArgs e)

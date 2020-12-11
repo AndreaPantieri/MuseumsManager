@@ -190,7 +190,7 @@ create table TipoSezione (
 
 alter table Biglietto add constraint REF_Bigli_Museo_FK
      foreign key (idMuseo)
-     references Museo (idMuseo) on delete cascade;
+     references Museo (idMuseo);
 
 alter table Biglietto add constraint REF_Bigli_TipoB_FK
      foreign key (idTipoBiglietto)
@@ -206,7 +206,7 @@ alter table CalendarioChiusure add constraint REF_Calen_Museo_FK
 
 alter table Contenuto add constraint REF_Conte_Conte_FK
      foreign key (idContenutoPadre)
-     references Contenuto (idContenuto) on delete cascade;
+     references Contenuto (idContenuto);
 
 alter table Contenuto add constraint EQU_Conte_Prove_FK
      foreign key (idProvenienza)
@@ -234,7 +234,7 @@ alter table Creato add constraint EQU_Creat_Creat_FK
 
 alter table Creato add constraint REF_Creat_Conte
      foreign key (idContenuto)
-     references Contenuto (idContenuto) on delete cascade;
+     references Contenuto (idContenuto);
 
 alter table Museo add constraint EQU_Museo_Famig_FK
      foreign key (idFamiglia)
@@ -294,7 +294,7 @@ alter table RegistroPresenze add constraint SID_Regis_Perso_FK
 
 alter table Sezione add constraint REF_Sezio_Sezio_FK
      foreign key (idSezionePadre)
-     references Sezione (idSezione) on delete cascade;
+     references Sezione (idSezione);
 
 alter table Sezione add constraint EQU_Sezio_Museo_FK
      foreign key (idMuseo)
