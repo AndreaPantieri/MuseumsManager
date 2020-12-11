@@ -16,5 +16,10 @@ namespace Entities
 
         public Creatore() : base() { }
         public Creatore(int idCretore) : base(idCretore) { }
+
+        public override string ToString()
+        {
+            return this.Nome + " " + this.Cognome;
+        }
     }
 }

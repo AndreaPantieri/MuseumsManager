@@ -353,11 +353,11 @@
                             <TextBox x:Name="txt_creatore_cognome" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Cognome" VerticalAlignment="Top" Width="233" Foreground="Gray" Canvas.Left="10" Canvas.Top="66" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_creatore_cognome_GotFocus" LostFocus="txt_creatore_cognome_LostFocus"/>
                             <TextBox x:Name="txt_creatore_annoNascita" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Anno di nascita" VerticalAlignment="Top" Width="233" Foreground="Gray" Canvas.Left="10" Canvas.Top="91" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_creatore_annoNascita_GotFocus" LostFocus="txt_creatore_annoNascita_LostFocus"/>
                             <TextBox x:Name="txt_creatore_descrizione" HorizontalAlignment="Left" Height="63" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="233" Foreground="Gray" Canvas.Left="10" Canvas.Top="116" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_creatore_descrizione_GotFocus" LostFocus="txt_creatore_descrizione_LostFocus"/>
-                            <Button x:Name="btn_creatore_inserisci" Content="Inserisci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="179" Canvas.Top="184" FontWeight="Normal"/>
+                            <Button x:Name="btn_creatore_inserisci" Content="Inserisci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="179" Canvas.Top="184" FontWeight="Normal" Click="btn_creatore_inserisci_Click"/>
                             <Label x:Name="lbl_creatore_inserisci" Content="Inserisci un nuovo creatore:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
                             <Label x:Name="lbl_creatore_rimuovi" Content="Elimina un creatore:" Canvas.Left="10" FontWeight="Bold" Width="233" Canvas.Top="216"/>
-                            <ComboBox x:Name="cmb_creatore_rimuovi" Height="20" Width="147" Canvas.Left="10" Canvas.Top="247" FontWeight="Normal"/>
-                            <Button x:Name="btn_creatore_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="247" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_creatore_rimuovi" Height="20" Width="147" Canvas.Left="10" Canvas.Top="247" FontWeight="Normal" DropDownOpened="cmb_creatore_rimuovi_DropDownOpened" DisplayMemberPath="{Binding}"/>
+                            <Button x:Name="btn_creatore_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="247" FontWeight="Normal" Click="btn_creatore_rimuovi_Click"/>
                         </Canvas>
                     </GroupBox>
                     <GroupBox x:Name="gpb_provenienza" Header="Provenienza" HorizontalAlignment="Left" Height="298" Margin="817,10,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">

@@ -30,7 +30,7 @@ namespace MuseumsManager
         }
 
         //Variabili globali
-        int idMuseoSelezionato = 0;
+        Nullable<int> idMuseoSelezionato;
         string defaultSelectedTextBoxValue;
 
         void setPlaceHolder(TextBox textBox, string placeHolder)
@@ -46,9 +46,9 @@ namespace MuseumsManager
             textBox.Foreground = Brushes.Black;
             textBox.Text = "";
         }
-        
+
         //Metodi
-        void setTextBoxParameters(RoutedEventArgs e) 
+        void setTextBoxParameters(RoutedEventArgs e)
         {
             TextBox t = e.Source as TextBox;
 
@@ -58,7 +58,7 @@ namespace MuseumsManager
                 t.FontStyle = FontStyles.Normal;
                 t.Foreground = Brushes.Black;
                 t.Text = "";
-            }   
+            }
         }
 
         void restoreTextBoxParameters(RoutedEventArgs e)
@@ -127,7 +127,7 @@ namespace MuseumsManager
             {
                 if (checkQueryResult(DBObject<Museo_Tipologia>.Insert("idMuseo", ((Museo)cmb_museoCreazione_selezionaMuseo.SelectedItem).idMuseo, "idTipoMuseo", ((TipoMuseo)cmb_museoCreazione_selezionaTipo.SelectedItem).idTipoMuseo)))
                 {
-                    MessageBox.Show("Tipo \""+ ((TipoMuseo)cmb_museoCreazione_selezionaTipo.SelectedItem).Descrizione + "\" assegnato correttamente al museo \"" + ((Museo)cmb_museoCreazione_selezionaMuseo.SelectedItem).Nome + "\"!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Tipo \"" + ((TipoMuseo)cmb_museoCreazione_selezionaTipo.SelectedItem).Descrizione + "\" assegnato correttamente al museo \"" + ((Museo)cmb_museoCreazione_selezionaMuseo.SelectedItem).Nome + "\"!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                     cmb_museoCreazione_selezionaMuseo.ItemsSource = null;
                     cmb_museoCreazione_selezionaTipo.ItemsSource = null;
                 }
@@ -141,7 +141,7 @@ namespace MuseumsManager
         /// </summary>
         private void btn_eliminaTipo_elimina_Click(object sender, RoutedEventArgs e)
         {
-            if(cmb_eliminaTipo_selezionaTipo.Items.Count == 1)
+            if (cmb_eliminaTipo_selezionaTipo.Items.Count == 1)
             {
                 MessageBox.Show("Non è possibile eliminare il tipo selezionato: un museo deve possedere almeno un tipo!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
                 cmb_eliminaTipo_selezionaMuseo.ItemsSource = null;
@@ -182,26 +182,12 @@ namespace MuseumsManager
         /// </summary>
         private void btn_museoCreazione_eliminaMuseo_Click(object sender, RoutedEventArgs e)
         {
-            Museo museoSelezionato = cmb_museoCreazione_eliminaMuseo.SelectedItem as Museo;
-            string nomeMuseo = ((Museo)cmb_museoCreazione_eliminaMuseo.SelectedItem).Nome;
-
             if (cmb_museoCreazione_eliminaMuseo.SelectedItem != null)
             {
-                /*
-               List<Museo_Tipologia> tabellaMuseoTipologia = new List<Museo_Tipologia>(DBObject<Museo_Tipologia>.SelectAll());
-               List<Museo_Tipologia> parzialeMuseoTipologia = new List<Museo_Tipologia>();
+                Museo museoSelezionato = cmb_museoCreazione_eliminaMuseo.SelectedItem as Museo;
+                string nomeMuseo = ((Museo)cmb_museoCreazione_eliminaMuseo.SelectedItem).Nome;
 
-               for (int i = 0; i < tabellaMuseoTipologia.Count; i++)
-               {
-                   if (museoSelezionato.idMuseo == tabellaMuseoTipologia[i].idMuseo)
-                   {
-                       parzialeMuseoTipologia.Add(tabellaMuseoTipologia[i]);
-                   }
-               }
-               parzialeMuseoTipologia.ForEach(mt => DBRelationN2NOnlyIndexes<Museo_Tipologia>.Delete("idMuseo", mt.idMuseo, "idTipoMuseo", mt.idTipoMuseo));
-               */
-
-                if (checkQueryResult(DBEntity.Delete<Museo>("idMuseo", museoSelezionato.idMuseo))) 
+                if (checkQueryResult(DBEntity.Delete<Museo>("idMuseo", museoSelezionato.idMuseo)))
                 {
                     MessageBox.Show("Museo \"" + nomeMuseo + "\" rimosso correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                     cmb_museoCreazione_eliminaMuseo.ItemsSource = null;
@@ -260,7 +246,7 @@ namespace MuseumsManager
         /// </summary>
         private void btn_periodoStorico_inserisci_Click(object sender, RoutedEventArgs e)
         {
-            if(txt_periodoStorico_nome.Text != "" && txt_periodoStorico_nome.Text != "Nome" &&
+            if (txt_periodoStorico_nome.Text != "" && txt_periodoStorico_nome.Text != "Nome" &&
                 txt_periodoStorico_annoInizio.Text != "" && txt_periodoStorico_annoInizio.Text != "Anno di inizio" &&
                 txt_periodoStorico_annoFine.Text != "" && txt_periodoStorico_annoFine.Text != "Anno di fine" &&
                 txt_periodoStorico_descrizione.Text != "" && txt_periodoStorico_descrizione.Text != "Descrizione")
@@ -277,24 +263,73 @@ namespace MuseumsManager
         }
 
         /// <summary>
-        /// Rimozione periodo storico
+        /// Rimozione periodo storico.
         /// </summary>
         private void btn_periodoStorico_elimina_Click(object sender, RoutedEventArgs e)
         {
-            if(!(cmb_periodoStorico_elimina.SelectedItem is null))
+            if (!(cmb_periodoStorico_elimina.SelectedItem is null))
             {
                 int res = DBEntity.Delete<PeriodoStorico>("idPeriodoStorico", (cmb_periodoStorico_elimina.SelectedItem as PeriodoStorico).idPeriodoStorico);
                 if (checkQueryResult(res))
-                    MessageBox.Show("Eliminato periodo storico totalmente dal db correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Periodo storico eliminato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 cmb_periodoStorico_elimina.ItemsSource = null;
             }
         }
 
+        /// <summary>
+        /// Aggiunta di un nuovo creatore.
+        /// </summary>
+        private void btn_creatore_inserisci_Click(object sender, RoutedEventArgs e)
+        {
+            Creatore c = new Creatore();
+
+            if (!txt_creatore_nome.Text.Equals("Nome") &&
+                !txt_creatore_nome.Text.Equals("") &&
+                !txt_creatore_cognome.Text.Equals("Cognome") &&
+                !txt_creatore_cognome.Text.Equals("") &&
+                !txt_creatore_annoNascita.Text.Equals("Anno di nascita") &&
+                !txt_creatore_annoNascita.Text.Equals("") &&
+                int.TryParse(txt_creatore_annoNascita.Text, out int annoNascita) &&
+                !txt_creatore_descrizione.Text.Equals("Descrizione") &&
+                !txt_creatore_descrizione.Text.Equals(""))
+            {
+                if (checkQueryResult(DBObject<Creatore>.Insert("Nome", txt_creatore_nome.Text, "Cognome", txt_creatore_cognome.Text, "AnnoNascita", annoNascita, "Descrizione", txt_creatore_descrizione.Text)))
+                    MessageBox.Show("Creatore inserito correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show("Qualche parametro che si sta cercando di inserire non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        /// <summary>
+        /// Rimozione di un creatore.
+        /// </summary>
+        private void btn_creatore_rimuovi_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmb_creatore_rimuovi.SelectedItem != null)
+            {
+                //if(DBRelationN2NOnlyIndexes<Museo_Creatore>.SelectAll().Any(mc => ((Museo_Creatore)mc).idCreatore == ((Creatore)cmb_creatore_rimuovi.SelectedItem).idCreatore) ||
+                    //DBRelationN2NOnlyIndexes<Creato>.SelectAll().Any(cc => ((Creato)cc).idCreatore == ((Creato)cmb_creatore_rimuovi.SelectedItem).idCreatore))
+                //{
+                    //MessageBox.Show("Impossibile eliminare il creatore selezionato: è possibile che esso abbia altre dipendenze in altri musei o contenuti!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                //}
+                //else
+                //{
+                    string nomeCreatore = ((Creatore)cmb_creatore_rimuovi.SelectedItem).ToString();
+                    if (checkQueryResult(DBEntity.Delete<Creatore>("idCreatore", (cmb_creatore_rimuovi.SelectedItem as Creatore).idCreatore)))
+                    {
+                        MessageBox.Show("Creatore \"" + nomeCreatore + "\" eliminato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                        cmb_creatore_rimuovi.ItemsSource = null;
+                    }
+                //}
+            }
+            else
+                MessageBox.Show("Nessun creatore selezionato!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
 
         //Eventi GotFocus
         private void txt_categoriaMuseo_descrizione_GotFocus(object sender, RoutedEventArgs e)
         {
-            setTextBoxParameters(e);     
+            setTextBoxParameters(e);
         }
 
         private void txt_famigliaMusei_nome_GotFocus(object sender, RoutedEventArgs e)
@@ -882,7 +917,7 @@ namespace MuseumsManager
 
             List<Museo_Tipologia> tabellaMuseoTipologia = new List<Museo_Tipologia>(DBObject<Museo_Tipologia>.SelectAll());
             List<TipoMuseo> tabellaTipoMuseo = new List<TipoMuseo>(DBObject<TipoMuseo>.SelectAll());
-            List<Museo_Tipologia> parzialeMuseoTipologia = new List<Museo_Tipologia>();            
+            List<Museo_Tipologia> parzialeMuseoTipologia = new List<Museo_Tipologia>();
             List<TipoMuseo> TipiDisponibili = new List<TipoMuseo>();
 
             for (int i = 0; i < tabellaMuseoTipologia.Count; i++)
@@ -894,7 +929,7 @@ namespace MuseumsManager
             }
             bool ok;
 
-            for(int i = 0; i < tabellaTipoMuseo.Count; i++)
+            for (int i = 0; i < tabellaTipoMuseo.Count; i++)
             {
                 ok = false;
 
@@ -970,6 +1005,11 @@ namespace MuseumsManager
             cmb_museoCreazione_eliminaMuseo.DisplayMemberPath = "Nome";
         }
 
+        private void cmb_creatore_rimuovi_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_creatore_rimuovi.ItemsSource = DBObject<Creatore>.SelectAll();
+        }
+
         //Eventi SelectionChanged
 
         /// <summary>
@@ -990,6 +1030,21 @@ namespace MuseumsManager
                 gpb_categoriaSezione.IsEnabled = true;
                 gpb_orari.IsEnabled = true;
                 idMuseoSelezionato = ((Museo)cmb_museo_selezionaMuseo.SelectedItem).idMuseo;
+                lbl_museo_nomeMuseo.Content = ((Museo)cmb_museo_selezionaMuseo.SelectedItem).Nome; 
+            }
+            else
+            {
+                tbi_calendario.IsEnabled = false;
+                tbi_biglietti.IsEnabled = false;
+                tbi_contenuti.IsEnabled = false;
+                tbi_personale.IsEnabled = false;
+                tbi_registri.IsEnabled = false;
+                tbi_statistiche.IsEnabled = false;
+                gpb_sezioni.IsEnabled = false;
+                gpb_categoriaSezione.IsEnabled = false;
+                gpb_orari.IsEnabled = false;
+                idMuseoSelezionato = null;
+                lbl_museo_nomeMuseo.Content = "NOME MUSEO";
             }
         }
 
@@ -1008,7 +1063,5 @@ namespace MuseumsManager
         {
             cmb_eliminaTipo_selezionaTipo.ItemsSource = null;
         }
-
-        
     }
 }
