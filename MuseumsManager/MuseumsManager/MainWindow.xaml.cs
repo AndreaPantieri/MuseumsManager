@@ -1,6 +1,7 @@
 ﻿using Entities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -1308,7 +1309,18 @@ namespace MuseumsManager
                 if (!(tabControl.SelectedItem is null))
                 {
                     TabItem tabItem = tabControl.SelectedItem as TabItem;
-                    Debug.WriteLine(tabItem.Header);
+                    if (tabItem.Header.Equals("Calendario") && !(this.museoSelezionato is null))
+                    {
+                        List<CalendarioApertureSpeciali> lcas = DBObject<CalendarioApertureSpeciali>.Select("idMuseo", this.museoSelezionato.idMuseo);
+                        ObservableCollection<CalendarioApertureSpeciali> calendarioApertureSpeciali = new ObservableCollection<CalendarioApertureSpeciali>(lcas);
+
+                        dtg_giornateAperturaSpeciale.DataContext = calendarioApertureSpeciali;
+
+                        List<CalendarioChiusure> lcc = DBObject<CalendarioChiusure>.Select("idMuseo", this.museoSelezionato.idMuseo);
+                        ObservableCollection<CalendarioChiusure> calendarioChiusure = new ObservableCollection<CalendarioChiusure>(lcc);
+
+                        dtg_giornateChiusura.DataContext = calendarioChiusure;
+                    }
                 }
             }
         }
