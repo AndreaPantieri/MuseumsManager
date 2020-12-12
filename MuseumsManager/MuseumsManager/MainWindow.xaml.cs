@@ -569,6 +569,33 @@ namespace MuseumsManager
                 MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        private void btn_sezioni_aggiungi_Click(object sender, RoutedEventArgs e)
+        {
+            if(!txt_sezioni_nome.Text.Equals("") &&
+               !txt_sezioni_nome.Text.Equals("Nome") &&
+               !txt_sezioni_descrizione.Text.Equals("") &&
+               !txt_sezioni_descrizione.Text.Equals("Descrizione") &&
+               cmb_sezioni_tipoSezione.SelectedIndex != -1 &&
+               cmb_sezioni_padre.SelectedIndex != -1)
+            {
+                int index = DBObject<Sezione>.Insert("Nome", txt_sezioni_nome.Text, "Descrizione", txt_sezioni_descrizione.Text, "idSezionePadre", ((Sezione)cmb_sezioni_padre.SelectedItem).idSezione, "idMuseo", museoSelezionato.idMuseo);
+                DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Insert("idSezione", index, "idMuseo", ((TipoSezione)cmb_sezioni_tipoSezione.SelectedItem).idTipoSezione);
+                MessageBox.Show("Nuova sottosezione aggiunta correttamente al museo!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else if (!txt_sezioni_nome.Text.Equals("") &&
+               !txt_sezioni_nome.Text.Equals("Nome") &&
+               !txt_sezioni_descrizione.Text.Equals("") &&
+               !txt_sezioni_descrizione.Text.Equals("Descrizione") &&
+               cmb_sezioni_tipoSezione.SelectedIndex != -1)
+            {
+                int index = DBObject<Sezione>.Insert("Nome", txt_sezioni_nome.Text, "Descrizione", txt_sezioni_descrizione.Text, "idMuseo", museoSelezionato.idMuseo);
+                DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Insert("idSezione", index, "idMuseo", ((TipoSezione)cmb_sezioni_tipoSezione.SelectedItem).idTipoSezione);
+                MessageBox.Show("Nuova sezione aggiunta correttamente al museo!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
         //Eventi GotFocus
 
         /// <summary>
@@ -578,9 +605,12 @@ namespace MuseumsManager
         {
             if (museoSelezionato != null)
             {
+                museoSelezionato = DBObject<Museo>.Select("idMuseo", museoSelezionato.idMuseo).First();
                 setMuseumStatus();
                 setMuseumSchedule();
                 setMuseumFamily();
+                setMuseumTypes();
+                setMuseumAreas();
             }
 
         }
@@ -1302,6 +1332,17 @@ namespace MuseumsManager
             cmb_provenienza_rimuovi.DisplayMemberPath = "Nome";
         }
 
+        private void cmb_sezioni_tipoSezione_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_sezioni_tipoSezione.ItemsSource = DBObject<TipoSezione>.SelectAll();
+            cmb_sezioni_tipoSezione.DisplayMemberPath = "Descrizione";
+        }
+
+        private void cmb_sezioni_padre_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_sezioni_padre.ItemsSource = DBObject<Sezione>.SelectAll();
+            cmb_sezioni_padre.DisplayMemberPath = "Nome";
+        }
 
         //Eventi SelectionChanged
 

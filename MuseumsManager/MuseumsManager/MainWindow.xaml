@@ -21,9 +21,9 @@
                         <Canvas x:Name="cnv_sezioni" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_sezioni_nome" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_sezioni_nome_GotFocus" LostFocus="txt_sezioni_nome_LostFocus"/>
                             <TextBox x:Name="txt_sezioni_descrizione" HorizontalAlignment="Left" Height="66" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="69" Foreground="Gray" FontWeight="Normal" RenderTransformOrigin="0.517,0.136" FontStyle="Italic" GotFocus="txt_sezioni_descrizione_GotFocus" LostFocus="txt_sezioni_descrizione_LostFocus"/>
-                            <ComboBox x:Name="cmb_sezioni_tipoSezione" Height="26" Width="170" Canvas.Left="123" Canvas.Top="139" FontWeight="Normal"/>
-                            <ComboBox x:Name="cmb_sezioni_padre" Height="26" Width="170" Canvas.Left="123" Canvas.Top="170" FontWeight="Normal"/>
-                            <Button x:Name="btn_sezioni_aggiungi" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="201" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_sezioni_tipoSezione" Height="26" Width="170" Canvas.Left="123" Canvas.Top="139" FontWeight="Normal" DropDownOpened="cmb_sezioni_tipoSezione_DropDownOpened"/>
+                            <ComboBox x:Name="cmb_sezioni_padre" Height="26" Width="170" Canvas.Left="123" Canvas.Top="170" FontWeight="Normal" DropDownOpened="cmb_sezioni_padre_DropDownOpened"/>
+                            <Button x:Name="btn_sezioni_aggiungi" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="201" FontWeight="Normal" Click="btn_sezioni_aggiungi_Click"/>
                             <Label x:Name="lbl_sezioni_tipoSezione" Content="Tipo della sezione:" Canvas.Left="10" Canvas.Top="139" FontWeight="Normal" Width="108"/>
                             <Label x:Name="lbl_sezioni_padre" Content="Padre (facoltativo):" Canvas.Left="10" Canvas.Top="170" FontWeight="Normal"/>
                             <Label x:Name="lbl_sezioni_aggiungi" Content="Aggiungi una sezione:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="283"/>
