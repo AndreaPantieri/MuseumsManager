@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -1314,11 +1315,50 @@ namespace MuseumsManager
                         List<CalendarioApertureSpeciali> lcas = DBObject<CalendarioApertureSpeciali>.Select("idMuseo", this.museoSelezionato.idMuseo);
                         ObservableCollection<CalendarioApertureSpeciali> calendarioApertureSpeciali = new ObservableCollection<CalendarioApertureSpeciali>(lcas);
 
+                        calendarioApertureSpeciali.CollectionChanged += (s, eventArgs) => {
+                            switch (eventArgs.Action) {
+                                case NotifyCollectionChangedAction.Remove:
+                                    {
+
+                                        break;
+                                    }
+                                case NotifyCollectionChangedAction.Add:
+                                    {
+
+                                        break;
+                                    }
+                                case NotifyCollectionChangedAction.Replace:
+                                    {
+
+                                        break;
+                                    }
+                            }
+                        };
                         dtg_giornateAperturaSpeciale.DataContext = calendarioApertureSpeciali;
 
                         List<CalendarioChiusure> lcc = DBObject<CalendarioChiusure>.Select("idMuseo", this.museoSelezionato.idMuseo);
                         ObservableCollection<CalendarioChiusure> calendarioChiusure = new ObservableCollection<CalendarioChiusure>(lcc);
 
+                        calendarioChiusure.CollectionChanged += (s, eventArgs) => {
+                            switch (eventArgs.Action)
+                            {
+                                case NotifyCollectionChangedAction.Remove:
+                                    {
+
+                                        break;
+                                    }
+                                case NotifyCollectionChangedAction.Add:
+                                    {
+
+                                        break;
+                                    }
+                                case NotifyCollectionChangedAction.Replace:
+                                    {
+
+                                        break;
+                                    }
+                            }
+                        };
                         dtg_giornateChiusura.DataContext = calendarioChiusure;
                     }
                 }
