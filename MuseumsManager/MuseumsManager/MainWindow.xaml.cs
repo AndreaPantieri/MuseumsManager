@@ -1319,7 +1319,7 @@ namespace MuseumsManager
                             switch (eventArgs.Action) {
                                 case NotifyCollectionChangedAction.Remove:
                                     {
-
+                                        List<CalendarioApertureSpeciali> casRmv = new List<CalendarioApertureSpeciali>(eventArgs.OldItems.Cast<CalendarioApertureSpeciali>());
                                         break;
                                     }
                                 case NotifyCollectionChangedAction.Add:
@@ -1335,7 +1335,7 @@ namespace MuseumsManager
                             }
                         };
                         dtg_giornateAperturaSpeciale.DataContext = calendarioApertureSpeciali;
-
+                        (dtg_giornateAperturaSpeciale.Columns[0] as DataGridTextColumn).Binding.StringFormat = "dd/MM/yyyy";
                         List<CalendarioChiusure> lcc = DBObject<CalendarioChiusure>.Select("idMuseo", this.museoSelezionato.idMuseo);
                         ObservableCollection<CalendarioChiusure> calendarioChiusure = new ObservableCollection<CalendarioChiusure>(lcc);
 
@@ -1360,6 +1360,7 @@ namespace MuseumsManager
                             }
                         };
                         dtg_giornateChiusura.DataContext = calendarioChiusure;
+                        (dtg_giornateChiusura.Columns[0] as DataGridTextColumn).Binding.StringFormat = "dd/MM/yyyy";
                     }
                 }
             }
