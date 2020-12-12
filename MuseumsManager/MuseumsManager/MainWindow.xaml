@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MuseumsManager" ResizeMode="NoResize" Width="1280" Height="720">
     <Grid x:Name="grid_museumsManager" Margin="0,0,0,0">
-        <TabControl x:Name="tab_finestre" HorizontalAlignment="Left" Height="672" Margin="10,0,0,0" VerticalAlignment="Top" Width="1245">
+        <TabControl x:Name="tab_finestre" HorizontalAlignment="Left" Height="672" Margin="10,0,0,0" VerticalAlignment="Top" Width="1245" SelectionChanged="tab_finestre_SelectionChanged">
             <TabItem x:Name="tbi_museo" Header="Museo" Height="22" VerticalAlignment="Bottom" GotFocus="tbi_museo_GotFocus">
                 <Grid x:Name="grid_museo">
                     <Grid.ColumnDefinitions>
@@ -82,7 +82,11 @@
             </TabItem>
             <TabItem x:Name="tbi_calendario" Header="Calendario" IsEnabled="False">
                 <Grid x:Name="grid_calendario">
-                    <GroupBox x:Name="gpb_aperturaSpeciale" Header="Giornate di apertura speciale" HorizontalAlignment="Left" Height="310" Margin="10,10,0,0" VerticalAlignment="Top" Width="375" FontWeight="Bold">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="71*"/>
+                        <ColumnDefinition Width="1169*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox x:Name="gpb_aperturaSpeciale" Header="Giornate di apertura speciale" HorizontalAlignment="Left" Height="310" Margin="10,10,0,0" VerticalAlignment="Top" Width="375" FontWeight="Bold" Grid.ColumnSpan="2">
                         <Canvas x:Name="cnv_aperturaSpeciale" Margin="0,0,-2,-4">
 
                             <Calendar x:Name="cal_aperturaSpeciale_data" Height="168" Width="196" Canvas.Left="10" Canvas.Top="41"/>
@@ -98,7 +102,7 @@
                             <Button x:Name="btn_aperturaSpeciale_elimina" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="86" Canvas.Left="269" Canvas.Top="261" FontWeight="Normal" Click="btn_aperturaSpeciale_elimina_Click"/>
                         </Canvas>
                     </GroupBox>
-                    <GroupBox x:Name="gpb_chiusura" Header="Giornate di chiusura" HorizontalAlignment="Left" Height="310" Margin="10,325,0,0" VerticalAlignment="Top" Width="375" FontWeight="Bold">
+                    <GroupBox x:Name="gpb_chiusura" Header="Giornate di chiusura" HorizontalAlignment="Left" Height="310" Margin="10,325,0,0" VerticalAlignment="Top" Width="375" FontWeight="Bold" Grid.ColumnSpan="2">
                         <Canvas x:Name="cnv_chiusura" Margin="0,0,-2,-4">
 
                             <Calendar x:Name="cal_chiusura_data" Height="168" Width="196" Canvas.Left="10" Canvas.Top="41"/>
@@ -110,8 +114,19 @@
                             <Button x:Name="btn_chiusura_elimina" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="273" Canvas.Top="261" FontWeight="Normal" Click="btn_chiusura_elimina_Click"/>
                         </Canvas>
                     </GroupBox>
-                    <DataGrid x:Name="dtg_giornateAperturaSpeciale" Margin="390,10,10,322"/>
-                    <DataGrid x:Name="dtg_giornateChiusura" Margin="390,325,10,7"/>
+                    <DataGrid x:Name="dtg_giornateAperturaSpeciale" Margin="319.3,10,10.2,322.4" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Column="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Data"  Binding="{Binding Data}"/>
+                            <DataGridTextColumn Header="Orario Apertura"  Binding="{Binding OrarioApertura}"/>
+                            <DataGridTextColumn Header="Orario Chiusura"  Binding="{Binding OrarioChiusura}"/>
+                            <DataGridTextColumn Header="Numero Biglietti Max"  Binding="{Binding NumBigliettiMax}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <DataGrid x:Name="dtg_giornateChiusura" Margin="319.3,325,10.2,7.4" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Column="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Data"  Binding="{Binding Data}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tbi_contenuti" Header="Contenuti" IsEnabled="False">

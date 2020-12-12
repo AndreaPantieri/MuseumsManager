@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -1296,6 +1297,20 @@ namespace MuseumsManager
         private void cmb_eliminaTipo_selezionaMuseo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             cmb_eliminaTipo_selezionaTipo.ItemsSource = null;
+        }
+
+        private void tab_finestre_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(!(e.Source is null) && e.Source.GetType().Equals(typeof(TabControl)))
+            {
+                TabControl tabControl = e.Source as TabControl;
+
+                if (!(tabControl.SelectedItem is null))
+                {
+                    TabItem tabItem = tabControl.SelectedItem as TabItem;
+                    Debug.WriteLine(tabItem.Header);
+                }
+            }
         }
     }
 }
