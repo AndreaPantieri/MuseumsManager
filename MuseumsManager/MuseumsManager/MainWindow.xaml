@@ -8,7 +8,7 @@
         Title="MuseumsManager" ResizeMode="NoResize" Width="1280" Height="720">
     <Grid x:Name="grid_museumsManager" Margin="0,0,0,0">
         <TabControl x:Name="tab_finestre" HorizontalAlignment="Left" Height="672" Margin="10,0,0,0" VerticalAlignment="Top" Width="1245" SelectionChanged="tab_finestre_SelectionChanged">
-            <TabItem x:Name="tbi_museo" Header="Museo" Height="22" VerticalAlignment="Bottom" GotFocus="tbi_museo_GotFocus">
+            <TabItem x:Name="tbi_museo" Header="Museo" Height="22" VerticalAlignment="Bottom">
                 <Grid x:Name="grid_museo">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="15*"/>
@@ -77,9 +77,17 @@
                             <Label x:Name="lbl_riepilogo_orarioChiusura" Content="" Canvas.Left="100" FontWeight="Normal" Canvas.Top="72" Width="113"/>
                             <Label x:Name="lbl_riepilogo_valoreFamiglia" Content="" Canvas.Top="123" FontWeight="Normal" Width="404" Canvas.Left="159" Background="{x:Null}"/>
                             <ListView x:Name="lsv_riepilogo_tipiMuseo" Height="100" Width="553" Canvas.Left="10" Canvas.Top="224" FontWeight="Normal" />
-                            <ListView x:Name="lsv_riepilogo_sezioni" Height="156" Width="271" Canvas.Left="10" Canvas.Top="360" FontWeight="Normal" />
+                            <ListView x:Name="lsv_riepilogo_sezioni" Height="156" Width="271" Canvas.Left="10" Canvas.Top="360" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" />
                             <Label x:Name="lbl_riepilogo_sottosezioni" Content="Sottosezioni del museo:" Canvas.Left="286" Canvas.Top="329" FontWeight="Bold" Width="277"/>
-                            <ListView x:Name="lsv_riepilogo_sottosezioni" Height="156" Width="277" Canvas.Left="286" Canvas.Top="360" FontWeight="Normal" />
+                            <ListView x:Name="lsv_riepilogo_sottosezioni" Height="156" Width="277" Canvas.Left="286" Canvas.Top="360" FontWeight="Normal" ItemsSource="{Binding lsv_riepilogo_sezioni.SelectedItem}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <WrapPanel>
+                                            <TextBlock Text="{Binding Nome}"/>
+                                        </WrapPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
                         </Canvas>
                     </GroupBox>
                 </Grid>

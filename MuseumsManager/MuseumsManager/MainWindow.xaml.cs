@@ -178,6 +178,9 @@ namespace MuseumsManager
 
         void setMuseumAreas()
         {
+            List<Sezione> ls = new List<Sezione>(DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == museoSelezionato.idMuseo));
+            lsv_riepilogo_sezioni.ItemsSource = ls;
+            lsv_riepilogo_sezioni.DisplayMemberPath = "Nome";
         }
 
         //Eventi INSERT INTO
@@ -597,23 +600,6 @@ namespace MuseumsManager
         }
 
         //Eventi GotFocus
-
-        /// <summary>
-        /// Evento per settare i parametri generali dentro la scheda museo al suo click.
-        /// </summary>
-        private void tbi_museo_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (museoSelezionato != null)
-            {
-                museoSelezionato = DBObject<Museo>.Select("idMuseo", museoSelezionato.idMuseo).First();
-                setMuseumStatus();
-                setMuseumSchedule();
-                setMuseumFamily();
-                setMuseumTypes();
-                setMuseumAreas();
-            }
-
-        }
 
         private void txt_categoriaMuseo_descrizione_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -1371,6 +1357,9 @@ namespace MuseumsManager
                 setMuseumFamily();
                 setMuseumTypes();
                 setMuseumAreas();
+
+                
+                
             }
             else
             {
@@ -1392,6 +1381,7 @@ namespace MuseumsManager
                 lbl_riepilogo_valoreFamiglia.Content = "";
                 lsv_riepilogo_tipiMuseo.Items.Clear();
                 lsv_riepilogo_sezioni.Items.Clear();
+                lsv_riepilogo_sottosezioni.Items.Clear();
             }
         }
 
@@ -1473,8 +1463,27 @@ namespace MuseumsManager
                         };
                         dtg_giornateChiusura.DataContext = calendarioChiusure;
                     }
+                    if(tabItem.Header.Equals("Museo") && !(this.museoSelezionato is null))
+                    {
+                        museoSelezionato = DBObject<Museo>.Select("idMuseo", museoSelezionato.idMuseo).First();
+                        setMuseumStatus();
+                        setMuseumSchedule();
+                        setMuseumFamily();
+                        setMuseumTypes();
+                        setMuseumAreas();
+
+                    }
                 }
             }
+        }
+
+        private void lsv_riepilogo_sezioni_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //lsv_riepilogo_sottosezioni.DataContext = 
+            //lsv_riepilogo_sezioni.ItemsSource = 
+            List<Sezione> ls = new List<Sezione>(DBObject<Sezione>.SelectAll().Where(s => s.idSezione == ((Sezione)lsv_riepilogo_sezioni.SelectedItem).idSezionePadre));
+            lsv_riepilogo_sottosezioni.ItemsSource = ls;
+            
         }
     }
 }
