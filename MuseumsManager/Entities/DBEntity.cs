@@ -44,14 +44,14 @@ namespace Entities
             
         }
 
-        public int Update(string idName, int idValue, params object[] list)
+        public static int Update<T>(string idName, int idValue, params object[] list)
         {
             if (list.Length == 0 || list.Length % 2 != 0)
             {
                 throw new Exception("Wrong number of params");
             }
 
-            string sqlCommandString = "UPDATE " + this.GetType().Name + " SET ";
+            string sqlCommandString = "UPDATE " + typeof(T).Name + " SET ";
             for (int i = 0; i < list.Length; i += 2)
             {
                 sqlCommandString += list[i];
@@ -77,6 +77,41 @@ namespace Entities
             }
             return ret;
         }
+
+        public int Update(string idName, int idValue, params object[] list)
+        {
+            if (list.Length == 0 || list.Length % 2 != 0)
+            {
+                throw new Exception("Wrong number of params");
+            }
+
+            string sqlCommandString = "UPDATE " + this.GetType().Name + " SET ";
+            for (int i = 0; i < list.Length; i += 2)
+            {
+                sqlCommandString += list[i];
+                sqlCommandString += "= ";
+
+                if (!list[i + 1].Equals("NULL"))
+                    sqlCommandString += "'";
+
+                sqlCommandString += list[i + 1];
+                if (!list[i + 1].Equals("NULL"))
+                    sqlCommandString += "'";
+                if (i < list.Length - 2)
+                {
+                    sqlCommandString += ", ";
+                }
+            }
+            sqlCommandString += " WHERE " + idName + " = '" + idValue + "';";
+            int ret;
+            using (DBConnection dBConnection = new DBConnection())
+            {
+                SqlCommand sqlCommand = new SqlCommand(sqlCommandString);
+                ret = dBConnection.GenericQuery(sqlCommand);
+            }
+            return ret;
+        }
+
 
         public static int Delete<T>(string idName, int idValue)
         {

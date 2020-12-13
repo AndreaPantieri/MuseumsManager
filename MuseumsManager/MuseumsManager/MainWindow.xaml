@@ -120,15 +120,15 @@
                     </GroupBox>
                     <DataGrid x:Name="dtg_giornateAperturaSpeciale" Margin="319.3,10,10.2,322.4" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Column="1">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Data" Binding="{Binding Data, Mode=TwoWay}"/>
-                            <DataGridTextColumn Header="Orario Apertura"  Binding="{Binding OrarioApertura}"/>
-                            <DataGridTextColumn Header="Orario Chiusura"  Binding="{Binding OrarioChiusura}"/>
-                            <DataGridTextColumn Header="Numero Biglietti Max"  Binding="{Binding NumBigliettiMax}"/>
+                            <DataGridTextColumn Header="Data" Binding="{Binding Data, StringFormat=yyyy-MM-dd}"/>
+                            <DataGridTextColumn Header="OrarioApertura"  Binding="{Binding OrarioApertura}"/>
+                            <DataGridTextColumn Header="OrarioChiusura"  Binding="{Binding OrarioChiusura}"/>
+                            <DataGridTextColumn Header="NumeroBigliettiMax"  Binding="{Binding NumBigliettiMax}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <DataGrid x:Name="dtg_giornateChiusura" Margin="319.3,325,10.2,7.4" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Column="1">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Data"  Binding="{Binding Data}"/>
+                            <DataGridTextColumn Header="Data"  Binding="{Binding Data, StringFormat=yyyy-MM-dd}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
