@@ -91,11 +91,11 @@ namespace MuseumsManager
         /// </summary>
         void setMuseumStatus()
         {
-            String currentDate = DateTime.Today.ToString("dd/MM/yyyy");
+            String currentDate = DateTime.Today.ToString("yyyy-MM-dd");
 
             //se: (TUTTI i giorni di chiusura non corrispondono alla data di oggi E, UNO QUALSIASI di quelli di apertura speciale corrisponde alla data di oggi) OPPURE (TUTTI i giorni di chiusura non corrispondono alla data di oggi E, TUTTI quelli di apertura speciale NON CORRISPONDONO alla data di oggi)
-            if (DBObject<CalendarioChiusure>.SelectAll().All(cc => (cc as CalendarioChiusure).Data.ToString("dd/MM/yyyy") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().Any(cas => (cas as CalendarioApertureSpeciali).Data.ToString("dd/MM/yyyy") == currentDate) ||
-                DBObject<CalendarioChiusure>.SelectAll().All(cc => (cc as CalendarioChiusure).Data.ToString("dd/MM/yyyy") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().All(cas => (cas as CalendarioApertureSpeciali).Data.ToString("dd/MM/yyyy") != currentDate))
+            if (DBObject<CalendarioChiusure>.SelectAll().All(cc => (cc as CalendarioChiusure).Data.ToString("yyyy-MM-dd") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().Any(cas => (cas as CalendarioApertureSpeciali).Data.ToString("yyyy-MM-dd") == currentDate) ||
+                DBObject<CalendarioChiusure>.SelectAll().All(cc => (cc as CalendarioChiusure).Data.ToString("yyyy-MM-dd") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().All(cas => (cas as CalendarioApertureSpeciali).Data.ToString("yyyy-MM-dd") != currentDate))
             {
                 lbl_riepilogo_statoApertura.Foreground = Brushes.Green;
                 lbl_riepilogo_statoApertura.Content = "Aperto";
@@ -435,7 +435,7 @@ namespace MuseumsManager
             {
                 Museo m = (Museo)cmb_museo_selezionaMuseo.SelectedItem;
                 DateTime date = (DateTime)cal_aperturaSpeciale_data.SelectedDate;
-                string data = date.Date.ToString("dd/MM/yyyy");
+                string data = date.Date.ToString("yyyy-MM-dd");
                 if(DBObject<CalendarioChiusure>.Select("idMuseo", m.idMuseo, "Data", data).Count == 0)
                 {
                     int res = DBObject<CalendarioApertureSpeciali>.Insert("Data", data, "idMuseo", m.idMuseo, "OrarioApertura", oa, "OrarioChiusura", oc, "NumBigliettiMax", nBiglMax);
@@ -473,7 +473,7 @@ namespace MuseumsManager
             {
                 Museo m = (Museo)cmb_museo_selezionaMuseo.SelectedItem;
                 DateTime date = (DateTime)cal_chiusura_data.SelectedDate;
-                string data = date.Date.ToString("dd/MM/yyyy");
+                string data = date.Date.ToString("yyyy-MM-dd");
                 if (DBObject<CalendarioApertureSpeciali>.Select("idMuseo", m.idMuseo, "Data", data).Count == 0)
                 {
                     int res = DBObject<CalendarioChiusure>.Insert("Data", data, "idMuseo", m.idMuseo);
@@ -1308,7 +1308,7 @@ namespace MuseumsManager
             {
                 cmb_aperturaSpeciale_elimina.ItemsSource = DBObject<CalendarioApertureSpeciali>.Select("idMuseo", m.idMuseo);
                 cmb_aperturaSpeciale_elimina.DisplayMemberPath = "Data";
-                cmb_aperturaSpeciale_elimina.ItemStringFormat = "dd/MM/yyyy";
+                cmb_aperturaSpeciale_elimina.ItemStringFormat = "yyyy-MM-dd";
             }
         }
 
@@ -1322,7 +1322,7 @@ namespace MuseumsManager
             {
                 cmb_chiusura_elimina.ItemsSource = DBObject<CalendarioChiusure>.Select("idMuseo", m.idMuseo);
                 cmb_chiusura_elimina.DisplayMemberPath = "Data";
-                cmb_chiusura_elimina.ItemStringFormat = "dd/MM/yyyy";
+                cmb_chiusura_elimina.ItemStringFormat = "yyyy-MM-dd";
             }
         }
 
