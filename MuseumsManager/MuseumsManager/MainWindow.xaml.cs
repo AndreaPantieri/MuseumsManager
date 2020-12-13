@@ -1374,14 +1374,15 @@ namespace MuseumsManager
                 gpb_sezioni.IsEnabled = false;
                 gpb_categoriaSezione.IsEnabled = false;
                 gpb_orari.IsEnabled = false;
+                lsv_riepilogo_sezioni.ItemsSource = null;
+                lsv_riepilogo_sottosezioni.ItemsSource = null;
                 lbl_museo_nomeMuseo.Content = "NOME MUSEO";
                 lbl_riepilogo_statoApertura.Content = "";
                 lbl_riepilogo_orarioApertura.Content = "";
                 lbl_riepilogo_orarioChiusura.Content = "";
                 lbl_riepilogo_valoreFamiglia.Content = "";
                 lsv_riepilogo_tipiMuseo.Items.Clear();
-                lsv_riepilogo_sezioni.Items.Clear();
-                lsv_riepilogo_sottosezioni.Items.Clear();
+
             }
         }
 
@@ -1488,11 +1489,11 @@ namespace MuseumsManager
 
         private void lsv_riepilogo_sezioni_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //lsv_riepilogo_sottosezioni.DataContext = 
-            //lsv_riepilogo_sezioni.ItemsSource = 
-            List<Sezione> ls = new List<Sezione>(DBObject<Sezione>.SelectAll().Where(s => s.idSezione == ((Sezione)lsv_riepilogo_sezioni.SelectedItem).idSezionePadre));
-            lsv_riepilogo_sottosezioni.ItemsSource = ls;
-            
+            if(lsv_riepilogo_sezioni.SelectedIndex != -1)
+            {
+                List<Sezione> ls = new List<Sezione>(DBObject<Sezione>.SelectAll().Where(s => s.idSezione == ((Sezione)lsv_riepilogo_sezioni.SelectedItem).idSezionePadre));
+                lsv_riepilogo_sottosezioni.ItemsSource = ls;
+            }        
         }
     }
 }
