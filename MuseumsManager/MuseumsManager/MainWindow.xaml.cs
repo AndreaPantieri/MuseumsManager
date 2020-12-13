@@ -127,7 +127,9 @@ namespace MuseumsManager
             {
                 lbl_riepilogo_orarioApertura.Content = museoSelezionato.OrarioAperturaGenerale;
                 lbl_riepilogo_orarioChiusura.Content = museoSelezionato.OrarioChiusuraGenerale;
-            }             
+            }
+            lbl_orari_valoreOrarioApertura.Content = museoSelezionato.OrarioAperturaGenerale;
+            lbl_orari_valoreOrarioChiusura.Content = museoSelezionato.OrarioChiusuraGenerale;
         }
 
         void setMuseumFamily()
@@ -144,6 +146,38 @@ namespace MuseumsManager
             }
             if (!ok)
                 lbl_riepilogo_valoreFamiglia.Content = "Nessuna";
+        }
+
+        /// <summary>
+        /// Setta tutti i tipi associati al museo selezionato.
+        /// </summary>
+        void setMuseumTypes()
+        {
+            List<Museo_Tipologia> parzialeMuseoTipologia = new List<Museo_Tipologia>(DBObject<Museo_Tipologia>.SelectAll().Where(mt => mt.idMuseo == museoSelezionato.idMuseo));
+            List<TipoMuseo> tabellaTipoMuseo = new List<TipoMuseo>(DBObject<TipoMuseo>.SelectAll());
+            List<TipoMuseo> TipiMuseoSelezionato = new List<TipoMuseo>();
+
+            bool ok;
+            for (int i = 0; i < tabellaTipoMuseo.Count; i++)
+            {
+                ok = false;
+
+                for (int j = 0; j < parzialeMuseoTipologia.Count; j++)
+                {
+                    if (tabellaTipoMuseo[i].idTipoMuseo == parzialeMuseoTipologia[j].idTipoMuseo)
+                        ok = true;
+                }
+                if (ok)
+                    TipiMuseoSelezionato.Add(tabellaTipoMuseo[i]);
+            }
+            for (int i = 0; i < TipiMuseoSelezionato.Count; i++)
+            {
+                lsv_riepilogo_tipiMuseo.Items.Add(TipiMuseoSelezionato[i].Descrizione);
+            }
+        }
+
+        void setMuseumAreas()
+        {
         }
 
         //Eventi INSERT INTO
@@ -503,6 +537,65 @@ namespace MuseumsManager
                 MessageBox.Show("Nessuna provenienza selezionata!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        /// <summary>
+        /// Crea una nuova categoria di sezione.
+        /// </summary>
+        private void btn_categoriaSezione_crea_Click(object sender, RoutedEventArgs e)
+        {
+            if (!txt_categoriaSezione_descrizione.Text.Equals("Descrizione") &&
+                !txt_categoriaSezione_descrizione.Text.Equals(""))
+            {
+                if (checkQueryResult(DBObject<TipoSezione>.Insert("Descrizione", txt_categoriaSezione_descrizione.Text)))
+                    MessageBox.Show("Nuova categoria di sezione inserita correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show("La descrizione non è stata compilata correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void btn_orari_modifica_Click(object sender, RoutedEventArgs e)
+        {
+            TimeSpan orarioApertura, orarioChiusura; 
+            if(!txt_orari_nuovoOrarioApertura.Text.Equals("") &&
+               !txt_orari_nuovoOrarioChiusura.Text.Equals("") &&
+               TimeSpan.TryParse(txt_orari_nuovoOrarioApertura.Text, out orarioApertura) &&
+               TimeSpan.TryParse(txt_orari_nuovoOrarioChiusura.Text, out orarioChiusura))
+            {
+                museoSelezionato.Update("idMuseo", museoSelezionato.idMuseo, "OrarioAperturaGenerale", orarioApertura, "OrarioChiusuraGenerale", orarioChiusura);
+                museoSelezionato = DBObject<Museo>.Select("idMuseo", museoSelezionato.idMuseo).First();
+                MessageBox.Show("Nuovi orari di apertura/chiusura generali impostati correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                setMuseumSchedule();
+            }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void btn_sezioni_aggiungi_Click(object sender, RoutedEventArgs e)
+        {
+            if(!txt_sezioni_nome.Text.Equals("") &&
+               !txt_sezioni_nome.Text.Equals("Nome") &&
+               !txt_sezioni_descrizione.Text.Equals("") &&
+               !txt_sezioni_descrizione.Text.Equals("Descrizione") &&
+               cmb_sezioni_tipoSezione.SelectedIndex != -1 &&
+               cmb_sezioni_padre.SelectedIndex != -1)
+            {
+                int index = DBObject<Sezione>.Insert("Nome", txt_sezioni_nome.Text, "Descrizione", txt_sezioni_descrizione.Text, "idSezionePadre", ((Sezione)cmb_sezioni_padre.SelectedItem).idSezione, "idMuseo", museoSelezionato.idMuseo);
+                DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Insert("idSezione", index, "idMuseo", ((TipoSezione)cmb_sezioni_tipoSezione.SelectedItem).idTipoSezione);
+                MessageBox.Show("Nuova sottosezione aggiunta correttamente al museo!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else if (!txt_sezioni_nome.Text.Equals("") &&
+               !txt_sezioni_nome.Text.Equals("Nome") &&
+               !txt_sezioni_descrizione.Text.Equals("") &&
+               !txt_sezioni_descrizione.Text.Equals("Descrizione") &&
+               cmb_sezioni_tipoSezione.SelectedIndex != -1)
+            {
+                int index = DBObject<Sezione>.Insert("Nome", txt_sezioni_nome.Text, "Descrizione", txt_sezioni_descrizione.Text, "idMuseo", museoSelezionato.idMuseo);
+                DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Insert("idSezione", index, "idMuseo", ((TipoSezione)cmb_sezioni_tipoSezione.SelectedItem).idTipoSezione);
+                MessageBox.Show("Nuova sezione aggiunta correttamente al museo!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
         //Eventi GotFocus
 
         /// <summary>
@@ -512,9 +605,12 @@ namespace MuseumsManager
         {
             if (museoSelezionato != null)
             {
+                museoSelezionato = DBObject<Museo>.Select("idMuseo", museoSelezionato.idMuseo).First();
                 setMuseumStatus();
                 setMuseumSchedule();
                 setMuseumFamily();
+                setMuseumTypes();
+                setMuseumAreas();
             }
 
         }
@@ -1236,6 +1332,17 @@ namespace MuseumsManager
             cmb_provenienza_rimuovi.DisplayMemberPath = "Nome";
         }
 
+        private void cmb_sezioni_tipoSezione_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_sezioni_tipoSezione.ItemsSource = DBObject<TipoSezione>.SelectAll();
+            cmb_sezioni_tipoSezione.DisplayMemberPath = "Descrizione";
+        }
+
+        private void cmb_sezioni_padre_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_sezioni_padre.ItemsSource = DBObject<Sezione>.SelectAll();
+            cmb_sezioni_padre.DisplayMemberPath = "Nome";
+        }
 
         //Eventi SelectionChanged
 
@@ -1255,14 +1362,15 @@ namespace MuseumsManager
                 tbi_personale.IsEnabled = true;
                 tbi_registri.IsEnabled = true;
                 tbi_statistiche.IsEnabled = true;
+                gpb_riepilogo.IsEnabled = true;
                 gpb_sezioni.IsEnabled = true;
                 gpb_categoriaSezione.IsEnabled = true;
                 gpb_orari.IsEnabled = true;            
                 setMuseumStatus();
                 setMuseumSchedule();
                 setMuseumFamily();
-                
-
+                setMuseumTypes();
+                setMuseumAreas();
             }
             else
             {
@@ -1273,6 +1381,7 @@ namespace MuseumsManager
                 tbi_personale.IsEnabled = false;
                 tbi_registri.IsEnabled = false;
                 tbi_statistiche.IsEnabled = false;
+                gpb_riepilogo.IsEnabled = true;
                 gpb_sezioni.IsEnabled = false;
                 gpb_categoriaSezione.IsEnabled = false;
                 gpb_orari.IsEnabled = false;
@@ -1281,7 +1390,8 @@ namespace MuseumsManager
                 lbl_riepilogo_orarioApertura.Content = "";
                 lbl_riepilogo_orarioChiusura.Content = "";
                 lbl_riepilogo_valoreFamiglia.Content = "";
-
+                lsv_riepilogo_tipiMuseo.Items.Clear();
+                lsv_riepilogo_sezioni.Items.Clear();
             }
         }
 

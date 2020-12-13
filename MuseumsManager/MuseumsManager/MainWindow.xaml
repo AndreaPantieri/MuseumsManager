@@ -21,9 +21,9 @@
                         <Canvas x:Name="cnv_sezioni" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_sezioni_nome" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_sezioni_nome_GotFocus" LostFocus="txt_sezioni_nome_LostFocus"/>
                             <TextBox x:Name="txt_sezioni_descrizione" HorizontalAlignment="Left" Height="66" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="69" Foreground="Gray" FontWeight="Normal" RenderTransformOrigin="0.517,0.136" FontStyle="Italic" GotFocus="txt_sezioni_descrizione_GotFocus" LostFocus="txt_sezioni_descrizione_LostFocus"/>
-                            <ComboBox x:Name="cmb_sezioni_tipoSezione" Height="26" Width="170" Canvas.Left="123" Canvas.Top="139" FontWeight="Normal"/>
-                            <ComboBox x:Name="cmb_sezioni_padre" Height="26" Width="170" Canvas.Left="123" Canvas.Top="170" FontWeight="Normal"/>
-                            <Button x:Name="btn_sezioni_aggiungi" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="201" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_sezioni_tipoSezione" Height="26" Width="170" Canvas.Left="123" Canvas.Top="139" FontWeight="Normal" DropDownOpened="cmb_sezioni_tipoSezione_DropDownOpened"/>
+                            <ComboBox x:Name="cmb_sezioni_padre" Height="26" Width="170" Canvas.Left="123" Canvas.Top="170" FontWeight="Normal" DropDownOpened="cmb_sezioni_padre_DropDownOpened"/>
+                            <Button x:Name="btn_sezioni_aggiungi" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="201" FontWeight="Normal" Click="btn_sezioni_aggiungi_Click"/>
                             <Label x:Name="lbl_sezioni_tipoSezione" Content="Tipo della sezione:" Canvas.Left="10" Canvas.Top="139" FontWeight="Normal" Width="108"/>
                             <Label x:Name="lbl_sezioni_padre" Content="Padre (facoltativo):" Canvas.Left="10" Canvas.Top="170" FontWeight="Normal"/>
                             <Label x:Name="lbl_sezioni_aggiungi" Content="Aggiungi una sezione:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="283"/>
@@ -46,7 +46,7 @@
                         <Canvas x:Name="cnv_orari" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_orari_nuovoOrarioApertura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo orario di apertura" VerticalAlignment="Top" Width="278" Canvas.Left="10" Canvas.Top="148" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_orari_nuovoOrarioApertura_GotFocus" LostFocus="txt_orari_nuovoOrarioApertura_LostFocus"/>
                             <TextBox x:Name="txt_orari_nuovoOrarioChiusura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo orario di chiusura" VerticalAlignment="Top" Width="278" Canvas.Left="10" Canvas.Top="176" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_orari_nuovoOrarioChiusura_GotFocus" LostFocus="txt_orari_nuovoOrarioChiusura_LostFocus"/>
-                            <Button x:Name="btn_orari_modifica" Content="Modifica" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="206" Canvas.Top="204" FontWeight="Normal"/>
+                            <Button x:Name="btn_orari_modifica" Content="Modifica" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="206" Canvas.Top="204" FontWeight="Normal" Click="btn_orari_modifica_Click"/>
                             <Label x:Name="lbl_orari_modifica" Content="Modifica orari:" Canvas.Left="10" Canvas.Top="117" FontWeight="Bold" Width="278"/>
                             <Label x:Name="lbl_orari_orariAttuali" Content="Orari attuali" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="278"/>
                             <Label x:Name="lbl_orari_orarioApertura" Content="Orario apertura:" Canvas.Left="35" Canvas.Top="36" FontWeight="Normal" Width="96"/>
@@ -60,7 +60,7 @@
 
                             <TextBox x:Name="txt_categoriaSezione_descrizione" HorizontalAlignment="Left" Height="80" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_categoriaSezione_descrizione_GotFocus" LostFocus="txt_categoriaSezione_descrizione_LostFocus"/>
 
-                            <Button x:Name="btn_categoriaSezione_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="126" FontWeight="Normal"/>
+                            <Button x:Name="btn_categoriaSezione_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="126" FontWeight="Normal" Click="btn_categoriaSezione_crea_Click"/>
                             <Label x:Name="lbl_categoriaSezione_crea" Content="Crea un nuovo tipo di sezione:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="283"/>
                         </Canvas>
                     </GroupBox>
@@ -68,14 +68,18 @@
                         <Canvas x:Name="cnv_riepilogo" Margin="0,0,-2,-4">
                             <Label x:Name="lbl_riepilogo_apertoDalle" Content="Aperto dalle:" Canvas.Left="10" Canvas.Top="41" FontWeight="Bold" Width="85"/>
                             <Label x:Name="lbl_riepilogo_alle" Content="Alle:" Canvas.Left="10" Canvas.Top="72" FontWeight="Bold" Width="85"/>
-                            <Label x:Name="lbl_riepilogo_sezioni" Content="Sezioni del museo:" Canvas.Left="10" Canvas.Top="368" FontWeight="Bold" Width="553"/>
-                            <Label x:Name="lbl_riepilogo_tipo" Content="Tipo/i del museo:" Canvas.Left="10" Canvas.Top="233" FontWeight="Bold" Width="553"/>
-                            <Label x:Name="lbl_riepilogo_famiglia" Content="Famiglia di cui fa parte:" Canvas.Top="132" FontWeight="Bold" Width="144" Canvas.Left="10"/>
+                            <Label x:Name="lbl_riepilogo_sezioni" Content="Sezioni del museo:" Canvas.Left="10" Canvas.Top="329" FontWeight="Bold" Width="271"/>
+                            <Label x:Name="lbl_riepilogo_tipo" Content="Tipo/i del museo:" Canvas.Left="10" Canvas.Top="193" FontWeight="Bold" Width="553"/>
+                            <Label x:Name="lbl_riepilogo_famiglia" Content="Famiglia di cui fa parte:" Canvas.Top="123" FontWeight="Bold" Width="144" Canvas.Left="10"/>
                             <Label x:Name="lbl_riepilogo_attualmente" Content="Attualmente:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="85"/>
                             <Label x:Name="lbl_riepilogo_statoApertura" Content="" Canvas.Left="100" Canvas.Top="10" FontWeight="Bold" Width="54"/>
-                            <Label x:Name="lbl_riepilogo_orarioApertura" Content="" Canvas.Left="100" Canvas.Top="41" FontWeight="Bold" Width="120"/>
-                            <Label x:Name="lbl_riepilogo_orarioChiusura" Content="" Canvas.Left="100" Canvas.Top="72" FontWeight="Bold" Width="113"/>
-                            <Label x:Name="lbl_riepilogo_valoreFamiglia" Content="" Canvas.Top="132" FontWeight="Bold" Width="404" Canvas.Left="159"/>
+                            <Label x:Name="lbl_riepilogo_orarioApertura" Content="" Canvas.Left="100" FontWeight="Normal" Canvas.Top="41" Width="120"/>
+                            <Label x:Name="lbl_riepilogo_orarioChiusura" Content="" Canvas.Left="100" FontWeight="Normal" Canvas.Top="72" Width="113"/>
+                            <Label x:Name="lbl_riepilogo_valoreFamiglia" Content="" Canvas.Top="123" FontWeight="Normal" Width="404" Canvas.Left="159" Background="{x:Null}"/>
+                            <ListView x:Name="lsv_riepilogo_tipiMuseo" Height="100" Width="553" Canvas.Left="10" Canvas.Top="224" FontWeight="Normal" />
+                            <ListView x:Name="lsv_riepilogo_sezioni" Height="156" Width="271" Canvas.Left="10" Canvas.Top="360" FontWeight="Normal" />
+                            <Label x:Name="lbl_riepilogo_sottosezioni" Content="Sottosezioni del museo:" Canvas.Left="286" Canvas.Top="329" FontWeight="Bold" Width="277"/>
+                            <ListView x:Name="lsv_riepilogo_sottosezioni" Height="156" Width="277" Canvas.Left="286" Canvas.Top="360" FontWeight="Normal" />
                         </Canvas>
                     </GroupBox>
                 </Grid>
