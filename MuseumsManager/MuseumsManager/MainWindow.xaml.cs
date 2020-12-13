@@ -1327,7 +1327,7 @@ namespace MuseumsManager
 
         private void cmb_sezioni_padre_DropDownOpened(object sender, EventArgs e)
         {
-            cmb_sezioni_padre.ItemsSource = DBObject<Sezione>.SelectAll();
+            cmb_sezioni_padre.ItemsSource = DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == this.museoSelezionato.idMuseo);
             cmb_sezioni_padre.DisplayMemberPath = "Nome";
         }
 
