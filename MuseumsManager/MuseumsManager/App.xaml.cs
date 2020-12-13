@@ -18,7 +18,7 @@ namespace MuseumsManager
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var culture = new CultureInfo("it");
+            var culture = new CultureInfo("en-EN");
             FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(culture.IetfLanguageTag)));
         }
