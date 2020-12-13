@@ -23,7 +23,7 @@ namespace MuseumsManager
 {
     /// <summary>
     /// Controller di MuseumsManager.
-    /// Comunica con view e model.
+    /// Comunica con view (MainWindow.xaml) e model (Entities).
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -36,6 +36,7 @@ namespace MuseumsManager
         Museo museoSelezionato;
         string defaultSelectedTextBoxValue;
 
+        /*
         void setPlaceHolder(TextBox textBox, string placeHolder)
         {
             textBox.FontStyle = FontStyles.Italic;
@@ -49,6 +50,7 @@ namespace MuseumsManager
             textBox.Foreground = Brushes.Black;
             textBox.Text = "";
         }
+        */
 
         //Metodi
         void setTextBoxParameters(RoutedEventArgs e)
@@ -93,7 +95,7 @@ namespace MuseumsManager
         {
             String currentDate = DateTime.Today.ToString("yyyy-MM-dd");
 
-            //se: (TUTTI i giorni di chiusura non corrispondono alla data di oggi E, UNO QUALSIASI di quelli di apertura speciale corrisponde alla data di oggi) OPPURE (TUTTI i giorni di chiusura non corrispondono alla data di oggi E, TUTTI quelli di apertura speciale NON CORRISPONDONO alla data di oggi)
+            //se (per il museo selezionato): (TUTTI i giorni di chiusura non corrispondono alla data di oggi E, UNO QUALSIASI di quelli di apertura speciale corrisponde alla data di oggi) OPPURE (TUTTI i giorni di chiusura non corrispondono alla data di oggi E, TUTTI quelli di apertura speciale NON CORRISPONDONO alla data di oggi)
             if (DBObject<CalendarioChiusure>.SelectAll().Where(cc => cc.idMuseo == this.museoSelezionato.idMuseo).All(cc => (cc as CalendarioChiusure).Data.ToString("yyyy-MM-dd") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().Where(cas => cas.idMuseo == this.museoSelezionato.idMuseo).Any(cas => (cas as CalendarioApertureSpeciali).Data.ToString("yyyy-MM-dd") == currentDate) ||
                 DBObject<CalendarioChiusure>.SelectAll().Where(cc => cc.idMuseo == this.museoSelezionato.idMuseo).All(cc => (cc as CalendarioChiusure).Data.ToString("yyyy-MM-dd") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().Where(cas => cas.idMuseo == this.museoSelezionato.idMuseo).All(cas => (cas as CalendarioApertureSpeciali).Data.ToString("yyyy-MM-dd") != currentDate))
             {
@@ -184,7 +186,7 @@ namespace MuseumsManager
             lsv_riepilogo_sezioni.DisplayMemberPath = "Nome";
         }
 
-        //Eventi INSERT INTO
+        //Eventi Click
 
         /// <summary>
         /// Metodo di creazione di un nuovo museo.
@@ -369,6 +371,7 @@ namespace MuseumsManager
         /// </summary>
         private void btn_periodoStorico_elimina_Click(object sender, RoutedEventArgs e)
         {
+            //PANTIE DEVI FARE IL CONTROLLO SE IL PERIODO STORICO E' PRESENTE IN MUSEO_PERIODOSTORICO E IN CONTENUTO NON SI PUO' ELIMINARE!!!
             if (!(cmb_periodoStorico_elimina.SelectedItem is null))
             {
                 int res = DBEntity.Delete<PeriodoStorico>("idPeriodoStorico", (cmb_periodoStorico_elimina.SelectedItem as PeriodoStorico).idPeriodoStorico);
@@ -408,18 +411,18 @@ namespace MuseumsManager
             if (cmb_creatore_rimuovi.SelectedItem != null)
             {
                 //if(DBRelationN2NOnlyIndexes<Museo_Creatore>.SelectAll().Any(mc => ((Museo_Creatore)mc).idCreatore == ((Creatore)cmb_creatore_rimuovi.SelectedItem).idCreatore) ||
-                    //DBRelationN2NOnlyIndexes<Creato>.SelectAll().Any(cc => ((Creato)cc).idCreatore == ((Creato)cmb_creatore_rimuovi.SelectedItem).idCreatore))
+                //DBRelationN2NOnlyIndexes<Creato>.SelectAll().Any(cc => ((Creato)cc).idCreatore == ((Creato)cmb_creatore_rimuovi.SelectedItem).idCreatore))
                 //{
-                    //MessageBox.Show("Impossibile eliminare il creatore selezionato: è possibile che esso abbia altre dipendenze in altri musei o contenuti!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show("Impossibile eliminare il creatore selezionato: è possibile che esso abbia altre dipendenze in altri musei o contenuti!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
                 //}
                 //else
                 //{
-                    string nomeCreatore = ((Creatore)cmb_creatore_rimuovi.SelectedItem).ToString();
-                    if (checkQueryResult(DBEntity.Delete<Creatore>("idCreatore", (cmb_creatore_rimuovi.SelectedItem as Creatore).idCreatore)))
-                    {
-                        MessageBox.Show("Creatore \"" + nomeCreatore + "\" eliminato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
-                        cmb_creatore_rimuovi.ItemsSource = null;
-                    }
+                string nomeCreatore = ((Creatore)cmb_creatore_rimuovi.SelectedItem).ToString();
+                if (checkQueryResult(DBEntity.Delete<Creatore>("idCreatore", (cmb_creatore_rimuovi.SelectedItem as Creatore).idCreatore)))
+                {
+                    MessageBox.Show("Creatore \"" + nomeCreatore + "\" eliminato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                    cmb_creatore_rimuovi.ItemsSource = null;
+                }
                 //}
             }
             else
@@ -433,14 +436,14 @@ namespace MuseumsManager
         {
             int nBiglMax = 0;
             TimeSpan oa = new TimeSpan(), oc = new TimeSpan();
-            if(!(cal_aperturaSpeciale_data.SelectedDate is null) && !(cmb_museo_selezionaMuseo.SelectedItem is null) && int.TryParse(txt_aperturaSpeciale_numBigliettiMax.Text, out nBiglMax) && 
+            if (!(cal_aperturaSpeciale_data.SelectedDate is null) && !(cmb_museo_selezionaMuseo.SelectedItem is null) && int.TryParse(txt_aperturaSpeciale_numBigliettiMax.Text, out nBiglMax) &&
                 TimeSpan.TryParse(txt_aperturaSpeciale_nuovoOrarioApertura.Text, out oa) &&
                 TimeSpan.TryParse(txt_aperturaSpeciale_nuovoOrarioChiusura.Text, out oc))
             {
                 Museo m = (Museo)cmb_museo_selezionaMuseo.SelectedItem;
                 DateTime date = (DateTime)cal_aperturaSpeciale_data.SelectedDate;
                 string data = date.Date.ToString("yyyy-MM-dd");
-                if(DBObject<CalendarioChiusure>.Select("idMuseo", m.idMuseo, "Data", data).Count == 0)
+                if (DBObject<CalendarioChiusure>.Select("idMuseo", m.idMuseo, "Data", data).Count == 0)
                 {
                     int res = DBObject<CalendarioApertureSpeciali>.Insert("Data", data, "idMuseo", m.idMuseo, "OrarioApertura", oa, "OrarioChiusura", oc, "NumBigliettiMax", nBiglMax);
                     if (checkQueryResult(res))
@@ -457,7 +460,7 @@ namespace MuseumsManager
         /// </summary>
         private void btn_aperturaSpeciale_elimina_Click(object sender, RoutedEventArgs e)
         {
-            if(!(cmb_aperturaSpeciale_elimina.SelectedItem is null))
+            if (!(cmb_aperturaSpeciale_elimina.SelectedItem is null))
             {
                 CalendarioApertureSpeciali cal = cmb_aperturaSpeciale_elimina.SelectedItem as CalendarioApertureSpeciali;
 
@@ -558,8 +561,8 @@ namespace MuseumsManager
 
         private void btn_orari_modifica_Click(object sender, RoutedEventArgs e)
         {
-            TimeSpan orarioApertura, orarioChiusura; 
-            if(!txt_orari_nuovoOrarioApertura.Text.Equals("") &&
+            TimeSpan orarioApertura, orarioChiusura;
+            if (!txt_orari_nuovoOrarioApertura.Text.Equals("") &&
                !txt_orari_nuovoOrarioChiusura.Text.Equals("") &&
                TimeSpan.TryParse(txt_orari_nuovoOrarioApertura.Text, out orarioApertura) &&
                TimeSpan.TryParse(txt_orari_nuovoOrarioChiusura.Text, out orarioChiusura))
@@ -575,7 +578,7 @@ namespace MuseumsManager
 
         private void btn_sezioni_aggiungi_Click(object sender, RoutedEventArgs e)
         {
-            if(!txt_sezioni_nome.Text.Equals("") &&
+            if (!txt_sezioni_nome.Text.Equals("") &&
                !txt_sezioni_nome.Text.Equals("Nome") &&
                !txt_sezioni_descrizione.Text.Equals("") &&
                !txt_sezioni_descrizione.Text.Equals("Descrizione") &&
@@ -585,6 +588,7 @@ namespace MuseumsManager
                 int index = DBObject<Sezione>.Insert("Nome", txt_sezioni_nome.Text, "Descrizione", txt_sezioni_descrizione.Text, "idSezionePadre", ((Sezione)cmb_sezioni_padre.SelectedItem).idSezione, "idMuseo", museoSelezionato.idMuseo);
                 DBObject<Sezione_Tipologia>.Insert("idSezione", index, "idTipoSezione", ((TipoSezione)cmb_sezioni_tipoSezione.SelectedItem).idTipoSezione);
                 MessageBox.Show("Nuova sottosezione aggiunta correttamente al museo!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                setMuseumAreas();
             }
             else if (!txt_sezioni_nome.Text.Equals("") &&
                !txt_sezioni_nome.Text.Equals("Nome") &&
@@ -595,6 +599,7 @@ namespace MuseumsManager
                 int index = DBObject<Sezione>.Insert("Nome", txt_sezioni_nome.Text, "Descrizione", txt_sezioni_descrizione.Text, "idMuseo", museoSelezionato.idMuseo);
                 DBObject<Sezione_Tipologia>.Insert("idSezione", index, "idTipoSezione", ((TipoSezione)cmb_sezioni_tipoSezione.SelectedItem).idTipoSezione);
                 MessageBox.Show("Nuova sezione aggiunta correttamente al museo!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                setMuseumAreas();
             }
             else
                 MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -1118,7 +1123,6 @@ namespace MuseumsManager
         {
             cmb_museoCreazione_tipoMuseo.ItemsSource = DBObject<TipoMuseo>.SelectAll();
             cmb_museoCreazione_tipoMuseo.DisplayMemberPath = "Descrizione";
-
         }
 
         private void cmb_museo_selezionaMuseo_DropDownOpened(object sender, EventArgs e)
@@ -1237,6 +1241,10 @@ namespace MuseumsManager
             cmb_eliminaTipo_selezionaMuseo.DisplayMemberPath = "Nome";
         }
 
+        /// <summary>
+        /// Evento per l'eliminazione di un tipo (DI MUSEO) da un museo.
+        /// Mostra solamente i tipi che sono stati assegnati al museo interessato e che possono, quindi, essere eliminati.
+        /// </summary>
         private void cmb_eliminaTipo_selezionaTipo_DropDownOpened(object sender, EventArgs e)
         {
             Museo museoSelezionato = cmb_eliminaTipo_selezionaMuseo.SelectedItem as Museo;
@@ -1331,6 +1339,60 @@ namespace MuseumsManager
             cmb_sezioni_padre.DisplayMemberPath = "Nome";
         }
 
+        private void cmb_sezioni_selezionaSezione_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_sezioni_selezionaSezione.ItemsSource = DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == this.museoSelezionato.idMuseo);
+            cmb_sezioni_selezionaSezione.DisplayMemberPath = "Nome";
+        }
+
+        /// <summary>
+        /// Evento per mostrare solamente i tipi non assegnati ad una sezione.
+        /// Ricordando che i tipi sono N a N, verranno mostrati tutti tranne quelli non assegnati, indipendentemente, quindi, dal museo.
+        /// </summary>
+        private void cmb_sezioni_modificaTipo_DropDownOpened(object sender, EventArgs e)
+        {
+            if (cmb_sezioni_selezionaSezione.SelectedIndex == -1)
+                return;
+
+            List<Sezione_Tipologia> tabellaSezioneTipologia = new List<Sezione_Tipologia>(DBObject<Sezione_Tipologia>.SelectAll());
+            List<TipoSezione> tabellaTipoSezione = new List<TipoSezione>(DBObject<TipoSezione>.SelectAll());
+            List<Sezione_Tipologia> parzialeSezioneTipologia = new List<Sezione_Tipologia>();
+            List<TipoSezione> TipiDisponibili = new List<TipoSezione>();
+
+            for (int i = 0; i < tabellaSezioneTipologia.Count; i++)
+            {
+                if (((Sezione)cmb_sezioni_selezionaSezione.SelectedItem).idSezione == tabellaSezioneTipologia[i].idSezione)
+                {
+                    parzialeSezioneTipologia.Add(tabellaSezioneTipologia[i]);
+                }
+            }
+            bool ok;
+
+            for (int i = 0; i < tabellaTipoSezione.Count; i++)
+            {
+                ok = false;
+
+                for (int j = 0; j < parzialeSezioneTipologia.Count; j++)
+                {
+                    if (tabellaTipoSezione[i].idTipoSezione == parzialeSezioneTipologia[j].idTipoSezione)
+                        ok = true;
+                }
+                if (!ok)
+                    TipiDisponibili.Add(tabellaTipoSezione[i]);
+            }
+            cmb_sezioni_modificaTipo.ItemsSource = TipiDisponibili;
+            cmb_sezioni_modificaTipo.DisplayMemberPath = "Descrizione";
+        }
+
+        private void cmb_sezioni_modificaPadre_DropDownOpened(object sender, EventArgs e)
+        {
+            if (cmb_sezioni_selezionaSezione.SelectedIndex != -1)
+            {
+                cmb_sezioni_modificaPadre.ItemsSource = DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == this.museoSelezionato.idMuseo && (cmb_sezioni_selezionaSezione.SelectedItem as Sezione).idSezionePadre != s.idSezionePadre);
+                cmb_sezioni_modificaPadre.DisplayMemberPath = "Nome";
+            }
+        }
+
         //Eventi SelectionChanged
 
         /// <summary>
@@ -1352,15 +1414,15 @@ namespace MuseumsManager
                 gpb_riepilogo.IsEnabled = true;
                 gpb_sezioni.IsEnabled = true;
                 gpb_categoriaSezione.IsEnabled = true;
-                gpb_orari.IsEnabled = true;            
+                gpb_orari.IsEnabled = true;
                 setMuseumStatus();
                 setMuseumSchedule();
                 setMuseumFamily();
                 setMuseumTypes();
                 setMuseumAreas();
 
-                
-                
+
+
             }
             else
             {
@@ -1377,7 +1439,7 @@ namespace MuseumsManager
                 gpb_orari.IsEnabled = false;
                 lsv_riepilogo_sezioni.ItemsSource = null;
                 lsv_riepilogo_sottosezioni.ItemsSource = null;
-                lbl_museo_nomeMuseo.Content = "NOME MUSEO";
+                lbl_museo_nomeMuseo.Content = "";
                 lbl_riepilogo_statoApertura.Content = "";
                 lbl_riepilogo_orarioApertura.Content = "";
                 lbl_riepilogo_orarioChiusura.Content = "";
@@ -1404,11 +1466,11 @@ namespace MuseumsManager
         }
 
         /// <summary>
-        /// Opzioni generali per quando si cambia tab
+        /// Opzioni generali per quando si cambia tab.
         /// </summary>
         private void tab_finestre_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(!(e.Source is null) && e.Source.GetType().Equals(typeof(TabControl)))
+            if (!(e.Source is null) && e.Source.GetType().Equals(typeof(TabControl)))
             {
                 TabControl tabControl = e.Source as TabControl;
 
@@ -1420,9 +1482,11 @@ namespace MuseumsManager
                         List<CalendarioApertureSpeciali> lcas = DBObject<CalendarioApertureSpeciali>.Select("idMuseo", this.museoSelezionato.idMuseo);
                         ObservableCollection<CalendarioApertureSpeciali> calendarioApertureSpeciali = new ObservableCollection<CalendarioApertureSpeciali>(lcas);
 
-                        calendarioApertureSpeciali.CollectionChanged += (s, eventArgs) => {
-                            
-                            switch (eventArgs.Action) {
+                        calendarioApertureSpeciali.CollectionChanged += (s, eventArgs) =>
+                        {
+
+                            switch (eventArgs.Action)
+                            {
                                 case NotifyCollectionChangedAction.Remove:
                                     {
                                         List<CalendarioApertureSpeciali> casRmv = new List<CalendarioApertureSpeciali>(eventArgs.OldItems.Cast<CalendarioApertureSpeciali>());
@@ -1449,7 +1513,8 @@ namespace MuseumsManager
                         List<CalendarioChiusure> lcc = DBObject<CalendarioChiusure>.Select("idMuseo", this.museoSelezionato.idMuseo);
                         ObservableCollection<CalendarioChiusure> calendarioChiusure = new ObservableCollection<CalendarioChiusure>(lcc);
 
-                        calendarioChiusure.CollectionChanged += (s, eventArgs) => {
+                        calendarioChiusure.CollectionChanged += (s, eventArgs) =>
+                        {
                             switch (eventArgs.Action)
                             {
                                 case NotifyCollectionChangedAction.Remove:
@@ -1474,7 +1539,7 @@ namespace MuseumsManager
                             DBEntity.Update<CalendarioChiusure>("idCalendarioChiusure", cc.idCalendarioChiusure, eventArgs.Column.Header.ToString(), (eventArgs.EditingElement as TextBox).Text);
                         };
                     }
-                    if(tabItem.Header.Equals("Museo") && !(this.museoSelezionato is null))
+                    if (tabItem.Header.Equals("Museo") && !(this.museoSelezionato is null))
                     {
                         museoSelezionato = DBObject<Museo>.Select("idMuseo", museoSelezionato.idMuseo).First();
                         setMuseumStatus();
@@ -1488,24 +1553,36 @@ namespace MuseumsManager
             }
         }
 
+        /// <summary>
+        /// Evento per popolare la listview di sottosezioni alla selezione di una sezione.
+        /// </summary>
         private void lsv_riepilogo_sezioni_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             List<Sezione> sottosezioniDiSezione = new List<Sezione>();
 
             if (lsv_riepilogo_sezioni.SelectedIndex != -1)
             {
-                List<Sezione> sezioni = new List<Sezione>(DBObject<Sezione>.SelectAll());    
+                List<Sezione> sezioni = new List<Sezione>(DBObject<Sezione>.SelectAll());
                 Sezione selezionata = (Sezione)lsv_riepilogo_sezioni.SelectedItem;
 
-                for(int i = 0; i < sezioni.Count; i++)
+                for (int i = 0; i < sezioni.Count; i++)
                 {
-                    if(sezioni[i].idSezionePadre == selezionata.idSezione)
+                    if (sezioni[i].idSezionePadre == selezionata.idSezione)
                     {
                         sottosezioniDiSezione.Add(sezioni[i]);
                     }
-                }   
+                }
                 lsv_riepilogo_sottosezioni.ItemsSource = sottosezioniDiSezione;
-            }        
+            }
+        }
+
+        /// <summary>
+        /// Evento per resettare le combobox di padre e tipo sezione alla selezione di una nuova sezione. 
+        /// </summary>
+        private void cmb_sezioni_selezionaSezione_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cmb_sezioni_modificaTipo.ItemsSource = null;
+            cmb_sezioni_modificaPadre.ItemsSource = null;
         }
     }
 }
