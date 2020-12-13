@@ -1489,10 +1489,21 @@ namespace MuseumsManager
 
         private void lsv_riepilogo_sezioni_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(lsv_riepilogo_sezioni.SelectedIndex != -1)
+            List<Sezione> sottosezioniDiSezione = new List<Sezione>();
+
+            if (lsv_riepilogo_sezioni.SelectedIndex != -1)
             {
-                List<Sezione> ls = new List<Sezione>(DBObject<Sezione>.SelectAll().Where(s => s.idSezione == ((Sezione)lsv_riepilogo_sezioni.SelectedItem).idSezionePadre));
-                lsv_riepilogo_sottosezioni.ItemsSource = ls;
+                List<Sezione> sezioni = new List<Sezione>(DBObject<Sezione>.SelectAll());    
+                Sezione selezionata = (Sezione)lsv_riepilogo_sezioni.SelectedItem;
+
+                for(int i = 0; i < sezioni.Count; i++)
+                {
+                    if(sezioni[i].idSezionePadre == selezionata.idSezione)
+                    {
+                        sottosezioniDiSezione.Add(sezioni[i]);
+                    }
+                }   
+                lsv_riepilogo_sottosezioni.ItemsSource = sottosezioniDiSezione;
             }        
         }
     }
