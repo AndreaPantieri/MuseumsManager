@@ -156,6 +156,7 @@ namespace MuseumsManager
             List<Museo_Tipologia> parzialeMuseoTipologia = new List<Museo_Tipologia>(DBObject<Museo_Tipologia>.SelectAll().Where(mt => mt.idMuseo == museoSelezionato.idMuseo));
             List<TipoMuseo> tabellaTipoMuseo = new List<TipoMuseo>(DBObject<TipoMuseo>.SelectAll());
             List<TipoMuseo> TipiMuseoSelezionato = new List<TipoMuseo>();
+            lsv_riepilogo_tipiMuseo.Items.Clear();
 
             bool ok;
             for (int i = 0; i < tabellaTipoMuseo.Count; i++)
