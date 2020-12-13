@@ -579,7 +579,7 @@ namespace MuseumsManager
                cmb_sezioni_padre.SelectedIndex != -1)
             {
                 int index = DBObject<Sezione>.Insert("Nome", txt_sezioni_nome.Text, "Descrizione", txt_sezioni_descrizione.Text, "idSezionePadre", ((Sezione)cmb_sezioni_padre.SelectedItem).idSezione, "idMuseo", museoSelezionato.idMuseo);
-                DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Insert("idSezione", index, "idMuseo", ((TipoSezione)cmb_sezioni_tipoSezione.SelectedItem).idTipoSezione);
+                DBObject<Sezione_Tipologia>.Insert("idSezione", index, "idTipoSezione", ((TipoSezione)cmb_sezioni_tipoSezione.SelectedItem).idTipoSezione);
                 MessageBox.Show("Nuova sottosezione aggiunta correttamente al museo!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else if (!txt_sezioni_nome.Text.Equals("") &&
@@ -589,7 +589,7 @@ namespace MuseumsManager
                cmb_sezioni_tipoSezione.SelectedIndex != -1)
             {
                 int index = DBObject<Sezione>.Insert("Nome", txt_sezioni_nome.Text, "Descrizione", txt_sezioni_descrizione.Text, "idMuseo", museoSelezionato.idMuseo);
-                DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Insert("idSezione", index, "idMuseo", ((TipoSezione)cmb_sezioni_tipoSezione.SelectedItem).idTipoSezione);
+                DBObject<Sezione_Tipologia>.Insert("idSezione", index, "idTipoSezione", ((TipoSezione)cmb_sezioni_tipoSezione.SelectedItem).idTipoSezione);
                 MessageBox.Show("Nuova sezione aggiunta correttamente al museo!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
