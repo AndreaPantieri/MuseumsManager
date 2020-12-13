@@ -1411,6 +1411,9 @@ namespace MuseumsManager
             cmb_eliminaTipo_selezionaTipo.ItemsSource = null;
         }
 
+        /// <summary>
+        /// Opzioni generali per quando si cambia tab
+        /// </summary>
         private void tab_finestre_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(!(e.Source is null) && e.Source.GetType().Equals(typeof(TabControl)))
@@ -1431,11 +1434,14 @@ namespace MuseumsManager
                                 case NotifyCollectionChangedAction.Remove:
                                     {
                                         List<CalendarioApertureSpeciali> casRmv = new List<CalendarioApertureSpeciali>(eventArgs.OldItems.Cast<CalendarioApertureSpeciali>());
+                                        casRmv.ForEach(cas => DBEntity.Delete<CalendarioApertureSpeciali>("idCalendarioApertureSpeciali", cas.idCalendarioApertureSpeciali));
                                         break;
                                     }
                                 case NotifyCollectionChangedAction.Add:
                                     {
-                                        List<CalendarioApertureSpeciali> casRmv = new List<CalendarioApertureSpeciali>(eventArgs.NewItems.Cast<CalendarioApertureSpeciali>());
+                                        List<CalendarioApertureSpeciali> casAdd = new List<CalendarioApertureSpeciali>(eventArgs.NewItems.Cast<CalendarioApertureSpeciali>());
+                                        casAdd.ForEach(cas => cas.idMuseo = museoSelezionato.idMuseo);
+                                        casAdd.ForEach(cas => DBObject<CalendarioApertureSpeciali>.Insert("Data", cas.Data, "OrarioApertura", cas.OrarioApertura, "OrarioChiusura", cas.OrarioChiusura, "NumBigliettiMax", cas.NumBigliettiMax, "idMuseo", cas.idMuseo));
                                         break;
                                     }
                             }
@@ -1456,22 +1462,25 @@ namespace MuseumsManager
                             {
                                 case NotifyCollectionChangedAction.Remove:
                                     {
-
+                                        List<CalendarioChiusure> ccRmv = new List<CalendarioChiusure>(eventArgs.OldItems.Cast<CalendarioChiusure>());
+                                        ccRmv.ForEach(cc => DBEntity.Delete<CalendarioChiusure>("idCalendarioChiusure", cc.idCalendarioChiusure));
                                         break;
                                     }
                                 case NotifyCollectionChangedAction.Add:
                                     {
-
-                                        break;
-                                    }
-                                case NotifyCollectionChangedAction.Replace:
-                                    {
-
+                                        List<CalendarioChiusure> ccAdd = new List<CalendarioChiusure>(eventArgs.NewItems.Cast<CalendarioChiusure>());
+                                        ccAdd.ForEach(cc => cc.idMuseo = museoSelezionato.idMuseo);
+                                        ccAdd.ForEach(cc => DBObject<CalendarioChiusure>.Insert("Data", cc.Data, "idMuseo", cc.idMuseo));
                                         break;
                                     }
                             }
                         };
                         dtg_giornateChiusura.DataContext = calendarioChiusure;
+                        dtg_giornateChiusura.CellEditEnding += (s, eventArgs) =>
+                        {
+                            CalendarioChiusure cc = eventArgs.Row.Item as CalendarioChiusure;
+                            DBEntity.Update<CalendarioChiusure>("idCalendarioChiusure", cc.idCalendarioChiusure, eventArgs.Column.Header.ToString(), (eventArgs.EditingElement as TextBox).Text);
+                        };
                     }
                 }
             }
