@@ -123,7 +123,7 @@
                             <DataGridTextColumn Header="Data" Binding="{Binding Data, StringFormat=yyyy-MM-dd}"/>
                             <DataGridTextColumn Header="OrarioApertura"  Binding="{Binding OrarioApertura}"/>
                             <DataGridTextColumn Header="OrarioChiusura"  Binding="{Binding OrarioChiusura}"/>
-                            <DataGridTextColumn Header="NumeroBigliettiMax"  Binding="{Binding NumBigliettiMax}"/>
+                            <DataGridTextColumn Header="NumBigliettiMax"  Binding="{Binding NumBigliettiMax}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <DataGrid x:Name="dtg_giornateChiusura" Margin="319.3,325,10.2,7.4" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Column="1">
