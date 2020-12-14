@@ -722,8 +722,9 @@ namespace MuseumsManager
                         parzialeSezioneTipologia.Add(tabellaSezioneTipologia[i]);
                     }
                 }
+                /*
                 bool ok;
-
+                
                 for (int i = 0; i < tabellaTipoSezione.Count; i++)
                 {
                     ok = false;
@@ -735,7 +736,8 @@ namespace MuseumsManager
                     }
                     if (ok)
                         TipiDisponibili.Add(tabellaTipoSezione[i]);
-                }
+                }*/
+
 
                 //Controlli per scegliere la query corretta.
                 if (
@@ -745,8 +747,8 @@ namespace MuseumsManager
                     cmb_sezioni_modificaPadre.SelectedIndex != -1)
                 {
                     DBEntity.Update<Sezione>("idSezione", sezioneSelezionata.idSezione, "Nome", txt_sezioni_modificaNome.Text, "Descrizione", txt_sezioni_modificaDescrizione.Text, "idSezionePadre", (cmb_sezioni_modificaPadre.SelectedItem as Sezione).idSezionePadre);
-                    DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Delete("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", TipiDisponibili.First().idTipoSezione);
-                    DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Insert("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", (cmb_sezioni_modificaTipo.SelectedItem as TipoSezione).idTipoSezione);
+                    DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Delete("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", parzialeSezioneTipologia.First().idTipoSezione);
+                    DBObject<Sezione_Tipologia>.Insert("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", (cmb_sezioni_modificaTipo.SelectedItem as TipoSezione).idTipoSezione);
                 }
                 else
                 if (!txt_sezioni_modificaNome.Text.Equals("") &&
@@ -754,8 +756,8 @@ namespace MuseumsManager
                     cmb_sezioni_modificaTipo.SelectedIndex != -1)
                 {
                     DBEntity.Update<Sezione>("idSezione", sezioneSelezionata.idSezione, "Nome", txt_sezioni_modificaNome.Text, "Descrizione", txt_sezioni_modificaDescrizione.Text);
-                    DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Delete("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", TipiDisponibili.First().idTipoSezione);
-                    DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Insert("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", (cmb_sezioni_modificaTipo.SelectedItem as TipoSezione).idTipoSezione);
+                    DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Delete("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", parzialeSezioneTipologia.First().idTipoSezione);
+                    DBObject<Sezione_Tipologia>.Insert("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", (cmb_sezioni_modificaTipo.SelectedItem as TipoSezione).idTipoSezione);
                 }
                 else 
                 if(!txt_sezioni_modificaNome.Text.Equals("") &&
