@@ -798,6 +798,7 @@ namespace MuseumsManager
             {
                 DBObject<TipoBiglietto>.Insert("Nome", txt_tipoBiglietti_nome.Text, "Prezzo", prezzo, "Descrizione", txt_tipoBiglietti_descrizione.Text, "idMuseo", museoSelezionato.idMuseo);
                 MessageBox.Show("Tipo di biglietto aggiunto correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                lsv_tipiBiglietti.ItemsSource = DBObject<TipoBiglietto>.SelectAll().Where(tb => tb.idMuseo == museoSelezionato.idMuseo);
             }
             else
                 MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -815,6 +816,7 @@ namespace MuseumsManager
             {
                 DBEntity.Update<TipoBiglietto>("idTipoBiglietto", (cmb_tipoBiglietti_selezionaBiglietto.SelectedItem as TipoBiglietto).idTipoBiglietto, "Nome", txt_tipoBiglietti_nuovoNome.Text, "Prezzo", prezzo, "Descrizione", txt_tipoBiglietti_nuovaDescrizione.Text, "idMuseo", museoSelezionato.idMuseo);
                 MessageBox.Show("Tipo di biglietto modificato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                lsv_tipiBiglietti.ItemsSource = DBObject<TipoBiglietto>.SelectAll().Where(tb => tb.idMuseo == museoSelezionato.idMuseo);
             }
             else
                 MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -1812,6 +1814,14 @@ namespace MuseumsManager
                         setMuseumFamily();
                         setMuseumTypes();
                         setMuseumAreas();
+                    }
+                    if (tabItem.Header.Equals("Biglietti"))
+                    {
+                        lsv_tipiBiglietti.ItemsSource = DBObject<TipoBiglietto>.SelectAll().Where(tb => tb.idMuseo == museoSelezionato.idMuseo);
+
+                        //Query per ottenere tutte le info sui biglietti comprati.
+                        string sqlCommandString = "SELECT DataValidita, PrezzoAcquisto, Prezzo, Nome, Descrizione FROM Biglietto INNER JOIN TipoBiglietto ON Biglietto.idTipoBiglietto = TipoBiglietto.idTipoBiglietto WHERE Biglietto.idMuseo = " + museoSelezionato.idMuseo;
+                        lsv_bigliettiComprati.ItemsSource = DBObject<Biglietto>.CustomSelect(new SqlCommand(sqlCommandString));
                     }
                 }
             }

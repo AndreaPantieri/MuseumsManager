@@ -242,16 +242,31 @@
                     <Label x:Name="lbl_bigliettiComprati" Content="Biglietti comprati:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="493" FontWeight="Bold"/>
                     <Label x:Name="lbl_tipoBiglietti" Content="Tipi di biglietti:" HorizontalAlignment="Left" Margin="10,353,0,0" VerticalAlignment="Top" Width="452" FontWeight="Bold"/>
                     <ListView x:Name="lsv_bigliettiComprati" HorizontalAlignment="Left" Height="307" Margin="10,41,0,0" VerticalAlignment="Top" Width="950">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn/>
+                                <GridViewColumn Header="Data di validità" DisplayMemberBinding= "{Binding Path=DataValidita}"/>
+                                <GridViewColumn Header="Prezzo di acquisto" DisplayMemberBinding= "{Binding Path=PrezzoAcquisto}"/>
+                                <GridViewColumn Header="Prezzo attuale" DisplayMemberBinding= "{Binding Path=Prezzo}"/>
+                                <GridViewColumn Header="Tipo di biglietto" DisplayMemberBinding= "{Binding Path=Nome}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView x:Name="lsv_tipiBiglietti" HorizontalAlignment="Left" Height="248" Margin="10,384,0,0" VerticalAlignment="Top" Width="493">
+                    <ListView x:Name="lsv_tipiBiglietti" HorizontalAlignment="Left" Height="248" Margin="10,384,0,0" VerticalAlignment="Top" Width="950">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn/>
+                                <GridViewColumn Header="Nome" DisplayMemberBinding= "{Binding Path=Nome}"/>
+                                <GridViewColumn Header="Prezzo (€)" DisplayMemberBinding= "{Binding Path=Prezzo}"/>
+                                <GridViewColumn Header="Descrizione" DisplayMemberBinding= "{Binding Path=Descrizione}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
