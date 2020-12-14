@@ -765,12 +765,17 @@ namespace MuseumsManager
                     DBEntity.Update<Sezione>("idSezione", sezioneSelezionata.idSezione, "Nome", txt_sezioni_modificaNome.Text, "Descrizione", txt_sezioni_modificaDescrizione.Text, "idSezionePadre", (cmb_sezioni_modificaPadre.SelectedItem as Sezione).idSezionePadre);
                     
                 }
+                else if (txt_sezioni_modificaNome.Text == sezioneSelezionata.Nome && txt_sezioni_modificaDescrizione.Text == sezioneSelezionata.Descrizione)
+                {
+                    MessageBox.Show("Non è stata apportata alcuna modifica!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
                 else 
-                if (!txt_sezioni_modificaNome.Text.Equals("") ||
+                if (!txt_sezioni_modificaNome.Text.Equals("") &&
                     !txt_sezioni_modificaDescrizione.Text.Equals(""))
                 {
                     DBEntity.Update<Sezione>("idSezione", sezioneSelezionata.idSezione, "Nome", txt_sezioni_modificaNome.Text, "Descrizione", txt_sezioni_modificaDescrizione.Text);
-                }
+                }  
                 else
                 {
                     MessageBox.Show("Qualche parametro non è stato compilato!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -1760,8 +1765,13 @@ namespace MuseumsManager
         {
             cmb_sezioni_modificaTipo.ItemsSource = null;
             cmb_sezioni_modificaPadre.ItemsSource = null;
+
             if (cmb_sezioni_selezionaSezione.SelectedIndex != -1)
             {
+                txt_sezioni_modificaNome.FontStyle = FontStyles.Italic;
+                txt_sezioni_modificaNome.Foreground = Brushes.Gray;
+                txt_sezioni_modificaDescrizione.FontStyle = FontStyles.Italic;
+                txt_sezioni_modificaDescrizione.Foreground = Brushes.Gray;
                 txt_sezioni_modificaNome.Text = (cmb_sezioni_selezionaSezione.SelectedItem as Sezione).Nome;
                 txt_sezioni_modificaDescrizione.Text = (cmb_sezioni_selezionaSezione.SelectedItem as Sezione).Descrizione;
             }      
