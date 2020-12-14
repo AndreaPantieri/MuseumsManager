@@ -1697,7 +1697,7 @@ namespace MuseumsManager
         {
             cmb_eliminaTipo_selezionaTipo.ItemsSource = null;
         }
-
+         
         /// <summary>
         /// Opzioni generali per quando si cambia tab.
         /// </summary>
