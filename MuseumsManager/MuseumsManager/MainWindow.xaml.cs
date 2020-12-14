@@ -1776,5 +1776,19 @@ namespace MuseumsManager
                 txt_sezioni_modificaDescrizione.Text = (cmb_sezioni_selezionaSezione.SelectedItem as Sezione).Descrizione;
             }      
         }
+
+        private void cmb_contenuti_filtroSezione_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_contenuti_filtroSezione.ItemsSource = DBObject<Sezione>.Select("idMuseo", museoSelezionato.idMuseo);
+            cmb_contenuti_filtroSezione.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_contenuti_filtroProvenienza_DropDownOpened(object sender, EventArgs e)
+        {
+            SqlCommand sqlCommand = new SqlCommand("SELECT Provenienza.* FROM Provenienza INNER JOIN Museo_Provenienza ON Provenienza.idProvenienza = Museo_Provenienza.idProvenienza WHERE Museo_Provenienza.idMuseo = @idMuseo;");
+            sqlCommand.Parameters.AddWithValue("@idMuseo", museoSelezionato.idMuseo);
+            cmb_contenuti_filtroSezione.ItemsSource = DBObject<Sezione>.CustomSelect(sqlCommand);
+            cmb_contenuti_filtroSezione.DisplayMemberPath = "Nome";
+        }
     }
 }

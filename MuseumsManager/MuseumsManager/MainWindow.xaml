@@ -143,8 +143,8 @@
             </TabItem>
             <TabItem x:Name="tbi_contenuti" Header="Contenuti" IsEnabled="False">
                 <Grid x:Name="grid_contenuti">
-                    <ComboBox x:Name="cmb_contenuti_filtroSezione" Margin="123,47,946,569"/>
-                    <ComboBox x:Name="cmb_contenuti_filtroProvenienza" FontWeight="Normal" Margin="123,78,946,538"/>
+                    <ComboBox x:Name="cmb_contenuti_filtroSezione" Margin="123,47,946,569" DropDownOpened="cmb_contenuti_filtroSezione_DropDownOpened"/>
+                    <ComboBox x:Name="cmb_contenuti_filtroProvenienza" FontWeight="Normal" Margin="123,78,946,538" DropDownOpened="cmb_contenuti_filtroProvenienza_DropDownOpened"/>
                     <ComboBox x:Name="cmb_contenuti_filtroCreatore" FontWeight="Normal" Margin="123,109,946,507"/>
                     <ComboBox x:Name="cmb_contenuti_filtroPeriodoStorico" FontWeight="Normal" Margin="123,140,946,476"/>
                     <ComboBox x:Name="cmb_contenuti_filtroTipoContenuto" FontWeight="Normal" Margin="123,171,946,445"/>
