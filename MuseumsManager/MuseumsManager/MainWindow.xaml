@@ -148,6 +148,7 @@
                     <ComboBox x:Name="cmb_contenuti_filtroCreatore" FontWeight="Normal" Margin="123,109,946,507" DropDownOpened="cmb_contenuti_filtroCreatore_DropDownOpened"/>
                     <ComboBox x:Name="cmb_contenuti_filtroPeriodoStorico" FontWeight="Normal" Margin="123,140,946,476" DropDownOpened="cmb_contenuti_filtroPeriodoStorico_DropDownOpened"/>
                     <ComboBox x:Name="cmb_contenuti_filtroTipoContenuto" FontWeight="Normal" Margin="123,171,946,445" DropDownOpened="cmb_contenuti_filtroTipoContenuto_DropDownOpened"/>
+                    <Button x:Name="btn_filtraContenuti" Content="Ricerca" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" FontWeight="Normal" Margin="352,178,0,0" Click="btn_filtraContenuti_Click"/>
                     <GroupBox x:Name="gpb_tipoContenuto" Header="Tipo di contenuto" HorizontalAlignment="Left" Height="150" VerticalAlignment="Top" Width="314" FontWeight="Bold" Margin="915,482,0,0">
                         <Canvas x:Name="cnv_tipoContenuto" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_tipoContenuto_descrizione" HorizontalAlignment="Left" Height="53" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="284" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_tipoContenuto_descrizione_GotFocus" LostFocus="txt_tipoContenuto_descrizione_LostFocus"/>
@@ -218,8 +219,20 @@
                             <Label x:Name="lbl_modificaContenuti_sezione" Content="Sezione:" Canvas.Left="10" Canvas.Top="214" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
                         </Canvas>
                     </GroupBox>
-                    <ListView x:Name="lsv_contenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,241,657,228" />
-                    <ListView x:Name="lsv_sottocontenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,657,10" />
+                    <ListView x:Name="lsv_contenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,241,657,228" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Nome}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <ListView x:Name="lsv_sottocontenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,657,10" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                            <TextBlock Text="{Binding Nome}" />
+                        </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                     <Label x:Name="lbl_sottocontenuti" Content="Sottocontenuti:" FontWeight="Bold" Margin="10,419,1116,197"/>
                     <Label x:Name="lbl_sottocontenuti_Copy" Content="Contenuti:" FontWeight="Bold" Margin="11,210,1116,406"/>
                 </Grid>

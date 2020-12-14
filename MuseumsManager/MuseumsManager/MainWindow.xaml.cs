@@ -1823,7 +1823,84 @@ namespace MuseumsManager
 
         private void btn_filtraContenuti_Click(object sender, RoutedEventArgs e)
         {
+            string sqlCommandString = "SELECT Contenuto.* FROM Contenuto ";
+            string whereString = " WHERE ";
 
+            if(!(cmb_contenuti_filtroSezione.SelectedItem is null))
+            {
+                whereString += "idSezione = " + (cmb_contenuti_filtroSezione.SelectedItem as Sezione).idSezione;
+            }
+
+            if (!(cmb_contenuti_filtroProvenienza.SelectedItem is null))
+            {
+                if (!whereString.Equals(" WHERE "))
+                    whereString += ", ";
+                whereString += "idProvenienza = " + (cmb_contenuti_filtroProvenienza.SelectedItem as Sezione).idSezione;
+            }
+            if (!(cmb_contenuti_filtroCreatore.SelectedItem is null))
+            {
+                if (!whereString.Equals(" WHERE "))
+                    whereString += ", ";
+                sqlCommandString += "INNER JOIN Creato ON Contenuto.idContenuto = Creato.idContenuto ";
+                whereString += "idCreatore = " + (cmb_contenuti_filtroCreatore.SelectedItem as Sezione).idSezione;
+            }
+            if (!(cmb_contenuti_filtroPeriodoStorico.SelectedItem is null))
+            {
+                if (!whereString.Equals(" WHERE "))
+                    whereString += ", ";
+                whereString += "idPeriodoStorico = " + (cmb_contenuti_filtroPeriodoStorico.SelectedItem as Sezione).idSezione;
+            }
+            if (!(cmb_contenuti_filtroTipoContenuto.SelectedItem is null))
+            {
+                if (!whereString.Equals(" WHERE "))
+                    whereString += ", ";
+                sqlCommandString += "INNER JOIN Contenuto_Tipologia ON Contenuto.idContenuto = Contenuto_Tipologia.idContenuto ";
+                whereString += "idTipoContenuto = " + (cmb_contenuti_filtroTipoContenuto.SelectedItem as Sezione).idSezione;
+            }
+
+            List<Contenuto> contenuti = DBObject<Contenuto>.CustomSelect(new SqlCommand(sqlCommandString)), 
+                allContenuti = DBObject<Contenuto>.SelectAll();
+
+            Dictionary<int, Contenuto> idPairingContenuti = new Dictionary<int, Contenuto>();
+            allContenuti.ForEach(c => idPairingContenuti.Add(c.idContenuto, c));
+
+            Dictionary<Contenuto, List<Contenuto>> padreFigli = new Dictionary<Contenuto, List<Contenuto>>();
+            contenuti.ForEach(c => padreFigli.Add(c, cercaFigli(c, idPairingContenuti)));
+
+            lsv_contenuti.ItemsSource = contenuti;
+
+
+        }
+
+        /// <summary>
+        /// Trova i figli di un contenuto
+        /// </summary>
+        private List<Contenuto> cercaFigli(Contenuto padre, Dictionary<int, Contenuto> idPairingContenuti)
+        {
+            List<Contenuto> figli = new List<Contenuto>();
+            idPairingContenuti.Keys.ToList().ForEach(k =>
+            {
+                if(isFiglio(k, padre.idContenuto, idPairingContenuti))
+                {
+                    figli.Add(idPairingContenuti[k]);
+                }
+            });
+            return figli;
+        }
+
+        private bool isFiglio(int idFiglio, int idPadre, Dictionary<int, Contenuto> idPairingContenuti)
+        {
+            if (idPairingContenuti[idFiglio].idContenutoPadre == 0 || idFiglio == idPadre)
+                return false;
+            bool isFiglio = false;
+            int tmpIdPadre, tmpIdFiglio = idFiglio;
+            do
+            {
+                tmpIdPadre = idPairingContenuti[tmpIdFiglio].idContenutoPadre;
+                isFiglio = tmpIdPadre == idPadre;
+                tmpIdFiglio = tmpIdPadre;
+            } while (tmpIdPadre != 0 && tmpIdPadre != idPadre && !isFiglio);
+            return isFiglio;
         }
 
         /// <summary>
