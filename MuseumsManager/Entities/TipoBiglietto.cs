@@ -9,7 +9,8 @@ namespace Entities
     public class TipoBiglietto : DBEntity
     {
         public int idTipoBiglietto { get; set; }
-        public float Prezzo { get; set; }
+        public string Nome { get; set; }
+        public double Prezzo { get; set; }
         public string Descrizione { get; set; }
         public int idMuseo { get; set; }
 

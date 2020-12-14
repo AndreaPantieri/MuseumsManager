@@ -10,6 +10,7 @@ namespace Entities
     {
         public int idBiglietto { get; set; }
         public DateTime DataValidita { get; set; }
+        public double PrezzoAcquisto { get; set; }
         public int idMuseo { get; set; }
         public int idTipoBiglietto { get; set; }
 

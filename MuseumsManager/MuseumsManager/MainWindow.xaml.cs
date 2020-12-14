@@ -787,6 +787,38 @@ namespace MuseumsManager
             }
         }
 
+        private void btn_tipoBiglietti_crea_Click(object sender, RoutedEventArgs e)
+        {
+            if (!txt_tipoBiglietti_nome.Text.Equals("") &&
+                !txt_tipoBiglietti_nome.Text.Equals("Nome") &&
+                !txt_tipoBiglietti_prezzo.Text.Equals("") &&
+                int.TryParse(txt_tipoBiglietti_prezzo.Text, out int prezzo) &&
+                !txt_tipoBiglietti_descrizione.Text.Equals("") &&
+                !txt_tipoBiglietti_descrizione.Text.Equals("Descrizione"))
+            {
+                DBObject<TipoBiglietto>.Insert("Nome", txt_tipoBiglietti_nome.Text, "Prezzo", prezzo, "Descrizione", txt_tipoBiglietti_descrizione.Text, "idMuseo", museoSelezionato.idMuseo);
+                MessageBox.Show("Tipo di biglietto aggiunto correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void btn_tipoBiglietti_modifica_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmb_tipoBiglietti_selezionaBiglietto.SelectedIndex != -1 &&
+                !txt_tipoBiglietti_nuovoNome.Text.Equals("") &&
+                !txt_tipoBiglietti_nuovoNome.Text.Equals("Nome") &&
+                !txt_tipoBiglietti_nuovoPrezzo.Text.Equals("") &&
+                int.TryParse(txt_tipoBiglietti_nuovoPrezzo.Text, out int prezzo) &&
+                !txt_tipoBiglietti_nuovaDescrizione.Text.Equals("") &&
+                !txt_tipoBiglietti_nuovaDescrizione.Text.Equals("Descrizione"))
+            {
+                DBEntity.Update<TipoBiglietto>("idTipoBiglietto", (cmb_tipoBiglietti_selezionaBiglietto.SelectedItem as TipoBiglietto).idTipoBiglietto, "Nome", txt_tipoBiglietti_nuovoNome.Text, "Prezzo", prezzo, "Descrizione", txt_tipoBiglietti_nuovaDescrizione.Text, "idMuseo", museoSelezionato.idMuseo);
+                MessageBox.Show("Tipo di biglietto modificato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
 
         //Eventi GotFocus
 
@@ -1620,6 +1652,12 @@ namespace MuseumsManager
             cmb_sezioni_elimina.DisplayMemberPath = "Nome";
         }
 
+        private void cmb_tipoBiglietti_selezionaBiglietto_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_tipoBiglietti_selezionaBiglietto.ItemsSource = DBObject<TipoBiglietto>.SelectAll().Where(tb => tb.idMuseo == museoSelezionato.idMuseo);
+            cmb_tipoBiglietti_selezionaBiglietto.DisplayMemberPath = "Nome";
+        }
+
         //Eventi SelectionChanged
 
         /// <summary>
@@ -1809,17 +1847,49 @@ namespace MuseumsManager
         {
             cmb_sezioni_modificaTipo.ItemsSource = null;
             cmb_sezioni_modificaPadre.ItemsSource = null;
+            txt_sezioni_modificaNome.FontStyle = FontStyles.Italic;
+            txt_sezioni_modificaNome.Foreground = Brushes.Gray;
+            txt_sezioni_modificaDescrizione.FontStyle = FontStyles.Italic;
+            txt_sezioni_modificaDescrizione.Foreground = Brushes.Gray;
 
             if (cmb_sezioni_selezionaSezione.SelectedIndex != -1)
-            {
-                txt_sezioni_modificaNome.FontStyle = FontStyles.Italic;
-                txt_sezioni_modificaNome.Foreground = Brushes.Gray;
-                txt_sezioni_modificaDescrizione.FontStyle = FontStyles.Italic;
-                txt_sezioni_modificaDescrizione.Foreground = Brushes.Gray;
+            {          
                 txt_sezioni_modificaNome.Text = (cmb_sezioni_selezionaSezione.SelectedItem as Sezione).Nome;
                 txt_sezioni_modificaDescrizione.Text = (cmb_sezioni_selezionaSezione.SelectedItem as Sezione).Descrizione;
-            }      
+            }     
+            else
+            {
+                txt_sezioni_modificaNome.Text = "Nome";
+                txt_sezioni_modificaDescrizione.Text = "Descrizione";
+            }
         }
+
+        private void cmb_tipoBiglietti_selezionaBiglietto_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            txt_tipoBiglietti_nuovoNome.FontStyle = FontStyles.Italic;
+            txt_tipoBiglietti_nuovoNome.Foreground = Brushes.Gray;
+            txt_tipoBiglietti_nuovoPrezzo.FontStyle = FontStyles.Italic;
+            txt_tipoBiglietti_nuovoPrezzo.Foreground = Brushes.Gray;
+            txt_tipoBiglietti_nuovaDescrizione.FontStyle = FontStyles.Italic;
+            txt_tipoBiglietti_nuovaDescrizione.Foreground = Brushes.Gray;
+
+            if (cmb_tipoBiglietti_selezionaBiglietto.SelectedIndex != -1)
+            {
+                txt_tipoBiglietti_nuovoNome.Text = (cmb_tipoBiglietti_selezionaBiglietto.SelectedItem as TipoBiglietto).Nome;
+                txt_tipoBiglietti_nuovoPrezzo.Text = (cmb_tipoBiglietti_selezionaBiglietto.SelectedItem as TipoBiglietto).Prezzo.ToString();
+                txt_tipoBiglietti_nuovaDescrizione.Text = (cmb_tipoBiglietti_selezionaBiglietto.SelectedItem as TipoBiglietto).Descrizione;
+            }
+            else
+            {
+                txt_tipoBiglietti_nuovoNome.Text = "Nuovo nome";
+                txt_tipoBiglietti_nuovoPrezzo.Text = "Nuovo prezzo";
+                txt_tipoBiglietti_nuovaDescrizione.Text = "Nuova descrizione";
+            }
+        }
+
+
+
+
 
         private void btn_filtraContenuti_Click(object sender, RoutedEventArgs e)
         {
@@ -1903,23 +1973,16 @@ namespace MuseumsManager
             return isFiglio;
         }
 
+
+
+
+
         /// <summary>
         /// Metodo per l'eliminazione di una sezione.
         /// </summary>
         private void btn_sezioni_elimina_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void btn_tipoBiglietti_crea_Click(object sender, RoutedEventArgs e)
-        {
-            if (!txt_tipoBiglietti_prezzo.Text.Equals("") &&
-                int.TryParse(txt_tipoBiglietti_prezzo.Text, out int prezzo) &&
-                !txt_tipoBiglietti_descrizione.Text.Equals("") &&
-                !txt_tipoBiglietti_descrizione.Text.Equals("Descrizione"))
-            {
-                DBObject<TipoBiglietto>.Insert("Prezzo", prezzo, "Descrizione", txt_tipoBiglietti_descrizione.Text);
-            }
         }
     }
 }

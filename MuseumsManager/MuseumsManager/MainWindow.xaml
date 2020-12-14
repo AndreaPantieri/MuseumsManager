@@ -80,13 +80,13 @@
                             <ListView x:Name="lsv_riepilogo_sezioni" Height="156" Width="271" Canvas.Left="10" Canvas.Top="360" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" />
                             <Label x:Name="lbl_riepilogo_sottosezioni" Content="Sottosezioni del museo:" Canvas.Left="286" Canvas.Top="329" FontWeight="Bold" Width="277"/>
                             <ListView x:Name="lsv_riepilogo_sottosezioni" Height="156" Width="277" Canvas.Left="286" Canvas.Top="360" FontWeight="Normal">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <WrapPanel>
-                                        <TextBlock Text="{Binding Nome}"/>
-                                    </WrapPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <WrapPanel>
+                                            <TextBlock Text="{Binding Nome}"/>
+                                        </WrapPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                             </ListView>
                         </Canvas>
                     </GroupBox>
@@ -229,8 +229,8 @@
                     <ListView x:Name="lsv_sottocontenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,657,10" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                            <TextBlock Text="{Binding Nome}" />
-                        </DataTemplate>
+                                <TextBlock Text="{Binding Nome}" />
+                            </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <Label x:Name="lbl_sottocontenuti" Content="Sottocontenuti:" FontWeight="Bold" Margin="10,419,1116,197"/>
@@ -239,24 +239,38 @@
             </TabItem>
             <TabItem x:Name="tbi_biglietti" Header="Biglietti" IsEnabled="False">
                 <Grid x:Name="grid_biglietti">
+                    <Label x:Name="lbl_bigliettiComprati" Content="Biglietti comprati:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="493" FontWeight="Bold"/>
+                    <Label x:Name="lbl_tipoBiglietti" Content="Tipi di biglietti:" HorizontalAlignment="Left" Margin="10,353,0,0" VerticalAlignment="Top" Width="452" FontWeight="Bold"/>
+                    <ListView x:Name="lsv_bigliettiComprati" HorizontalAlignment="Left" Height="307" Margin="10,41,0,0" VerticalAlignment="Top" Width="950">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ListView x:Name="lsv_tipiBiglietti" HorizontalAlignment="Left" Height="248" Margin="10,384,0,0" VerticalAlignment="Top" Width="493">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                     <GroupBox x:Name="gpb_tipoBiglietti" Header="Tipo di biglietto" HorizontalAlignment="Left" Height="622" VerticalAlignment="Top" Width="264" FontWeight="Bold" Margin="965,10,0,0">
                         <Canvas x:Name="cnv_tipoBiglietti" Margin="0,0,-2,-4">
-                            <TextBox x:Name="txt_tipoBiglietti_prezzo" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Prezzo" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_tipoBiglietti_prezzo_GotFocus" LostFocus="txt_tipoBiglietti_prezzo_LostFocus"/>
-                            <TextBox x:Name="txt_tipoBiglietti_descrizione" HorizontalAlignment="Left" Height="79" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="69" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_tipoBiglietti_descrizione_GotFocus" LostFocus="txt_tipoBiglietti_descrizione_LostFocus"/>
-                            <Button x:Name="btn_tipoBiglietti_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="153" FontWeight="Normal" Click="btn_tipoBiglietti_crea_Click"/>
+                            <TextBox x:Name="txt_tipoBiglietti_nome" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_tipoBiglietti_prezzo_GotFocus" LostFocus="txt_tipoBiglietti_prezzo_LostFocus"/>
+                            <TextBox x:Name="txt_tipoBiglietti_prezzo" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Prezzo" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="69" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_tipoBiglietti_prezzo_GotFocus" LostFocus="txt_tipoBiglietti_prezzo_LostFocus"/>
+                            <TextBox x:Name="txt_tipoBiglietti_descrizione" HorizontalAlignment="Left" Height="79" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="97" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_tipoBiglietti_descrizione_GotFocus" LostFocus="txt_tipoBiglietti_descrizione_LostFocus"/>
+                            <Button x:Name="btn_tipoBiglietti_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="181" FontWeight="Normal" Click="btn_tipoBiglietti_crea_Click"/>
                             <Label x:Name="lbl_tipoBiglietti_crea" Content="Crea un nuovo tipo di biglietto:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
-                            <Label x:Name="lbl_tipoBiglietti_modifica" Content="Modifica un tipo di biglietto:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="244"/>
-                            <ComboBox x:Name="cmb_tipoBiglietti_selezionaBiglietto" Height="26" Width="172" Canvas.Left="72" Canvas.Top="275" FontWeight="Normal"/>
-                            <Label x:Name="lbl_tipoBiglietti_biglietto" Content="Biglietto:" Canvas.Left="10" FontWeight="Normal" Width="57" Canvas.Top="275"/>
-                            <Button x:Name="btn_tipoBiglietti_modifica" Content="Modifica" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="418" FontWeight="Normal"/>
-                            <Label x:Name="lbl_tipoBiglietti_elimina" Content="Elimina un tipo di biglietto:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="542"/>
-                            <ComboBox x:Name="cmb_tipoBiglietti_elimina" Height="20" Width="146" Canvas.Left="10" Canvas.Top="573" FontWeight="Normal"/>
-                            <Button x:Name="btn_tipoBiglietti_elimina" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Canvas.Left="161" Canvas.Top="573" FontWeight="Normal"/>
-                            <TextBox x:Name="txt_tipoBiglietti_nuovoPrezzo" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo prezzo" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="306" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_tipoBiglietti_nuovoPrezzo_GotFocus" LostFocus="txt_tipoBiglietti_nuovoPrezzo_LostFocus"/>
-                            <TextBox x:Name="txt_tipoBiglietti_nuovaDescrizione" HorizontalAlignment="Left" Height="79" TextWrapping="Wrap" Text="Nuova descrizione" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="334" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_tipoBiglietti_nuovaDescrizione_GotFocus" LostFocus="txt_tipoBiglietti_nuovaDescrizione_LostFocus"/>
+                            <Label x:Name="lbl_tipoBiglietti_modifica" Content="Modifica un tipo di biglietto:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="371"/>
+                            <ComboBox x:Name="cmb_tipoBiglietti_selezionaBiglietto" Height="26" Width="172" Canvas.Left="72" Canvas.Top="402" FontWeight="Normal" DropDownOpened="cmb_tipoBiglietti_selezionaBiglietto_DropDownOpened" SelectionChanged="cmb_tipoBiglietti_selezionaBiglietto_SelectionChanged"/>
+                            <Label x:Name="lbl_tipoBiglietti_biglietto" Content="Biglietto:" Canvas.Left="10" FontWeight="Normal" Width="57" Canvas.Top="402"/>
+                            <Button x:Name="btn_tipoBiglietti_modifica" Content="Modifica" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="573" FontWeight="Normal" Click="btn_tipoBiglietti_modifica_Click"/>
+                            <TextBox x:Name="txt_tipoBiglietti_nuovoNome" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo nome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="433" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_tipoBiglietti_nuovoPrezzo_GotFocus" LostFocus="txt_tipoBiglietti_nuovoPrezzo_LostFocus"/>
+                            <TextBox x:Name="txt_tipoBiglietti_nuovoPrezzo" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo prezzo" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="461" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_tipoBiglietti_nuovoPrezzo_GotFocus" LostFocus="txt_tipoBiglietti_nuovoPrezzo_LostFocus"/>
+                            <TextBox x:Name="txt_tipoBiglietti_nuovaDescrizione" HorizontalAlignment="Left" Height="79" TextWrapping="Wrap" Text="Nuova descrizione" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="489" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_tipoBiglietti_nuovaDescrizione_GotFocus" LostFocus="txt_tipoBiglietti_nuovaDescrizione_LostFocus"/>
                         </Canvas>
                     </GroupBox>
-                    <DataGrid x:Name="dtg_bigliettiComprati" Margin="10,10,279,10"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tbi_personale" Header="Personale" IsEnabled="False">
