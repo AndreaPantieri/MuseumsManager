@@ -149,5 +149,39 @@ namespace Entities
 
             return dBObjects;
         }
+
+        public static List<T> CustomSelect(SqlCommand sqlCommand)
+        {
+            Type t = typeof(T);
+            List<T> dBObjects = new List<T>();
+            using (DBConnection dBConnection = new DBConnection())
+            {
+                using (SqlDataReader sqlDataReader = dBConnection.SelectQuery(sqlCommand))
+                {
+                    while (sqlDataReader.Read())
+                    {
+                        T tmp = (T)Activator.CreateInstance(t);
+                        List<PropertyInfo> lpi = new List<PropertyInfo>(tmp.GetType().GetProperties());
+                        lpi.ForEach(pi =>
+                        {
+                            object value;
+                            if (IsDBNull(sqlDataReader[pi.Name]))
+                            {
+                                value = Activator.CreateInstance(pi.PropertyType);
+                            }
+                            else
+                            {
+                                value = sqlDataReader[pi.Name];
+                            }
+                            pi.SetValue(tmp, value);
+                        });
+
+                        dBObjects.Add(tmp);
+                    }
+                }
+            }
+
+            return dBObjects;
+        }
     }
 }
