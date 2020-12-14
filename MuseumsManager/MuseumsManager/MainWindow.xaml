@@ -145,13 +145,13 @@
                 <Grid x:Name="grid_contenuti">
                     <ComboBox x:Name="cmb_contenuti_filtroSezione" Margin="123,47,946,569" DropDownOpened="cmb_contenuti_filtroSezione_DropDownOpened"/>
                     <ComboBox x:Name="cmb_contenuti_filtroProvenienza" FontWeight="Normal" Margin="123,78,946,538" DropDownOpened="cmb_contenuti_filtroProvenienza_DropDownOpened"/>
-                    <ComboBox x:Name="cmb_contenuti_filtroCreatore" FontWeight="Normal" Margin="123,109,946,507"/>
-                    <ComboBox x:Name="cmb_contenuti_filtroPeriodoStorico" FontWeight="Normal" Margin="123,140,946,476"/>
-                    <ComboBox x:Name="cmb_contenuti_filtroTipoContenuto" FontWeight="Normal" Margin="123,171,946,445"/>
+                    <ComboBox x:Name="cmb_contenuti_filtroCreatore" FontWeight="Normal" Margin="123,109,946,507" DropDownOpened="cmb_contenuti_filtroCreatore_DropDownOpened"/>
+                    <ComboBox x:Name="cmb_contenuti_filtroPeriodoStorico" FontWeight="Normal" Margin="123,140,946,476" DropDownOpened="cmb_contenuti_filtroPeriodoStorico_DropDownOpened"/>
+                    <ComboBox x:Name="cmb_contenuti_filtroTipoContenuto" FontWeight="Normal" Margin="123,171,946,445" DropDownOpened="cmb_contenuti_filtroTipoContenuto_DropDownOpened"/>
                     <GroupBox x:Name="gpb_tipoContenuto" Header="Tipo di contenuto" HorizontalAlignment="Left" Height="150" VerticalAlignment="Top" Width="314" FontWeight="Bold" Margin="915,482,0,0">
                         <Canvas x:Name="cnv_tipoContenuto" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_tipoContenuto_descrizione" HorizontalAlignment="Left" Height="53" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="284" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_tipoContenuto_descrizione_GotFocus" LostFocus="txt_tipoContenuto_descrizione_LostFocus"/>
-                            <Button x:Name="btn_tipoContenuto_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="212" Canvas.Top="99" FontWeight="Normal"/>
+                            <Button x:Name="btn_tipoContenuto_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="212" Canvas.Top="99" FontWeight="Normal" Click="btn_tipoContenuto_crea_Click"/>
                             <Label x:Name="lbl_tipoContenuto_crea" Content="Crea un nuovo tipo di contenuto:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="284"/>
                         </Canvas>
                     </GroupBox>
