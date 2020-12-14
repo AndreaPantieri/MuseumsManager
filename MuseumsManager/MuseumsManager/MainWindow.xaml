@@ -219,8 +219,20 @@
                             <Label x:Name="lbl_modificaContenuti_sezione" Content="Sezione:" Canvas.Left="10" Canvas.Top="214" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
                         </Canvas>
                     </GroupBox>
-                    <ListView x:Name="lsv_contenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,241,657,228" />
-                    <ListView x:Name="lsv_sottocontenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,657,10" />
+                    <ListView x:Name="lsv_contenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,241,657,228" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Nome}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <ListView x:Name="lsv_sottocontenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,657,10" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                            <TextBlock Text="{Binding Nome}" />
+                        </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                     <Label x:Name="lbl_sottocontenuti" Content="Sottocontenuti:" FontWeight="Bold" Margin="10,419,1116,197"/>
                     <Label x:Name="lbl_sottocontenuti_Copy" Content="Contenuti:" FontWeight="Bold" Margin="11,210,1116,406"/>
                 </Grid>
