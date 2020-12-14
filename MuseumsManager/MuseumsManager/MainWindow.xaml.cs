@@ -1832,7 +1832,20 @@ namespace MuseumsManager
 
         private void btn_filtraContenuti_Click(object sender, RoutedEventArgs e)
         {
+            string sqlCommandString = "SELECT * FROM Contenuto";
+            string whereString = " WHERE ";
 
+            if(!(cmb_contenuti_filtroSezione.SelectedItem is null))
+            {
+                whereString += "idSezione = " + (cmb_contenuti_filtroSezione.SelectedItem as Sezione).idSezione;
+            }
+
+            if (!(cmb_contenuti_filtroProvenienza.SelectedItem is null))
+            {
+                if (!whereString.Equals(" WHERE "))
+                    whereString += ", ";
+                whereString += "idProvenienza = " + (cmb_contenuti_filtroProvenienza.SelectedItem as Sezione).idSezione;
+            }
         }
     }
 }
