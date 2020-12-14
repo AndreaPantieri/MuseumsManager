@@ -32,7 +32,7 @@
                             <TextBox x:Name="txt_sezioni_modificaDescrizione" HorizontalAlignment="Left" Height="51" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="322" Foreground="Gray" FontWeight="Normal" RenderTransformOrigin="0.517,0.136" FontStyle="Italic" GotFocus="txt_sezioni_modificaDescrizione_GotFocus" LostFocus="txt_sezioni_modificaDescrizione_LostFocus"/>
                             <ComboBox x:Name="cmb_sezioni_modificaTipo" Height="26" Width="170" Canvas.Left="123" Canvas.Top="378" FontWeight="Normal" DropDownOpened="cmb_sezioni_modificaTipo_DropDownOpened"/>
                             <ComboBox x:Name="cmb_sezioni_modificaPadre" Height="26" Width="170" Canvas.Left="123" Canvas.Top="409" FontWeight="Normal" DropDownOpened="cmb_sezioni_modificaPadre_DropDownOpened"/>
-                            <Button x:Name="btn_sezioni_modifica" Content="Modifica" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="440" FontWeight="Normal"/>
+                            <Button x:Name="btn_sezioni_modifica" Content="Modifica" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="440" FontWeight="Normal" Click="btn_sezioni_modifica_Click"/>
                             <Label x:Name="lbl_sezioni_modificaTipo" Content="Tipi disponibili:" Canvas.Left="10" Canvas.Top="378" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
                             <Label x:Name="lbl_sezioni_modificaPadre" Content="Nuovo padre (fac.):" Canvas.Left="5" Canvas.Top="409" FontWeight="Normal" Width="113"/>
                             <Label x:Name="lbl_sezioni_modifica" Content="Modifica una sezione:" Canvas.Left="10" Canvas.Top="232" FontWeight="Bold" Width="283"/>
@@ -210,9 +210,10 @@
                             <Label x:Name="lbl_modificaContenuti_sezione" Content="Sezione:" Canvas.Left="10" Canvas.Top="214" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
                         </Canvas>
                     </GroupBox>
-                    <ListView x:Name="lsv_contenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,202,651,228" />
-                    <ListView x:Name="lsv_sottocontenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,651,10" />
-                    <Label x:Name="lbl_contenuti_filtroTipoContenuto_Copy" Content="Sottocontenuti:" FontWeight="Bold" Margin="10,419,1116,197"/>
+                    <ListView x:Name="lsv_contenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,241,657,228" />
+                    <ListView x:Name="lsv_sottocontenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,657,10" />
+                    <Label x:Name="lbl_sottocontenuti" Content="Sottocontenuti:" FontWeight="Bold" Margin="10,419,1116,197"/>
+                    <Label x:Name="lbl_sottocontenuti_Copy" Content="Contenuti:" FontWeight="Bold" Margin="11,210,1116,406"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tbi_biglietti" Header="Biglietti" IsEnabled="False">

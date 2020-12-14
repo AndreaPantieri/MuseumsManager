@@ -605,6 +605,84 @@ namespace MuseumsManager
                 MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        private void btn_sezioni_modifica_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmb_sezioni_selezionaSezione.SelectedIndex != -1)
+            {
+                //Metodo per trovare l'idTipoSezione interessato (anche se la relazione nel DB è N_a_N il programma ne utilizza solo uno)
+                List<Sezione_Tipologia> tabellaSezioneTipologia = new List<Sezione_Tipologia>(DBObject<Sezione_Tipologia>.SelectAll());
+                List<TipoSezione> tabellaTipoSezione = new List<TipoSezione>(DBObject<TipoSezione>.SelectAll());
+                Sezione sezioneSelezionata = (cmb_sezioni_selezionaSezione.SelectedItem as Sezione);
+                List<Sezione_Tipologia> parzialeSezioneTipologia = new List<Sezione_Tipologia>();
+                List<TipoSezione> TipiDisponibili = new List<TipoSezione>();
+                
+                for (int i = 0; i < tabellaSezioneTipologia.Count; i++)
+                {
+                    if (sezioneSelezionata.idSezione == tabellaSezioneTipologia[i].idSezione)
+                    {
+                        parzialeSezioneTipologia.Add(tabellaSezioneTipologia[i]);
+                    }
+                }
+                bool ok;
+
+                for (int i = 0; i < tabellaTipoSezione.Count; i++)
+                {
+                    ok = false;
+
+                    for (int j = 0; j < parzialeSezioneTipologia.Count; j++)
+                    {
+                        if (tabellaTipoSezione[i].idTipoSezione == parzialeSezioneTipologia[j].idTipoSezione)
+                            ok = true;
+                    }
+                    if (ok)
+                        TipiDisponibili.Add(tabellaTipoSezione[i]);
+                }
+
+                //Controlli per scegliere la query corretta.
+                if (
+                    !txt_sezioni_modificaNome.Text.Equals("") &&
+                    !txt_sezioni_modificaDescrizione.Text.Equals("") &&
+                    cmb_sezioni_modificaTipo.SelectedIndex != -1 &&
+                    cmb_sezioni_modificaPadre.SelectedIndex != -1)
+                {
+                    DBEntity.Update<Sezione>("idSezione", sezioneSelezionata.idSezione, "Nome", txt_sezioni_modificaNome.Text, "Descrizione", txt_sezioni_modificaDescrizione.Text, "idSezionePadre", (cmb_sezioni_modificaPadre.SelectedItem as Sezione).idSezionePadre);
+                    DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Delete("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", TipiDisponibili.First().idTipoSezione);
+                    DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Insert("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", (cmb_sezioni_modificaTipo.SelectedItem as TipoSezione).idTipoSezione);
+                }
+                else
+                if (!txt_sezioni_modificaNome.Text.Equals("") &&
+                    !txt_sezioni_modificaDescrizione.Text.Equals("") &&
+                    cmb_sezioni_modificaTipo.SelectedIndex != -1)
+                {
+                    DBEntity.Update<Sezione>("idSezione", sezioneSelezionata.idSezione, "Nome", txt_sezioni_modificaNome.Text, "Descrizione", txt_sezioni_modificaDescrizione.Text);
+                    DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Delete("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", TipiDisponibili.First().idTipoSezione);
+                    DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Insert("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", (cmb_sezioni_modificaTipo.SelectedItem as TipoSezione).idTipoSezione);
+                }
+                else 
+                if(!txt_sezioni_modificaNome.Text.Equals("") &&
+                    !txt_sezioni_modificaDescrizione.Text.Equals("") &&
+                    cmb_sezioni_modificaPadre.SelectedIndex != -1)
+                {
+                    DBEntity.Update<Sezione>("idSezione", sezioneSelezionata.idSezione, "Nome", txt_sezioni_modificaNome.Text, "Descrizione", txt_sezioni_modificaDescrizione.Text, "idSezionePadre", (cmb_sezioni_modificaPadre.SelectedItem as Sezione).idSezionePadre);
+                    
+                }
+                else 
+                if (!txt_sezioni_modificaNome.Text.Equals("") ||
+                    !txt_sezioni_modificaDescrizione.Text.Equals(""))
+                {
+                    DBEntity.Update<Sezione>("idSezione", sezioneSelezionata.idSezione, "Nome", txt_sezioni_modificaNome.Text, "Descrizione", txt_sezioni_modificaDescrizione.Text);
+                }
+                else
+                {
+                    MessageBox.Show("Qualche parametro non è stato compilato!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                MessageBox.Show("Sezione modificata correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show("Nessuna sezione selezionata!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
         //Eventi GotFocus
 
         private void txt_categoriaMuseo_descrizione_GotFocus(object sender, RoutedEventArgs e)
@@ -1583,6 +1661,11 @@ namespace MuseumsManager
         {
             cmb_sezioni_modificaTipo.ItemsSource = null;
             cmb_sezioni_modificaPadre.ItemsSource = null;
+            if (cmb_sezioni_selezionaSezione.SelectedIndex != -1)
+            {
+                txt_sezioni_modificaNome.Text = (cmb_sezioni_selezionaSezione.SelectedItem as Sezione).Nome;
+                txt_sezioni_modificaDescrizione.Text = (cmb_sezioni_selezionaSezione.SelectedItem as Sezione).Descrizione;
+            }      
         }
     }
 }
