@@ -704,16 +704,19 @@ namespace MuseumsManager
                 MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        /// <summary> //MODIFICA DEL PADRE ATTUALMENTE NON FUNZIONANTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+        /// Metodo per la modifica di ogni aspetto di una sezione: nome, descrizione, tipo e padre.
+        /// </summary>
         private void btn_sezioni_modifica_Click(object sender, RoutedEventArgs e)
         {
             if (cmb_sezioni_selezionaSezione.SelectedIndex != -1)
             {
-                //Metodo per trovare l'idTipoSezione interessato (anche se la relazione nel DB è N_a_N il programma ne utilizza solo uno)
+                /* Metodo per trovare l'idTipoSezione interessato. Anche se la relazione nel DB è N_a_N il programma ne utilizza solo uno, quindi fa .First().
+                   Per modificare un tipo di sezione specifico associato a una sezione, occorrebbe aggiungere nell'interfaccia una combobox di selezione dell'interessato da modificare. 
+                */
                 List<Sezione_Tipologia> tabellaSezioneTipologia = new List<Sezione_Tipologia>(DBObject<Sezione_Tipologia>.SelectAll());
-                List<TipoSezione> tabellaTipoSezione = new List<TipoSezione>(DBObject<TipoSezione>.SelectAll());
                 Sezione sezioneSelezionata = (cmb_sezioni_selezionaSezione.SelectedItem as Sezione);
                 List<Sezione_Tipologia> parzialeSezioneTipologia = new List<Sezione_Tipologia>();
-                List<TipoSezione> TipiDisponibili = new List<TipoSezione>();
                 
                 for (int i = 0; i < tabellaSezioneTipologia.Count; i++)
                 {
@@ -722,22 +725,6 @@ namespace MuseumsManager
                         parzialeSezioneTipologia.Add(tabellaSezioneTipologia[i]);
                     }
                 }
-                /*
-                bool ok;
-                
-                for (int i = 0; i < tabellaTipoSezione.Count; i++)
-                {
-                    ok = false;
-
-                    for (int j = 0; j < parzialeSezioneTipologia.Count; j++)
-                    {
-                        if (tabellaTipoSezione[i].idTipoSezione == parzialeSezioneTipologia[j].idTipoSezione)
-                            ok = true;
-                    }
-                    if (ok)
-                        TipiDisponibili.Add(tabellaTipoSezione[i]);
-                }*/
-
 
                 //Controlli per scegliere la query corretta.
                 if (
@@ -1584,7 +1571,7 @@ namespace MuseumsManager
         {
             if (cmb_sezioni_selezionaSezione.SelectedIndex != -1)
             {
-                cmb_sezioni_modificaPadre.ItemsSource = DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == this.museoSelezionato.idMuseo && (cmb_sezioni_selezionaSezione.SelectedItem as Sezione).idSezionePadre != s.idSezionePadre);
+                cmb_sezioni_modificaPadre.ItemsSource = DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == this.museoSelezionato.idMuseo);
                 cmb_sezioni_modificaPadre.DisplayMemberPath = "Nome";
             }
         }
@@ -1627,6 +1614,11 @@ namespace MuseumsManager
             cmb_contenuti_filtroTipoContenuto.DisplayMemberPath = "Descrizione";
         }
 
+        private void cmb_sezioni_elimina_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_sezioni_elimina.ItemsSource = DBObject<Sezione>.SelectAll().Where(s => s.idSezionePadre != 0 || s.idSezionePadre != s.idSezionePadre);
+            cmb_sezioni_elimina.DisplayMemberPath = "Nome";
+        }
 
         //Eventi SelectionChanged
 
@@ -1782,7 +1774,6 @@ namespace MuseumsManager
                         setMuseumFamily();
                         setMuseumTypes();
                         setMuseumAreas();
-
                     }
                 }
             }
