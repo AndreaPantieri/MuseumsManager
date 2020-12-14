@@ -159,15 +159,13 @@
                         <Canvas x:Name="cnv_contenuti" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_contenuti_nome" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="72" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_contenuti_nome_GotFocus" LostFocus="txt_contenuti_nome_LostFocus"/>
                             <TextBox x:Name="txt_contenuti_descrizione" HorizontalAlignment="Left" Height="53" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="100" Foreground="Gray" FontWeight="Normal" RenderTransformOrigin="0.517,0.136" FontStyle="Italic" GotFocus="txt_contenuti_descrizione_GotFocus" LostFocus="txt_contenuti_descrizione_LostFocus"/>
-                            <ComboBox x:Name="cmb_contenuti_tipoContenuto" Height="26" Width="170" Canvas.Left="123" Canvas.Top="307" FontWeight="Normal"/>
-                            <ComboBox x:Name="cmb_contenuti_padre" Height="26" Width="170" Canvas.Left="123" Canvas.Top="338" FontWeight="Normal"/>
-                            <Button x:Name="btn_contenuti_aggiungi" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="369" FontWeight="Normal"/>
-                            <Label x:Name="lbl_contenuti_tipoContenuto" Content="Tipo del contenuto:" Canvas.Left="5" Canvas.Top="307" FontWeight="Normal" Width="113"/>
-                            <Label x:Name="lbl_contenuti_padre" Content="Padre (facoltativo):" Canvas.Left="10" Canvas.Top="338" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_contenuti_padre" Height="26" Width="170" Canvas.Left="123" Canvas.Top="309" FontWeight="Normal"/>
+                            <Button x:Name="btn_contenuti_aggiungi" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="340" FontWeight="Normal"/>
+                            <Label x:Name="lbl_contenuti_padre" Content="Padre (facoltativo):" Canvas.Left="10" Canvas.Top="309" FontWeight="Normal"/>
                             <Label x:Name="lbl_contenuti_aggiungi" Content="Aggiungi un nuovo contenuto:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="283"/>
-                            <Label x:Name="lbl_contenuti_elimina" Content="Elimina un contenuto:" Canvas.Left="10" Canvas.Top="542" FontWeight="Bold" Width="283"/>
-                            <ComboBox x:Name="cmb_contenuti_elimina" Height="20" Width="196" Canvas.Left="10" Canvas.Top="573" FontWeight="Normal"/>
-                            <Button x:Name="btn_contenuti_elimina" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="573" FontWeight="Normal"/>
+                            <Label x:Name="lbl_contenuti_elimina" Content="Elimina un contenuto:" Canvas.Left="10" Canvas.Top="359" FontWeight="Bold" Width="283"/>
+                            <ComboBox x:Name="cmb_contenuti_elimina" Height="20" Width="196" Canvas.Left="10" Canvas.Top="390" FontWeight="Normal"/>
+                            <Button x:Name="btn_contenuti_elimina" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="390" FontWeight="Normal"/>
                             <ComboBox x:Name="cmb_contenuti_sezione" Height="26" Width="225" Canvas.Left="68" Canvas.Top="41" FontWeight="Normal"/>
                             <Label x:Name="lbl_contenuti_sezione" Content="Sezione:" Canvas.Left="10" Canvas.Top="41" FontWeight="Normal" Width="53"/>
                             <TextBox x:Name="txt_contenuti_dataRitrovamento" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Data di ritrovamento" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="158" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_contenuti_dataRitrovamento_GotFocus" LostFocus="txt_contenuti_dataRitrovamento_LostFocus"/>
@@ -178,6 +176,18 @@
                             <Label x:Name="lbl_contenuti_creatore" Content="Creatore:" Canvas.Left="10" Canvas.Top="245" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
                             <ComboBox x:Name="cmb_contenuti_periodoStorico" Height="26" Width="170" Canvas.Left="123" Canvas.Top="276" FontWeight="Normal"/>
                             <Label x:Name="lbl_contenuti_periodoStorico" Content="Periodo Storico:" Canvas.Left="10" Canvas.Top="276" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
+                            <Label x:Name="lbl_contenuti_elimina_Copy" Content="Aggiungi un tipo ad un contenuto:" Canvas.Left="9" Canvas.Top="410" FontWeight="Bold" Width="283"/>
+                            <Label x:Name="lbl_addTipoContenuto_contenuto" Content="Contenuto:" FontWeight="Normal" Width="70" Canvas.Left="9" Canvas.Top="436"/>
+                            <ComboBox x:Name="cmb_addTipoContenuto_contenuto" Height="20" Width="196" Canvas.Left="96" Canvas.Top="440" FontWeight="Normal"/>
+                            <Button x:Name="btn_addTipo" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="487" FontWeight="Normal"/>
+                            <Label x:Name="lbl_addTipoContenuto_contenuto_Copy" Content="Tipo:" FontWeight="Normal" Width="70" Canvas.Left="9" Canvas.Top="457"/>
+                            <ComboBox x:Name="cmb_addTipoContenuto_tipo" Height="20" Width="196" Canvas.Left="96" Canvas.Top="462" FontWeight="Normal"/>
+                            <Label x:Name="lbl_contenuti_eliminatipo" Content="Rimuovi un tipo ad un contenuto:" Canvas.Left="9" Canvas.Top="503" FontWeight="Bold" Width="283"/>
+                            <Label x:Name="lbl_delTipoContenuto_contenuto" Content="Contenuto:" FontWeight="Normal" Width="70" Canvas.Left="9" Canvas.Top="530"/>
+                            <ComboBox x:Name="cmb_delTipoContenuto_contenuto" Height="20" Width="196" Canvas.Left="96" Canvas.Top="534" FontWeight="Normal"/>
+                            <Button x:Name="btn_delTipo" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="581" FontWeight="Normal"/>
+                            <Label x:Name="lbl_delTipoContenuto_tipo" Content="Tipo:" FontWeight="Normal" Width="70" Canvas.Left="9" Canvas.Top="550"/>
+                            <ComboBox x:Name="cmb_delTipoContenuto_tipo" Height="20" Width="196" Canvas.Left="96" Canvas.Top="556" FontWeight="Normal"/>
                         </Canvas>
                     </GroupBox>
                     <Label x:Name="lbl_contenuti_filtraPer" Content="Filtra per:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontStyle="Italic"/>
@@ -197,10 +207,8 @@
                             <ComboBox x:Name="cmb_modificaContenuti_provenienza" Height="26" Width="170" Canvas.Left="123" Canvas.Top="245" FontWeight="Normal"/>
                             <ComboBox x:Name="cmb_modificaContenuti_creatore" Height="26" Width="170" Canvas.Left="123" Canvas.Top="276" FontWeight="Normal"/>
                             <ComboBox x:Name="cmb_modificaContenuti_periodoStorico" Height="26" Width="170" Canvas.Left="123" Canvas.Top="307" FontWeight="Normal"/>
-                            <ComboBox x:Name="cmb_modificaContenuti_tipoContenuto" Height="26" Width="170" Canvas.Left="123" Canvas.Top="338" FontWeight="Normal"/>
                             <ComboBox x:Name="cmb_modificaContenuti_padre" Height="26" Width="170" Canvas.Left="123" Canvas.Top="369" FontWeight="Normal"/>
                             <Button x:Name="btn_modificaContenuti_aggiorna" Content="Aggiorna" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="400" FontWeight="Normal"/>
-                            <Label x:Name="lbl_modificaContenuti_tipoContenuto" Content="Tipo del contenuto:" Canvas.Left="5" Canvas.Top="338" FontWeight="Normal" Width="113"/>
                             <Label x:Name="lbl_modificaContenuti_padre" Content="Padre (facoltativo):" Canvas.Left="10" Canvas.Top="369" FontWeight="Normal"/>
                             <Label x:Name="lbl_modificaContenuti_modifica" Content="Modifica un contenuto esistente:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="283"/>
                             <Label x:Name="lbl_modificaContenuti_contenuto" Content="Contenuto:" Canvas.Left="10" Canvas.Top="41" FontWeight="Normal" Width="70"/>

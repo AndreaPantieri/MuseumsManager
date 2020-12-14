@@ -1820,5 +1820,10 @@ namespace MuseumsManager
                 txt_sezioni_modificaDescrizione.Text = (cmb_sezioni_selezionaSezione.SelectedItem as Sezione).Descrizione;
             }      
         }
+
+        private void btn_filtraContenuti_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
