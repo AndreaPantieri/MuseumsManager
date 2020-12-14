@@ -1616,7 +1616,7 @@ namespace MuseumsManager
 
         private void cmb_sezioni_elimina_DropDownOpened(object sender, EventArgs e)
         {
-            cmb_sezioni_elimina.ItemsSource = DBObject<Sezione>.SelectAll().Where(s => s.idSezionePadre != 0 || s.idSezionePadre != s.idSezionePadre);
+            //cmb_sezioni_elimina.ItemsSource = DBObject<Sezione>.SelectAll().Where(s => s.idSezionePadre != 0 || s.idSezionePadre != s.idSezionePadre); //METODO SBAGLIATO PERCHE' DEVE PRENDERE SOLAMENTE GLI ULTIMI FIGLI DELL'ALBERO
             cmb_sezioni_elimina.DisplayMemberPath = "Nome";
         }
 
@@ -1824,6 +1824,25 @@ namespace MuseumsManager
         private void btn_filtraContenuti_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// Metodo per l'eliminazione di una sezione.
+        /// </summary>
+        private void btn_sezioni_elimina_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_tipoBiglietti_crea_Click(object sender, RoutedEventArgs e)
+        {
+            if (!txt_tipoBiglietti_prezzo.Text.Equals("") &&
+                int.TryParse(txt_tipoBiglietti_prezzo.Text, out int prezzo) &&
+                !txt_tipoBiglietti_descrizione.Text.Equals("") &&
+                !txt_tipoBiglietti_descrizione.Text.Equals("Descrizione"))
+            {
+                DBObject<TipoBiglietto>.Insert("Prezzo", prezzo, "Descrizione", txt_tipoBiglietti_descrizione.Text);
+            }
         }
     }
 }
