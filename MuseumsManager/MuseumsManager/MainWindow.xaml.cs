@@ -449,10 +449,37 @@ namespace MuseumsManager
                     if (checkQueryResult(res))
                         MessageBox.Show("Giorno di apertura speciale aggiunto correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
+                else
+                {
+                    MessageBox.Show("Data presente come giorno di chiusura!", "ERRORE", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
                 txt_aperturaSpeciale_numBigliettiMax.Clear();
                 txt_aperturaSpeciale_nuovoOrarioApertura.Clear();
                 txt_aperturaSpeciale_nuovoOrarioChiusura.Clear();
             }
+            List<CalendarioApertureSpeciali> lcas = DBObject<CalendarioApertureSpeciali>.Select("idMuseo", this.museoSelezionato.idMuseo);
+            ObservableCollection<CalendarioApertureSpeciali> calendarioApertureSpeciali = new ObservableCollection<CalendarioApertureSpeciali>(lcas);
+            calendarioApertureSpeciali.CollectionChanged += (s, eventArgs) =>
+            {
+
+                switch (eventArgs.Action)
+                {
+                    case NotifyCollectionChangedAction.Remove:
+                        {
+                            List<CalendarioApertureSpeciali> casRmv = new List<CalendarioApertureSpeciali>(eventArgs.OldItems.Cast<CalendarioApertureSpeciali>());
+                            casRmv.ForEach(cas => DBEntity.Delete<CalendarioApertureSpeciali>("idCalendarioApertureSpeciali", cas.idCalendarioApertureSpeciali));
+                            break;
+                        }
+                    case NotifyCollectionChangedAction.Add:
+                        {
+                            List<CalendarioApertureSpeciali> casAdd = new List<CalendarioApertureSpeciali>(eventArgs.NewItems.Cast<CalendarioApertureSpeciali>());
+                            casAdd.ForEach(cas => cas.idMuseo = museoSelezionato.idMuseo);
+                            casAdd.ForEach(cas => DBObject<CalendarioApertureSpeciali>.Insert("Data", cas.Data, "OrarioApertura", cas.OrarioApertura, "OrarioChiusura", cas.OrarioChiusura, "NumBigliettiMax", cas.NumBigliettiMax, "idMuseo", cas.idMuseo));
+                            break;
+                        }
+                }
+            };
+            dtg_giornateAperturaSpeciale.DataContext = calendarioApertureSpeciali;
         }
 
         /// <summary>
@@ -469,6 +496,29 @@ namespace MuseumsManager
                     MessageBox.Show("Giorno di apertura speciale eliminato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 cmb_aperturaSpeciale_elimina.ItemsSource = null;
             }
+            List<CalendarioApertureSpeciali> lcas = DBObject<CalendarioApertureSpeciali>.Select("idMuseo", this.museoSelezionato.idMuseo);
+            ObservableCollection<CalendarioApertureSpeciali> calendarioApertureSpeciali = new ObservableCollection<CalendarioApertureSpeciali>(lcas);
+            calendarioApertureSpeciali.CollectionChanged += (s, eventArgs) =>
+            {
+
+                switch (eventArgs.Action)
+                {
+                    case NotifyCollectionChangedAction.Remove:
+                        {
+                            List<CalendarioApertureSpeciali> casRmv = new List<CalendarioApertureSpeciali>(eventArgs.OldItems.Cast<CalendarioApertureSpeciali>());
+                            casRmv.ForEach(cas => DBEntity.Delete<CalendarioApertureSpeciali>("idCalendarioApertureSpeciali", cas.idCalendarioApertureSpeciali));
+                            break;
+                        }
+                    case NotifyCollectionChangedAction.Add:
+                        {
+                            List<CalendarioApertureSpeciali> casAdd = new List<CalendarioApertureSpeciali>(eventArgs.NewItems.Cast<CalendarioApertureSpeciali>());
+                            casAdd.ForEach(cas => cas.idMuseo = museoSelezionato.idMuseo);
+                            casAdd.ForEach(cas => DBObject<CalendarioApertureSpeciali>.Insert("Data", cas.Data, "OrarioApertura", cas.OrarioApertura, "OrarioChiusura", cas.OrarioChiusura, "NumBigliettiMax", cas.NumBigliettiMax, "idMuseo", cas.idMuseo));
+                            break;
+                        }
+                }
+            };
+            dtg_giornateAperturaSpeciale.DataContext = calendarioApertureSpeciali;
         }
 
         /// <summary>
@@ -488,6 +538,32 @@ namespace MuseumsManager
                         MessageBox.Show("Giorno di chiusura aggiunto correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
+            else
+            {
+                MessageBox.Show("Data presente come giorno di apertura speciale!", "ERRORE", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            List<CalendarioChiusure> lcc = DBObject<CalendarioChiusure>.Select("idMuseo", this.museoSelezionato.idMuseo);
+            ObservableCollection<CalendarioChiusure> calendarioChiusure = new ObservableCollection<CalendarioChiusure>(lcc);
+            calendarioChiusure.CollectionChanged += (s, eventArgs) =>
+            {
+                switch (eventArgs.Action)
+                {
+                    case NotifyCollectionChangedAction.Remove:
+                        {
+                            List<CalendarioChiusure> ccRmv = new List<CalendarioChiusure>(eventArgs.OldItems.Cast<CalendarioChiusure>());
+                            ccRmv.ForEach(cc => DBEntity.Delete<CalendarioChiusure>("idCalendarioChiusure", cc.idCalendarioChiusure));
+                            break;
+                        }
+                    case NotifyCollectionChangedAction.Add:
+                        {
+                            List<CalendarioChiusure> ccAdd = new List<CalendarioChiusure>(eventArgs.NewItems.Cast<CalendarioChiusure>());
+                            ccAdd.ForEach(cc => cc.idMuseo = museoSelezionato.idMuseo);
+                            ccAdd.ForEach(cc => DBObject<CalendarioChiusure>.Insert("Data", cc.Data, "idMuseo", cc.idMuseo));
+                            break;
+                        }
+                }
+            };
+            dtg_giornateChiusura.DataContext = calendarioChiusure;
         }
 
         /// <summary>
@@ -505,6 +581,29 @@ namespace MuseumsManager
 
                 cmb_chiusura_elimina.ItemsSource = null;
             }
+
+            List<CalendarioChiusure> lcc = DBObject<CalendarioChiusure>.Select("idMuseo", this.museoSelezionato.idMuseo);
+            ObservableCollection<CalendarioChiusure> calendarioChiusure = new ObservableCollection<CalendarioChiusure>(lcc);
+            calendarioChiusure.CollectionChanged += (s, eventArgs) =>
+            {
+                switch (eventArgs.Action)
+                {
+                    case NotifyCollectionChangedAction.Remove:
+                        {
+                            List<CalendarioChiusure> ccRmv = new List<CalendarioChiusure>(eventArgs.OldItems.Cast<CalendarioChiusure>());
+                            ccRmv.ForEach(cc => DBEntity.Delete<CalendarioChiusure>("idCalendarioChiusure", cc.idCalendarioChiusure));
+                            break;
+                        }
+                    case NotifyCollectionChangedAction.Add:
+                        {
+                            List<CalendarioChiusure> ccAdd = new List<CalendarioChiusure>(eventArgs.NewItems.Cast<CalendarioChiusure>());
+                            ccAdd.ForEach(cc => cc.idMuseo = museoSelezionato.idMuseo);
+                            ccAdd.ForEach(cc => DBObject<CalendarioChiusure>.Insert("Data", cc.Data, "idMuseo", cc.idMuseo));
+                            break;
+                        }
+                }
+            };
+            dtg_giornateChiusura.DataContext = calendarioChiusure;
         }
 
         private void btn_provenienza_inserisci_Click(object sender, RoutedEventArgs e)
