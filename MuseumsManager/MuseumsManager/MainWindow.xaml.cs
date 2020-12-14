@@ -1830,6 +1830,9 @@ namespace MuseumsManager
             }      
         }
 
-        
+        private void btn_filtraContenuti_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
