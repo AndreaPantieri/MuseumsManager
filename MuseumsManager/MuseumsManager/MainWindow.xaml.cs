@@ -789,6 +789,18 @@ namespace MuseumsManager
                 MessageBox.Show("Nessuna sezione selezionata!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        private void btn_tipoContenuto_crea_Click(object sender, RoutedEventArgs e)
+        {
+            if (txt_tipoContenuto_descrizione.Text != "" && txt_tipoContenuto_descrizione.Text != "Descrizione")
+            {
+                int res = DBObject<TipoContenuto>.Insert("Descrizione", txt_tipoContenuto_descrizione.Text);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Tipo contenuto aggiunto correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                txt_tipoContenuto_descrizione.Clear();
+            }
+        }
+
+
         //Eventi GotFocus
 
         private void txt_categoriaMuseo_descrizione_GotFocus(object sender, RoutedEventArgs e)
@@ -1577,6 +1589,45 @@ namespace MuseumsManager
             }
         }
 
+
+        //Sezione eventDropDown di Contenuti
+        private void cmb_contenuti_filtroSezione_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_contenuti_filtroSezione.ItemsSource = DBObject<Sezione>.Select("idMuseo", museoSelezionato.idMuseo);
+            cmb_contenuti_filtroSezione.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_contenuti_filtroProvenienza_DropDownOpened(object sender, EventArgs e)
+        {
+            SqlCommand sqlCommand = new SqlCommand("SELECT Provenienza.* FROM Provenienza INNER JOIN Museo_Provenienza ON Provenienza.idProvenienza = Museo_Provenienza.idProvenienza WHERE Museo_Provenienza.idMuseo = @idMuseo;");
+            sqlCommand.Parameters.AddWithValue("@idMuseo", museoSelezionato.idMuseo);
+            cmb_contenuti_filtroSezione.ItemsSource = DBObject<Sezione>.CustomSelect(sqlCommand);
+            cmb_contenuti_filtroSezione.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_contenuti_filtroCreatore_DropDownOpened(object sender, EventArgs e)
+        {
+            SqlCommand sqlCommand = new SqlCommand("SELECT Creatore.* FROM Creatore INNER JOIN Museo_Creatore ON Creatore.idCreatore = Museo_Creatore.idCreatore WHERE Museo_Creatore.idMuseo = @idMuseo;");
+            sqlCommand.Parameters.AddWithValue("@idMuseo", museoSelezionato.idMuseo);
+            cmb_contenuti_filtroCreatore.ItemsSource = DBObject<Creatore>.CustomSelect(sqlCommand);
+            cmb_contenuti_filtroCreatore.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_contenuti_filtroPeriodoStorico_DropDownOpened(object sender, EventArgs e)
+        {
+            SqlCommand sqlCommand = new SqlCommand("SELECT PeriodoStorico.* FROM PeriodoStorico INNER JOIN Museo_PeriodoStorico ON PeriodoStorico.idPeriodoStorico = Museo_PeriodoStorico.idPeriodoStorico WHERE Museo_PeriodoStorico.idMuseo = @idMuseo;");
+            sqlCommand.Parameters.AddWithValue("@idMuseo", museoSelezionato.idMuseo);
+            cmb_contenuti_filtroPeriodoStorico.ItemsSource = DBObject<PeriodoStorico>.CustomSelect(sqlCommand);
+            cmb_contenuti_filtroPeriodoStorico.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_contenuti_filtroTipoContenuto_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_contenuti_filtroTipoContenuto.ItemsSource = DBObject<TipoContenuto>.SelectAll();
+            cmb_contenuti_filtroTipoContenuto.DisplayMemberPath = "Descrizione";
+        }
+
+
         //Eventi SelectionChanged
 
         /// <summary>
@@ -1779,18 +1830,6 @@ namespace MuseumsManager
             }      
         }
 
-        private void cmb_contenuti_filtroSezione_DropDownOpened(object sender, EventArgs e)
-        {
-            cmb_contenuti_filtroSezione.ItemsSource = DBObject<Sezione>.Select("idMuseo", museoSelezionato.idMuseo);
-            cmb_contenuti_filtroSezione.DisplayMemberPath = "Nome";
-        }
-
-        private void cmb_contenuti_filtroProvenienza_DropDownOpened(object sender, EventArgs e)
-        {
-            SqlCommand sqlCommand = new SqlCommand("SELECT Provenienza.* FROM Provenienza INNER JOIN Museo_Provenienza ON Provenienza.idProvenienza = Museo_Provenienza.idProvenienza WHERE Museo_Provenienza.idMuseo = @idMuseo;");
-            sqlCommand.Parameters.AddWithValue("@idMuseo", museoSelezionato.idMuseo);
-            cmb_contenuti_filtroSezione.ItemsSource = DBObject<Sezione>.CustomSelect(sqlCommand);
-            cmb_contenuti_filtroSezione.DisplayMemberPath = "Nome";
-        }
+        
     }
 }
