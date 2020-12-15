@@ -13,6 +13,7 @@ use MuseumsManagerDB
 create table Biglietto (
      idBiglietto int not null primary key identity(1,1),
      DataValidita date not null,
+	 PrezzoAcquisto float not null,
      idMuseo int not null,
      idTipoBiglietto int not null);
 
@@ -166,6 +167,7 @@ create table StatisticheMuseo (
 
 create table TipoBiglietto (
      idTipoBiglietto int not null primary key identity(1,1),
+	 Nome nvarchar(255) not null,
      Prezzo float not null,
      Descrizione nvarchar(512) not null,
      idMuseo int not null);
