@@ -207,16 +207,18 @@
                             <ComboBox x:Name="cmb_modificaContenuti_sezione" Height="26" Width="170" Canvas.Left="123" Canvas.Top="214" FontWeight="Normal"/>
                             <ComboBox x:Name="cmb_modificaContenuti_provenienza" Height="26" Width="170" Canvas.Left="123" Canvas.Top="245" FontWeight="Normal"/>
                             <ComboBox x:Name="cmb_modificaContenuti_creatore" Height="26" Width="170" Canvas.Left="123" Canvas.Top="276" FontWeight="Normal"/>
-                            <ComboBox x:Name="cmb_modificaContenuti_periodoStorico" Height="26" Width="170" Canvas.Left="123" Canvas.Top="307" FontWeight="Normal"/>
-                            <ComboBox x:Name="cmb_modificaContenuti_padre" Height="26" Width="170" Canvas.Left="123" Canvas.Top="369" FontWeight="Normal"/>
-                            <Button x:Name="btn_modificaContenuti_aggiorna" Content="Aggiorna" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="400" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_modificaContenuti_periodoStorico" Height="26" Width="170" Canvas.Left="124" Canvas.Top="338" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_modificaContenuti_padre" Height="26" Width="170" Canvas.Left="124" Canvas.Top="369" FontWeight="Normal"/>
+                            <Button x:Name="btn_modificaContenuti_aggiorna" Content="Aggiorna" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="418" FontWeight="Normal"/>
                             <Label x:Name="lbl_modificaContenuti_padre" Content="Padre (facoltativo):" Canvas.Left="10" Canvas.Top="369" FontWeight="Normal"/>
                             <Label x:Name="lbl_modificaContenuti_modifica" Content="Modifica un contenuto esistente:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="283"/>
                             <Label x:Name="lbl_modificaContenuti_contenuto" Content="Contenuto:" Canvas.Left="10" Canvas.Top="41" FontWeight="Normal" Width="70"/>
                             <Label x:Name="lbl_modificaContenuti_provenienza" Content="Provenienza:" Canvas.Left="10" Canvas.Top="245" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
                             <Label x:Name="lbl_modificaContenuti_creatore" Content="Creatore:" Canvas.Left="10" Canvas.Top="276" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
-                            <Label x:Name="lbl_modificaContenuti_periodoStorico" Content="Periodo Storico:" Canvas.Left="10" Canvas.Top="307" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
+                            <Label x:Name="lbl_modificaContenuti_periodoStorico" Content="Periodo Storico:" Canvas.Left="10" Canvas.Top="338" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
                             <Label x:Name="lbl_modificaContenuti_sezione" Content="Sezione:" Canvas.Left="10" Canvas.Top="214" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
+                            <Label x:Name="lbl_modificaContenuti_nuovoCreatore" Content="Nuovo creatore:" Canvas.Left="10" Canvas.Top="307" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
+                            <ComboBox x:Name="cmb_modificaContenuti_nuovoCreatore" Height="26" Width="170" Canvas.Left="123" Canvas.Top="307" FontWeight="Normal"/>
                         </Canvas>
                     </GroupBox>
                     <ListView x:Name="lsv_contenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,241,657,228" >

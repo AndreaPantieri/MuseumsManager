@@ -1820,8 +1820,8 @@ namespace MuseumsManager
                         lsv_tipiBiglietti.ItemsSource = DBObject<TipoBiglietto>.SelectAll().Where(tb => tb.idMuseo == museoSelezionato.idMuseo);
 
                         //Query per ottenere tutte le info sui biglietti comprati.
-                        string sqlCommandString = "SELECT DataValidita, PrezzoAcquisto, Prezzo, Nome, Descrizione FROM Biglietto INNER JOIN TipoBiglietto ON Biglietto.idTipoBiglietto = TipoBiglietto.idTipoBiglietto WHERE Biglietto.idMuseo = " + museoSelezionato.idMuseo;
-                        lsv_bigliettiComprati.ItemsSource = DBObject<Biglietto>.CustomSelect(new SqlCommand(sqlCommandString));
+                        //string sqlCommandString = "SELECT DataValidita, PrezzoAcquisto, Prezzo, Nome, Descrizione FROM Biglietto INNER JOIN TipoBiglietto ON Biglietto.idTipoBiglietto = TipoBiglietto.idTipoBiglietto WHERE Biglietto.idMuseo = " + museoSelezionato.idMuseo;
+                        //lsv_bigliettiComprati.ItemsSource = DBObject<Biglietto>.CustomSelect(new SqlCommand(sqlCommandString));
                     }
                 }
             }
