@@ -2002,5 +2002,57 @@ namespace MuseumsManager
         {
 
         }
+
+        private void cmb_contenuti_sezione_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_contenuti_sezione.ItemsSource = DBObject<Sezione>.Select("idMuseo", museoSelezionato.idMuseo);
+            cmb_contenuti_sezione.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_contenuti_provenienza_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_contenuti_provenienza.ItemsSource = DBObject<Provenienza>.SelectAll();
+            cmb_contenuti_provenienza.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_contenuti_creatore_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_contenuti_creatore.ItemsSource = DBObject<Creatore>.SelectAll();
+            cmb_contenuti_creatore.DisplayMemberPath = "{Binding}";
+        }
+
+        private void cmb_contenuti_periodoStorico_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_contenuti_periodoStorico.ItemsSource = DBObject<PeriodoStorico>.SelectAll();
+            cmb_contenuti_periodoStorico.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_contenuti_padre_DropDownOpened(object sender, EventArgs e)
+        {
+            if(!(cmb_contenuti_sezione.SelectedItem is null))
+            {
+                cmb_contenuti_padre.ItemsSource = DBObject<Contenuto>.Select("idSezione", (cmb_contenuti_sezione.SelectedItem as Sezione).idSezione);
+                cmb_contenuti_padre.DisplayMemberPath = "Nome";
+            }
+            
+        }
+
+        private void btn_contenuti_aggiungi_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(cmb_contenuti_sezione.SelectedItem is null) &&
+                !(cmb_contenuti_provenienza.SelectedItem is null) &&
+                !(cmb_contenuti_creatore.SelectedItem is null) &&
+                !(cmb_contenuti_periodoStorico.SelectedItem is null))
+            {
+                Sezione s = cmb_contenuti_sezione.SelectedItem as Sezione;
+                Provenienza p = cmb_contenuti_provenienza.SelectedItem as Provenienza;
+                Creatore c = cmb_contenuti_creatore.SelectedItem as Creatore;
+                PeriodoStorico ps = cmb_contenuti_periodoStorico.SelectedItem as PeriodoStorico;
+                if (!(cmb_contenuti_padre.SelectedItem is null))
+                {
+                    Contenuto cp = cmb_contenuti_padre.SelectedItem as Contenuto;
+                }
+            }
+        }
     }
 }
