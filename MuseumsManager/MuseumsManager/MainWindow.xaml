@@ -240,11 +240,11 @@
                     <ListView x:Name="lsv_contenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,241,657,228" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Nome}" />
+                                <TextBlock Text="{Binding Contenuto.Nome}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <ListView x:Name="lsv_sottocontenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,657,10" >
+                    <ListView x:Name="lsv_sottocontenuti" ItemsSource="{Binding lsv_contenuti.SelectedItem.Figli}" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,657,10" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Nome}" />

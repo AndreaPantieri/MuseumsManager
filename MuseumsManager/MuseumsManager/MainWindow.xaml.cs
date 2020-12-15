@@ -1916,31 +1916,32 @@ namespace MuseumsManager
             if (!(cmb_contenuti_filtroProvenienza.SelectedItem is null))
             {
                 if (!whereString.Equals(" WHERE "))
-                    whereString += ", ";
+                    whereString += "AND ";
                 whereString += "idProvenienza = " + (cmb_contenuti_filtroProvenienza.SelectedItem as Sezione).idSezione;
             }
             if (!(cmb_contenuti_filtroCreatore.SelectedItem is null))
             {
                 if (!whereString.Equals(" WHERE "))
-                    whereString += ", ";
+                    whereString += "AND ";
                 sqlCommandString += "INNER JOIN Creato ON Contenuto.idContenuto = Creato.idContenuto ";
                 whereString += "idCreatore = " + (cmb_contenuti_filtroCreatore.SelectedItem as Sezione).idSezione;
             }
             if (!(cmb_contenuti_filtroPeriodoStorico.SelectedItem is null))
             {
                 if (!whereString.Equals(" WHERE "))
-                    whereString += ", ";
+                    whereString += "AND ";
                 whereString += "idPeriodoStorico = " + (cmb_contenuti_filtroPeriodoStorico.SelectedItem as Sezione).idSezione;
             }
             if (!(cmb_contenuti_filtroTipoContenuto.SelectedItem is null))
             {
                 if (!whereString.Equals(" WHERE "))
-                    whereString += ", ";
+                    whereString += "AND ";
                 sqlCommandString += "INNER JOIN Contenuto_Tipologia ON Contenuto.idContenuto = Contenuto_Tipologia.idContenuto ";
                 whereString += "idTipoContenuto = " + (cmb_contenuti_filtroTipoContenuto.SelectedItem as Sezione).idSezione;
             }
 
-            List<Contenuto> contenuti = DBObject<Contenuto>.CustomSelect(new SqlCommand(sqlCommandString)), 
+            List<Contenuto> contenuti = DBObject<Contenuto>.CustomSelect(new SqlCommand(sqlCommandString)),
+                padri = contenuti.Where(c => c.idContenutoPadre == 0).ToList(),
                 allContenuti = DBObject<Contenuto>.SelectAll();
 
             Dictionary<int, Contenuto> idPairingContenuti = new Dictionary<int, Contenuto>();
@@ -1948,9 +1949,13 @@ namespace MuseumsManager
 
             Dictionary<Contenuto, List<Contenuto>> padreFigli = new Dictionary<Contenuto, List<Contenuto>>();
             contenuti.ForEach(c => padreFigli.Add(c, cercaFigli(c, idPairingContenuti)));
-            
 
-            lsv_contenuti.ItemsSource = contenuti;
+            List<ContenutoForList> contenutoForLists = new List<ContenutoForList>();
+            padri.ForEach(c =>
+            {
+                contenutoForLists.Add(new ContenutoForList() { Contenuto = c, Figli = new List<Contenuto>(padreFigli[c]) });
+            });
+            lsv_contenuti.ItemsSource = contenutoForLists;
 
 
         }

@@ -10,8 +10,6 @@ namespace MuseumsManager
     public class ContenutoForList
     {
         public Contenuto Contenuto { get; set; } = new Contenuto();
-        public string Nome { get; set; }
-        public string Descrizione { get; set; }
 
         public List<Contenuto> Figli { get; set; } = new List<Contenuto>();
 
