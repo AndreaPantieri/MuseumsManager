@@ -2059,11 +2059,14 @@ namespace MuseumsManager
                 {
                     Contenuto cp = cmb_contenuti_padre.SelectedItem as Contenuto;
                     int res = DBObject<Contenuto>.Insert("Nome", n, "Descrizione", d, "DataRitrovamento", r.Date.ToString("yyyy-MM-dd"), "DataArrivoMuseo", a.Date.ToString("yyyy-MM-dd"), "idContenutoPadre", cp.idContenuto, "idProvenienza", p.idProvenienza, "idPeriodoStorico", ps.idPeriodoStorico, "idSezione", s.idSezione);
-
+                    if(checkQueryResult(res))
+                        MessageBox.Show("Contenuto inserito correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
                     int res = DBObject<Contenuto>.Insert("Nome", n, "Descrizione", d, "DataRitrovamento", r.Date.ToString("yyyy-MM-dd"), "DataArrivoMuseo", a.Date.ToString("yyyy-MM-dd"), "idProvenienza", p.idProvenienza, "idPeriodoStorico", ps.idPeriodoStorico, "idSezione", s.idSezione);
+                    if (checkQueryResult(res))
+                        MessageBox.Show("Contenuto inserito correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
         }
