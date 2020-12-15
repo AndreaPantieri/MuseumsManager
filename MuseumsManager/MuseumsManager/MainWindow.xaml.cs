@@ -2039,18 +2039,31 @@ namespace MuseumsManager
 
         private void btn_contenuti_aggiungi_Click(object sender, RoutedEventArgs e)
         {
+            DateTime r = new DateTime(), a = new DateTime();
             if (!(cmb_contenuti_sezione.SelectedItem is null) &&
                 !(cmb_contenuti_provenienza.SelectedItem is null) &&
                 !(cmb_contenuti_creatore.SelectedItem is null) &&
-                !(cmb_contenuti_periodoStorico.SelectedItem is null))
+                !(cmb_contenuti_periodoStorico.SelectedItem is null) &&
+                txt_contenuti_nome.Text != "" && txt_contenuti_nome.Text != "Nome" &&
+                txt_contenuti_descrizione.Text != "" && txt_contenuti_descrizione.Text != "Descrizione" &&
+                DateTime.TryParse(txt_contenuti_dataRitrovamento.Text, out r) &&
+                DateTime.TryParse(txt_contenuti_dataArrivo.Text, out a))
             {
                 Sezione s = cmb_contenuti_sezione.SelectedItem as Sezione;
                 Provenienza p = cmb_contenuti_provenienza.SelectedItem as Provenienza;
                 Creatore c = cmb_contenuti_creatore.SelectedItem as Creatore;
                 PeriodoStorico ps = cmb_contenuti_periodoStorico.SelectedItem as PeriodoStorico;
+
+                string n = txt_contenuti_nome.Text, d = txt_contenuti_descrizione.Text;
                 if (!(cmb_contenuti_padre.SelectedItem is null))
                 {
                     Contenuto cp = cmb_contenuti_padre.SelectedItem as Contenuto;
+                    int res = DBObject<Contenuto>.Insert("Nome", n, "Descrizione", d, "DataRitrovamento", r.Date.ToString("yyyy-MM-dd"), "DataArrivoMuseo", a.Date.ToString("yyyy-MM-dd"), "idContenutoPadre", cp.idContenuto, "idProvenienza", p.idProvenienza, "idPeriodoStorico", ps.idPeriodoStorico, "idSezione", s.idSezione);
+
+                }
+                else
+                {
+                    int res = DBObject<Contenuto>.Insert("Nome", n, "Descrizione", d, "DataRitrovamento", r.Date.ToString("yyyy-MM-dd"), "DataArrivoMuseo", a.Date.ToString("yyyy-MM-dd"), "idProvenienza", p.idProvenienza, "idPeriodoStorico", ps.idPeriodoStorico, "idSezione", s.idSezione);
                 }
             }
         }
