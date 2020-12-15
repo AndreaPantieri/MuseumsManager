@@ -1866,6 +1866,7 @@ namespace MuseumsManager
 
             Dictionary<Contenuto, List<Contenuto>> padreFigli = new Dictionary<Contenuto, List<Contenuto>>();
             contenuti.ForEach(c => padreFigli.Add(c, cercaFigli(c, idPairingContenuti)));
+            
 
             lsv_contenuti.ItemsSource = contenuti;
 
