@@ -771,6 +771,8 @@ namespace MuseumsManager
                     return;
                 }
                 MessageBox.Show("Sezione modificata correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                lsv_riepilogo_sottosezioni.ItemsSource = null;
+                setMuseumAreas();  
             }
             else
                 MessageBox.Show("Nessuna sezione selezionata!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);

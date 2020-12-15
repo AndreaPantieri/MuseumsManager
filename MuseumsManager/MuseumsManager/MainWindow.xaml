@@ -17,7 +17,7 @@
                     <Label x:Name="lbl_museo_nomeMuseo" Content="" FontWeight="Bold" Margin="10,41,10.2,559.6" FontSize="24" HorizontalAlignment="Center" Width="1219" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.ColumnSpan="2"/>
                     <ComboBox x:Name="cmb_museo_selezionaMuseo" Height="26" Margin="112.4,10,876.2,605.6" DropDownOpened="cmb_museo_selezionaMuseo_DropDownOpened" SelectionChanged="cmb_museo_selezionaMuseo_SelectionChanged" Grid.Column="1"/>
                     <Label x:Name="lbl_museo_selezionaMuseo" Content="Seleziona il museo da visionare:" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-                    <GroupBox x:Name="gpb_sezioni" Header="Sezioni" HorizontalAlignment="Left" Height="545" Margin="523.4,87,0,0" VerticalAlignment="Top" Width="313" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
+                    <GroupBox x:Name="gpb_sezioni" Header="Sezioni" HorizontalAlignment="Left" Height="545" Margin="841,87,0,0" VerticalAlignment="Top" Width="313" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
                         <Canvas x:Name="cnv_sezioni" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_sezioni_nome" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_sezioni_nome_GotFocus" LostFocus="txt_sezioni_nome_LostFocus"/>
                             <TextBox x:Name="txt_sezioni_descrizione" HorizontalAlignment="Left" Height="66" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="69" Foreground="Gray" FontWeight="Normal" RenderTransformOrigin="0.517,0.136" FontStyle="Italic" GotFocus="txt_sezioni_descrizione_GotFocus" LostFocus="txt_sezioni_descrizione_LostFocus"/>
@@ -42,7 +42,7 @@
                             <Label x:Name="lbl_sezioni_sezione" Content="Sezione:" Canvas.Left="10" Canvas.Top="263" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
                         </Canvas>
                     </GroupBox>
-                    <GroupBox x:Name="gpb_orari" Header="Orari di apertura/chiusura" HorizontalAlignment="Left" Height="253" Margin="841.4,379,0,0" VerticalAlignment="Top" Width="312" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
+                    <GroupBox x:Name="gpb_orari" Header="Orari di apertura/chiusura" HorizontalAlignment="Left" Height="253" Margin="524,379,0,0" VerticalAlignment="Top" Width="312" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
                         <Canvas x:Name="cnv_orari" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_orari_nuovoOrarioApertura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo orario di apertura" VerticalAlignment="Top" Width="278" Canvas.Left="10" Canvas.Top="148" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_orari_nuovoOrarioApertura_GotFocus" LostFocus="txt_orari_nuovoOrarioApertura_LostFocus"/>
                             <TextBox x:Name="txt_orari_nuovoOrarioChiusura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo orario di chiusura" VerticalAlignment="Top" Width="278" Canvas.Left="10" Canvas.Top="176" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_orari_nuovoOrarioChiusura_GotFocus" LostFocus="txt_orari_nuovoOrarioChiusura_LostFocus"/>
@@ -55,12 +55,12 @@
                             <Label x:Name="lbl_orari_valoreOrarioChiusura" Content="" Canvas.Left="136" Canvas.Top="67" FontWeight="Normal" Width="152"/>
                         </Canvas>
                     </GroupBox>
-                    <GroupBox x:Name="gpb_categoriaSezione" Header="Categoria della sezione" HorizontalAlignment="Left" Height="287" Margin="841.4,87,0,0" VerticalAlignment="Top" Width="313" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
+                    <GroupBox x:Name="gpb_categoriaSezione" Header="Categoria della sezione" HorizontalAlignment="Left" Height="287" Margin="523,87,0,0" VerticalAlignment="Top" Width="313" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
                         <Canvas x:Name="cnv_categoriaSezione" Margin="0,0,-2,-4">
 
-                            <TextBox x:Name="txt_categoriaSezione_descrizione" HorizontalAlignment="Left" Height="80" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_categoriaSezione_descrizione_GotFocus" LostFocus="txt_categoriaSezione_descrizione_LostFocus"/>
+                            <TextBox x:Name="txt_categoriaSezione_descrizione" HorizontalAlignment="Left" Height="106" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_categoriaSezione_descrizione_GotFocus" LostFocus="txt_categoriaSezione_descrizione_LostFocus"/>
 
-                            <Button x:Name="btn_categoriaSezione_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="126" FontWeight="Normal" Click="btn_categoriaSezione_crea_Click"/>
+                            <Button x:Name="btn_categoriaSezione_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="152" FontWeight="Normal" Click="btn_categoriaSezione_crea_Click"/>
                             <Label x:Name="lbl_categoriaSezione_crea" Content="Crea un nuovo tipo di sezione:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="283"/>
                         </Canvas>
                     </GroupBox>
@@ -68,25 +68,41 @@
                         <Canvas x:Name="cnv_riepilogo" Margin="0,0,-2,-4">
                             <Label x:Name="lbl_riepilogo_apertoDalle" Content="Aperto dalle:" Canvas.Left="10" Canvas.Top="41" FontWeight="Bold" Width="85"/>
                             <Label x:Name="lbl_riepilogo_alle" Content="Alle:" Canvas.Left="10" Canvas.Top="72" FontWeight="Bold" Width="85"/>
-                            <Label x:Name="lbl_riepilogo_sezioni" Content="Sezioni del museo:" Canvas.Left="10" Canvas.Top="329" FontWeight="Bold" Width="271"/>
-                            <Label x:Name="lbl_riepilogo_tipo" Content="Tipo/i del museo:" Canvas.Left="10" Canvas.Top="193" FontWeight="Bold" Width="553"/>
-                            <Label x:Name="lbl_riepilogo_famiglia" Content="Famiglia di cui fa parte:" Canvas.Top="123" FontWeight="Bold" Width="144" Canvas.Left="10"/>
+                            <Label x:Name="lbl_riepilogo_sezioni" Content="Sezioni del museo:" Canvas.Left="10" Canvas.Top="165" FontWeight="Bold" Width="144"/>
+                            <Label x:Name="lbl_riepilogo_tipo" Content="Tipo/i del museo:" Canvas.Left="292" Canvas.Top="10" FontWeight="Bold" Width="271"/>
+                            <Label x:Name="lbl_riepilogo_famiglia" Content="Famiglia di cui fa parte:" Canvas.Top="105" FontWeight="Bold" Width="144" Canvas.Left="10"/>
                             <Label x:Name="lbl_riepilogo_attualmente" Content="Attualmente:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="85"/>
                             <Label x:Name="lbl_riepilogo_statoApertura" Content="" Canvas.Left="100" Canvas.Top="10" FontWeight="Bold" Width="54"/>
                             <Label x:Name="lbl_riepilogo_orarioApertura" Content="" Canvas.Left="100" FontWeight="Normal" Canvas.Top="41" Width="120"/>
                             <Label x:Name="lbl_riepilogo_orarioChiusura" Content="" Canvas.Left="100" FontWeight="Normal" Canvas.Top="72" Width="113"/>
-                            <Label x:Name="lbl_riepilogo_valoreFamiglia" Content="" Canvas.Top="123" FontWeight="Normal" Width="404" Canvas.Left="159" Background="{x:Null}"/>
-                            <ListView x:Name="lsv_riepilogo_tipiMuseo" Height="100" Width="553" Canvas.Left="10" Canvas.Top="224" FontWeight="Normal" />
-                            <ListView x:Name="lsv_riepilogo_sezioni" Height="156" Width="271" Canvas.Left="10" Canvas.Top="360" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" />
-                            <Label x:Name="lbl_riepilogo_sottosezioni" Content="Sottosezioni del museo:" Canvas.Left="286" Canvas.Top="329" FontWeight="Bold" Width="277"/>
-                            <ListView x:Name="lsv_riepilogo_sottosezioni" Height="156" Width="277" Canvas.Left="286" Canvas.Top="360" FontWeight="Normal">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <WrapPanel>
-                                            <TextBlock Text="{Binding Nome}"/>
-                                        </WrapPanel>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
+                            <Label x:Name="lbl_riepilogo_valoreFamiglia" Content="" Canvas.Top="105" FontWeight="Normal" Width="128" Canvas.Left="159" Background="{x:Null}"/>
+                            <ListView x:Name="lsv_riepilogo_tipiMuseo" Height="106" Width="271" Canvas.Left="292" Canvas.Top="41" FontWeight="Normal" />
+                            <ListView x:Name="lsv_riepilogo_sezioni" Height="143" Width="553" Canvas.Left="10" Canvas.Top="196" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Nome" DisplayMemberBinding= "{Binding Path=Nome}"/>
+                                        <GridViewColumn Header="Descrizione" DisplayMemberBinding= "{Binding Path=Descrizione}"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <Label x:Name="lbl_riepilogo_sottosezioni" Content="Sottosezioni del museo:" Canvas.Left="10" Canvas.Top="344" FontWeight="Bold" Width="277"/>
+                            <ListView x:Name="lsv_riepilogo_sottosezioni" Height="141" Width="553" Canvas.Left="10" Canvas.Top="375" FontWeight="Normal">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Nome" DisplayMemberBinding= "{Binding Path=Nome}"/>
+                                        <GridViewColumn Header="Descrizione" DisplayMemberBinding= "{Binding Path=Descrizione}"/>
+                                    </GridView>
+                                </ListView.View>
                             </ListView>
                         </Canvas>
                     </GroupBox>
@@ -152,7 +168,7 @@
                     <GroupBox x:Name="gpb_tipoContenuto" Header="Tipo di contenuto" HorizontalAlignment="Left" Height="150" VerticalAlignment="Top" Width="314" FontWeight="Bold" Margin="915,482,0,0">
                         <Canvas x:Name="cnv_tipoContenuto" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_tipoContenuto_descrizione" HorizontalAlignment="Left" Height="53" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="284" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_tipoContenuto_descrizione_GotFocus" LostFocus="txt_tipoContenuto_descrizione_LostFocus"/>
-                            <Button x:Name="btn_tipoContenuto_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="212" Canvas.Top="99" FontWeight="Normal" Click="btn_tipoContenuto_crea_Click"/>
+                            <Button x:Name="btn_tipoContenuto_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="212" Canvas.Top="101" FontWeight="Normal" Click="btn_tipoContenuto_crea_Click"/>
                             <Label x:Name="lbl_tipoContenuto_crea" Content="Crea un nuovo tipo di contenuto:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="284"/>
                         </Canvas>
                     </GroupBox>
@@ -413,13 +429,13 @@
                             <ComboBox x:Name="cmb_famigliaMusei_selezionaMuseo" Height="26" Width="174" Canvas.Left="70" Canvas.Top="135" FontWeight="Normal" DropDownOpened="cmb_famigliaMusei_selezionaMuseo_DropDownOpened"/>
                             <ComboBox x:Name="cmb_famigliaMusei_selezionaFamiglia" Height="26" Width="174" Canvas.Left="70" Canvas.Top="166" FontWeight="Normal" DropDownOpened="cmb_famigliaMusei_selezionaFamiglia_DropDownOpened"/>
                             <Button x:Name="btn_famigliaMusei_aggiungiMuseo" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="197" FontWeight="Normal" Click="btn_famigliaMusei_aggiungiMuseo_Click"/>
-                            <Label x:Name="lbl_famigliaMusei_museo" Content="Museo:" Canvas.Left="10" Canvas.Top="135" FontWeight="Normal" Width="55"/>
-                            <Label x:Name="lbl_famigliaMusei_famiglia" Content="Famiglia:" Canvas.Left="10" Canvas.Top="166" FontWeight="Normal" Width="55"/>
+                            <Label x:Name="lbl_famigliaMusei_museo" Content="Museo" Canvas.Left="10" Canvas.Top="135" FontWeight="Normal" Width="55" HorizontalContentAlignment="Right"/>
+                            <Label x:Name="lbl_famigliaMusei_famiglia" Content="Famiglia" Canvas.Left="10" Canvas.Top="166" FontWeight="Normal" Width="55" HorizontalContentAlignment="Right"/>
                             <Label x:Name="lbl_famigliaMusei_rimuoviMuseo" Content="Rimuovi un museo da una famiglia:" Canvas.Left="10" FontWeight="Bold" Width="233" Canvas.Top="249"/>
                             <ComboBox x:Name="cmb_famigliaMusei_rimuoviMuseo" Height="26" Width="173" Canvas.Left="71" Canvas.Top="322" FontWeight="Normal" DropDownOpened="cmb_famigliaMusei_rimuoviMuseo_DropDownOpened"/>
                             <Button x:Name="btn_famigliaMusei_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="353" FontWeight="Normal" Click="btn_famigliaMusei_rimuovi_Click"/>
-                            <Label x:Name="lbl_famigliaMusei_museoDaRimuovere" Content="Museo:" Canvas.Left="10" Canvas.Top="322" FontWeight="Normal" Width="56" HorizontalContentAlignment="Right"/>
-                            <Label x:Name="lbl_famigliaMusei_rimuoviMuseo_famiglia" Content="Famiglia:" Canvas.Left="12" Canvas.Top="292" FontWeight="Normal" Width="55" RenderTransformOrigin="0.538,0.156"/>
+                            <Label x:Name="lbl_famigliaMusei_museoDaRimuovere" Content="Museo" Canvas.Left="10" Canvas.Top="322" FontWeight="Normal" Width="56" HorizontalContentAlignment="Right"/>
+                            <Label x:Name="lbl_famigliaMusei_rimuoviMuseo_famiglia" Content="Famiglia" Canvas.Left="12" Canvas.Top="292" FontWeight="Normal" Width="55" RenderTransformOrigin="0.538,0.156" HorizontalContentAlignment="Right"/>
                             <ComboBox x:Name="cmb_famigliaMusei_rimuoviMuseo_famiglia" Height="26" Width="173" Canvas.Left="71" Canvas.Top="291" FontWeight="Normal" DropDownOpened="cmb_famigliaMusei_rimuoviMuseo_famiglia_DropDownOpened"/>
                         </Canvas>
                     </GroupBox>
@@ -430,7 +446,7 @@
                             <Label x:Name="lbl_categoriaMuseo_creaTipoMuseo" Content="Crea un nuovo tipo di museo:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="234"/>
                         </Canvas>
                     </GroupBox>
-                    <GroupBox x:Name="gpb_Creatore" Header="Creatore" HorizontalAlignment="Left" Height="298" Margin="548,10,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
+                    <GroupBox x:Name="gpb_Creatore" Header="Creatore" HorizontalAlignment="Left" Height="298" Margin="696,10,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
                         <Canvas x:Name="cnv_creatore" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_creatore_nome" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_creatore_nome_GotFocus" LostFocus="txt_creatore_nome_LostFocus"/>
                             <TextBox x:Name="txt_creatore_cognome" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Cognome" VerticalAlignment="Top" Width="233" Foreground="Gray" Canvas.Left="10" Canvas.Top="66" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_creatore_cognome_GotFocus" LostFocus="txt_creatore_cognome_LostFocus"/>
@@ -443,7 +459,7 @@
                             <Button x:Name="btn_creatore_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="247" FontWeight="Normal" Click="btn_creatore_rimuovi_Click"/>
                         </Canvas>
                     </GroupBox>
-                    <GroupBox x:Name="gpb_provenienza" Header="Provenienza" HorizontalAlignment="Left" Height="298" Margin="817,10,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
+                    <GroupBox x:Name="gpb_provenienza" Header="Provenienza" HorizontalAlignment="Left" Height="298" Margin="965,10,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
                         <Canvas x:Name="cnv_provenienza" Margin="0,0,-2,-4">
                             <Label x:Name="lbl_provenienza_inserisci" Content="Inserisci una nuova provenienza:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
                             <TextBox x:Name="txt_provenienza_nome" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_provenienza_nome_GotFocus" LostFocus="txt_provenienza_nome_LostFocus"/>
@@ -454,7 +470,7 @@
                             <Button x:Name="btn_provenienza_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="249" FontWeight="Normal" Click="btn_provenienza_rimuovi_Click"/>
                         </Canvas>
                     </GroupBox>
-                    <GroupBox x:Name="gpb_periodoStorico" Header="Periodo storico" HorizontalAlignment="Left" Height="319" Margin="548,313,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
+                    <GroupBox x:Name="gpb_periodoStorico" Header="Periodo storico" HorizontalAlignment="Left" Height="319" Margin="965,313,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
                         <Canvas x:Name="cnv_periodoStorico" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_periodoStorico_nome" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_periodoStorico_nome_GotFocus" LostFocus="txt_periodoStorico_nome_LostFocus"/>
                             <TextBox x:Name="txt_periodoStorico_annoInizio" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Anno di inizio" VerticalAlignment="Top" Width="233" Foreground="Gray" Canvas.Left="11" Canvas.Top="66" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_periodoStorico_annoInizio_GotFocus" LostFocus="txt_periodoStorico_annoInizio_LostFocus"/>
