@@ -838,6 +838,50 @@ namespace MuseumsManager
                 MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+
+        /// <summary>
+        /// Aggiunta contenuto
+        /// </summary>
+        private void btn_contenuti_aggiungi_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime r = new DateTime(), a = new DateTime();
+            if (!(cmb_contenuti_sezione.SelectedItem is null) &&
+                !(cmb_contenuti_provenienza.SelectedItem is null) &&
+                !(cmb_contenuti_creatore.SelectedItem is null) &&
+                !(cmb_contenuti_periodoStorico.SelectedItem is null) &&
+                txt_contenuti_nome.Text != "" && txt_contenuti_nome.Text != "Nome" &&
+                txt_contenuti_descrizione.Text != "" && txt_contenuti_descrizione.Text != "Descrizione" &&
+                DateTime.TryParse(txt_contenuti_dataRitrovamento.Text, out r) &&
+                DateTime.TryParse(txt_contenuti_dataArrivo.Text, out a))
+            {
+                Sezione s = cmb_contenuti_sezione.SelectedItem as Sezione;
+                Provenienza p = cmb_contenuti_provenienza.SelectedItem as Provenienza;
+                Creatore c = cmb_contenuti_creatore.SelectedItem as Creatore;
+                PeriodoStorico ps = cmb_contenuti_periodoStorico.SelectedItem as PeriodoStorico;
+
+                string n = txt_contenuti_nome.Text, d = txt_contenuti_descrizione.Text;
+                int res = 0;
+                if (!(cmb_contenuti_padre.SelectedItem is null))
+                {
+                    Contenuto cp = cmb_contenuti_padre.SelectedItem as Contenuto;
+                    res = DBObject<Contenuto>.Insert("Nome", n, "Descrizione", d, "DataRitrovamento", r.Date.ToString("yyyy-MM-dd"), "DataArrivoMuseo", a.Date.ToString("yyyy-MM-dd"), "idContenutoPadre", cp.idContenuto, "idProvenienza", p.idProvenienza, "idPeriodoStorico", ps.idPeriodoStorico, "idSezione", s.idSezione);
+                    if (checkQueryResult(res))
+                        MessageBox.Show("Contenuto inserito correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    res = DBObject<Contenuto>.Insert("Nome", n, "Descrizione", d, "DataRitrovamento", r.Date.ToString("yyyy-MM-dd"), "DataArrivoMuseo", a.Date.ToString("yyyy-MM-dd"), "idProvenienza", p.idProvenienza, "idPeriodoStorico", ps.idPeriodoStorico, "idSezione", s.idSezione);
+                    if (checkQueryResult(res))
+                        MessageBox.Show("Contenuto inserito correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                DBObject<Museo_Creatore>.Insert("idCreatore", c.idCreatore, "idMuseo", museoSelezionato.idMuseo);
+                DBObject<Creato>.Insert("idCreatore", c.idCreatore, "idContenuto", res);
+                DBObject<Museo_PeriodoStorico>.Insert("idPeriodoStorico", ps.idPeriodoStorico, "idMuseo", museoSelezionato.idMuseo);
+                DBObject<Museo_Provenienza>.Insert("idProvenienza", p.idProvenienza);
+            }
+        }
+
+
         //Eventi GotFocus
 
         private void txt_categoriaMuseo_descrizione_GotFocus(object sender, RoutedEventArgs e)
@@ -1664,6 +1708,43 @@ namespace MuseumsManager
             cmb_contenuti_filtroTipoContenuto.DisplayMemberPath = "Descrizione";
         }
 
+        private void cmb_contenuti_sezione_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_contenuti_sezione.ItemsSource = DBObject<Sezione>.Select("idMuseo", museoSelezionato.idMuseo);
+            cmb_contenuti_sezione.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_contenuti_provenienza_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_contenuti_provenienza.ItemsSource = DBObject<Provenienza>.SelectAll();
+            cmb_contenuti_provenienza.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_contenuti_creatore_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_contenuti_creatore.ItemsSource = DBObject<Creatore>.SelectAll();
+            cmb_contenuti_creatore.DisplayMemberPath = "{Binding}";
+        }
+
+        private void cmb_contenuti_periodoStorico_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_contenuti_periodoStorico.ItemsSource = DBObject<PeriodoStorico>.SelectAll();
+            cmb_contenuti_periodoStorico.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_contenuti_padre_DropDownOpened(object sender, EventArgs e)
+        {
+            if (!(cmb_contenuti_sezione.SelectedItem is null))
+            {
+                cmb_contenuti_padre.ItemsSource = DBObject<Contenuto>.Select("idSezione", (cmb_contenuti_sezione.SelectedItem as Sezione).idSezione);
+                cmb_contenuti_padre.DisplayMemberPath = "Nome";
+            }
+
+        }
+
+
+
+
         private void cmb_sezioni_elimina_DropDownOpened(object sender, EventArgs e)
         {
             //cmb_sezioni_elimina.ItemsSource = DBObject<Sezione>.SelectAll().Where(s => s.idSezionePadre != 0 || s.idSezionePadre != s.idSezionePadre); //METODO SBAGLIATO PERCHE' DEVE PRENDERE SOLAMENTE GLI ULTIMI FIGLI DELL'ALBERO
@@ -1930,31 +2011,32 @@ namespace MuseumsManager
             if (!(cmb_contenuti_filtroProvenienza.SelectedItem is null))
             {
                 if (!whereString.Equals(" WHERE "))
-                    whereString += ", ";
+                    whereString += "AND ";
                 whereString += "idProvenienza = " + (cmb_contenuti_filtroProvenienza.SelectedItem as Sezione).idSezione;
             }
             if (!(cmb_contenuti_filtroCreatore.SelectedItem is null))
             {
                 if (!whereString.Equals(" WHERE "))
-                    whereString += ", ";
+                    whereString += "AND ";
                 sqlCommandString += "INNER JOIN Creato ON Contenuto.idContenuto = Creato.idContenuto ";
                 whereString += "idCreatore = " + (cmb_contenuti_filtroCreatore.SelectedItem as Sezione).idSezione;
             }
             if (!(cmb_contenuti_filtroPeriodoStorico.SelectedItem is null))
             {
                 if (!whereString.Equals(" WHERE "))
-                    whereString += ", ";
+                    whereString += "AND ";
                 whereString += "idPeriodoStorico = " + (cmb_contenuti_filtroPeriodoStorico.SelectedItem as Sezione).idSezione;
             }
             if (!(cmb_contenuti_filtroTipoContenuto.SelectedItem is null))
             {
                 if (!whereString.Equals(" WHERE "))
-                    whereString += ", ";
+                    whereString += "AND ";
                 sqlCommandString += "INNER JOIN Contenuto_Tipologia ON Contenuto.idContenuto = Contenuto_Tipologia.idContenuto ";
                 whereString += "idTipoContenuto = " + (cmb_contenuti_filtroTipoContenuto.SelectedItem as Sezione).idSezione;
             }
 
-            List<Contenuto> contenuti = DBObject<Contenuto>.CustomSelect(new SqlCommand(sqlCommandString)), 
+            List<Contenuto> contenuti = DBObject<Contenuto>.CustomSelect(new SqlCommand(sqlCommandString)),
+                padri = contenuti.Where(c => c.idContenutoPadre == 0).ToList(),
                 allContenuti = DBObject<Contenuto>.SelectAll();
 
             Dictionary<int, Contenuto> idPairingContenuti = new Dictionary<int, Contenuto>();
@@ -1963,7 +2045,12 @@ namespace MuseumsManager
             Dictionary<Contenuto, List<Contenuto>> padreFigli = new Dictionary<Contenuto, List<Contenuto>>();
             contenuti.ForEach(c => padreFigli.Add(c, cercaFigli(c, idPairingContenuti)));
 
-            lsv_contenuti.ItemsSource = contenuti;
+            List<ContenutoForList> contenutoForLists = new List<ContenutoForList>();
+            padri.ForEach(c =>
+            {
+                contenutoForLists.Add(new ContenutoForList() { Contenuto = c, Figli = new List<Contenuto>(padreFigli[c]) });
+            });
+            lsv_contenuti.ItemsSource = contenutoForLists;
 
 
         }
@@ -2009,6 +2096,45 @@ namespace MuseumsManager
         private void btn_sezioni_elimina_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void cmb_contenuti_elimina_DropDownOpened(object sender, EventArgs e)
+        {
+            if(!(cmb_contenuti_sezione.SelectedItem is null))
+            {
+                cmb_contenuti_elimina.ItemsSource = DBObject<Contenuto>.Select("idSezione", (cmb_contenuti_sezione.SelectedItem as Sezione).idSezione);
+                cmb_contenuti_elimina.DisplayMemberPath = "Nome";
+            }
+        }
+
+        private void cmb_addTipoContenuto_contenuto_DropDownOpened(object sender, EventArgs e)
+        {
+            if (!(cmb_contenuti_sezione.SelectedItem is null))
+            {
+                cmb_addTipoContenuto_contenuto.ItemsSource = DBObject<Contenuto>.Select("idSezione", (cmb_contenuti_sezione.SelectedItem as Sezione).idSezione);
+                cmb_addTipoContenuto_contenuto.DisplayMemberPath = "Nome";
+            }
+        }
+
+        private void cmb_delTipoContenuto_contenuto_DropDownOpened(object sender, EventArgs e)
+        {
+            if (!(cmb_contenuti_sezione.SelectedItem is null))
+            {
+                cmb_delTipoContenuto_contenuto.ItemsSource = DBObject<Contenuto>.Select("idSezione", (cmb_contenuti_sezione.SelectedItem as Sezione).idSezione);
+                cmb_delTipoContenuto_contenuto.DisplayMemberPath = "Nome";
+            }
+        }
+
+        private void cmb_addTipoContenuto_tipo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_addTipoContenuto_tipo.ItemsSource = DBObject<TipoContenuto>.SelectAll();
+            cmb_addTipoContenuto_tipo.DisplayMemberPath = "Descrizione";
+        }
+
+        private void cmb_delTipoContenuto_tipo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_delTipoContenuto_tipo.ItemsSource = DBObject<TipoContenuto>.SelectAll();
+            cmb_delTipoContenuto_tipo.DisplayMemberPath = "Descrizione";
         }
     }
 }
