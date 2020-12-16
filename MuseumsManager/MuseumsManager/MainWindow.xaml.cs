@@ -95,13 +95,27 @@ namespace MuseumsManager
         {
             String currentDate = DateTime.Today.ToString("yyyy-MM-dd");
 
-            //se (per il museo selezionato): (TUTTI i giorni di chiusura non corrispondono alla data di oggi E, UNO QUALSIASI di quelli di apertura speciale corrisponde alla data di oggi) OPPURE (TUTTI i giorni di chiusura non corrispondono alla data di oggi E, TUTTI quelli di apertura speciale NON CORRISPONDONO alla data di oggi)
-            if (DBObject<CalendarioChiusure>.SelectAll().Where(cc => cc.idMuseo == this.museoSelezionato.idMuseo).All(cc => (cc as CalendarioChiusure).Data.ToString("yyyy-MM-dd") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().Where(cas => cas.idMuseo == this.museoSelezionato.idMuseo).Any(cas => (cas as CalendarioApertureSpeciali).Data.ToString("yyyy-MM-dd") == currentDate) ||
-                DBObject<CalendarioChiusure>.SelectAll().Where(cc => cc.idMuseo == this.museoSelezionato.idMuseo).All(cc => (cc as CalendarioChiusure).Data.ToString("yyyy-MM-dd") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().Where(cas => cas.idMuseo == this.museoSelezionato.idMuseo).All(cas => (cas as CalendarioApertureSpeciali).Data.ToString("yyyy-MM-dd") != currentDate))
+            //per il museo selezionato, se: TUTTI i giorni di chiusura non corrispondono alla data di oggi, E, UNO QUALSIASI di quelli di apertura speciale corrisponde alla data di oggi.. ovvero se è un giorno di apertura speciale
+            if (DBObject<CalendarioChiusure>.SelectAll().Where(cc => cc.idMuseo == this.museoSelezionato.idMuseo).All(cc => (cc as CalendarioChiusure).Data.ToString("yyyy-MM-dd") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().Where(cas => cas.idMuseo == this.museoSelezionato.idMuseo).Any(cas => (cas as CalendarioApertureSpeciali).Data.ToString("yyyy-MM-dd") == currentDate && cas.OrarioApertura <= DateTime.Now.TimeOfDay && cas.OrarioChiusura >= DateTime.Now.TimeOfDay))
             {
                 lbl_riepilogo_statoApertura.Foreground = Brushes.Green;
-                lbl_riepilogo_statoApertura.Content = "Aperto";
+                lbl_riepilogo_statoApertura.Content = "Aperto";   
             }
+            //altrimenti: se TUTTI i giorni di chiusura non corrispondono alla data di oggi E, TUTTI quelli di apertura speciale NON CORRISPONDONO alla data di oggi.. ovvero se è un giorno normale di apertura
+            else if (DBObject<CalendarioChiusure>.SelectAll().Where(cc => cc.idMuseo == this.museoSelezionato.idMuseo).All(cc => (cc as CalendarioChiusure).Data.ToString("yyyy-MM-dd") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().Where(cas => cas.idMuseo == this.museoSelezionato.idMuseo).All(cas => (cas as CalendarioApertureSpeciali).Data.ToString("yyyy-MM-dd") != currentDate))
+            {
+                if (museoSelezionato.OrarioAperturaGenerale <= DateTime.Now.TimeOfDay && museoSelezionato.OrarioChiusuraGenerale >= DateTime.Now.TimeOfDay)
+                {
+                    lbl_riepilogo_statoApertura.Foreground = Brushes.Green;
+                    lbl_riepilogo_statoApertura.Content = "Aperto";
+                }
+                else
+                {
+                    lbl_riepilogo_statoApertura.Foreground = Brushes.Red;
+                    lbl_riepilogo_statoApertura.Content = "Chiuso";
+                }
+            }
+            //altrimenti se non è nessuno di questi due, ovvero se è un giorno di chiusura..
             else
             {
                 lbl_riepilogo_statoApertura.Foreground = Brushes.Red;

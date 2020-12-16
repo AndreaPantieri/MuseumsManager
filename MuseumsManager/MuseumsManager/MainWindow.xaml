@@ -49,8 +49,8 @@
                             <Button x:Name="btn_orari_modifica" Content="Modifica" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="206" Canvas.Top="204" FontWeight="Normal" Click="btn_orari_modifica_Click"/>
                             <Label x:Name="lbl_orari_modifica" Content="Modifica orari:" Canvas.Left="10" Canvas.Top="117" FontWeight="Bold" Width="278"/>
                             <Label x:Name="lbl_orari_orariAttuali" Content="Orari attuali" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="278"/>
-                            <Label x:Name="lbl_orari_orarioApertura" Content="Orario apertura:" Canvas.Left="35" Canvas.Top="36" FontWeight="Normal" Width="96"/>
-                            <Label x:Name="lbl_orari_orarioChiusura" Content="Orario chiusura:" Canvas.Left="35" Canvas.Top="67" FontWeight="Normal" Width="96"/>
+                            <Label x:Name="lbl_orari_orarioApertura" Content="Orario apertura:" Canvas.Left="35" Canvas.Top="41" FontWeight="Normal" Width="96"/>
+                            <Label x:Name="lbl_orari_orarioChiusura" Content="Orario chiusura:" Canvas.Left="35" Canvas.Top="72" FontWeight="Normal" Width="96"/>
                             <Label x:Name="lbl_orari_valoreOrarioApertura" Content="" Canvas.Left="136" Canvas.Top="36" FontWeight="Normal" Width="152"/>
                             <Label x:Name="lbl_orari_valoreOrarioChiusura" Content="" Canvas.Left="136" Canvas.Top="67" FontWeight="Normal" Width="152"/>
                         </Canvas>
