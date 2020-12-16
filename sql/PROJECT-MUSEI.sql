@@ -208,10 +208,6 @@ alter table CalendarioChiusure add constraint REF_Calen_Museo_FK
      foreign key (idMuseo)
      references Museo (idMuseo) on delete cascade;
 
-alter table Contenuto add constraint REF_Conte_Conte_FK
-     foreign key (idContenutoPadre)
-     references Contenuto (idContenuto);
-
 alter table Contenuto add constraint EQU_Conte_Prove_FK
      foreign key (idProvenienza)
      references Provenienza (idProvenienza);

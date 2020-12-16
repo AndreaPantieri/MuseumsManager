@@ -183,5 +183,16 @@ namespace Entities
 
             return dBObjects;
         }
+
+        public static int GenericProcedure(SqlCommand sqlProcedure)
+        {
+            int res = 0;
+            using(DBConnection dBConnection = new DBConnection())
+            {
+                sqlProcedure.CommandType = System.Data.CommandType.StoredProcedure;
+                res = dBConnection.GenericQuery(sqlProcedure);
+            }
+            return res;
+        }
     }
 }

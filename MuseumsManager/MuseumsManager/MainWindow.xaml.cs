@@ -867,6 +867,28 @@ namespace MuseumsManager
             }
         }
 
+        /// <summary>
+        /// Rimozione contenuto
+        /// </summary>
+        private void btn_contenuti_elimina_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(cmb_contenuti_elimina.SelectedItem is null))
+            {
+                Contenuto contenuto = cmb_contenuti_elimina.SelectedItem as Contenuto;
+                SqlCommand sqlProcedure = new SqlCommand("DeleteContenuto");
+                sqlProcedure.Parameters.AddWithValue("idContenuto", contenuto.idContenuto);
+
+                int res = DBObject<Contenuto>.GenericProcedure(sqlProcedure);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Contenuto eliminato con tutti i sottocontenuti!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+        }
+
+
+
+
+
+
 
         //Eventi GotFocus
 
@@ -2125,18 +2147,6 @@ namespace MuseumsManager
 
         
 
-        /// <summary>
-        /// Rimozione contenuto
-        /// </summary>
-        private void btn_contenuti_elimina_Click(object sender, RoutedEventArgs e)
-        {
-            if(!(cmb_contenuti_elimina is null))
-            {
-                Contenuto contenuto = cmb_contenuti_elimina.SelectedItem as Contenuto;
-                res = DBEntity.Delete<Contenuto>("idContenuto", contenuto.idContenuto);
-                if (checkQueryResult(res))
-                    MessageBox.Show("Contenuto eliminato con tutti i sottocontenuti!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
-        }
+        
     }
 }
