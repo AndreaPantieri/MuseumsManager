@@ -975,9 +975,30 @@ namespace MuseumsManager
             }
         }
 
+        private void btn_ruolo_crea_Click(object sender, RoutedEventArgs e)
+        {
+            if (!txt_ruolo_descrizione.Text.Equals("") &&
+                !txt_ruolo_descrizione.Text.Equals("Ruolo"))
+            {
+                DBObject<TipoPersonale>.Insert("Descrizione", txt_ruolo_descrizione.Text);
+                MessageBox.Show("Nuovo ruolo del personale aggiunto correttamente!", "Operazione eseguita!", MessageBoxButton.OK, MessageBoxImage.Information);
+                txt_ruolo_descrizione.Clear();
+            }
+            else
+                MessageBox.Show("Il ruolo non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
 
-
-
+        private void btn_ruolo_aggiungi_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmb_ruolo_personaSelezionata.SelectedIndex != -1 &&
+                cmb_ruolo_nuovoRuolo.SelectedIndex != -1)
+            {
+                DBObject<Personale_Tipologia>.Insert("idPersonale", (cmb_ruolo_personaSelezionata.SelectedItem as Personale).idPersonale, "idTipoPersonale", (cmb_ruolo_nuovoRuolo.SelectedItem as TipoPersonale).idTipoPersonale);
+                MessageBox.Show("Nuovo ruolo del personale aggiunto correttamente!", "Operazione eseguita!", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show("Non tutti i parametri sono stati compilati correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
 
 
 
@@ -1896,16 +1917,6 @@ namespace MuseumsManager
             cmb_delCreatore_creatore.DisplayMemberPath = "Nome";
         }
 
-
-
-
-
-
-
-
-
-
-
         private void cmb_sezioni_elimina_DropDownOpened(object sender, EventArgs e)
         {
             //cmb_sezioni_elimina.ItemsSource = DBObject<Sezione>.SelectAll().Where(s => s.idSezionePadre != 0 || s.idSezionePadre != s.idSezionePadre); //METODO SBAGLIATO PERCHE' DEVE PRENDERE SOLAMENTE GLI ULTIMI FIGLI DELL'ALBERO
@@ -1916,6 +1927,17 @@ namespace MuseumsManager
         {
             cmb_tipoBiglietti_selezionaBiglietto.ItemsSource = DBObject<TipoBiglietto>.SelectAll().Where(tb => tb.idMuseo == museoSelezionato.idMuseo);
             cmb_tipoBiglietti_selezionaBiglietto.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_ruolo_personaSelezionata_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_ruolo_personaSelezionata.ItemsSource = DBObject<Personale>.SelectAll().Where(p => p.idMuseo == museoSelezionato.idMuseo);
+        }
+
+        private void cmb_ruolo_nuovoRuolo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_ruolo_nuovoRuolo.ItemsSource = DBObject<TipoPersonale>.SelectAll();
+            cmb_ruolo_nuovoRuolo.DisplayMemberPath = "Descrizione";
         }
 
         //Eventi SelectionChanged
@@ -2080,6 +2102,10 @@ namespace MuseumsManager
                         //Query per ottenere tutte le info sui biglietti comprati.
                         //string sqlCommandString = "SELECT DataValidita, PrezzoAcquisto, Prezzo, Nome, Descrizione FROM Biglietto INNER JOIN TipoBiglietto ON Biglietto.idTipoBiglietto = TipoBiglietto.idTipoBiglietto WHERE Biglietto.idMuseo = " + museoSelezionato.idMuseo;
                         //lsv_bigliettiComprati.ItemsSource = DBObject<Biglietto>.CustomSelect(new SqlCommand(sqlCommandString));
+                    }
+                    if (tabItem.Header.Equals("Personale"))
+                    {
+                        lsv_personale.ItemsSource = DBObject<Personale>.SelectAll().Where(p => p.idMuseo == museoSelezionato.idMuseo);
                     }
                 }
             }
@@ -2372,6 +2398,39 @@ namespace MuseumsManager
                 List<Contenuto> pa = DBObject<Contenuto>.Select("idSezione", (cmb_modificaContenuti_sezione.SelectedItem as Sezione).idSezione);
                 cmb_modificaContenuti_padre.ItemsSource = pa;
                 cmb_modificaContenuti_padre.DisplayMemberPath = "Nome";
+            }
+        }
+
+        private void lsv_personale_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lsv_personale.SelectedIndex != -1)
+            {
+                List<TipoPersonale> tipi = new List<TipoPersonale>();
+                List<Personale_Tipologia> parzialePT = new List<Personale_Tipologia>();
+                List<Personale_Tipologia> tabellaPT = new List<Personale_Tipologia>(DBObject<Personale_Tipologia>.SelectAll());   
+                List<TipoPersonale> tabellaTipoPersonale = new List<TipoPersonale>(DBObject<TipoPersonale>.SelectAll());
+                Personale selezionato = (Personale)lsv_personale.SelectedItem;
+
+                for (int i = 0; i < tabellaPT.Count; i++)
+                {
+                    if (tabellaPT[i].idPersonale == selezionato.idPersonale)
+                    {
+                        parzialePT.Add(tabellaPT[i]);
+                    }
+                }
+
+                for(int i = 0; i < parzialePT.Count; i++)
+                {
+                    for (int j = 0; j < tabellaTipoPersonale.Count; j++)
+                    {
+                        if (parzialePT[i].idTipoPersonale == tabellaTipoPersonale[j].idTipoPersonale)
+                        {
+                            tipi.Add(tabellaTipoPersonale[j]);
+                        }
+                    }           
+                }
+                lsv_ruoli.ItemsSource = tipi;
+                lsv_ruoli.DisplayMemberPath = "Descrizione";
             }
         }
     }

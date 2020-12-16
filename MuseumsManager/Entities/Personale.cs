@@ -13,10 +13,15 @@ namespace Entities
         public string Cognome { get; set; }
         public string Cellulare { get; set; }
         public string Email { get; set; }
-        public float StipendioOra { get; set; }
+        public double StipendioOra { get; set; }
         public int idMuseo { get; set; }
 
         public Personale() : base() { }
         public Personale(int idPersonale) : base(idPersonale) { }
+
+        public override string ToString()
+        {
+            return this.Nome + " " + this.Cognome;
+        }
     }
 }

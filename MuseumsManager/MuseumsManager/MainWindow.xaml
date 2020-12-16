@@ -51,8 +51,8 @@
                             <Label x:Name="lbl_orari_orariAttuali" Content="Orari attuali" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="278"/>
                             <Label x:Name="lbl_orari_orarioApertura" Content="Orario apertura:" Canvas.Left="35" Canvas.Top="41" FontWeight="Normal" Width="96"/>
                             <Label x:Name="lbl_orari_orarioChiusura" Content="Orario chiusura:" Canvas.Left="35" Canvas.Top="72" FontWeight="Normal" Width="96"/>
-                            <Label x:Name="lbl_orari_valoreOrarioApertura" Content="" Canvas.Left="136" Canvas.Top="36" FontWeight="Normal" Width="152"/>
-                            <Label x:Name="lbl_orari_valoreOrarioChiusura" Content="" Canvas.Left="136" Canvas.Top="67" FontWeight="Normal" Width="152"/>
+                            <Label x:Name="lbl_orari_valoreOrarioApertura" Content="" Canvas.Left="136" Canvas.Top="41" FontWeight="Normal" Width="152"/>
+                            <Label x:Name="lbl_orari_valoreOrarioChiusura" Content="" Canvas.Left="136" Canvas.Top="72" FontWeight="Normal" Width="152"/>
                         </Canvas>
                     </GroupBox>
                     <GroupBox x:Name="gpb_categoriaSezione" Header="Categoria della sezione" HorizontalAlignment="Left" Height="287" Margin="523,87,0,0" VerticalAlignment="Top" Width="313" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
@@ -76,8 +76,8 @@
                             <Label x:Name="lbl_riepilogo_orarioApertura" Content="" Canvas.Left="100" FontWeight="Normal" Canvas.Top="41" Width="120"/>
                             <Label x:Name="lbl_riepilogo_orarioChiusura" Content="" Canvas.Left="100" FontWeight="Normal" Canvas.Top="72" Width="113"/>
                             <Label x:Name="lbl_riepilogo_valoreFamiglia" Content="" Canvas.Top="105" FontWeight="Normal" Width="128" Canvas.Left="159" Background="{x:Null}"/>
-                            <ListView x:Name="lsv_riepilogo_tipiMuseo" Height="106" Width="271" Canvas.Left="292" Canvas.Top="41" FontWeight="Normal" />
-                            <ListView x:Name="lsv_riepilogo_sezioni" Height="143" Width="553" Canvas.Left="10" Canvas.Top="196" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged">
+                            <ListView x:Name="lsv_riepilogo_tipiMuseo" Height="106" Width="271" Canvas.Left="292" Canvas.Top="41" FontWeight="Normal" SelectionMode="Single"/>
+                            <ListView x:Name="lsv_riepilogo_sezioni" Height="143" Width="553" Canvas.Left="10" Canvas.Top="196" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" SelectionMode="Single">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -276,7 +276,7 @@
                                 <GridViewColumn Header="Data di validità" DisplayMemberBinding= "{Binding Path=DataValidita}"/>
                                 <GridViewColumn Header="Prezzo di acquisto" DisplayMemberBinding= "{Binding Path=PrezzoAcquisto}"/>
                                 <GridViewColumn Header="Prezzo attuale" DisplayMemberBinding= "{Binding Path=Prezzo}"/>
-                                <GridViewColumn Header="Tipo di biglietto" DisplayMemberBinding= "{Binding Path=Nome}"/>
+                                <GridViewColumn Header="Tipo" DisplayMemberBinding= "{Binding Path=Nome}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -314,8 +314,7 @@
             </TabItem>
             <TabItem x:Name="tbi_personale" Header="Personale" IsEnabled="False">
                 <Grid x:Name="grid_personale">
-                    <DataGrid x:Name="dtg_personale" Margin="10,10,548,10"/>
-                    <GroupBox x:Name="gpb_personale" Header="Personale" HorizontalAlignment="Left" Height="622" VerticalAlignment="Top" Width="264" FontWeight="Bold" Margin="696,10,0,0">
+                    <GroupBox x:Name="gpb_personale" Header="Personale" HorizontalAlignment="Left" Height="622" VerticalAlignment="Top" Width="264" FontWeight="Bold" Margin="965,10,0,0">
                         <Canvas x:Name="cnv_personale" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_personale_nome" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_personale_nome_GotFocus" LostFocus="txt_personale_nome_LostFocus"/>
                             <TextBox x:Name="txt_personale_cognome" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Cognome" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="69" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_personale_cognome_GotFocus" LostFocus="txt_personale_cognome_LostFocus"/>
@@ -325,38 +324,56 @@
                             <ComboBox x:Name="cmb_personale_ruolo" Height="24" Width="172" Canvas.Left="72" Canvas.Top="181" FontWeight="Normal"/>
                             <Button x:Name="btn_personale_aggiungi" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="210" FontWeight="Normal"/>
                             <Label x:Name="lbl_personale_aggiungi" Content="Aggiungi un nuovo personale:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
-                            <Label x:Name="lbl_personale_aggiorna" Content="Aggiorna informazioni di un personale:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="281"/>
-                            <ComboBox x:Name="cmb_personale_personaSelezionata" Height="26" Width="172" Canvas.Left="72" Canvas.Top="312" FontWeight="Normal"/>
-                            <Label x:Name="lbl_personale_persona" Content="Persona:" Canvas.Left="10" FontWeight="Normal" Width="57" Canvas.Top="312" HorizontalContentAlignment="Right"/>
-                            <TextBox x:Name="txt_personale_nuovoNumero" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo numero di cellulare" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="343" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_personale_nuovoNumero_GotFocus" LostFocus="txt_personale_nuovoNumero_LostFocus"/>
-                            <TextBox x:Name="txt_personale_nuovaEmail" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuova email" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="371" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_personale_nuovaEmail_GotFocus" LostFocus="txt_personale_nuovaEmail_LostFocus"/>
-                            <TextBox x:Name="txt_personale_nuovoStipendio" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo stipendio orario" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="399" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_personale_nuovoStipendio_GotFocus" LostFocus="txt_personale_nuovoStipendio_LostFocus"/>
-                            <Button x:Name="btn_personale_aggiorna" Content="Aggiorna" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="427" FontWeight="Normal"/>
+                            <Label x:Name="lbl_personale_aggiorna" Content="Aggiorna informazioni di un personale:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="263"/>
+                            <ComboBox x:Name="cmb_personale_personaSelezionata" Height="26" Width="172" Canvas.Left="72" Canvas.Top="294" FontWeight="Normal"/>
+                            <Label x:Name="lbl_personale_persona" Content="Persona:" Canvas.Left="10" FontWeight="Normal" Width="57" Canvas.Top="294" HorizontalContentAlignment="Right"/>
+                            <TextBox x:Name="txt_personale_nuovoNumero" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo numero di cellulare" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="325" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_personale_nuovoNumero_GotFocus" LostFocus="txt_personale_nuovoNumero_LostFocus"/>
+                            <TextBox x:Name="txt_personale_nuovaEmail" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuova email" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="353" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_personale_nuovaEmail_GotFocus" LostFocus="txt_personale_nuovaEmail_LostFocus"/>
+                            <TextBox x:Name="txt_personale_nuovoStipendio" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo stipendio orario" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="447" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_personale_nuovoStipendio_GotFocus" LostFocus="txt_personale_nuovoStipendio_LostFocus"/>
+                            <Button x:Name="btn_personale_aggiorna" Content="Aggiorna" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="475" FontWeight="Normal"/>
                             <Label x:Name="lbl_personale_licenzia" Content="Licenzia un personale:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="542"/>
                             <ComboBox x:Name="cmb_personale_licenziaSelezionata" Height="20" Width="146" Canvas.Left="10" Canvas.Top="573" FontWeight="Normal"/>
                             <Button x:Name="btn_personale_licenzia" Content="Licenzia" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Canvas.Left="161" Canvas.Top="573" FontWeight="Normal"/>
                             <Label x:Name="lbl_personale_ruolo" Content="Ruolo:" Canvas.Left="10" FontWeight="Normal" Width="57" Canvas.Top="181" Height="24" HorizontalContentAlignment="Right"/>
+                            <Label x:Name="lbl_personale_aggiorna_Copy" Content="Aumenta stipendio di un personale:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="416"/>
                         </Canvas>
                     </GroupBox>
-                    <GroupBox x:Name="gpb_ruolo" Header="Ruolo" HorizontalAlignment="Left" Height="622" VerticalAlignment="Top" Width="264" FontWeight="Bold" Margin="965,10,0,0">
+                    <GroupBox x:Name="gpb_ruolo" Header="Ruolo" HorizontalAlignment="Left" Height="421" VerticalAlignment="Top" Width="264" FontWeight="Bold" Margin="696,10,0,0">
                         <Canvas x:Name="cnv_ruolo" Margin="0,0,-2,-4">
-                            <TextBox x:Name="txt_ruolo_descrizione" HorizontalAlignment="Left" Height="81" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_ruolo_descrizione_GotFocus" LostFocus="txt_ruolo_descrizione_LostFocus"/>
-                            <Button x:Name="btn_ruolo_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="127" FontWeight="Normal"/>
-                            <Label x:Name="lbl_ruolo_crea" Content="Crea un nuovo ruolo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
-                            <Label x:Name="lbl_ruolo_aggiungiAPersona" Content="Aggiungi nuovo ruolo ad una persona:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="256"/>
-                            <ComboBox x:Name="cmb_ruolo_personaSelezionata" Height="26" Width="145" Canvas.Left="99" Canvas.Top="286" FontWeight="Normal"/>
-                            <ComboBox x:Name="cmb_ruolo_nuovoRuolo" Height="26" Width="145" Canvas.Left="99" Canvas.Top="318" FontWeight="Normal"/>
-                            <Label x:Name="lbl_ruolo_persona" Content="Persona:" Canvas.Left="10" FontWeight="Normal" Width="84" Canvas.Top="286" HorizontalContentAlignment="Right"/>
-                            <Button x:Name="btn_ruolo_aggiungi" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="348" FontWeight="Normal"/>
-                            <Label x:Name="lbl_ruolo_nuovoRuolo" Content="Nuovo ruolo:" Canvas.Left="10" FontWeight="Normal" Width="84" Canvas.Top="318" HorizontalContentAlignment="Right"/>
-                            <Label x:Name="lbl_ruolo_rimuovi" Content="Rimuovi un ruolo da una persona:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="480"/>
-                            <ComboBox x:Name="cmb_ruolo_selezionaPersona" Height="26" Width="171" Canvas.Left="73" Canvas.Top="511" FontWeight="Normal"/>
-                            <ComboBox x:Name="cmb_ruolo_selezionaRuolo" Height="26" Width="116" Canvas.Left="128" Canvas.Top="542" FontWeight="Normal"/>
-                            <Button x:Name="btn_ruolo_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="573" FontWeight="Normal"/>
-                            <Label x:Name="lbl_ruolo_selezionaPersona" Content="Persona:" Canvas.Left="10" FontWeight="Normal" Width="58" Canvas.Top="511" HorizontalContentAlignment="Right"/>
-                            <Label x:Name="lbl_ruolo_ruoloDaEliminare" Content="ruolo da eliminare:" Canvas.Left="10" FontWeight="Normal" Width="113" Canvas.Top="542" HorizontalContentAlignment="Right"/>
+                            <Label x:Name="lbl_ruolo_aggiungiAPersona" Content="Aggiungi nuovo ruolo ad una persona:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
+                            <ComboBox x:Name="cmb_ruolo_personaSelezionata" Height="26" Width="145" Canvas.Left="99" Canvas.Top="40" FontWeight="Normal" DropDownOpened="cmb_ruolo_personaSelezionata_DropDownOpened"/>
+                            <ComboBox x:Name="cmb_ruolo_nuovoRuolo" Height="26" Width="145" Canvas.Left="99" Canvas.Top="72" FontWeight="Normal" DropDownOpened="cmb_ruolo_nuovoRuolo_DropDownOpened"/>
+                            <Label x:Name="lbl_ruolo_persona" Content="Persona:" Canvas.Left="10" FontWeight="Normal" Width="84" Canvas.Top="40" HorizontalContentAlignment="Right"/>
+                            <Button x:Name="btn_ruolo_aggiungi" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="102" FontWeight="Normal" Click="btn_ruolo_aggiungi_Click"/>
+                            <Label x:Name="lbl_ruolo_nuovoRuolo" Content="Nuovo ruolo:" Canvas.Left="10" FontWeight="Normal" Width="84" Canvas.Top="72" HorizontalContentAlignment="Right"/>
+                            <Label x:Name="lbl_ruolo_rimuovi" Content="Rimuovi un ruolo da una persona:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="279"/>
+                            <ComboBox x:Name="cmb_ruolo_selezionaPersona" Height="26" Width="171" Canvas.Left="73" Canvas.Top="310" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_ruolo_selezionaRuolo" Height="26" Width="116" Canvas.Left="128" Canvas.Top="341" FontWeight="Normal"/>
+                            <Button x:Name="btn_ruolo_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="372" FontWeight="Normal"/>
+                            <Label x:Name="lbl_ruolo_selezionaPersona" Content="Persona:" Canvas.Left="10" FontWeight="Normal" Width="58" Canvas.Top="310" HorizontalContentAlignment="Right"/>
+                            <Label x:Name="lbl_ruolo_ruoloDaEliminare" Content="ruolo da eliminare:" Canvas.Left="10" FontWeight="Normal" Width="113" Canvas.Top="341" HorizontalContentAlignment="Right"/>
                         </Canvas>
                     </GroupBox>
+                    <ListView x:Name="lsv_personale" HorizontalAlignment="Left" Height="390" Margin="10,41,0,0" VerticalAlignment="Top" Width="676" SelectionMode="Single" SelectionChanged="lsv_personale_SelectionChanged">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Nome" DisplayMemberBinding= "{Binding Path=Nome}"/>
+                                <GridViewColumn Header="Cognome" DisplayMemberBinding= "{Binding Path=Cognome}"/>
+                                <GridViewColumn Header="Cellulare" DisplayMemberBinding= "{Binding Path=Cellulare}"/>
+                                <GridViewColumn Header="Email" DisplayMemberBinding= "{Binding Path=Email}"/>
+                                <GridViewColumn Header="Stipendio/ora" DisplayMemberBinding= "{Binding Path=StipendioOra}"/>
+
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ListView x:Name="lsv_ruoli" HorizontalAlignment="Left" Height="165" Margin="10,467,0,0" VerticalAlignment="Top" Width="676" SelectionMode="Single"/>
+                    <Label x:Name="lbl_lavoratori" Content="Lavoratori:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                    <Label x:Name="lbl_ruoli" Content="Ruoli:" HorizontalAlignment="Left" Margin="10,436,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tbi_registri" Header="Registri" IsEnabled="False">
@@ -456,7 +473,7 @@
                         <Canvas x:Name="cnv_tipoContenuto" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_tipoContenuto_descrizione" HorizontalAlignment="Left" Height="53" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="234" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_tipoContenuto_descrizione_GotFocus" LostFocus="txt_tipoContenuto_descrizione_LostFocus"/>
                             <Button x:Name="btn_tipoContenuto_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="103" FontWeight="Normal" Click="btn_tipoContenuto_crea_Click"/>
-                            <Label x:Name="lbl_tipoContenuto_crea" Content="Crea un nuovo tipo di contenuto:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="284"/>
+                            <Label x:Name="lbl_tipoContenuto_crea" Content="Crea un nuovo tipo di contenuto:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="234"/>
                         </Canvas>
                     </GroupBox>
                     <GroupBox x:Name="gpb_Creatore" Header="Creatore" HorizontalAlignment="Left" Height="298" Margin="696,10,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
@@ -494,6 +511,13 @@
                             <Label x:Name="lbl_periodoStorico_elimina" Content="Elimina un periodo storico:" Canvas.Left="10" FontWeight="Bold" Width="233" Canvas.Top="239"/>
                             <ComboBox x:Name="cmb_periodoStorico_elimina" Height="20" Width="147" Canvas.Left="10" Canvas.Top="270" FontWeight="Normal" DropDownOpened="cmb_periodoStorico_elimina_DropDownOpened"/>
                             <Button x:Name="btn_periodoStorico_elimina" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="162" Canvas.Top="270" FontWeight="Normal" Click="btn_periodoStorico_elimina_Click"/>
+                        </Canvas>
+                    </GroupBox>
+                    <GroupBox x:Name="gpb_ruoloPersonale" Header="Ruolo del personale" HorizontalAlignment="Left" Height="121" Margin="696,463,0,0" VerticalAlignment="Top" Width="264" FontWeight="Bold">
+                        <Canvas HorizontalAlignment="Left" Margin="0,0,-2,1" Width="254">
+                            <TextBox x:Name="txt_ruolo_descrizione" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Ruolo" VerticalAlignment="Top" Width="234" Foreground="Gray" Canvas.Left="10" Canvas.Top="41" FontStyle="Italic" FontWeight="Normal" GotFocus="txt_ruolo_descrizione_GotFocus" LostFocus="txt_ruolo_descrizione_LostFocus"/>
+                            <Button x:Name="btn_ruolo_crea" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="69" FontWeight="Normal" Click="btn_ruolo_crea_Click"/>
+                            <Label x:Name="lbl_ruolo_crea" Content="Crea un nuovo ruolo:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="10"/>
                         </Canvas>
                     </GroupBox>
                 </Grid>
