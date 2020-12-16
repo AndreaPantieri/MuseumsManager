@@ -176,7 +176,7 @@
                             <Label x:Name="lbl_contenuti_aggiungi" Content="Aggiungi un nuovo contenuto:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="283"/>
                             <Label x:Name="lbl_contenuti_elimina" Content="Elimina un contenuto:" Canvas.Left="10" Canvas.Top="359" FontWeight="Bold" Width="283"/>
                             <ComboBox x:Name="cmb_contenuti_elimina" Height="20" Width="196" Canvas.Left="10" Canvas.Top="390" FontWeight="Normal" DropDownOpened="cmb_contenuti_elimina_DropDownOpened"/>
-                            <Button x:Name="btn_contenuti_elimina" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="390" FontWeight="Normal"/>
+                            <Button x:Name="btn_contenuti_elimina" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="390" FontWeight="Normal" Click="btn_contenuti_elimina_Click"/>
                             <ComboBox x:Name="cmb_contenuti_sezione" Height="26" Width="225" Canvas.Left="68" Canvas.Top="41" FontWeight="Normal" DropDownOpened="cmb_contenuti_sezione_DropDownOpened"/>
                             <Label x:Name="lbl_contenuti_sezione" Content="Sezione:" Canvas.Left="10" Canvas.Top="41" FontWeight="Normal" Width="53"/>
                             <TextBox x:Name="txt_contenuti_dataRitrovamento" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Data di ritrovamento" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="158" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_contenuti_dataRitrovamento_GotFocus" LostFocus="txt_contenuti_dataRitrovamento_LostFocus"/>
@@ -252,7 +252,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <ListView x:Name="lsv_sottocontenuti" DataContext="{Binding lsv_contenuti.SelectedItem.Figli}" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,657,10" >
+                    <ListView x:Name="lsv_sottocontenuti" ItemsSource="{Binding lsv_contenuti.SelectedItem.Figli}" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,657,10" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Nome}" />
