@@ -2084,7 +2084,43 @@ namespace MuseumsManager
 
         }
 
-        
-        
+        private void cmb_contenuti_elimina_DropDownOpened(object sender, EventArgs e)
+        {
+            if(!(cmb_contenuti_sezione.SelectedItem is null))
+            {
+                cmb_contenuti_elimina.ItemsSource = DBObject<Contenuto>.Select("idSezione", (cmb_contenuti_sezione.SelectedItem as Sezione).idSezione);
+                cmb_contenuti_elimina.DisplayMemberPath = "Nome";
+            }
+        }
+
+        private void cmb_addTipoContenuto_contenuto_DropDownOpened(object sender, EventArgs e)
+        {
+            if (!(cmb_contenuti_sezione.SelectedItem is null))
+            {
+                cmb_addTipoContenuto_contenuto.ItemsSource = DBObject<Contenuto>.Select("idSezione", (cmb_contenuti_sezione.SelectedItem as Sezione).idSezione);
+                cmb_addTipoContenuto_contenuto.DisplayMemberPath = "Nome";
+            }
+        }
+
+        private void cmb_delTipoContenuto_contenuto_DropDownOpened(object sender, EventArgs e)
+        {
+            if (!(cmb_contenuti_sezione.SelectedItem is null))
+            {
+                cmb_delTipoContenuto_contenuto.ItemsSource = DBObject<Contenuto>.Select("idSezione", (cmb_contenuti_sezione.SelectedItem as Sezione).idSezione);
+                cmb_delTipoContenuto_contenuto.DisplayMemberPath = "Nome";
+            }
+        }
+
+        private void cmb_addTipoContenuto_tipo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_addTipoContenuto_tipo.ItemsSource = DBObject<TipoContenuto>.SelectAll();
+            cmb_addTipoContenuto_tipo.DisplayMemberPath = "Descrizione";
+        }
+
+        private void cmb_delTipoContenuto_tipo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_delTipoContenuto_tipo.ItemsSource = DBObject<TipoContenuto>.SelectAll();
+            cmb_delTipoContenuto_tipo.DisplayMemberPath = "Descrizione";
+        }
     }
 }
