@@ -2245,6 +2245,120 @@ namespace MuseumsManager
 
         }
 
-        
+        private void cmb_modificaContenuti_contenuto_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_modificaContenuti_contenuto.ItemsSource = DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo));
+            cmb_modificaContenuti_contenuto.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_modificaContenuti_contenuto_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(!(cmb_modificaContenuti_contenuto.SelectedItem is null))
+            {
+                txt_modificaContenuti_nome.IsEnabled = true;
+                txt_modificaContenuti_descrizione.IsEnabled = true;
+                txt_modificaContenuti_dataRitrovamento.IsEnabled = true;
+                txt_modificaContenuti_dataArrivo.IsEnabled = true;
+                cmb_modificaContenuti_sezione.IsEnabled = true;
+                cmb_modificaContenuti_provenienza.IsEnabled = true;
+                cmb_modificaContenuti_periodoStorico.IsEnabled = true;
+                cmb_modificaContenuti_padre.IsEnabled = true;
+                btn_modificaContenuti_aggiorna.IsEnabled = true;
+
+                List<Sezione> s = DBObject<Sezione>.Select("idMuseo", museoSelezionato.idMuseo);
+                cmb_modificaContenuti_sezione.ItemsSource = s;
+                cmb_modificaContenuti_sezione.DisplayMemberPath = "Nome";
+
+                List<Provenienza> p = DBObject<Provenienza>.SelectAll();
+                cmb_modificaContenuti_provenienza.ItemsSource = p;
+                cmb_modificaContenuti_provenienza.DisplayMemberPath = "Nome";
+
+                List<PeriodoStorico> ps = DBObject<PeriodoStorico>.SelectAll();
+                cmb_modificaContenuti_periodoStorico.ItemsSource = ps;
+                cmb_modificaContenuti_periodoStorico.DisplayMemberPath = "Nome";
+
+                
+
+                Contenuto contenuto = cmb_modificaContenuti_contenuto.SelectedItem as Contenuto;
+
+                txt_modificaContenuti_nome.Text = contenuto.Nome;
+                txt_modificaContenuti_descrizione.Text = contenuto.Descrizione;
+                txt_modificaContenuti_dataRitrovamento.Text = contenuto.DataRitrovamento.Date.ToString("yyyy-MM-dd");
+                txt_modificaContenuti_dataArrivo.Text = contenuto.DataArrivoMuseo.Date.ToString("yyyy-MM-dd");
+                cmb_modificaContenuti_sezione.SelectedIndex = s.IndexOf(s.Where(tmp => tmp.idSezione == contenuto.idSezione).First());
+                cmb_modificaContenuti_provenienza.SelectedIndex = p.IndexOf(p.Where(tmp => tmp.idProvenienza == contenuto.idProvenienza).First());
+                cmb_modificaContenuti_periodoStorico.SelectedIndex = ps.IndexOf(ps.Where(tmp => tmp.idPeriodoStorico == contenuto.idPeriodoStorico).First());
+
+                if (!(cmb_modificaContenuti_sezione.SelectedItem is null))
+                {
+                    List<Contenuto> pa = DBObject<Contenuto>.Select("idSezione", (cmb_modificaContenuti_sezione.SelectedItem as Sezione).idSezione);
+                    cmb_modificaContenuti_padre.ItemsSource = pa;
+                    cmb_modificaContenuti_padre.DisplayMemberPath = "Nome";
+                    cmb_modificaContenuti_padre.SelectedIndex = pa.IndexOf(pa.Where(tmp => tmp.idContenuto == contenuto.idContenutoPadre).First());
+                }
+            }
+        }
+
+        private void btn_modificaContenuti_aggiorna_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime r = new DateTime(), a = new DateTime();
+            if(!(cmb_modificaContenuti_contenuto.SelectedItem is null) &&
+                txt_modificaContenuti_nome.Text != "" && txt_modificaContenuti_nome.Text != "Nome" &&
+                txt_modificaContenuti_descrizione.Text != "" && txt_modificaContenuti_descrizione.Text != "Descrizione" &&
+                DateTime.TryParse(txt_modificaContenuti_dataRitrovamento.Text, out r) &&
+                DateTime.TryParse(txt_modificaContenuti_dataArrivo.Text, out a) &&
+                !(cmb_modificaContenuti_sezione.SelectedItem is null) &&
+                !(cmb_modificaContenuti_provenienza.SelectedItem is null) &&
+                !(cmb_modificaContenuti_periodoStorico.SelectedItem is null))
+            {
+                Contenuto contenuto = cmb_modificaContenuti_contenuto.SelectedItem as Contenuto;
+                contenuto.Nome = txt_modificaContenuti_nome.Text;
+                contenuto.Descrizione = txt_modificaContenuti_descrizione.Text;
+                contenuto.DataRitrovamento = r;
+                contenuto.DataArrivoMuseo = a;
+                contenuto.idSezione = (cmb_modificaContenuti_sezione.SelectedItem as Sezione).idSezione;
+                contenuto.idProvenienza = (cmb_modificaContenuti_provenienza.SelectedItem as Provenienza).idProvenienza;
+                contenuto.idPeriodoStorico = (cmb_modificaContenuti_periodoStorico.SelectedItem as PeriodoStorico).idPeriodoStorico;
+
+                contenuto.idContenutoPadre = (cmb_modificaContenuti_padre.SelectedItem is null) ? 0 : (cmb_modificaContenuti_padre.SelectedItem as Contenuto).idContenuto;
+
+                int res = DBEntity.Update<Contenuto>("idContenuto", contenuto.idContenuto, "Nome", contenuto.Nome, "Descrizione", contenuto.Descrizione,
+                    "DataRitrovamento", contenuto.DataRitrovamento.Date.ToString("yyyy-MM-dd"),
+                    "DataArrivoMuseo", contenuto.DataArrivoMuseo.Date.ToString("yyyy-MM-dd"),
+                    "idSezione", contenuto.idSezione, "idProvenienza", contenuto.idProvenienza, "idPeriodoStorico", contenuto.idPeriodoStorico, "idContenutoPadre", contenuto.idContenutoPadre);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Contenuto aggiornato", "Operazione eseguita", MessageBoxButton.Ok);
+            }
+
+
+            cmb_modificaContenuti_contenuto.ItemsSource = null;
+            txt_modificaContenuti_nome.IsEnabled = false;
+            txt_modificaContenuti_nome.Text = "Nome";
+            txt_modificaContenuti_descrizione.IsEnabled = false;
+            txt_modificaContenuti_descrizione.Text = "Descrizione";
+            txt_modificaContenuti_dataRitrovamento.IsEnabled = false;
+            txt_modificaContenuti_dataRitrovamento.Text = "Data di ritrovamento";
+            txt_modificaContenuti_dataArrivo.IsEnabled = false;
+            txt_modificaContenuti_dataArrivo.Text = "Data di arrivo";
+            cmb_modificaContenuti_sezione.IsEnabled = false;
+            cmb_modificaContenuti_sezione.ItemsSource = null;
+            cmb_modificaContenuti_provenienza.IsEnabled = false;
+            cmb_modificaContenuti_provenienza.ItemsSource = null;
+            cmb_modificaContenuti_periodoStorico.IsEnabled = false;
+            cmb_modificaContenuti_periodoStorico.ItemsSource = null;
+            cmb_modificaContenuti_padre.IsEnabled = false;
+            cmb_modificaContenuti_padre.ItemsSource = null;
+            btn_modificaContenuti_aggiorna.IsEnabled = false;
+        }
+
+        private void cmb_modificaContenuti_sezione_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!(cmb_modificaContenuti_sezione.SelectedItem is null))
+            {
+                List<Contenuto> pa = DBObject<Contenuto>.Select("idSezione", (cmb_modificaContenuti_sezione.SelectedItem as Sezione).idSezione);
+                cmb_modificaContenuti_padre.ItemsSource = pa;
+                cmb_modificaContenuti_padre.DisplayMemberPath = "Nome";
+            }
+        }
     }
 }
