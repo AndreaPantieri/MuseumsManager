@@ -42,7 +42,7 @@
                             <Label x:Name="lbl_sezioni_sezione" Content="Sezione:" Canvas.Left="10" Canvas.Top="263" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
                         </Canvas>
                     </GroupBox>
-                    <GroupBox x:Name="gpb_orari" Header="Orari di apertura/chiusura" HorizontalAlignment="Left" Height="253" Margin="524,379,0,0" VerticalAlignment="Top" Width="312" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
+                    <GroupBox x:Name="gpb_orari" Header="Orari di apertura/chiusura" HorizontalAlignment="Left" Height="253" Margin="525,171,0,0" VerticalAlignment="Top" Width="312" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
                         <Canvas x:Name="cnv_orari" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_orari_nuovoOrarioApertura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo orario di apertura" VerticalAlignment="Top" Width="278" Canvas.Left="10" Canvas.Top="148" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_orari_nuovoOrarioApertura_GotFocus" LostFocus="txt_orari_nuovoOrarioApertura_LostFocus"/>
                             <TextBox x:Name="txt_orari_nuovoOrarioChiusura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo orario di chiusura" VerticalAlignment="Top" Width="278" Canvas.Left="10" Canvas.Top="176" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_orari_nuovoOrarioChiusura_GotFocus" LostFocus="txt_orari_nuovoOrarioChiusura_LostFocus"/>
@@ -55,7 +55,7 @@
                             <Label x:Name="lbl_orari_valoreOrarioChiusura" Content="" Canvas.Left="136" Canvas.Top="72" FontWeight="Normal" Width="152"/>
                         </Canvas>
                     </GroupBox>
-                    <GroupBox x:Name="gpb_categoriaSezione" Header="Categoria della sezione" HorizontalAlignment="Left" Height="287" Margin="523,87,0,0" VerticalAlignment="Top" Width="313" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
+                    <GroupBox x:Name="gpb_categoriaSezione" Header="Categoria della sezione" HorizontalAlignment="Left" Height="203" Margin="524,429,0,0" VerticalAlignment="Top" Width="313" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
                         <Canvas x:Name="cnv_categoriaSezione" Margin="0,0,-2,-4">
 
                             <TextBox x:Name="txt_categoriaSezione_descrizione" HorizontalAlignment="Left" Height="106" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_categoriaSezione_descrizione_GotFocus" LostFocus="txt_categoriaSezione_descrizione_LostFocus"/>
@@ -69,14 +69,14 @@
                             <Label x:Name="lbl_riepilogo_apertoDalle" Content="Aperto dalle:" Canvas.Left="10" Canvas.Top="41" FontWeight="Bold" Width="85"/>
                             <Label x:Name="lbl_riepilogo_alle" Content="Alle:" Canvas.Left="10" Canvas.Top="72" FontWeight="Bold" Width="85"/>
                             <Label x:Name="lbl_riepilogo_sezioni" Content="Sezioni del museo:" Canvas.Left="10" Canvas.Top="165" FontWeight="Bold" Width="144"/>
-                            <Label x:Name="lbl_riepilogo_tipo" Content="Tipo/i del museo:" Canvas.Left="292" Canvas.Top="10" FontWeight="Bold" Width="271"/>
+                            <Label x:Name="lbl_riepilogo_tipo" Content="Tipo/i del museo:" Canvas.Left="394" Canvas.Top="10" FontWeight="Bold" Width="110"/>
                             <Label x:Name="lbl_riepilogo_famiglia" Content="Famiglia di cui fa parte:" Canvas.Top="105" FontWeight="Bold" Width="144" Canvas.Left="10"/>
                             <Label x:Name="lbl_riepilogo_attualmente" Content="Attualmente:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="85"/>
                             <Label x:Name="lbl_riepilogo_statoApertura" Content="" Canvas.Left="100" Canvas.Top="10" FontWeight="Bold" Width="54"/>
                             <Label x:Name="lbl_riepilogo_orarioApertura" Content="" Canvas.Left="100" FontWeight="Normal" Canvas.Top="41" Width="120"/>
                             <Label x:Name="lbl_riepilogo_orarioChiusura" Content="" Canvas.Left="100" FontWeight="Normal" Canvas.Top="72" Width="113"/>
-                            <Label x:Name="lbl_riepilogo_valoreFamiglia" Content="" Canvas.Top="105" FontWeight="Normal" Width="128" Canvas.Left="159" Background="{x:Null}"/>
-                            <ListView x:Name="lsv_riepilogo_tipiMuseo" Height="106" Width="271" Canvas.Left="292" Canvas.Top="41" FontWeight="Normal" SelectionMode="Single"/>
+                            <Label x:Name="lbl_riepilogo_valoreFamiglia" Content="" Canvas.Top="105" FontWeight="Normal" Width="230" Canvas.Left="159" Background="{x:Null}"/>
+                            <ListView x:Name="lsv_riepilogo_tipiMuseo" Height="106" Width="169" Canvas.Left="394" Canvas.Top="41" FontWeight="Normal" SelectionMode="Single"/>
                             <ListView x:Name="lsv_riepilogo_sezioni" Height="143" Width="553" Canvas.Left="10" Canvas.Top="196" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" SelectionMode="Single">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
@@ -265,7 +265,7 @@
                 <Grid x:Name="grid_biglietti">
                     <Label x:Name="lbl_bigliettiComprati" Content="Biglietti comprati:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="493" FontWeight="Bold"/>
                     <Label x:Name="lbl_tipoBiglietti" Content="Tipi di biglietti:" HorizontalAlignment="Left" Margin="10,353,0,0" VerticalAlignment="Top" Width="452" FontWeight="Bold"/>
-                    <ListView x:Name="lsv_bigliettiComprati" HorizontalAlignment="Left" Height="307" Margin="10,41,0,0" VerticalAlignment="Top" Width="950">
+                    <ListView x:Name="lsv_bigliettiComprati" HorizontalAlignment="Left" Height="307" Margin="10,41,0,0" VerticalAlignment="Top" Width="944">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -280,7 +280,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView x:Name="lsv_tipiBiglietti" HorizontalAlignment="Left" Height="248" Margin="10,384,0,0" VerticalAlignment="Top" Width="950">
+                    <ListView x:Name="lsv_tipiBiglietti" HorizontalAlignment="Left" Height="248" Margin="10,384,0,0" VerticalAlignment="Top" Width="944">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
