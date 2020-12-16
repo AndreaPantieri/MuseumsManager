@@ -975,6 +975,9 @@ namespace MuseumsManager
             }
         }
 
+        /// <summary>
+        /// Metodo per creare un nuovo ruolo del personale.
+        /// </summary>
         private void btn_ruolo_crea_Click(object sender, RoutedEventArgs e)
         {
             if (!txt_ruolo_descrizione.Text.Equals("") &&
@@ -988,19 +991,32 @@ namespace MuseumsManager
                 MessageBox.Show("Il ruolo non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        /// <summary>
+        /// Metodo per assegnare un ruolo ad un personale.
+        /// </summary>
         private void btn_ruolo_aggiungi_Click(object sender, RoutedEventArgs e)
         {
             if (cmb_ruolo_personaSelezionata.SelectedIndex != -1 &&
                 cmb_ruolo_nuovoRuolo.SelectedIndex != -1)
             {
                 DBObject<Personale_Tipologia>.Insert("idPersonale", (cmb_ruolo_personaSelezionata.SelectedItem as Personale).idPersonale, "idTipoPersonale", (cmb_ruolo_nuovoRuolo.SelectedItem as TipoPersonale).idTipoPersonale);
-                MessageBox.Show("Nuovo ruolo del personale aggiunto correttamente!", "Operazione eseguita!", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Nuovo ruolo del personale assegnato correttamente!", "Operazione eseguita!", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
                 MessageBox.Show("Non tutti i parametri sono stati compilati correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-
+        /// <summary>
+        /// Metodo per rimuovere un ruolo associato ad un personale.
+        /// </summary>
+        private void btn_ruolo_rimuovi_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmb_ruolo_selezionaPersona.SelectedIndex != -1 &&
+                cmb_ruolo_selezionaRuolo.SelectedIndex != -1)
+            {
+                DBRelationN2NOnlyIndexes<Personale_Tipologia>.Delete("idPersonale", (cmb_ruolo_selezionaPersona.SelectedItem as Personale).idPersonale, "idTipoPersonale", (cmb_ruolo_selezionaRuolo.SelectedItem as TipoPersonale).idTipoPersonale);
+            }
+        }
 
 
 
@@ -1940,6 +1956,21 @@ namespace MuseumsManager
             cmb_ruolo_nuovoRuolo.DisplayMemberPath = "Descrizione";
         }
 
+        private void cmb_ruolo_selezionaPersona_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_ruolo_selezionaPersona.ItemsSource = DBObject<Personale>.SelectAll().Where(p => p.idMuseo == museoSelezionato.idMuseo);
+        }
+
+        private void cmb_ruolo_selezionaRuolo_DropDownOpened(object sender, EventArgs e)
+        {
+            if (cmb_ruolo_selezionaPersona.SelectedIndex != -1)
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT TipoPersonale.* FROM TipoPersonale INNER JOIN Personale_Tipologia ON TipoPersonale.idTipoPersonale = Personale_Tipologia.idTipoPersonale INNER JOIN Personale ON Personale.idPersonale = Personale_Tipologia.idPersonale WHERE Personale.idPersonale = " + (cmb_ruolo_selezionaPersona.SelectedItem as Personale).idPersonale + ";");
+                cmb_ruolo_selezionaRuolo.ItemsSource = DBObject<TipoPersonale>.CustomSelect(sqlCommand);
+                cmb_ruolo_selezionaRuolo.DisplayMemberPath = "Descrizione";
+            }  
+        }
+
         //Eventi SelectionChanged
 
         /// <summary>
@@ -2158,6 +2189,10 @@ namespace MuseumsManager
             }
         }
 
+        /// <summary>
+        /// Evento per mostrare i dati di un biglietto prima di modificarlo.
+        /// Resetta le textbox al valore di default se nulla è selezionato.
+        /// </summary>
         private void cmb_tipoBiglietti_selezionaBiglietto_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             txt_tipoBiglietti_nuovoNome.FontStyle = FontStyles.Italic;
@@ -2180,6 +2215,54 @@ namespace MuseumsManager
                 txt_tipoBiglietti_nuovaDescrizione.Text = "Nuova descrizione";
             }
         }
+
+        /// <summary>
+        /// Metodo per mostrare i tipi di ruolo associati ad un personale selezionato.
+        /// </summary>
+        private void lsv_personale_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lsv_personale.SelectedIndex != -1)
+            {
+                List<TipoPersonale> tipi = new List<TipoPersonale>();
+                List<Personale_Tipologia> parzialePT = new List<Personale_Tipologia>();
+                List<Personale_Tipologia> tabellaPT = new List<Personale_Tipologia>(DBObject<Personale_Tipologia>.SelectAll());
+                List<TipoPersonale> tabellaTipoPersonale = new List<TipoPersonale>(DBObject<TipoPersonale>.SelectAll());
+                Personale selezionato = (Personale)lsv_personale.SelectedItem;
+
+                for (int i = 0; i < tabellaPT.Count; i++)
+                {
+                    if (tabellaPT[i].idPersonale == selezionato.idPersonale)
+                    {
+                        parzialePT.Add(tabellaPT[i]);
+                    }
+                }
+
+                for (int i = 0; i < parzialePT.Count; i++)
+                {
+                    for (int j = 0; j < tabellaTipoPersonale.Count; j++)
+                    {
+                        if (parzialePT[i].idTipoPersonale == tabellaTipoPersonale[j].idTipoPersonale)
+                        {
+                            tipi.Add(tabellaTipoPersonale[j]);
+                        }
+                    }
+                }
+                lsv_ruoli.ItemsSource = tipi;
+                lsv_ruoli.DisplayMemberPath = "Descrizione";
+            }
+        }
+
+        /// <summary>
+        /// Evento per resettare la lista di ruoli di un personale al variare di esso.
+        /// </summary>
+        private void cmb_ruolo_selezionaPersona_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmb_ruolo_selezionaPersona.SelectedIndex == -1)
+                cmb_ruolo_selezionaRuolo.ItemsSource = null;
+        }
+
+
+
 
 
 
@@ -2401,37 +2484,6 @@ namespace MuseumsManager
             }
         }
 
-        private void lsv_personale_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (lsv_personale.SelectedIndex != -1)
-            {
-                List<TipoPersonale> tipi = new List<TipoPersonale>();
-                List<Personale_Tipologia> parzialePT = new List<Personale_Tipologia>();
-                List<Personale_Tipologia> tabellaPT = new List<Personale_Tipologia>(DBObject<Personale_Tipologia>.SelectAll());   
-                List<TipoPersonale> tabellaTipoPersonale = new List<TipoPersonale>(DBObject<TipoPersonale>.SelectAll());
-                Personale selezionato = (Personale)lsv_personale.SelectedItem;
 
-                for (int i = 0; i < tabellaPT.Count; i++)
-                {
-                    if (tabellaPT[i].idPersonale == selezionato.idPersonale)
-                    {
-                        parzialePT.Add(tabellaPT[i]);
-                    }
-                }
-
-                for(int i = 0; i < parzialePT.Count; i++)
-                {
-                    for (int j = 0; j < tabellaTipoPersonale.Count; j++)
-                    {
-                        if (parzialePT[i].idTipoPersonale == tabellaTipoPersonale[j].idTipoPersonale)
-                        {
-                            tipi.Add(tabellaTipoPersonale[j]);
-                        }
-                    }           
-                }
-                lsv_ruoli.ItemsSource = tipi;
-                lsv_ruoli.DisplayMemberPath = "Descrizione";
-            }
-        }
     }
 }

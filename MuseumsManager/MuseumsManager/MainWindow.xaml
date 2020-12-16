@@ -347,9 +347,9 @@
                             <Button x:Name="btn_ruolo_aggiungi" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="102" FontWeight="Normal" Click="btn_ruolo_aggiungi_Click"/>
                             <Label x:Name="lbl_ruolo_nuovoRuolo" Content="Nuovo ruolo:" Canvas.Left="10" FontWeight="Normal" Width="84" Canvas.Top="72" HorizontalContentAlignment="Right"/>
                             <Label x:Name="lbl_ruolo_rimuovi" Content="Rimuovi un ruolo da una persona:" Canvas.Left="10" FontWeight="Bold" Width="234" Canvas.Top="279"/>
-                            <ComboBox x:Name="cmb_ruolo_selezionaPersona" Height="26" Width="171" Canvas.Left="73" Canvas.Top="310" FontWeight="Normal"/>
-                            <ComboBox x:Name="cmb_ruolo_selezionaRuolo" Height="26" Width="116" Canvas.Left="128" Canvas.Top="341" FontWeight="Normal"/>
-                            <Button x:Name="btn_ruolo_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="372" FontWeight="Normal"/>
+                            <ComboBox x:Name="cmb_ruolo_selezionaPersona" Height="26" Width="171" Canvas.Left="73" Canvas.Top="310" FontWeight="Normal" DropDownOpened="cmb_ruolo_selezionaPersona_DropDownOpened" SelectionChanged="cmb_ruolo_selezionaPersona_SelectionChanged"/>
+                            <ComboBox x:Name="cmb_ruolo_selezionaRuolo" Height="26" Width="116" Canvas.Left="128" Canvas.Top="341" FontWeight="Normal" DropDownOpened="cmb_ruolo_selezionaRuolo_DropDownOpened"/>
+                            <Button x:Name="btn_ruolo_rimuovi" Content="Rimuovi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Canvas.Left="180" Canvas.Top="372" FontWeight="Normal" Click="btn_ruolo_rimuovi_Click"/>
                             <Label x:Name="lbl_ruolo_selezionaPersona" Content="Persona:" Canvas.Left="10" FontWeight="Normal" Width="58" Canvas.Top="310" HorizontalContentAlignment="Right"/>
                             <Label x:Name="lbl_ruolo_ruoloDaEliminare" Content="ruolo da eliminare:" Canvas.Left="10" FontWeight="Normal" Width="113" Canvas.Top="341" HorizontalContentAlignment="Right"/>
                         </Canvas>
