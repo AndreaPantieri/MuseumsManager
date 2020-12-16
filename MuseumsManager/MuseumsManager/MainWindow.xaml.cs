@@ -2145,8 +2145,30 @@ namespace MuseumsManager
 
         }
 
-        
+        private void btn_addTipo_Click(object sender, RoutedEventArgs e)
+        {
+            if(!(cmb_addTipoContenuto_contenuto.SelectedItem is null) && !(cmb_addTipoContenuto_tipo.SelectedItem is null))
+            {
+                Contenuto c = cmb_addTipoContenuto_contenuto.SelectedItem as Contenuto;
+                TipoContenuto tc = cmb_addTipoContenuto_tipo.SelectedItem as TipoContenuto;
 
-        
+                int res = DBObject<Contenuto_Tipologia>.Insert("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Tipo collegato correttamente al contenuto", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+        }
+
+        private void btn_delTipo_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(cmb_delTipoContenuto_contenuto.SelectedItem is null) && !(cmb_delTipoContenuto_tipo.SelectedItem is null))
+            {
+                Contenuto c = cmb_delTipoContenuto_contenuto.SelectedItem as Contenuto;
+                TipoContenuto tc = cmb_delTipoContenuto_tipo.SelectedItem as TipoContenuto;
+
+                int res = DBRelationN2NOnlyIndexes<Contenuto_Tipologia>.Delete("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Tipo rimosso correttamente al contenuto", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+        }
     }
 }

@@ -190,13 +190,13 @@
                             <Label x:Name="lbl_contenuti_elimina_Copy" Content="Aggiungi un tipo ad un contenuto:" Canvas.Left="9" Canvas.Top="410" FontWeight="Bold" Width="283"/>
                             <Label x:Name="lbl_addTipoContenuto_contenuto" Content="Contenuto:" FontWeight="Normal" Width="70" Canvas.Left="9" Canvas.Top="436"/>
                             <ComboBox x:Name="cmb_addTipoContenuto_contenuto" Height="20" Width="196" Canvas.Left="96" Canvas.Top="440" FontWeight="Normal" DropDownOpened="cmb_addTipoContenuto_contenuto_DropDownOpened"/>
-                            <Button x:Name="btn_addTipo" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="487" FontWeight="Normal"/>
+                            <Button x:Name="btn_addTipo" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="487" FontWeight="Normal" Click="btn_addTipo_Click"/>
                             <Label x:Name="lbl_addTipoContenuto_contenuto_Copy" Content="Tipo:" FontWeight="Normal" Width="70" Canvas.Left="9" Canvas.Top="457"/>
                             <ComboBox x:Name="cmb_addTipoContenuto_tipo" Height="20" Width="196" Canvas.Left="96" Canvas.Top="462" FontWeight="Normal" DropDownOpened="cmb_addTipoContenuto_tipo_DropDownOpened"/>
                             <Label x:Name="lbl_contenuti_eliminatipo" Content="Rimuovi un tipo ad un contenuto:" Canvas.Left="9" Canvas.Top="503" FontWeight="Bold" Width="283"/>
                             <Label x:Name="lbl_delTipoContenuto_contenuto" Content="Contenuto:" FontWeight="Normal" Width="70" Canvas.Left="9" Canvas.Top="530"/>
                             <ComboBox x:Name="cmb_delTipoContenuto_contenuto" Height="20" Width="196" Canvas.Left="96" Canvas.Top="534" FontWeight="Normal" DropDownOpened="cmb_delTipoContenuto_contenuto_DropDownOpened"/>
-                            <Button x:Name="btn_delTipo" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="581" FontWeight="Normal"/>
+                            <Button x:Name="btn_delTipo" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="581" FontWeight="Normal" Click="btn_delTipo_Click"/>
                             <Label x:Name="lbl_delTipoContenuto_tipo" Content="Tipo:" FontWeight="Normal" Width="70" Canvas.Left="9" Canvas.Top="550"/>
                             <ComboBox x:Name="cmb_delTipoContenuto_tipo" Height="20" Width="196" Canvas.Left="96" Canvas.Top="556" FontWeight="Normal" DropDownOpened="cmb_delTipoContenuto_tipo_DropDownOpened"/>
                         </Canvas>
