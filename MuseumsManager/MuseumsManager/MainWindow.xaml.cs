@@ -2133,7 +2133,7 @@ namespace MuseumsManager
             if(!(cmb_contenuti_elimina is null))
             {
                 Contenuto contenuto = cmb_contenuti_elimina.SelectedItem as Contenuto;
-                int res = DBEntity.Delete<Contenuto>("idContenuto", contenuto.idContenuto);
+                res = DBEntity.Delete<Contenuto>("idContenuto", contenuto.idContenuto);
                 if (checkQueryResult(res))
                     MessageBox.Show("Contenuto eliminato con tutti i sottocontenuti!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
