@@ -1015,7 +1015,10 @@ namespace MuseumsManager
                 cmb_ruolo_selezionaRuolo.SelectedIndex != -1)
             {
                 DBRelationN2NOnlyIndexes<Personale_Tipologia>.Delete("idPersonale", (cmb_ruolo_selezionaPersona.SelectedItem as Personale).idPersonale, "idTipoPersonale", (cmb_ruolo_selezionaRuolo.SelectedItem as TipoPersonale).idTipoPersonale);
+                MessageBox.Show("Ruolo \"" + (cmb_ruolo_selezionaRuolo.SelectedItem as TipoPersonale).Descrizione + "\" eliminato correttamente dal personale \"" + (cmb_ruolo_selezionaPersona.SelectedItem as Personale).ToString() + "\"!", "Operazione eseguita!", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+            else
+                MessageBox.Show("Non tutti i parametri sono stati compilati!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
 
@@ -1952,8 +1955,38 @@ namespace MuseumsManager
 
         private void cmb_ruolo_nuovoRuolo_DropDownOpened(object sender, EventArgs e)
         {
-            cmb_ruolo_nuovoRuolo.ItemsSource = DBObject<TipoPersonale>.SelectAll();
-            cmb_ruolo_nuovoRuolo.DisplayMemberPath = "Descrizione";
+            if (cmb_ruolo_personaSelezionata.SelectedIndex != -1)
+            {
+                Personale personaleSelezionato = cmb_ruolo_personaSelezionata.SelectedItem as Personale;
+                List<Personale_Tipologia> tabellaPersonaleTipologia = new List<Personale_Tipologia>(DBObject<Personale_Tipologia>.SelectAll());
+                List<TipoPersonale> tabellaTipoPersonale = new List<TipoPersonale>(DBObject<TipoPersonale>.SelectAll());
+                List<Personale_Tipologia> parzialePersonaleTipologia = new List<Personale_Tipologia>();
+                List<TipoPersonale> RuoliDisponibili = new List<TipoPersonale>();
+
+                for (int i = 0; i < tabellaPersonaleTipologia.Count; i++)
+                {
+                    if (personaleSelezionato.idPersonale == tabellaPersonaleTipologia[i].idPersonale)
+                    {
+                        parzialePersonaleTipologia.Add(tabellaPersonaleTipologia[i]);
+                    }
+                }
+                bool ok;
+
+                for (int i = 0; i < tabellaTipoPersonale.Count; i++)
+                {
+                    ok = false;
+
+                    for (int j = 0; j < parzialePersonaleTipologia.Count; j++)
+                    {
+                        if (tabellaTipoPersonale[i].idTipoPersonale == parzialePersonaleTipologia[j].idTipoPersonale)
+                            ok = true;
+                    }
+                    if (!ok)
+                        RuoliDisponibili.Add(tabellaTipoPersonale[i]);
+                }
+                cmb_ruolo_nuovoRuolo.ItemsSource = RuoliDisponibili;
+                cmb_ruolo_nuovoRuolo.DisplayMemberPath = "Descrizione";
+            }  
         }
 
         private void cmb_ruolo_selezionaPersona_DropDownOpened(object sender, EventArgs e)
