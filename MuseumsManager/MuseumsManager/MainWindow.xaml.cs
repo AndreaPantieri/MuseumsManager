@@ -853,6 +853,7 @@ namespace MuseumsManager
                     res = DBObject<Contenuto>.Insert("Nome", n, "Descrizione", d, "DataRitrovamento", r.Date.ToString("yyyy-MM-dd"), "DataArrivoMuseo", a.Date.ToString("yyyy-MM-dd"), "idContenutoPadre", cp.idContenuto, "idProvenienza", p.idProvenienza, "idPeriodoStorico", ps.idPeriodoStorico, "idSezione", s.idSezione);
                     if (checkQueryResult(res))
                         MessageBox.Show("Contenuto inserito correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                    cmb_contenuti_padre.ItemsSource = null;
                 }
                 else
                 {
@@ -864,6 +865,11 @@ namespace MuseumsManager
                 DBObject<Creato>.Insert("idCreatore", c.idCreatore, "idContenuto", res);
                 DBObject<Museo_PeriodoStorico>.Insert("idPeriodoStorico", ps.idPeriodoStorico, "idMuseo", museoSelezionato.idMuseo);
                 DBObject<Museo_Provenienza>.Insert("idProvenienza", p.idProvenienza);
+                
+                cmb_contenuti_sezione.ItemsSource = null;
+                cmb_contenuti_provenienza.ItemsSource = null;
+                cmb_contenuti_creatore.ItemsSource = null;
+                cmb_contenuti_periodoStorico.ItemsSource = null;
             }
         }
 
@@ -881,8 +887,81 @@ namespace MuseumsManager
                 int res = DBObject<Contenuto>.GenericProcedure(sqlProcedure);
                 if (checkQueryResult(res))
                     MessageBox.Show("Contenuto eliminato con tutti i sottocontenuti!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                cmb_contenuti_elimina.ItemsSource = null;
             }
         }
+
+        private void btn_addTipo_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(cmb_addTipoContenuto_contenuto.SelectedItem is null) && !(cmb_addTipoContenuto_tipo.SelectedItem is null))
+            {
+                Contenuto c = cmb_addTipoContenuto_contenuto.SelectedItem as Contenuto;
+                TipoContenuto tc = cmb_addTipoContenuto_tipo.SelectedItem as TipoContenuto;
+
+                int res = DBObject<Contenuto_Tipologia>.Insert("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Tipo collegato correttamente al contenuto", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                cmb_addTipoContenuto_contenuto.ItemsSource = null;
+                cmb_addTipoContenuto_tipo.ItemsSource = null;
+            }
+        }
+
+        private void btn_delTipo_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(cmb_delTipoContenuto_contenuto.SelectedItem is null) && !(cmb_delTipoContenuto_tipo.SelectedItem is null))
+            {
+                Contenuto c = cmb_delTipoContenuto_contenuto.SelectedItem as Contenuto;
+                TipoContenuto tc = cmb_delTipoContenuto_tipo.SelectedItem as TipoContenuto;
+
+                int res = DBRelationN2NOnlyIndexes<Contenuto_Tipologia>.Delete("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Tipo rimosso correttamente al contenuto", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                cmb_delTipoContenuto_contenuto.ItemsSource = null;
+                cmb_delTipoContenuto_tipo.ItemsSource = null;
+            }
+        }
+
+        private void btn_addCreatore_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(cmb_addCreatore_creatore.SelectedItem is null) && !(cmb_addCreatore_contenuto.SelectedItem is null))
+            {
+                Creatore cr = cmb_addCreatore_creatore.SelectedItem as Creatore;
+                Contenuto co = cmb_addCreatore_contenuto.SelectedItem as Contenuto;
+                int res = DBObject<Creato>.Insert("idCreatore", cr.idCreatore, "idContenuto", co.idContenuto);
+                if (checkQueryResult(res))
+                {
+                    MessageBox.Show("Creatore collegato a contenuto!", "Operazione eseguita!", MessageBoxButton.OK);
+                    res = DBObject<Museo_Creatore>.Insert("idMuseo", museoSelezionato.idMuseo, "idCreatore", cr.idCreatore);
+                    checkQueryResult(res);
+                    cmb_addCreatore_creatore.ItemsSource = null;
+                    cmb_addCreatore_contenuto.ItemsSource = null;
+                }
+            }
+        }
+
+        private void btn_delCreatore_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(cmb_addCreatore_creatore.SelectedItem is null) && !(cmb_addCreatore_contenuto.SelectedItem is null))
+            {
+                Creatore cr = cmb_addCreatore_creatore.SelectedItem as Creatore;
+                Contenuto co = cmb_addCreatore_contenuto.SelectedItem as Contenuto;
+                int res = DBRelationN2NOnlyIndexes<Creato>.Delete("idCreatore", cr.idCreatore, "idContenuto", co.idContenuto);
+                if (checkQueryResult(res))
+                {
+                    MessageBox.Show("Creatore rimosso dal contenuto!", "Operazione eseguita!", MessageBoxButton.OK);
+                    if (DBObject<Creato>.CustomSelect(new SqlCommand("SELECT Creato.* FROM Creato " +
+                        "INNER JOIN Contenuto ON Creato.idContenuto = Contenuto.idContenuto " +
+                        "INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione" +
+                        "WHERE Sezione.idMuseo = " + museoSelezionato.idMuseo)).Count == 0)
+                        res = DBObject<Museo_Creatore>.Insert("idMuseo", museoSelezionato.idMuseo, "idCreatore", cr.idCreatore);
+                    checkQueryResult(res);
+                    cmb_addCreatore_creatore.ItemsSource = null;
+                    cmb_addCreatore_contenuto.ItemsSource = null;
+                }
+            }
+        }
+
+
 
 
 
@@ -1752,29 +1831,20 @@ namespace MuseumsManager
 
         private void cmb_contenuti_elimina_DropDownOpened(object sender, EventArgs e)
         {
-            if (!(cmb_contenuti_sezione.SelectedItem is null))
-            {
-                cmb_contenuti_elimina.ItemsSource = DBObject<Contenuto>.Select("idSezione", (cmb_contenuti_sezione.SelectedItem as Sezione).idSezione);
-                cmb_contenuti_elimina.DisplayMemberPath = "Nome";
-            }
+            cmb_contenuti_elimina.ItemsSource = DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo));
+            cmb_contenuti_elimina.DisplayMemberPath = "Nome";
         }
 
         private void cmb_addTipoContenuto_contenuto_DropDownOpened(object sender, EventArgs e)
         {
-            if (!(cmb_contenuti_sezione.SelectedItem is null))
-            {
-                cmb_addTipoContenuto_contenuto.ItemsSource = DBObject<Contenuto>.Select("idSezione", (cmb_contenuti_sezione.SelectedItem as Sezione).idSezione);
-                cmb_addTipoContenuto_contenuto.DisplayMemberPath = "Nome";
-            }
+            cmb_addTipoContenuto_contenuto.ItemsSource = DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo));
+            cmb_addTipoContenuto_contenuto.DisplayMemberPath = "Nome";
         }
 
         private void cmb_delTipoContenuto_contenuto_DropDownOpened(object sender, EventArgs e)
         {
-            if (!(cmb_contenuti_sezione.SelectedItem is null))
-            {
-                cmb_delTipoContenuto_contenuto.ItemsSource = DBObject<Contenuto>.Select("idSezione", (cmb_contenuti_sezione.SelectedItem as Sezione).idSezione);
-                cmb_delTipoContenuto_contenuto.DisplayMemberPath = "Nome";
-            }
+            cmb_delTipoContenuto_contenuto.ItemsSource = DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo));
+            cmb_delTipoContenuto_contenuto.DisplayMemberPath = "Nome";
         }
 
         private void cmb_addTipoContenuto_tipo_DropDownOpened(object sender, EventArgs e)
@@ -1788,6 +1858,36 @@ namespace MuseumsManager
             cmb_delTipoContenuto_tipo.ItemsSource = DBObject<TipoContenuto>.SelectAll();
             cmb_delTipoContenuto_tipo.DisplayMemberPath = "Descrizione";
         }
+        private void cmb_addCreatore_creatore_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_addCreatore_creatore.ItemsSource = DBObject<Creatore>.SelectAll();
+            cmb_addCreatore_creatore.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_addCreatore_contenuto_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_addCreatore_contenuto.ItemsSource = DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo));
+            cmb_addCreatore_contenuto.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_delCrearore_contenuto_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_addCreatore_contenuto.ItemsSource = DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo));
+            cmb_addCreatore_contenuto.DisplayMemberPath = "Nome";
+        }
+
+        private void cmb_delCreatore_creatore_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_delCreatore_creatore.ItemsSource = DBObject<Creatore>.SelectAll();
+            cmb_delCreatore_creatore.DisplayMemberPath = "Nome";
+        }
+
+
+
+
+
+
+
 
 
 
@@ -2145,30 +2245,6 @@ namespace MuseumsManager
 
         }
 
-        private void btn_addTipo_Click(object sender, RoutedEventArgs e)
-        {
-            if(!(cmb_addTipoContenuto_contenuto.SelectedItem is null) && !(cmb_addTipoContenuto_tipo.SelectedItem is null))
-            {
-                Contenuto c = cmb_addTipoContenuto_contenuto.SelectedItem as Contenuto;
-                TipoContenuto tc = cmb_addTipoContenuto_tipo.SelectedItem as TipoContenuto;
-
-                int res = DBObject<Contenuto_Tipologia>.Insert("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto);
-                if (checkQueryResult(res))
-                    MessageBox.Show("Tipo collegato correttamente al contenuto", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
-        }
-
-        private void btn_delTipo_Click(object sender, RoutedEventArgs e)
-        {
-            if (!(cmb_delTipoContenuto_contenuto.SelectedItem is null) && !(cmb_delTipoContenuto_tipo.SelectedItem is null))
-            {
-                Contenuto c = cmb_delTipoContenuto_contenuto.SelectedItem as Contenuto;
-                TipoContenuto tc = cmb_delTipoContenuto_tipo.SelectedItem as TipoContenuto;
-
-                int res = DBRelationN2NOnlyIndexes<Contenuto_Tipologia>.Delete("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto);
-                if (checkQueryResult(res))
-                    MessageBox.Show("Tipo rimosso correttamente al contenuto", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
-        }
+        
     }
 }
