@@ -891,6 +891,8 @@ namespace MuseumsManager
                 cmb_contenuti_creatore.ItemsSource = null;
                 cmb_contenuti_periodoStorico.ItemsSource = null;
             }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         /// <summary>
@@ -909,6 +911,8 @@ namespace MuseumsManager
                     MessageBox.Show("Contenuto eliminato con tutti i sottocontenuti!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 cmb_contenuti_elimina.ItemsSource = null;
             }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void btn_addTipo_Click(object sender, RoutedEventArgs e)
@@ -928,6 +932,8 @@ namespace MuseumsManager
                 cmb_addTipoContenuto_contenuto.ItemsSource = null;
                 cmb_addTipoContenuto_tipo.ItemsSource = null;
             }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void btn_delTipo_Click(object sender, RoutedEventArgs e)
@@ -943,6 +949,8 @@ namespace MuseumsManager
                 cmb_delTipoContenuto_contenuto.ItemsSource = null;
                 cmb_delTipoContenuto_tipo.ItemsSource = null;
             }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void btn_addCreatore_Click(object sender, RoutedEventArgs e)
@@ -970,6 +978,8 @@ namespace MuseumsManager
                     MessageBox.Show("Creatore già collegato al contenuto", "ERRORE", MessageBoxButton.OK, MessageBoxImage.Error);
                 
             }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void btn_delCreatore_Click(object sender, RoutedEventArgs e)
@@ -992,6 +1002,8 @@ namespace MuseumsManager
                     cmb_delCrearore_contenuto.ItemsSource = null;
                 }
             }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         /// <summary>
@@ -2517,6 +2529,7 @@ namespace MuseumsManager
                 !(cmb_modificaContenuti_periodoStorico.SelectedItem is null))
             {
                 Contenuto contenuto = cmb_modificaContenuti_contenuto.SelectedItem as Contenuto;
+                int idOldProv = contenuto.idProvenienza, idOldPS = contenuto.idPeriodoStorico;
                 contenuto.Nome = txt_modificaContenuti_nome.Text;
                 contenuto.Descrizione = txt_modificaContenuti_descrizione.Text;
                 contenuto.DataRitrovamento = r;
@@ -2533,7 +2546,14 @@ namespace MuseumsManager
                     "idSezione", contenuto.idSezione, "idProvenienza", contenuto.idProvenienza, "idPeriodoStorico", contenuto.idPeriodoStorico, "idContenutoPadre", contenuto.idContenutoPadre);
                 if (checkQueryResult(res))
                     MessageBox.Show("Contenuto aggiornato", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                if(DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = "+museoSelezionato.idMuseo + " AND Contenuto.idProvenienza = " + idOldProv)).Count == 0)
+                {
+
+                }
             }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
 
 
             cmb_modificaContenuti_contenuto.ItemsSource = null;
