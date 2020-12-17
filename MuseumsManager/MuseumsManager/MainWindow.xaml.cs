@@ -918,9 +918,13 @@ namespace MuseumsManager
                 Contenuto c = cmb_addTipoContenuto_contenuto.SelectedItem as Contenuto;
                 TipoContenuto tc = cmb_addTipoContenuto_tipo.SelectedItem as TipoContenuto;
 
-                int res = DBObject<Contenuto_Tipologia>.Insert("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto);
-                if (checkQueryResult(res))
-                    MessageBox.Show("Tipo collegato correttamente al contenuto", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                if(DBObject<Contenuto_Tipologia>.Select("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto).Count == 0)
+                {
+                    int res = DBObject<Contenuto_Tipologia>.Insert("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto);
+                    if (checkQueryResult(res))
+                        MessageBox.Show("Tipo collegato correttamente al contenuto", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    
+                }
                 cmb_addTipoContenuto_contenuto.ItemsSource = null;
                 cmb_addTipoContenuto_tipo.ItemsSource = null;
             }
