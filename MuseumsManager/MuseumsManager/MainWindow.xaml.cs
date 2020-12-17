@@ -1027,7 +1027,36 @@ namespace MuseumsManager
                 MessageBox.Show("Non tutti i parametri sono stati compilati!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        /// <summary>
+        /// Metodo per l'aggiunta di un nuovo personale all'interno del museo selezionato.
+        /// </summary>
+        private void btn_personale_aggiungi_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmb_personale_ruolo.SelectedIndex != -1 &&
+                !txt_personale_nome.Text.Equals("") &&
+                !txt_personale_nome.Text.Equals("Nome") &&
+                !txt_personale_cognome.Text.Equals("") &&
+                !txt_personale_cognome.Text.Equals("Cognome") &&
+                !txt_personale_cellulare.Text.Equals("") &&
+                !txt_personale_cellulare.Text.Equals("Cellulare") &&
+                !txt_personale_email.Text.Equals("") &&
+                !txt_personale_email.Text.Equals("Email") &&
+                !txt_personale_stipendioOrario.Text.Equals("") &&
+                !txt_personale_stipendioOrario.Text.Equals("Stipendio orario") &&
+                int.TryParse(txt_personale_stipendioOrario.Text, out int stipendio))
+            {
+                int index = DBObject<Personale>.Insert("Nome", txt_personale_nome.Text, "Cognome", txt_personale_cognome.Text, "Cellulare", txt_personale_cellulare.Text, "Email", txt_personale_email.Text, "StipendioOra", stipendio, "idMuseo", museoSelezionato.idMuseo);
 
+                if (checkQueryResult(index))
+                {
+                    DBObject<Personale_Tipologia>.Insert("idPersonale", index, "idTipoPersonale", (cmb_personale_ruolo.SelectedItem as TipoPersonale).idTipoPersonale);
+                    MessageBox.Show("Nuovo personale \"" + txt_personale_nome.Text + " " + txt_personale_cognome.Text + "\" aggiunto correttamente!", "Operazione eseguita!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    lsv_personale.ItemsSource = DBObject<Personale>.SelectAll().Where(p => p.idMuseo == museoSelezionato.idMuseo);
+                }
+            }
+            else
+                MessageBox.Show("Non tutti i parametri sono stati compilati correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
 
         //Eventi GotFocus
 
