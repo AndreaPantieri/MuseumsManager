@@ -1811,8 +1811,6 @@ namespace MuseumsManager
             }
         }
 
-
-        //Sezione eventDropDown di Contenuti
         private void cmb_contenuti_filtroSezione_DropDownOpened(object sender, EventArgs e)
         {
             cmb_contenuti_filtroSezione.ItemsSource = DBObject<Sezione>.Select("idMuseo", museoSelezionato.idMuseo);
@@ -2002,6 +2000,12 @@ namespace MuseumsManager
                 cmb_ruolo_selezionaRuolo.ItemsSource = DBObject<TipoPersonale>.CustomSelect(sqlCommand);
                 cmb_ruolo_selezionaRuolo.DisplayMemberPath = "Descrizione";
             }  
+        }
+
+        private void cmb_personale_ruolo_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_personale_ruolo.ItemsSource = DBObject<TipoPersonale>.SelectAll();
+            cmb_personale_ruolo.DisplayMemberPath = "Descrizione";
         }
 
         //Eventi SelectionChanged
@@ -2516,7 +2520,5 @@ namespace MuseumsManager
                 cmb_modificaContenuti_padre.DisplayMemberPath = "Nome";
             }
         }
-
-
     }
 }
