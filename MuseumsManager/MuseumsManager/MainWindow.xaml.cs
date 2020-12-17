@@ -1067,6 +1067,86 @@ namespace MuseumsManager
                 MessageBox.Show("Non tutti i parametri sono stati compilati correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        /// <summary>
+        /// Evento per aggiornare informazioni di base di un personale selezionato.
+        /// </summary>
+        private void btn_personale_aggiorna_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmb_personale_personaSelezionata.SelectedIndex != -1 &&
+                !txt_personale_nuovoNumero.Text.Equals("") &&
+                !txt_personale_nuovoNumero.Text.Equals("Nuovo numero di cellulare") &&
+                !txt_personale_nuovaEmail.Text.Equals("") &&
+                !txt_personale_nuovaEmail.Text.Equals("Nuova email"))
+            {
+                int index = DBEntity.Update<Personale>("idPersonale", (cmb_personale_personaSelezionata.SelectedItem as Personale).idPersonale, "Cellulare", txt_personale_nuovoNumero.Text, "Email", txt_personale_nuovaEmail.Text);
+                if (checkQueryResult(index))
+                {
+                    MessageBox.Show("Informazioni del personale \"" + (cmb_personale_personaSelezionata.SelectedItem as Personale).ToString() + "\" aggiornate correttamente!", "Operazione eseguita!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    lsv_personale.ItemsSource = DBObject<Personale>.SelectAll().Where(p => p.idMuseo == museoSelezionato.idMuseo);
+                }
+            }
+            else
+                MessageBox.Show("Non tutti i parametri sono stati compilati correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        /// <summary>
+        /// Metodo per modificare lo stipendio di un dipendente.
+        /// E' possibile aggiornarlo unicamente il primo di ogni mese.
+        /// </summary>
+        private void btn_personale_aggiornaStipendio_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime d = DateTime.Today;
+
+            if (d.Day == 1)
+            {
+                if (
+                    cmb_personale_aggiornaStipendio_personaSelezionata.SelectedIndex != -1 &&
+                    !txt_personale_nuovoStipendio.Text.Equals("") &&
+                    !txt_personale_nuovoStipendio.Text.Equals("Nuovo stipendio orario") &&
+                    int.TryParse(txt_personale_nuovoStipendio.Text, out int nuovoStipendio) &&
+                    nuovoStipendio != (cmb_personale_aggiornaStipendio_personaSelezionata.SelectedItem as Personale).StipendioOra)
+                {
+                    int index = DBEntity.Update<Personale>("idPersonale", (cmb_personale_aggiornaStipendio_personaSelezionata.SelectedItem as Personale).idPersonale, "StipendioOra", nuovoStipendio);
+                    if (checkQueryResult(index))
+                    {
+                        MessageBox.Show("Stipendio del personale \"" + (cmb_personale_aggiornaStipendio_personaSelezionata.SelectedItem as Personale).ToString() + "\" aggiornato correttamente!", "Operazione eseguita!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        lsv_personale.ItemsSource = DBObject<Personale>.SelectAll().Where(p => p.idMuseo == museoSelezionato.idMuseo);
+                    }
+                }
+                else
+                    MessageBox.Show("Parametro non modificato correttamente o invariato!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+                MessageBox.Show("E' possibile aggiornare gli stipendi dei lavoratori soltanto il primo di ogni mese!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        /// <summary>
+        /// Metodo per licenziare un dipendente.
+        /// E' possibile licenziare unicamente il primo di ogni mese.
+        /// </summary>
+        private void btn_personale_licenzia_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime d = DateTime.Today;
+
+            if (d.Day == 1)
+            {
+                if (
+                    cmb_personale_licenziaSelezionata.SelectedIndex != -1)
+                {
+                    int index = DBEntity.Delete<Personale>("idPersonale", (cmb_personale_licenziaSelezionata.SelectedItem as Personale).idPersonale);
+                    if (checkQueryResult(index))
+                    {
+                        MessageBox.Show("Il personale \"" + (cmb_personale_licenziaSelezionata.SelectedItem as Personale).ToString() + "\" è stato licenziato/a correttamente!", "Operazione eseguita!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        lsv_personale.ItemsSource = DBObject<Personale>.SelectAll().Where(p => p.idMuseo == museoSelezionato.idMuseo);
+                    }
+                }
+                else
+                    MessageBox.Show("Nessun personale selezionato!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+                MessageBox.Show("E' possibile licenziare un personale soltanto il primo di ogni mese!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
         //Eventi GotFocus
 
         private void txt_categoriaMuseo_descrizione_GotFocus(object sender, RoutedEventArgs e)
@@ -1923,7 +2003,7 @@ namespace MuseumsManager
             }
 
         }
-
+        
         private void cmb_contenuti_elimina_DropDownOpened(object sender, EventArgs e)
         {
             cmb_contenuti_elimina.ItemsSource = DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo));
@@ -2047,6 +2127,21 @@ namespace MuseumsManager
         {
             cmb_personale_ruolo.ItemsSource = DBObject<TipoPersonale>.SelectAll();
             cmb_personale_ruolo.DisplayMemberPath = "Descrizione";
+        }
+
+        private void cmb_personale_personaSelezionata_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_personale_personaSelezionata.ItemsSource = DBObject<Personale>.SelectAll().Where(p => p.idMuseo == museoSelezionato.idMuseo);
+        }
+
+        private void cmb_personale_aggiornaStipendio_personaSelezionata_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_personale_aggiornaStipendio_personaSelezionata.ItemsSource = DBObject<Personale>.SelectAll().Where(p => p.idMuseo == museoSelezionato.idMuseo);
+        }
+
+        private void cmb_personale_licenziaSelezionata_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_personale_licenziaSelezionata.ItemsSource = DBObject<Personale>.SelectAll().Where(p => p.idMuseo == museoSelezionato.idMuseo);
         }
 
         //Eventi SelectionChanged
@@ -2339,7 +2434,28 @@ namespace MuseumsManager
                 cmb_ruolo_selezionaRuolo.ItemsSource = null;
         }
 
+        /// <summary>
+        /// Evento per mostrare i dati di un personale  prima di modificarlo.
+        /// Resetta le textbox al valore di default se nulla è selezionato.
+        /// </summary>
+        private void cmb_personale_personaSelezionata_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            txt_personale_nuovoNumero.FontStyle = FontStyles.Italic;
+            txt_personale_nuovoNumero.Foreground = Brushes.Gray;
+            txt_personale_nuovaEmail.FontStyle = FontStyles.Italic;
+            txt_personale_nuovaEmail.Foreground = Brushes.Gray;
 
+            if (cmb_personale_personaSelezionata.SelectedIndex != -1)
+            {
+                txt_personale_nuovoNumero.Text = (cmb_personale_personaSelezionata.SelectedItem as Personale).Cellulare;
+                txt_personale_nuovaEmail.Text = (cmb_personale_personaSelezionata.SelectedItem as Personale).Email;
+            }
+            else
+            {
+                txt_personale_nuovoNumero.Text = "Nuovo numero di cellulare";
+                txt_personale_nuovaEmail.Text = "Nuova email";
+            }
+        }
 
 
 
