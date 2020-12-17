@@ -2448,16 +2448,16 @@ namespace MuseumsManager
                 txt_modificaContenuti_descrizione.Text = contenuto.Descrizione;
                 txt_modificaContenuti_dataRitrovamento.Text = contenuto.DataRitrovamento.Date.ToString("yyyy-MM-dd");
                 txt_modificaContenuti_dataArrivo.Text = contenuto.DataArrivoMuseo.Date.ToString("yyyy-MM-dd");
-                cmb_modificaContenuti_sezione.SelectedIndex = s.IndexOf(s.Where(tmp => tmp.idSezione == contenuto.idSezione).First());
-                cmb_modificaContenuti_provenienza.SelectedIndex = p.IndexOf(p.Where(tmp => tmp.idProvenienza == contenuto.idProvenienza).First());
-                cmb_modificaContenuti_periodoStorico.SelectedIndex = ps.IndexOf(ps.Where(tmp => tmp.idPeriodoStorico == contenuto.idPeriodoStorico).First());
+                cmb_modificaContenuti_sezione.SelectedIndex = s.IndexOf(s.Where(tmp => tmp.idSezione == contenuto.idSezione).FirstOrDefault());
+                cmb_modificaContenuti_provenienza.SelectedIndex = p.IndexOf(p.Where(tmp => tmp.idProvenienza == contenuto.idProvenienza).FirstOrDefault());
+                cmb_modificaContenuti_periodoStorico.SelectedIndex = ps.IndexOf(ps.Where(tmp => tmp.idPeriodoStorico == contenuto.idPeriodoStorico).FirstOrDefault());
 
                 if (!(cmb_modificaContenuti_sezione.SelectedItem is null))
                 {
                     List<Contenuto> pa = DBObject<Contenuto>.Select("idSezione", (cmb_modificaContenuti_sezione.SelectedItem as Sezione).idSezione);
                     cmb_modificaContenuti_padre.ItemsSource = pa;
                     cmb_modificaContenuti_padre.DisplayMemberPath = "Nome";
-                    cmb_modificaContenuti_padre.SelectedIndex = pa.IndexOf(pa.Where(tmp => tmp.idContenuto == contenuto.idContenutoPadre).First());
+                    cmb_modificaContenuti_padre.SelectedIndex = pa.IndexOf(pa.Where(tmp => tmp.idContenuto == contenuto.idContenutoPadre).FirstOrDefault());
                 }
             }
         }
