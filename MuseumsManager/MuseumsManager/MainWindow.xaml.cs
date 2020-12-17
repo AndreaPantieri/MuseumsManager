@@ -926,7 +926,7 @@ namespace MuseumsManager
                 {
                     int res = DBObject<Contenuto_Tipologia>.Insert("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto);
                     if (checkQueryResult(res))
-                        MessageBox.Show("Tipo collegato correttamente al contenuto", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        MessageBox.Show("Tipo collegato correttamente al contenuto", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                     
                 }
                 cmb_addTipoContenuto_contenuto.ItemsSource = null;
@@ -945,7 +945,7 @@ namespace MuseumsManager
 
                 int res = DBRelationN2NOnlyIndexes<Contenuto_Tipologia>.Delete("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto);
                 if (checkQueryResult(res))
-                    MessageBox.Show("Tipo rimosso correttamente al contenuto", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBox.Show("Tipo di contenuto rimosso correttamente dal contenuto", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 cmb_delTipoContenuto_contenuto.ItemsSource = null;
                 cmb_delTipoContenuto_tipo.ItemsSource = null;
             }
@@ -964,7 +964,7 @@ namespace MuseumsManager
                     int res = DBObject<Creato>.Insert("idCreatore", cr.idCreatore, "idContenuto", co.idContenuto);
                     if (checkQueryResult(res))
                     {
-                        MessageBox.Show("Creatore collegato a contenuto!", "Operazione eseguita!", MessageBoxButton.OK);
+                        MessageBox.Show("Creatore collegato correttamente al contenuto!", "Operazione eseguita!", MessageBoxButton.OK, MessageBoxImage.Information);
                         if (DBObject<Museo_Creatore>.Select("idMuseo", museoSelezionato.idMuseo, "idCreatore", cr.idCreatore).Count == 0)
                         {
                             res = DBObject<Museo_Creatore>.Insert("idMuseo", museoSelezionato.idMuseo, "idCreatore", cr.idCreatore);
@@ -991,7 +991,7 @@ namespace MuseumsManager
                 int res = DBRelationN2NOnlyIndexes<Creato>.Delete("idCreatore", cr.idCreatore, "idContenuto", co.idContenuto);
                 if (checkQueryResult(res))
                 {
-                    MessageBox.Show("Creatore rimosso dal contenuto!", "Operazione eseguita!", MessageBoxButton.OK);
+                    MessageBox.Show("Creatore rimosso dal contenuto!", "Operazione eseguita!", MessageBoxButton.OK, MessageBoxImage.Information);
                     if (DBObject<Creato>.CustomSelect(new SqlCommand("SELECT Creato.* FROM Creato " +
                         "INNER JOIN Contenuto ON Creato.idContenuto = Contenuto.idContenuto " +
                         "INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
