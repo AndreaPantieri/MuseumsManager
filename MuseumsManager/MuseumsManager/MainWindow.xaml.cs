@@ -947,36 +947,45 @@ namespace MuseumsManager
             {
                 Creatore cr = cmb_addCreatore_creatore.SelectedItem as Creatore;
                 Contenuto co = cmb_addCreatore_contenuto.SelectedItem as Contenuto;
-                int res = DBObject<Creato>.Insert("idCreatore", cr.idCreatore, "idContenuto", co.idContenuto);
-                if (checkQueryResult(res))
+                if (DBObject<Creato>.Select("idCreatore", cr.idCreatore, "idContenuto", co.idContenuto).Count == 0)
                 {
-                    MessageBox.Show("Creatore collegato a contenuto!", "Operazione eseguita!", MessageBoxButton.OK);
-                    res = DBObject<Museo_Creatore>.Insert("idMuseo", museoSelezionato.idMuseo, "idCreatore", cr.idCreatore);
-                    checkQueryResult(res);
-                    cmb_addCreatore_creatore.ItemsSource = null;
-                    cmb_addCreatore_contenuto.ItemsSource = null;
+                    int res = DBObject<Creato>.Insert("idCreatore", cr.idCreatore, "idContenuto", co.idContenuto);
+                    if (checkQueryResult(res))
+                    {
+                        MessageBox.Show("Creatore collegato a contenuto!", "Operazione eseguita!", MessageBoxButton.OK);
+                        if (DBObject<Museo_Creatore>.Select("idMuseo", museoSelezionato.idMuseo, "idCreatore", cr.idCreatore).Count == 0)
+                        {
+                            res = DBObject<Museo_Creatore>.Insert("idMuseo", museoSelezionato.idMuseo, "idCreatore", cr.idCreatore);
+                            checkQueryResult(res);
+                        }
+                        cmb_addCreatore_creatore.ItemsSource = null;
+                        cmb_addCreatore_contenuto.ItemsSource = null;
+                    }
                 }
+                else
+                    MessageBox.Show("Creatore già collegato al contenuto", "ERRORE", MessageBoxButton.OK, MessageBoxImage.Error);
+                
             }
         }
 
         private void btn_delCreatore_Click(object sender, RoutedEventArgs e)
         {
-            if (!(cmb_addCreatore_creatore.SelectedItem is null) && !(cmb_addCreatore_contenuto.SelectedItem is null))
+            if (!(cmb_delCreatore_creatore.SelectedItem is null) && !(cmb_delCrearore_contenuto.SelectedItem is null))
             {
-                Creatore cr = cmb_addCreatore_creatore.SelectedItem as Creatore;
-                Contenuto co = cmb_addCreatore_contenuto.SelectedItem as Contenuto;
+                Creatore cr = cmb_delCreatore_creatore.SelectedItem as Creatore;
+                Contenuto co = cmb_delCrearore_contenuto.SelectedItem as Contenuto;
                 int res = DBRelationN2NOnlyIndexes<Creato>.Delete("idCreatore", cr.idCreatore, "idContenuto", co.idContenuto);
                 if (checkQueryResult(res))
                 {
                     MessageBox.Show("Creatore rimosso dal contenuto!", "Operazione eseguita!", MessageBoxButton.OK);
                     if (DBObject<Creato>.CustomSelect(new SqlCommand("SELECT Creato.* FROM Creato " +
                         "INNER JOIN Contenuto ON Creato.idContenuto = Contenuto.idContenuto " +
-                        "INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione" +
+                        "INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
                         "WHERE Sezione.idMuseo = " + museoSelezionato.idMuseo)).Count == 0)
                         res = DBObject<Museo_Creatore>.Insert("idMuseo", museoSelezionato.idMuseo, "idCreatore", cr.idCreatore);
                     checkQueryResult(res);
-                    cmb_addCreatore_creatore.ItemsSource = null;
-                    cmb_addCreatore_contenuto.ItemsSource = null;
+                    cmb_delCreatore_creatore.ItemsSource = null;
+                    cmb_delCrearore_contenuto.ItemsSource = null;
                 }
             }
         }
@@ -1928,8 +1937,8 @@ namespace MuseumsManager
 
         private void cmb_delCrearore_contenuto_DropDownOpened(object sender, EventArgs e)
         {
-            cmb_addCreatore_contenuto.ItemsSource = DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo));
-            cmb_addCreatore_contenuto.DisplayMemberPath = "Nome";
+            cmb_delCrearore_contenuto.ItemsSource = DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo));
+            cmb_delCrearore_contenuto.DisplayMemberPath = "Nome";
         }
 
         private void cmb_delCreatore_creatore_DropDownOpened(object sender, EventArgs e)
