@@ -183,7 +183,7 @@
                             <TextBox x:Name="txt_contenuti_dataArrivo" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Data di arrivo al museo" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="186" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_contenuti_dataArrivo_GotFocus" LostFocus="txt_contenuti_dataArrivo_LostFocus"/>
                             <ComboBox x:Name="cmb_contenuti_provenienza" Height="26" Width="170" Canvas.Left="123" Canvas.Top="214" FontWeight="Normal" DropDownOpened="cmb_contenuti_provenienza_DropDownOpened"/>
                             <Label x:Name="lbl_contenuti_provenienza" Content="Provenienza:" Canvas.Left="10" Canvas.Top="214" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
-                            <ComboBox x:Name="cmb_contenuti_creatore" Height="26" Width="170" Canvas.Left="123" Canvas.Top="245" FontWeight="Normal" DropDownOpened="cmb_contenuti_creatore_DropDownOpened"/>
+                            <ComboBox x:Name="cmb_contenuti_creatore" Height="26" Width="170" Canvas.Left="123" Canvas.Top="245" FontWeight="Normal" DropDownOpened="cmb_contenuti_creatore_DropDownOpened" DisplayMemberPath="{Binding}"/>
                             <Label x:Name="lbl_contenuti_creatore" Content="Creatore:" Canvas.Left="10" Canvas.Top="245" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
                             <ComboBox x:Name="cmb_contenuti_periodoStorico" Height="26" Width="170" Canvas.Left="123" Canvas.Top="276" FontWeight="Normal" DropDownOpened="cmb_contenuti_periodoStorico_DropDownOpened"/>
                             <Label x:Name="lbl_contenuti_periodoStorico" Content="Periodo Storico:" Canvas.Left="10" Canvas.Top="276" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
@@ -231,7 +231,7 @@
                         <Canvas x:Name="cnv_addDelCreatore" Margin="0,0,-2,-4">
                             <Label x:Name="lbl_addCreatore" Content="Aggiungi un creatore ad un contenuto:" Canvas.Left="9" Canvas.Top="0" FontWeight="Bold" Width="283"/>
                             <Label x:Name="lbl_addCreatore_creatore" Content="Creatore:" FontWeight="Normal" Width="70" Canvas.Left="9" Canvas.Top="26"/>
-                            <ComboBox x:Name="cmb_addCreatore_creatore" Height="20" Width="196" Canvas.Left="96" Canvas.Top="30" FontWeight="Normal" DropDownOpened="cmb_addCreatore_creatore_DropDownOpened"/>
+                            <ComboBox x:Name="cmb_addCreatore_creatore" Height="20" Width="196" Canvas.Left="96" Canvas.Top="30" FontWeight="Normal" DropDownOpened="cmb_addCreatore_creatore_DropDownOpened" DisplayMemberPath="{Binding}"/>
                             <Button x:Name="btn_addCreatore" Content="Aggiungi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="77" FontWeight="Normal" Click="btn_addCreatore_Click"/>
                             <Label x:Name="lbl_addCreatore_contenuto" Content="Contenuto:" FontWeight="Normal" Width="70" Canvas.Left="9" Canvas.Top="47"/>
                             <ComboBox x:Name="cmb_addCreatore_contenuto" Height="20" Width="196" Canvas.Left="96" Canvas.Top="52" FontWeight="Normal" DropDownOpened="cmb_addCreatore_contenuto_DropDownOpened"/>
@@ -240,7 +240,7 @@
                             <ComboBox x:Name="cmb_delCrearore_contenuto" Height="20" Width="196" Canvas.Left="96" Canvas.Top="124" FontWeight="Normal" DropDownOpened="cmb_delCrearore_contenuto_DropDownOpened"/>
                             <Button x:Name="btn_delCreatore" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="211" Canvas.Top="171" FontWeight="Normal" Click="btn_delCreatore_Click"/>
                             <Label x:Name="lbl_delCreatore_creatore" Content="Creatore:" FontWeight="Normal" Width="70" Canvas.Left="9" Canvas.Top="140"/>
-                            <ComboBox x:Name="cmb_delCreatore_creatore" Height="20" Width="196" Canvas.Left="96" Canvas.Top="146" FontWeight="Normal" DropDownOpened="cmb_delCreatore_creatore_DropDownOpened"/>
+                            <ComboBox x:Name="cmb_delCreatore_creatore" Height="20" Width="196" Canvas.Left="96" Canvas.Top="146" FontWeight="Normal" DropDownOpened="cmb_delCreatore_creatore_DropDownOpened" DisplayMemberPath="{Binding}"/>
                         </Canvas>
                     </GroupBox>
                     <ListView x:Name="lsv_contenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,241,657,228" >
@@ -250,7 +250,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <ListView x:Name="lsv_sottocontenuti" ItemsSource="{Binding lsv_contenuti.SelectedItem.Figli}" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,657,10" >
+                    <ListView x:Name="lsv_sottocontenuti" ItemsSource="{Binding SelectedItem.Figli, ElementName=lsv_contenuti}" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,657,10" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Nome}" />

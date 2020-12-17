@@ -875,10 +875,16 @@ namespace MuseumsManager
                     if (checkQueryResult(res))
                         MessageBox.Show("Contenuto inserito correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                DBObject<Museo_Creatore>.Insert("idCreatore", c.idCreatore, "idMuseo", museoSelezionato.idMuseo);
+                if(DBObject<Museo_Creatore>.Select("idCreatore", c.idCreatore, "idMuseo", museoSelezionato.idMuseo).Count == 0)
+                    DBObject<Museo_Creatore>.Insert("idCreatore", c.idCreatore, "idMuseo", museoSelezionato.idMuseo);
+
                 DBObject<Creato>.Insert("idCreatore", c.idCreatore, "idContenuto", res);
-                DBObject<Museo_PeriodoStorico>.Insert("idPeriodoStorico", ps.idPeriodoStorico, "idMuseo", museoSelezionato.idMuseo);
-                DBObject<Museo_Provenienza>.Insert("idProvenienza", p.idProvenienza);
+
+                if (DBObject<Museo_PeriodoStorico>.Select("idPeriodoStorico", ps.idPeriodoStorico, "idMuseo", museoSelezionato.idMuseo).Count == 0)
+                    DBObject<Museo_PeriodoStorico>.Insert("idPeriodoStorico", ps.idPeriodoStorico, "idMuseo", museoSelezionato.idMuseo);
+
+                if (DBObject<Museo_Provenienza>.Select("idProvenienza", p.idProvenienza, "idMuseo", museoSelezionato.idMuseo).Count == 0)
+                    DBObject<Museo_Provenienza>.Insert("idProvenienza", p.idProvenienza, "idMuseo", museoSelezionato.idMuseo);
                 
                 cmb_contenuti_sezione.ItemsSource = null;
                 cmb_contenuti_provenienza.ItemsSource = null;
@@ -1862,7 +1868,6 @@ namespace MuseumsManager
         private void cmb_contenuti_creatore_DropDownOpened(object sender, EventArgs e)
         {
             cmb_contenuti_creatore.ItemsSource = DBObject<Creatore>.SelectAll();
-            cmb_contenuti_creatore.DisplayMemberPath = "{Binding}";
         }
 
         private void cmb_contenuti_periodoStorico_DropDownOpened(object sender, EventArgs e)
@@ -1913,7 +1918,6 @@ namespace MuseumsManager
         private void cmb_addCreatore_creatore_DropDownOpened(object sender, EventArgs e)
         {
             cmb_addCreatore_creatore.ItemsSource = DBObject<Creatore>.SelectAll();
-            cmb_addCreatore_creatore.DisplayMemberPath = "Nome";
         }
 
         private void cmb_addCreatore_contenuto_DropDownOpened(object sender, EventArgs e)
@@ -1931,7 +1935,6 @@ namespace MuseumsManager
         private void cmb_delCreatore_creatore_DropDownOpened(object sender, EventArgs e)
         {
             cmb_delCreatore_creatore.ItemsSource = DBObject<Creatore>.SelectAll();
-            cmb_delCreatore_creatore.DisplayMemberPath = "Nome";
         }
 
         private void cmb_sezioni_elimina_DropDownOpened(object sender, EventArgs e)
