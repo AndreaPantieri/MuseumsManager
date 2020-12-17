@@ -1970,7 +1970,6 @@ namespace MuseumsManager
             SqlCommand sqlCommand = new SqlCommand("SELECT Creatore.* FROM Creatore INNER JOIN Museo_Creatore ON Creatore.idCreatore = Museo_Creatore.idCreatore WHERE Museo_Creatore.idMuseo = @idMuseo;");
             sqlCommand.Parameters.AddWithValue("@idMuseo", museoSelezionato.idMuseo);
             cmb_contenuti_filtroCreatore.ItemsSource = DBObject<Creatore>.CustomSelect(sqlCommand);
-            cmb_contenuti_filtroCreatore.DisplayMemberPath = "Nome";
         }
 
         private void cmb_contenuti_filtroPeriodoStorico_DropDownOpened(object sender, EventArgs e)
