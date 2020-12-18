@@ -2045,8 +2045,12 @@ namespace MuseumsManager
 
         private void cmb_delTipoContenuto_tipo_DropDownOpened(object sender, EventArgs e)
         {
-            cmb_delTipoContenuto_tipo.ItemsSource = DBObject<TipoContenuto>.SelectAll();
-            cmb_delTipoContenuto_tipo.DisplayMemberPath = "Descrizione";
+            if(cmb_delTipoContenuto_contenuto.SelectedIndex != -1)
+            {
+                int idContenuto = (cmb_delTipoContenuto_contenuto.SelectedItem as Contenuto).idContenuto;
+                cmb_delTipoContenuto_tipo.ItemsSource = DBObject<TipoContenuto>.CustomSelect(new SqlCommand("SELECT TipoContenuto.* FROM TipoContenuto INNER JOIN Contenuto_Tipologia ON TipoContenuto.idTipoContenuto = Contenuto_Tipologia.idTipoContenuto WHERE Contenuto_Tipologia.idContenuto = "+ idContenuto));
+                cmb_delTipoContenuto_tipo.DisplayMemberPath = "Descrizione";
+            }
         }
         private void cmb_addCreatore_creatore_DropDownOpened(object sender, EventArgs e)
         {
@@ -2067,7 +2071,11 @@ namespace MuseumsManager
 
         private void cmb_delCreatore_creatore_DropDownOpened(object sender, EventArgs e)
         {
-            cmb_delCreatore_creatore.ItemsSource = DBObject<Creatore>.SelectAll();
+            if(cmb_delCrearore_contenuto.SelectedIndex != -1)
+            {
+                int idContenuto = (cmb_delCrearore_contenuto.SelectedItem as Contenuto).idContenuto;
+                cmb_delCreatore_creatore.ItemsSource = DBObject<Creatore>.CustomSelect(new SqlCommand("SELECT Creatore.* FROM Creatore INNER JOIN Creato ON Creatore.idCreatore = Creato.idCreatore WHERE Creato.idContenuto = " + idContenuto));
+            }
         }
 
         private void cmb_sezioni_elimina_DropDownOpened(object sender, EventArgs e)
