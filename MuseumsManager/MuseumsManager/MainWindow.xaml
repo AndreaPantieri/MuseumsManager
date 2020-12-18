@@ -415,84 +415,84 @@
             </TabItem>
             <TabItem x:Name="tbi_statistiche" Header="Statistiche Museo" IsEnabled="False">
                 <Grid x:Name="grid_statistiche">
-                    <Canvas Height="642" VerticalAlignment="Top">
-                        <Label Content="Spese totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="202" FontWeight="Normal"/>
-                        <Label Content="Ricavo:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="233" FontWeight="Normal" Width="74"/>
-                        <Label Content="Fatturato:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="264" FontWeight="Normal" Width="74"/>
-                        <Label Content="Numero di biglietti venduti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="55" FontWeight="Normal" Width="203"/>
-                        <Label Content="Numero di manutenzioni svolte:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="86" FontWeight="Normal" Width="203"/>
-                        <Label Content="Numero di nuovi contenuti aggiunti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="117" FontWeight="Normal"/>
-                        <Label Content="Numero di giorni di chiusura totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="148" FontWeight="Normal" Width="203"/>
-                        <Label Content="Statistiche attuali di questo mese:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="566" FontSize="16"/>
-                        <GroupBox Header="Statistiche mensili passate" HorizontalAlignment="Left" Height="249" VerticalAlignment="Top" Width="604" Canvas.Left="625" Canvas.Top="10" FontWeight="Bold">
-                            <Canvas Margin="0,0,0,0">
-                                <Label Content="Spese totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="403" Canvas.Top="77" FontWeight="Normal"/>
-                                <Label Content="Ricavo:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="403" Canvas.Top="108" FontWeight="Normal" Width="74"/>
-                                <Label Content="Fatturato:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="403" Canvas.Top="139" FontWeight="Normal" Width="74"/>
-                                <Label Content="Numero di biglietti venduti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="77" FontWeight="Normal" Width="202"/>
-                                <Label Content="Numero di manutenzioni svolte:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="108" FontWeight="Normal" Width="202"/>
-                                <Label Content="Numero di nuovi contenuti aggiunti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="139" FontWeight="Normal"/>
-                                <Label Content="Numero di giorni di chiusura totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="36" Canvas.Top="170" FontWeight="Normal" Width="202"/>
-                                <Label Content="Statistiche dei mesi-anni passati:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="566" FontSize="16"/>
-                                <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Canvas.Left="113" Canvas.Top="46" Height="26"/>
-                                <Label Content="Mese-anno:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="46" FontWeight="Normal"/>
-                                <Label Content="Le statistiche mensili/annuali vengono salvate automaticamente ogni primo del mese/anno!" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="94" Canvas.Top="201" FontWeight="Normal" Width="498" Foreground="Red"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="156" Canvas.Left="242" Canvas.Top="77" FontWeight="Normal"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="156" Canvas.Left="242" Canvas.Top="108" FontWeight="Normal"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="155" Canvas.Left="243" Canvas.Top="139" FontWeight="Normal"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="155" Canvas.Left="243" Canvas.Top="170" FontWeight="Normal"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Canvas.Left="482" Canvas.Top="77" FontWeight="Normal"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Canvas.Left="482" Canvas.Top="108" FontWeight="Normal"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Canvas.Left="482" Canvas.Top="139" FontWeight="Normal"/>
+                    <Canvas x:Name="cnv_statistiche" Height="642" VerticalAlignment="Top">
+                        <GroupBox x:Name="gpb_statisticheMuseo_mesiPassati" Header="Statistiche mensili passate" HorizontalAlignment="Left" Height="249" VerticalAlignment="Top" Width="604" Canvas.Left="625" Canvas.Top="10" FontWeight="Bold">
+                            <Canvas x:Name="cnv_statisticheMuseo_mesiPassati" Margin="0,0,0,0">
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_speseTotali" Content="Spese totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="403" Canvas.Top="77" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_ricavo" Content="Ricavo:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="403" Canvas.Top="108" FontWeight="Normal" Width="74"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_fatturato" Content="Fatturato:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="403" Canvas.Top="139" FontWeight="Normal" Width="74"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_numeroBigliettiVenduti" Content="Numero di biglietti venduti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="77" FontWeight="Normal" Width="202"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_numeroManutenzioniSvolte" Content="Numero di manutenzioni svolte:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="108" FontWeight="Normal" Width="202"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_numeroNuoviContenuti" Content="Numero di nuovi contenuti aggiunti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="139" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_numeroGiorniChiusura" Content="Numero di giorni di chiusura totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="36" Canvas.Top="170" FontWeight="Normal" Width="202"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_statisticheMesiAnniPassati" Content="Statistiche dei mesi-anni passati:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="566" FontSize="16"/>
+                                <ComboBox x:Name="cmb_statisticheMuseo_mesePassato_selezionaMeseAnno" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Canvas.Left="113" Canvas.Top="46" Height="26"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_meseAnno" Content="Mese-anno:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="46" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_avviso" Content="Le statistiche mensili/annuali vengono salvate automaticamente ogni primo del mese/anno!" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="94" Canvas.Top="201" FontWeight="Normal" Width="498" Foreground="Red"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_valoreNumeroBigliettiVenduti" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="156" Canvas.Left="242" Canvas.Top="77" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_valoreNumeroManutenzioniSvolte" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="156" Canvas.Left="242" Canvas.Top="108" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_valoreNumeroNuoviContenuti" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="155" Canvas.Left="243" Canvas.Top="139" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_valoreNumeroGiorniChiusura" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="155" Canvas.Left="243" Canvas.Top="170" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_valoreSpeseTotali" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Canvas.Left="482" Canvas.Top="77" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_valoreRicavo" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Canvas.Left="482" Canvas.Top="108" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_mesePassato_valoreFatturato" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Canvas.Left="482" Canvas.Top="139" FontWeight="Normal"/>
                             </Canvas>
                         </GroupBox>
-                        <Button Content="Calcola" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="37" Canvas.Top="295"/>
-                        <Label Content="Numero di biglietti venduti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="395" FontWeight="Normal" Width="203"/>
-                        <Label Content="Numero di manutenzioni svolte:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="426" FontWeight="Normal" Width="203"/>
-                        <Label Content="Numero di nuovi contenuti aggiunti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="457" FontWeight="Normal"/>
-                        <Label Content="Numero di giorni di chiusura totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="488" FontWeight="Normal" Width="203"/>
-                        <Label Content="Statistiche attuali di questo anno:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="350" FontWeight="Bold" Width="566" FontSize="16"/>
-                        <Label Content="Spese totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="519" FontWeight="Normal"/>
-                        <Label Content="Ricavo:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="550" FontWeight="Normal" Width="74"/>
-                        <Label Content="Fatturato:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="581" FontWeight="Normal" Width="75"/>
-                        <Button Content="Calcola" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="37" Canvas.Top="612"/>
-                        <GroupBox Header="Statistiche dell'anno corrente e passati" HorizontalAlignment="Left" Height="249" VerticalAlignment="Top" Width="604" Canvas.Left="625" Canvas.Top="383" FontWeight="Bold">
-                            <Canvas Margin="0,0,0,0">
-                                <Label Content="Spese totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="403" Canvas.Top="77" FontWeight="Normal"/>
-                                <Label Content="Ricavo:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="403" Canvas.Top="108" FontWeight="Normal" Width="74"/>
-                                <Label Content="Fatturato:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="403" Canvas.Top="139" FontWeight="Normal" Width="74"/>
-                                <Label Content="Numero di biglietti venduti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="77" FontWeight="Normal" Width="202"/>
-                                <Label Content="Numero di manutenzioni svolte:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="108" FontWeight="Normal" Width="202"/>
-                                <Label Content="Numero di nuovi contenuti aggiunti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="139" FontWeight="Normal"/>
-                                <Label Content="Numero di giorni di chiusura totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="36" Canvas.Top="170" FontWeight="Normal" Width="202"/>
-                                <Label Content="Statistiche di anno corrente e passati:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="566" FontSize="16"/>
-                                <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Canvas.Left="113" Canvas.Top="46" Height="26"/>
-                                <Label Content="Anno:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="46" FontWeight="Normal" Width="73" HorizontalContentAlignment="Right"/>
-                                <Label Content="Le statistiche annuali sono disponibili per essere calcolate dal primo giorno dell'anno successivo!" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="69" Canvas.Top="201" FontWeight="Normal" Width="523" Foreground="Red"/>
-                                <Button Content="Calcola" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="507" Canvas.Top="170" FontWeight="Normal"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="156" Canvas.Left="242" Canvas.Top="77" FontWeight="Normal"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="156" Canvas.Left="242" Canvas.Top="108" FontWeight="Normal"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="155" Canvas.Left="243" Canvas.Top="139" FontWeight="Normal"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="155" Canvas.Left="243" Canvas.Top="170" FontWeight="Normal"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Canvas.Left="482" Canvas.Top="77" FontWeight="Normal"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Canvas.Left="482" Canvas.Top="108" FontWeight="Normal"/>
-                                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Canvas.Left="482" Canvas.Top="139" FontWeight="Normal"/>
+                        <GroupBox x:Name="gpb_statisticheMuseo_AnniPassati" Header="Statistiche dell'anno corrente e passati" HorizontalAlignment="Left" Height="249" VerticalAlignment="Top" Width="604" Canvas.Left="625" Canvas.Top="383" FontWeight="Bold">
+                            <Canvas x:Name="cnv_statisticheMuseo_AnniPassati" Margin="0,0,0,0">
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_avviso" Content="Le statistiche annuali sono disponibili per essere calcolate dal primo giorno dell'anno successivo!" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="69" Canvas.Top="201" FontWeight="Normal" Width="523" Foreground="Red"/>
+                                <Button x:Name="btn_statisticheMuseo_annoPassato_calcola" Content="Calcola" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="507" Canvas.Top="170" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_speseTotali" Content="Spese totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="403" Canvas.Top="77" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_ricavo" Content="Ricavo:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="403" Canvas.Top="108" FontWeight="Normal" Width="74"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_fatturato" Content="Fatturato:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="403" Canvas.Top="139" FontWeight="Normal" Width="74"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_numeroBigliettiVenduti" Content="Numero di biglietti venduti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="77" FontWeight="Normal" Width="202"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_numeroManutenzioniSvolte" Content="Numero di manutenzioni svolte:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="108" FontWeight="Normal" Width="202"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_numeroNuoviContenuti" Content="Numero di nuovi contenuti aggiunti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="139" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_numeroGiorniChiusura" Content="Numero di giorni di chiusura totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="36" Canvas.Top="170" FontWeight="Normal" Width="202"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_statisticheMesiAnniPassati" Content="Statistiche dell'anno corrente e passati:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="566" FontSize="16"/>
+                                <ComboBox x:Name="cmb_statisticheMuseo_annoPassato_selezionaMeseAnno" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Canvas.Left="113" Canvas.Top="46" Height="26"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_meseAnno" Content="Mese-anno:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="35" Canvas.Top="46" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_valoreNumeroBigliettiVenduti" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="156" Canvas.Left="242" Canvas.Top="77" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_valoreNumeroManutenzioniSvolte" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="156" Canvas.Left="242" Canvas.Top="108" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_valoreNumeroNuoviContenuti" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="155" Canvas.Left="243" Canvas.Top="139" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_valoreNumeroGiorniChiusura" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="155" Canvas.Left="243" Canvas.Top="170" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_valoreSpeseTotali" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Canvas.Left="482" Canvas.Top="77" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_valoreRicavo" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Canvas.Left="482" Canvas.Top="108" FontWeight="Normal"/>
+                                <Label x:Name="lbl_statisticheMuseo_annoPassato_valoreFatturato" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Canvas.Left="482" Canvas.Top="139" FontWeight="Normal"/>
                             </Canvas>
                         </GroupBox>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="55" Width="375"/>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="86" Width="370"/>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="117" Width="370"/>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="148" Width="370"/>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="116" Canvas.Top="202" Width="499"/>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="116" Canvas.Top="233" Width="499"/>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="116" Canvas.Top="264" Width="499"/>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="395" Width="370"/>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="426" Width="365"/>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="457" Width="365"/>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="488" Width="365"/>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="116" Canvas.Top="519" Width="494"/>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="116" Canvas.Top="550" Width="494"/>
-                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="117" Canvas.Top="581" Width="493"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_speseTotali" Content="Spese totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="202" FontWeight="Normal"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_ricavo" Content="Ricavo:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="233" FontWeight="Normal" Width="74"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_fatturato" Content="Fatturato:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="264" FontWeight="Normal" Width="74"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_numeroBigliettiVenduti" Content="Numero di biglietti venduti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="55" FontWeight="Normal" Width="203"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_numeroManutenzioni" Content="Numero di manutenzioni svolte:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="86" FontWeight="Normal" Width="203"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_numeroNuoviContenuti" Content="Numero di nuovi contenuti aggiunti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="117" FontWeight="Normal"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_numeroGiorniChiusura" Content="Numero di giorni di chiusura totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="148" FontWeight="Normal" Width="203"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_statisticheAttualiMese" Content="Statistiche attuali di questo mese:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="566" FontSize="16"/>
+                        <Button x:Name="btn_statisticheMuseo_meseAttuale_calcola" Content="Calcola" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="37" Canvas.Top="295"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_numeroBigliettiVenduti" Content="Numero di biglietti venduti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="395" FontWeight="Normal" Width="203"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_numeroManutenzioni" Content="Numero di manutenzioni svolte:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="426" FontWeight="Normal" Width="203"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_numeroNuoviContenuti" Content="Numero di nuovi contenuti aggiunti:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="457" FontWeight="Normal"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_numeroGiorniChiusura" Content="Numero di giorni di chiusura totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="488" FontWeight="Normal" Width="203"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_statisticheAttualiAnno" Content="Statistiche attuali di questo anno:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="350" FontWeight="Bold" Width="566" FontSize="16"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_speseTotali" Content="Spese totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="519" FontWeight="Normal"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_ricavo" Content="Ricavo:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="550" FontWeight="Normal" Width="74"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_fatturato" Content="Fatturato:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="581" FontWeight="Normal" Width="75"/>
+                        <Button x:Name="btn_statisticheMuseo_annoAttuale_calcola" Content="Calcola" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="37" Canvas.Top="612"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_valoreNumeroBigliettiVenduti" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="55" Width="375"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_valoreNumeroManutenzioni" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="86" Width="370"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_valoreNumeroNuoviContenuti" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="117" Width="370"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_valoreNumeroGiorniChiusura" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="148" Width="370"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_valoreSpeseTotali" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="116" Canvas.Top="202" Width="499"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_valoreRicavo" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="116" Canvas.Top="233" Width="499"/>
+                        <Label x:Name="lbl_statisticheMuseo_meseAttuale_valoreFatturato" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="116" Canvas.Top="264" Width="499"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_valoreNumeroBigliettiVenduti" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="395" Width="370"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_valoreNumeroManutenzioni" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="426" Width="365"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_valoreNumeroNuoviContenuti" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="457" Width="365"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_valoreNumeroGiorniChiusura" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="488" Width="365"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_valoreSpeseTotali" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="116" Canvas.Top="519" Width="494"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_valoreRicavo" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="116" Canvas.Top="550" Width="494"/>
+                        <Label x:Name="lbl_statisticheMuseo_annoAttuale_valoreFatturato" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="117" Canvas.Top="581" Width="493"/>
                     </Canvas>
                 </Grid>
             </TabItem>
