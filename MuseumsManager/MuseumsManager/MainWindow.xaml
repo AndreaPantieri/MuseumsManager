@@ -161,7 +161,7 @@
                 <Grid x:Name="grid_contenuti">
                     <ComboBox x:Name="cmb_contenuti_filtroSezione" Margin="123,47,946,569" DropDownOpened="cmb_contenuti_filtroSezione_DropDownOpened"/>
                     <ComboBox x:Name="cmb_contenuti_filtroProvenienza" FontWeight="Normal" Margin="123,78,946,538" DropDownOpened="cmb_contenuti_filtroProvenienza_DropDownOpened"/>
-                    <ComboBox x:Name="cmb_contenuti_filtroCreatore" FontWeight="Normal" Margin="123,109,946,507" DropDownOpened="cmb_contenuti_filtroCreatore_DropDownOpened"/>
+                    <ComboBox x:Name="cmb_contenuti_filtroCreatore" FontWeight="Normal" Margin="123,109,946,507" DropDownOpened="cmb_contenuti_filtroCreatore_DropDownOpened" DisplayMemberPath="{Binding}"/>
                     <ComboBox x:Name="cmb_contenuti_filtroPeriodoStorico" FontWeight="Normal" Margin="123,140,946,476" DropDownOpened="cmb_contenuti_filtroPeriodoStorico_DropDownOpened"/>
                     <ComboBox x:Name="cmb_contenuti_filtroTipoContenuto" FontWeight="Normal" Margin="123,171,946,445" DropDownOpened="cmb_contenuti_filtroTipoContenuto_DropDownOpened"/>
                     <Button x:Name="btn_filtraContenuti" Content="Ricerca" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" FontWeight="Normal" Margin="352,178,0,0" Click="btn_filtraContenuti_Click"/>
