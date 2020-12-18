@@ -2668,9 +2668,24 @@ namespace MuseumsManager
                 if (checkQueryResult(res))
                     MessageBox.Show("Contenuto aggiornato", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
 
+                //Vecchi indici
                 if(DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = "+museoSelezionato.idMuseo + " AND Contenuto.idProvenienza = " + idOldProv)).Count == 0)
                 {
+                    DBRelationN2NOnlyIndexes<Museo_Provenienza>.Delete("idMuseo", museoSelezionato.idMuseo, "idProvenienza", idOldProv);
+                }
+                if(DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = "+museoSelezionato.idMuseo + " AND Contenuto.idPeriodoStorico = " + idOldPS)).Count == 0)
+                {
+                    DBRelationN2NOnlyIndexes<Museo_PeriodoStorico>.Delete("idMuseo", museoSelezionato.idMuseo, "idPeriodoStorico", idOldPS);
+                }
 
+                //Nuovi indici
+                if (DBObject<Museo_Provenienza>.CustomSelect(new SqlCommand("SELECT Museo_Provenienza.* FROM Museo_Provenienza WHERE idMuseo = " + museoSelezionato.idMuseo + " AND idProvenienza = " + contenuto.idProvenienza)).Count == 0)
+                {
+                    DBObject<Museo_Provenienza>.Insert("idMuseo", museoSelezionato.idMuseo, "idProvenienza", idOldProv);
+                }
+                if (DBObject<Museo_PeriodoStorico>.CustomSelect(new SqlCommand("SELECT Museo_PeriodoStorico.* FROM Museo_PeriodoStorico WHERE idMuseo = " + museoSelezionato.idMuseo + " AND Museo_PeriodoStorico = " + contenuto.idPeriodoStorico)).Count == 0)
+                {
+                    DBObject<Museo_PeriodoStorico>.Insert("idMuseo", museoSelezionato.idMuseo, "idPeriodoStorico", idOldPS);
                 }
             }
             else
