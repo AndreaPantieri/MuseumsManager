@@ -2766,5 +2766,41 @@ namespace MuseumsManager
             lrm.Sort((x, y) => y.Prezzo.CompareTo(x.Prezzo));
             dtg_manutenzioni.DataContext = lrm;
         }
+
+        private void btn_manutenzioni_inserisci_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime dateTime = new DateTime();
+            double prezzo = -1;
+            string descrizione;
+            if(!(dtp_manutenzioni_data.SelectedDate is null) && double.TryParse(txt_manutenzioni_prezzo.Text, out prezzo) && txt_manutenzioni_descrizione.Text != "" && txt_manutenzioni_descrizione.Text != "Descrizione")
+            {
+                dateTime = (DateTime)dtp_manutenzioni_data.SelectedDate;
+                descrizione = txt_manutenzioni_descrizione.Text;
+                int res = DBObject<RegistroManutenzioni>.Insert("Data", dateTime.Date.ToString("yyyy-MM-dd"), "Descrizione", descrizione, "Prezzo", prezzo, "idMuseo", museoSelezionato.idMuseo);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Manutenzione aggiunta correttamente!", "Operazione eseguita", MessageBoxButton.OK);
+            }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void btn_manutenzioni_elimina_Click(object sender, RoutedEventArgs e)
+        {
+            if(cmb_manutenzioni_rimuovi.SelectedIndex != -1)
+            {
+                RegistroManutenzioni registroManutenzioni = (RegistroManutenzioni)cmb_manutenzioni_rimuovi.SelectedItem;
+                int res = DBEntity.Delete<RegistroManutenzioni>("idManutenzione", registroManutenzioni.idManutenzione);
+                if(checkQueryResult(res))
+                    MessageBox.Show("Manutenzione eliminata correttamente!", "Operazione eseguita", MessageBoxButton.OK);
+            }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void cmb_manutenzioni_rimuovi_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_manutenzioni_rimuovi.ItemsSource = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo);
+            cmb_manutenzioni_rimuovi.DisplayMemberPath = "Data";
+        }
     }
 }
