@@ -389,8 +389,8 @@
                     <CheckBox x:Name="ckb_manutenzioni_data" Content="Data (più recente)" Grid.Column="1" Margin="3,90,1086,536" Checked="ckb_manutenzioni_data_Checked"/>
                     <CheckBox x:Name="ckb_manutenzioni_prezzo" Content="Prezzo (più alto)" Grid.Column="1" Margin="3,111,1086,515" Checked="ckb_manutenzioni_prezzo_Checked"/>
                     <Label x:Name="lbl_manutenzioni_periodo" Content="Periodo:" Width="100" Margin="10,132,1129,484" FontStyle="Italic" Grid.ColumnSpan="2"/>
-                    <CheckBox x:Name="ckb_manutenzioni_mensili" Content="Mensile" Grid.Column="1" Margin="3,163,1086,463"/>
-                    <CheckBox x:Name="ckb_manutenzioni_annuali" Content="Annuale" Grid.Column="1" Margin="3,184,1086,442"/>
+                    <CheckBox x:Name="ckb_manutenzioni_mensili" Content="Mensile" Grid.Column="1" Margin="3,163,1086,463" Checked="ckb_manutenzioni_mensili_Checked"/>
+                    <CheckBox x:Name="ckb_manutenzioni_annuali" Content="Annuale" Grid.Column="1" Margin="3,184,1086,442" Checked="ckb_manutenzioni_annuali_Checked"/>
                     <GroupBox x:Name="gpb_manutenzioni" Header="Manutenzioni" HorizontalAlignment="Left" Height="248" VerticalAlignment="Top" Width="522" FontWeight="Bold" Margin="675,54,0,0" Grid.Column="1">
                         <Canvas x:Name="cnv_manutenzioni" Margin="0,0,-2,-4">
                             <Label x:Name="lbl_manutenzioni_inserisci" Height="23" Width="180" Canvas.Left="10" Canvas.Top="10" Content="Inserisci nuova manutenzione:" HorizontalContentAlignment="Right"></Label>
@@ -420,9 +420,9 @@
                     <Label x:Name="lbl_registri_presenzeMensili" Content="Presenze:" HorizontalAlignment="Left" Margin="10,307,0,0" VerticalAlignment="Top" Width="1219" FontWeight="Bold" Height="34" FontSize="20" Grid.ColumnSpan="2"/>
                     <Label x:Name="lbl_registri_manutenzioni" Content="Manutenzioni:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="1219" FontWeight="Bold" Height="34" FontSize="20" Grid.ColumnSpan="2"/>
                     <Label x:Name="lbl_presenze_periodo" Content="Periodo:" Width="100" Margin="10,357,1129,259" FontStyle="Italic" Grid.ColumnSpan="2"/>
-                    <CheckBox x:Name="ckb_presenze_giornaliere" Content="Giornaliero" Grid.Column="1" Margin="3,388,1086,238"/>
-                    <CheckBox x:Name="ckb_presenze_mensili" Content="Mensile" Grid.Column="1" Margin="3,409,1086,217"/>
-                    <CheckBox x:Name="ckb_presenze_annuali" Content="Annuale" Grid.Column="1" Margin="3,430,1086,196"/>
+                    <CheckBox x:Name="ckb_presenze_giornaliere" Content="Giornaliero" Grid.Column="1" Margin="3,388,1086,238" Checked="ckb_presenze_giornaliere_Checked"/>
+                    <CheckBox x:Name="ckb_presenze_mensili" Content="Mensile" Grid.Column="1" Margin="3,409,1086,217" Checked="ckb_presenze_mensili_Checked"/>
+                    <CheckBox x:Name="ckb_presenze_annuali" Content="Annuale" Grid.Column="1" Margin="3,430,1086,196" Checked="ckb_presenze_annuali_Checked"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tbi_statistiche" Header="Statistiche Museo" IsEnabled="False">
