@@ -386,8 +386,8 @@
                         <ColumnDefinition Width="1207*"/>
                     </Grid.ColumnDefinitions>
                     <Label x:Name="lbl_manutenzioni_filtraPer" Content="Filtra per:" Width="100" Margin="10,54,1129,557" FontStyle="Italic" Grid.ColumnSpan="2"/>
-                    <CheckBox x:Name="ckb_manutenzioni_data" Content="Data (più recente)" Grid.Column="1" Margin="3,90,1086,536"/>
-                    <CheckBox x:Name="ckb_manutenzioni_prezzo" Content="Prezzo (più alto)" Grid.Column="1" Margin="3,111,1086,515"/>
+                    <CheckBox x:Name="ckb_manutenzioni_data" Content="Data (più recente)" Grid.Column="1" Margin="3,90,1086,536" Checked="ckb_manutenzioni_data_Checked"/>
+                    <CheckBox x:Name="ckb_manutenzioni_prezzo" Content="Prezzo (più alto)" Grid.Column="1" Margin="3,111,1086,515" Checked="ckb_manutenzioni_prezzo_Checked"/>
                     <Label x:Name="lbl_manutenzioni_periodo" Content="Periodo:" Width="100" Margin="10,132,1129,484" FontStyle="Italic" Grid.ColumnSpan="2"/>
                     <CheckBox x:Name="ckb_manutenzioni_mensili" Content="Mensile" Grid.Column="1" Margin="3,163,1086,463"/>
                     <CheckBox x:Name="ckb_manutenzioni_annuali" Content="Annuale" Grid.Column="1" Margin="3,184,1086,442"/>
@@ -403,8 +403,20 @@
                             <Button x:Name="btn_manutenzioni_elimina" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Canvas.Left="426" Canvas.Top="199" FontWeight="Normal"/>
                         </Canvas>
                     </GroupBox>
-                    <DataGrid x:Name="dtg_manutenzioni" HorizontalAlignment="Left" Height="248" Margin="126,54,0,0" VerticalAlignment="Top" Width="544" RenderTransformOrigin="-1.615,-0.45" Grid.Column="1"/>
-                    <DataGrid x:Name="dtg_presenzeMensili" HorizontalAlignment="Left" Height="286" Margin="126,346,0,0" VerticalAlignment="Top" Width="544" RenderTransformOrigin="-1.615,-0.45" Grid.Column="1"/>
+                    <DataGrid x:Name="dtg_manutenzioni" ItemsSource="{Binding}" HorizontalAlignment="Left" Height="248" Margin="126,54,0,0" VerticalAlignment="Top" Width="544" RenderTransformOrigin="-1.615,-0.45" Grid.Column="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Data" Binding="{Binding Data, StringFormat=yyyy-MM-dd}"/>
+                            <DataGridTextColumn Header="Descrizione"  Binding="{Binding Descrizione}"/>
+                            <DataGridTextColumn Header="Prezzo"  Binding="{Binding Prezzo}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <DataGrid x:Name="dtg_presenzeMensili" ItemsSource="{Binding}" HorizontalAlignment="Left" Height="286" Margin="126,346,0,0" VerticalAlignment="Top" Width="544" RenderTransformOrigin="-1.615,-0.45" Grid.Column="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="NomePersonale"  Binding="{Binding NomePersonale}"/>
+                            <DataGridTextColumn Header="DataEntrata" Binding="{Binding DataEntrata, StringFormat=yyyy-MM-dd}"/>
+                            <DataGridTextColumn Header="DataUscita"  Binding="{Binding DataUscita, StringFormat=yyyy-MM-dd}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                     <Label x:Name="lbl_registri_presenzeMensili" Content="Presenze:" HorizontalAlignment="Left" Margin="10,307,0,0" VerticalAlignment="Top" Width="1219" FontWeight="Bold" Height="34" FontSize="20" Grid.ColumnSpan="2"/>
                     <Label x:Name="lbl_registri_manutenzioni" Content="Manutenzioni:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="1219" FontWeight="Bold" Height="34" FontSize="20" Grid.ColumnSpan="2"/>
                     <Label x:Name="lbl_presenze_periodo" Content="Periodo:" Width="100" Margin="10,357,1129,259" FontStyle="Italic" Grid.ColumnSpan="2"/>

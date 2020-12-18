@@ -2480,6 +2480,25 @@ namespace MuseumsManager
                             DBEntity.Update<CalendarioChiusure>("idCalendarioChiusure", cc.idCalendarioChiusure, eventArgs.Column.Header.ToString(), (eventArgs.EditingElement as TextBox).Text);
                         };
                     }
+                    if(tabItem.Header.Equals("Registri") && !(this.museoSelezionato is null))
+                    {
+                        dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo);
+                        List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* WHERE RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = "+ museoSelezionato.idMuseo));
+                        List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
+                        List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
+                        lrp.ForEach(rp => {
+                            RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
+                            registroPresenzeForList.DataEntrata = rp.DataEntrata;
+                            registroPresenzeForList.DataUscita = rp.DataUscita;
+                            Personale p = lp.Where(tmp => tmp.idPersonale == rp.idPersonale).FirstOrDefault();
+                            if(!(p is null))
+                            {
+                                registroPresenzeForList.NomePersonale = p.Nome;
+                                lrpfl.Add(registroPresenzeForList);
+                            }
+                        });
+                        dtg_presenzeMensili.DataContext = lrpfl;
+                    }
                     if (tabItem.Header.Equals("Museo") && !(this.museoSelezionato is null))
                     {
                         museoSelezionato = DBObject<Museo>.Select("idMuseo", museoSelezionato.idMuseo).First();
@@ -2726,8 +2745,26 @@ namespace MuseumsManager
 
         }
 
-        
+        private void ckb_manutenzioni_data_Checked(object sender, RoutedEventArgs e)
+        {
+            if ((bool)ckb_manutenzioni_prezzo.IsChecked)
+            {
+                ckb_manutenzioni_prezzo.IsChecked = false;
+            }
+            List<RegistroManutenzioni> lrm = (List<RegistroManutenzioni>)dtg_manutenzioni.DataContext;
+            lrm.Sort((x,y) => y.Data.CompareTo(x.Data));
+            dtg_manutenzioni.DataContext = lrm;
+        }
 
-        
+        private void ckb_manutenzioni_prezzo_Checked(object sender, RoutedEventArgs e)
+        {
+            if ((bool)ckb_manutenzioni_data.IsChecked)
+            {
+                ckb_manutenzioni_data.IsChecked = false;
+            }
+            List<RegistroManutenzioni> lrm = (List<RegistroManutenzioni>)dtg_manutenzioni.DataContext;
+            lrm.Sort((x, y) => y.Prezzo.CompareTo(x.Prezzo));
+            dtg_manutenzioni.DataContext = lrm;
+        }
     }
 }
