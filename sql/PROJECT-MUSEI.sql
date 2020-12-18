@@ -121,14 +121,14 @@ create table Provenienza (
 
 create table RegistroManutenzioni (
      idManutenzione int not null primary key identity(1,1),
-     idMuseo int not null unique,
+     idMuseo int not null,
      Data date not null,
      Descrizione nvarchar(512) not null,
      Prezzo float not null);
 
 create table RegistroPresenze (
      idRegistro int not null primary key identity(1,1),
-     idPersonale int not null unique,
+     idPersonale int not null,
      DataEntrata datetime2 not null,
      DataUscita datetime2 not null);
 

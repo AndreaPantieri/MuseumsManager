@@ -2758,11 +2758,13 @@ namespace MuseumsManager
 
         private void cmb_modificaContenuti_sezione_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!(cmb_modificaContenuti_sezione.SelectedItem is null))
+            if (!(cmb_modificaContenuti_sezione.SelectedItem is null) && !(cmb_modificaContenuti_contenuto.SelectedItem is null))
             {
-                List<Contenuto> pa = DBObject<Contenuto>.Select("idSezione", (cmb_modificaContenuti_sezione.SelectedItem as Sezione).idSezione);
+                Contenuto contenuto = (Contenuto)cmb_modificaContenuti_contenuto.SelectedItem;
+                List<Contenuto> pa = DBObject<Contenuto>.Select("idSezione", (cmb_modificaContenuti_sezione.SelectedItem as Sezione).idSezione).Where(c => c.idContenuto != contenuto.idContenuto).ToList();
                 cmb_modificaContenuti_padre.ItemsSource = pa;
                 cmb_modificaContenuti_padre.DisplayMemberPath = "Nome";
+                cmb_modificaContenuti_padre.SelectedIndex = pa.IndexOf(pa.Where(tmp => tmp.idContenuto == contenuto.idContenutoPadre).FirstOrDefault());
             }
         }
 
