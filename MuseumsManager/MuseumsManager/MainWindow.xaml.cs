@@ -2821,6 +2821,7 @@ namespace MuseumsManager
                 int res = DBObject<RegistroManutenzioni>.Insert("Data", dateTime.Date.ToString("yyyy-MM-dd"), "Descrizione", descrizione, "Prezzo", prezzo, "idMuseo", museoSelezionato.idMuseo);
                 if (checkQueryResult(res))
                     MessageBox.Show("Manutenzione aggiunta correttamente!", "Operazione eseguita", MessageBoxButton.OK);
+                dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo);
             }
             else
                 MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -2834,6 +2835,7 @@ namespace MuseumsManager
                 int res = DBEntity.Delete<RegistroManutenzioni>("idManutenzione", registroManutenzioni.idManutenzione);
                 if(checkQueryResult(res))
                     MessageBox.Show("Manutenzione eliminata correttamente!", "Operazione eseguita", MessageBoxButton.OK);
+                dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo);
             }
             else
                 MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
