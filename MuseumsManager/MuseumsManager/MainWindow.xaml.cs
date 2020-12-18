@@ -2177,6 +2177,7 @@ namespace MuseumsManager
                 tbi_personale.IsEnabled = true;
                 tbi_registri.IsEnabled = true;
                 tbi_statistiche.IsEnabled = true;
+                tbi_statisticheFamiglia.IsEnabled = true;
                 gpb_riepilogo.IsEnabled = true;
                 gpb_sezioni.IsEnabled = true;
                 gpb_categoriaSezione.IsEnabled = true;
@@ -2186,9 +2187,6 @@ namespace MuseumsManager
                 setMuseumFamily();
                 setMuseumTypes();
                 setMuseumAreas();
-
-
-
             }
             else
             {
@@ -2199,6 +2197,7 @@ namespace MuseumsManager
                 tbi_personale.IsEnabled = false;
                 tbi_registri.IsEnabled = false;
                 tbi_statistiche.IsEnabled = false;
+                tbi_statisticheFamiglia.IsEnabled = false;
                 gpb_riepilogo.IsEnabled = true;
                 gpb_sezioni.IsEnabled = false;
                 gpb_categoriaSezione.IsEnabled = false;
@@ -2211,7 +2210,6 @@ namespace MuseumsManager
                 lbl_riepilogo_orarioChiusura.Content = "";
                 lbl_riepilogo_valoreFamiglia.Content = "";
                 lsv_riepilogo_tipiMuseo.Items.Clear();
-
             }
         }
 
