@@ -2796,6 +2796,7 @@ namespace MuseumsManager
             List<RegistroManutenzioni> lrm = (List<RegistroManutenzioni>)dtg_manutenzioni.DataContext;
             lrm.Sort((x,y) => y.Data.CompareTo(x.Data));
             dtg_manutenzioni.DataContext = lrm;
+            dtg_manutenzioni.Items.Refresh();
         }
 
         private void ckb_manutenzioni_prezzo_Checked(object sender, RoutedEventArgs e)
@@ -2807,6 +2808,7 @@ namespace MuseumsManager
             List<RegistroManutenzioni> lrm = (List<RegistroManutenzioni>)dtg_manutenzioni.DataContext;
             lrm.Sort((x, y) => y.Prezzo.CompareTo(x.Prezzo));
             dtg_manutenzioni.DataContext = lrm;
+            dtg_manutenzioni.Items.Refresh();
         }
 
         private void btn_manutenzioni_inserisci_Click(object sender, RoutedEventArgs e)
@@ -2852,11 +2854,10 @@ namespace MuseumsManager
             if ((bool)ckb_manutenzioni_annuali.IsChecked)
             {
                 ckb_manutenzioni_annuali.IsChecked = false;
-                dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Month == DateTime.Now.Month).ToList();
             }
-            else
-                dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo);
-            
+            dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Month == DateTime.Now.Month).ToList();
+            dtg_manutenzioni.Items.Refresh();
+
         }
 
         private void ckb_manutenzioni_annuali_Checked(object sender, RoutedEventArgs e)
@@ -2864,11 +2865,10 @@ namespace MuseumsManager
             if ((bool)ckb_manutenzioni_mensili.IsChecked)
             {
                 ckb_manutenzioni_mensili.IsChecked = false;
-                dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Year == DateTime.Now.Year).ToList();
             }
-            else
-                dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo);
-            
+            dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Year == DateTime.Now.Year).ToList();
+            dtg_manutenzioni.Items.Refresh();
+
         }
 
         private void ckb_presenze_giornaliere_Checked(object sender, RoutedEventArgs e)
@@ -2877,40 +2877,23 @@ namespace MuseumsManager
             {
                 ckb_presenze_mensili.IsChecked = false;
                 ckb_presenze_annuali.IsChecked = false;
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Day == DateTime.Now.Day || r.DataUscita.Day == DateTime.Now.Day).ToList();
-                List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
-                List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
-                lrp.ForEach(rp => {
-                    RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
-                    registroPresenzeForList.DataEntrata = rp.DataEntrata;
-                    registroPresenzeForList.DataUscita = rp.DataUscita;
-                    Personale p = lp.Where(tmp => tmp.idPersonale == rp.idPersonale).FirstOrDefault();
-                    if (!(p is null))
-                    {
-                        registroPresenzeForList.NomePersonale = p.Nome;
-                        lrpfl.Add(registroPresenzeForList);
-                    }
-                });
-                dtg_presenzeMensili.DataContext = lrpfl;
             }
-            else
-            {
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo));
-                List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
-                List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
-                lrp.ForEach(rp => {
-                    RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
-                    registroPresenzeForList.DataEntrata = rp.DataEntrata;
-                    registroPresenzeForList.DataUscita = rp.DataUscita;
-                    Personale p = lp.Where(tmp => tmp.idPersonale == rp.idPersonale).FirstOrDefault();
-                    if (!(p is null))
-                    {
-                        registroPresenzeForList.NomePersonale = p.Nome;
-                        lrpfl.Add(registroPresenzeForList);
-                    }
-                });
-                dtg_presenzeMensili.DataContext = lrpfl;
-            }
+            List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Day == DateTime.Now.Day || r.DataUscita.Day == DateTime.Now.Day).ToList();
+            List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
+            List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
+            lrp.ForEach(rp => {
+                RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
+                registroPresenzeForList.DataEntrata = rp.DataEntrata;
+                registroPresenzeForList.DataUscita = rp.DataUscita;
+                Personale p = lp.Where(tmp => tmp.idPersonale == rp.idPersonale).FirstOrDefault();
+                if (!(p is null))
+                {
+                    registroPresenzeForList.NomePersonale = p.Nome;
+                    lrpfl.Add(registroPresenzeForList);
+                }
+            });
+            dtg_presenzeMensili.DataContext = lrpfl;
+            dtg_presenzeMensili.Items.Refresh();
         }
 
         private void ckb_presenze_mensili_Checked(object sender, RoutedEventArgs e)
@@ -2919,40 +2902,23 @@ namespace MuseumsManager
             {
                 ckb_presenze_giornaliere.IsChecked = false;
                 ckb_presenze_annuali.IsChecked = false;
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Month == DateTime.Now.Month || r.DataUscita.Month == DateTime.Now.Month).ToList();
-                List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
-                List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
-                lrp.ForEach(rp => {
-                    RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
-                    registroPresenzeForList.DataEntrata = rp.DataEntrata;
-                    registroPresenzeForList.DataUscita = rp.DataUscita;
-                    Personale p = lp.Where(tmp => tmp.idPersonale == rp.idPersonale).FirstOrDefault();
-                    if (!(p is null))
-                    {
-                        registroPresenzeForList.NomePersonale = p.Nome;
-                        lrpfl.Add(registroPresenzeForList);
-                    }
-                });
-                dtg_presenzeMensili.DataContext = lrpfl;
             }
-            else
-            {
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo));
-                List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
-                List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
-                lrp.ForEach(rp => {
-                    RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
-                    registroPresenzeForList.DataEntrata = rp.DataEntrata;
-                    registroPresenzeForList.DataUscita = rp.DataUscita;
-                    Personale p = lp.Where(tmp => tmp.idPersonale == rp.idPersonale).FirstOrDefault();
-                    if (!(p is null))
-                    {
-                        registroPresenzeForList.NomePersonale = p.Nome;
-                        lrpfl.Add(registroPresenzeForList);
-                    }
-                });
-                dtg_presenzeMensili.DataContext = lrpfl;
-            }
+            List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Month == DateTime.Now.Month || r.DataUscita.Month == DateTime.Now.Month).ToList();
+            List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
+            List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
+            lrp.ForEach(rp => {
+                RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
+                registroPresenzeForList.DataEntrata = rp.DataEntrata;
+                registroPresenzeForList.DataUscita = rp.DataUscita;
+                Personale p = lp.Where(tmp => tmp.idPersonale == rp.idPersonale).FirstOrDefault();
+                if (!(p is null))
+                {
+                    registroPresenzeForList.NomePersonale = p.Nome;
+                    lrpfl.Add(registroPresenzeForList);
+                }
+            });
+            dtg_presenzeMensili.DataContext = lrpfl;
+            dtg_presenzeMensili.Items.Refresh();
         }
 
         private void ckb_presenze_annuali_Checked(object sender, RoutedEventArgs e)
@@ -2961,40 +2927,23 @@ namespace MuseumsManager
             {
                 ckb_presenze_giornaliere.IsChecked = false;
                 ckb_presenze_mensili.IsChecked = false;
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Year == DateTime.Now.Year || r.DataUscita.Year == DateTime.Now.Year).ToList();
-                List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
-                List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
-                lrp.ForEach(rp => {
-                    RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
-                    registroPresenzeForList.DataEntrata = rp.DataEntrata;
-                    registroPresenzeForList.DataUscita = rp.DataUscita;
-                    Personale p = lp.Where(tmp => tmp.idPersonale == rp.idPersonale).FirstOrDefault();
-                    if (!(p is null))
-                    {
-                        registroPresenzeForList.NomePersonale = p.Nome;
-                        lrpfl.Add(registroPresenzeForList);
-                    }
-                });
-                dtg_presenzeMensili.DataContext = lrpfl;
             }
-            else
-            {
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo));
-                List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
-                List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
-                lrp.ForEach(rp => {
-                    RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
-                    registroPresenzeForList.DataEntrata = rp.DataEntrata;
-                    registroPresenzeForList.DataUscita = rp.DataUscita;
-                    Personale p = lp.Where(tmp => tmp.idPersonale == rp.idPersonale).FirstOrDefault();
-                    if (!(p is null))
-                    {
-                        registroPresenzeForList.NomePersonale = p.Nome;
-                        lrpfl.Add(registroPresenzeForList);
-                    }
-                });
-                dtg_presenzeMensili.DataContext = lrpfl;
-            }
+            List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Year == DateTime.Now.Year || r.DataUscita.Year == DateTime.Now.Year).ToList();
+            List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
+            List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
+            lrp.ForEach(rp => {
+                RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
+                registroPresenzeForList.DataEntrata = rp.DataEntrata;
+                registroPresenzeForList.DataUscita = rp.DataUscita;
+                Personale p = lp.Where(tmp => tmp.idPersonale == rp.idPersonale).FirstOrDefault();
+                if (!(p is null))
+                {
+                    registroPresenzeForList.NomePersonale = p.Nome;
+                    lrpfl.Add(registroPresenzeForList);
+                }
+            });
+            dtg_presenzeMensili.DataContext = lrpfl;
+            dtg_presenzeMensili.Items.Refresh();
         }
     }
 }
