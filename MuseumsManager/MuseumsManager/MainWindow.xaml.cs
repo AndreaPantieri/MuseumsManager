@@ -95,13 +95,20 @@ namespace MuseumsManager
         {
             String currentDate = DateTime.Today.ToString("yyyy-MM-dd");
 
-            //per il museo selezionato, se: TUTTI i giorni di chiusura non corrispondono alla data di oggi, E, UNO QUALSIASI di quelli di apertura speciale corrisponde alla data di oggi.. ovvero se è un giorno di apertura speciale
+            //per il museo selezionato, se: TUTTI i giorni di chiusura non corrispondono alla data di oggi, E, UNO QUALSIASI di quelli di apertura speciale corrisponde alla data di oggi, inoltre se l'orario del giorno di apertura speciale risulta aperto.. (riassunto: se è un giorno di apertura speciale in orario di apertura)
             if (DBObject<CalendarioChiusure>.SelectAll().Where(cc => cc.idMuseo == this.museoSelezionato.idMuseo).All(cc => (cc as CalendarioChiusure).Data.ToString("yyyy-MM-dd") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().Where(cas => cas.idMuseo == this.museoSelezionato.idMuseo).Any(cas => (cas as CalendarioApertureSpeciali).Data.ToString("yyyy-MM-dd") == currentDate && cas.OrarioApertura <= DateTime.Now.TimeOfDay && cas.OrarioChiusura >= DateTime.Now.TimeOfDay))
             {
                 lbl_riepilogo_statoApertura.Foreground = Brushes.Green;
                 lbl_riepilogo_statoApertura.Content = "Aperto";
+
             }
-            //altrimenti: se TUTTI i giorni di chiusura non corrispondono alla data di oggi E, TUTTI quelli di apertura speciale NON CORRISPONDONO alla data di oggi.. ovvero se è un giorno normale di apertura
+            //altrimenti: se: TUTTI i giorni di chiusura non corrispondono alla data di oggi, E, UNO QUALSIASI di quelli di apertura speciale corrisponde alla data di oggi, MA se l'orario del giorno di apertura speciale risulta chiuso.. 
+            else if (DBObject<CalendarioChiusure>.SelectAll().Where(cc => cc.idMuseo == this.museoSelezionato.idMuseo).All(cc => (cc as CalendarioChiusure).Data.ToString("yyyy-MM-dd") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().Where(cas => cas.idMuseo == this.museoSelezionato.idMuseo).Any(cas => (cas as CalendarioApertureSpeciali).Data.ToString("yyyy-MM-dd") == currentDate && cas.OrarioApertura > DateTime.Now.TimeOfDay && cas.OrarioChiusura < DateTime.Now.TimeOfDay))
+            {
+                lbl_riepilogo_statoApertura.Foreground = Brushes.Red;
+                lbl_riepilogo_statoApertura.Content = "Chiuso";
+            }
+            //altrimenti: se TUTTI i giorni di chiusura non corrispondono alla data di oggi E, TUTTI quelli di apertura speciale NON CORRISPONDONO alla data di oggi.. (ovvero se è un giorno normale di apertura)
             else if (DBObject<CalendarioChiusure>.SelectAll().Where(cc => cc.idMuseo == this.museoSelezionato.idMuseo).All(cc => (cc as CalendarioChiusure).Data.ToString("yyyy-MM-dd") != currentDate) && DBObject<CalendarioApertureSpeciali>.SelectAll().Where(cas => cas.idMuseo == this.museoSelezionato.idMuseo).All(cas => (cas as CalendarioApertureSpeciali).Data.ToString("yyyy-MM-dd") != currentDate))
             {
                 if (museoSelezionato.OrarioAperturaGenerale <= DateTime.Now.TimeOfDay && museoSelezionato.OrarioChiusuraGenerale >= DateTime.Now.TimeOfDay)
@@ -118,7 +125,8 @@ namespace MuseumsManager
             //altrimenti se non è nessuno di questi due, ovvero se è un giorno di chiusura..
             else
             {
-
+                lbl_riepilogo_statoApertura.Foreground = Brushes.Red;
+                lbl_riepilogo_statoApertura.Content = "Chiuso";
             }
         }
 
@@ -592,7 +600,7 @@ namespace MuseumsManager
                         MessageBox.Show("Giorno di chiusura aggiunto correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
-                    MessageBox.Show("Data presente come giorno di apertura speciale!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("La data che si sta cercando di inserire è già presente come giorno di apertura speciale!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
                 MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -883,6 +891,9 @@ namespace MuseumsManager
                 DBEntity.Update<TipoBiglietto>("idTipoBiglietto", (cmb_tipoBiglietti_selezionaBiglietto.SelectedItem as TipoBiglietto).idTipoBiglietto, "Nome", txt_tipoBiglietti_nuovoNome.Text, "Prezzo", prezzo, "Descrizione", txt_tipoBiglietti_nuovaDescrizione.Text, "idMuseo", museoSelezionato.idMuseo);
                 MessageBox.Show("Tipo di biglietto modificato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 lsv_tipiBiglietti.ItemsSource = DBObject<TipoBiglietto>.SelectAll().Where(tb => tb.idMuseo == museoSelezionato.idMuseo);
+                //Query per ottenere tutte le info sui biglietti comprati.
+                string sqlCommandString = "SELECT DataValidita, PrezzoAcquisto, Prezzo, Nome FROM Biglietto INNER JOIN TipoBiglietto ON Biglietto.idTipoBiglietto = TipoBiglietto.idTipoBiglietto WHERE Biglietto.idMuseo = " + museoSelezionato.idMuseo;
+                lsv_bigliettiComprati.ItemsSource = DBObject<BigliettoForList>.CustomSelect(new SqlCommand(sqlCommandString));
             }
             else
                 MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);

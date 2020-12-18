@@ -11,13 +11,12 @@
             <TabItem x:Name="tbi_museo" Header="Museo" Height="22" VerticalAlignment="Bottom">
                 <Grid x:Name="grid_museo">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="15*"/>
-                        <ColumnDefinition Width="233*"/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label x:Name="lbl_museo_nomeMuseo" Content="" FontWeight="Bold" Margin="10,41,10.2,559.6" FontSize="24" HorizontalAlignment="Center" Width="1219" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.ColumnSpan="2"/>
-                    <ComboBox x:Name="cmb_museo_selezionaMuseo" Height="26" Margin="112.4,10,876.2,605.6" DropDownOpened="cmb_museo_selezionaMuseo_DropDownOpened" SelectionChanged="cmb_museo_selezionaMuseo_SelectionChanged" Grid.Column="1"/>
-                    <Label x:Name="lbl_museo_selezionaMuseo" Content="Seleziona il museo da visionare:" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-                    <GroupBox x:Name="gpb_sezioni" Header="Sezioni" HorizontalAlignment="Left" Height="545" Margin="841,87,0,0" VerticalAlignment="Top" Width="313" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
+                    <Label x:Name="lbl_museo_nomeMuseo" Content="" FontWeight="Bold" Margin="10,41,10,560" FontSize="24" HorizontalAlignment="Center" Width="1219" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    <ComboBox x:Name="cmb_museo_selezionaMuseo" Height="26" Margin="187,10,876,606" DropDownOpened="cmb_museo_selezionaMuseo_DropDownOpened" SelectionChanged="cmb_museo_selezionaMuseo_SelectionChanged"/>
+                    <Label x:Name="lbl_museo_selezionaMuseo" Content="Seleziona il museo da visionare:" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top"/>
+                    <GroupBox x:Name="gpb_sezioni" Header="Sezioni" HorizontalAlignment="Left" Height="545" Margin="916,87,0,0" VerticalAlignment="Top" Width="313" IsEnabled="False" FontWeight="Bold">
                         <Canvas x:Name="cnv_sezioni" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_sezioni_nome" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nome" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_sezioni_nome_GotFocus" LostFocus="txt_sezioni_nome_LostFocus"/>
                             <TextBox x:Name="txt_sezioni_descrizione" HorizontalAlignment="Left" Height="66" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="69" Foreground="Gray" FontWeight="Normal" RenderTransformOrigin="0.517,0.136" FontStyle="Italic" GotFocus="txt_sezioni_descrizione_GotFocus" LostFocus="txt_sezioni_descrizione_LostFocus"/>
@@ -42,7 +41,7 @@
                             <Label x:Name="lbl_sezioni_sezione" Content="Sezione:" Canvas.Left="10" Canvas.Top="263" FontWeight="Normal" Width="108" HorizontalContentAlignment="Right"/>
                         </Canvas>
                     </GroupBox>
-                    <GroupBox x:Name="gpb_orari" Header="Orari di apertura/chiusura" HorizontalAlignment="Left" Height="253" Margin="525,171,0,0" VerticalAlignment="Top" Width="312" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
+                    <GroupBox x:Name="gpb_orari" Header="Orari di apertura/chiusura" HorizontalAlignment="Left" Height="253" Margin="600,171,0,0" VerticalAlignment="Top" Width="312" IsEnabled="False" FontWeight="Bold">
                         <Canvas x:Name="cnv_orari" Margin="0,0,-2,-4">
                             <TextBox x:Name="txt_orari_nuovoOrarioApertura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo orario di apertura" VerticalAlignment="Top" Width="278" Canvas.Left="10" Canvas.Top="148" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_orari_nuovoOrarioApertura_GotFocus" LostFocus="txt_orari_nuovoOrarioApertura_LostFocus"/>
                             <TextBox x:Name="txt_orari_nuovoOrarioChiusura" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Nuovo orario di chiusura" VerticalAlignment="Top" Width="278" Canvas.Left="10" Canvas.Top="176" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_orari_nuovoOrarioChiusura_GotFocus" LostFocus="txt_orari_nuovoOrarioChiusura_LostFocus"/>
@@ -55,7 +54,7 @@
                             <Label x:Name="lbl_orari_valoreOrarioChiusura" Content="" Canvas.Left="136" Canvas.Top="72" FontWeight="Normal" Width="152"/>
                         </Canvas>
                     </GroupBox>
-                    <GroupBox x:Name="gpb_categoriaSezione" Header="Categoria della sezione" HorizontalAlignment="Left" Height="203" Margin="524,429,0,0" VerticalAlignment="Top" Width="313" IsEnabled="False" FontWeight="Bold" Grid.Column="1">
+                    <GroupBox x:Name="gpb_categoriaSezione" Header="Categoria della sezione" HorizontalAlignment="Left" Height="203" Margin="599,429,0,0" VerticalAlignment="Top" Width="313" IsEnabled="False" FontWeight="Bold">
                         <Canvas x:Name="cnv_categoriaSezione" Margin="0,0,-2,-4">
 
                             <TextBox x:Name="txt_categoriaSezione_descrizione" HorizontalAlignment="Left" Height="106" TextWrapping="Wrap" Text="Descrizione" VerticalAlignment="Top" Width="283" Canvas.Left="10" Canvas.Top="41" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" GotFocus="txt_categoriaSezione_descrizione_GotFocus" LostFocus="txt_categoriaSezione_descrizione_LostFocus"/>
@@ -64,7 +63,7 @@
                             <Label x:Name="lbl_categoriaSezione_crea" Content="Crea un nuovo tipo di sezione:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" Width="283"/>
                         </Canvas>
                     </GroupBox>
-                    <GroupBox x:Name="gpb_riepilogo" Header="Riepilogo" HorizontalAlignment="Left" Height="545" Margin="10,87,0,0" VerticalAlignment="Top" Width="583" IsEnabled="False" FontWeight="Bold" Grid.ColumnSpan="2">
+                    <GroupBox x:Name="gpb_riepilogo" Header="Riepilogo" HorizontalAlignment="Left" Height="545" Margin="10,87,0,0" VerticalAlignment="Top" Width="583" IsEnabled="False" FontWeight="Bold">
                         <Canvas x:Name="cnv_riepilogo" Margin="0,0,-2,-4">
                             <Label x:Name="lbl_riepilogo_apertoDalle" Content="Aperto dalle:" Canvas.Left="10" Canvas.Top="41" FontWeight="Bold" Width="85"/>
                             <Label x:Name="lbl_riepilogo_alle" Content="Alle:" Canvas.Left="10" Canvas.Top="72" FontWeight="Bold" Width="85"/>
