@@ -11,7 +11,7 @@ namespace Entities
         public int idManutenzione { get; set; }
         public DateTime Data { get; set; }
         public string Descrizione { get; set; }
-        public float Prezzo { get; set; }
+        public double Prezzo { get; set; }
         public int idMuseo { get; set; }
 
         public RegistroManutenzioni() : base() { }
