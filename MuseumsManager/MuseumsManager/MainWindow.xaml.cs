@@ -199,6 +199,38 @@ namespace MuseumsManager
             lsv_riepilogo_sezioni.DisplayMemberPath = "Nome";
         }
 
+        /// <summary>
+        /// Trova i figli di un contenuto
+        /// </summary>
+        private List<Contenuto> cercaFigli(Contenuto padre, Dictionary<int, Contenuto> idPairingContenuti)
+        {
+            List<Contenuto> figli = new List<Contenuto>();
+            idPairingContenuti.Keys.ToList().ForEach(k =>
+            {
+                if (isFiglio(k, padre.idContenuto, idPairingContenuti))
+                {
+                    figli.Add(idPairingContenuti[k]);
+                }
+            });
+            return figli;
+        }
+
+        private bool isFiglio(int idFiglio, int idPadre, Dictionary<int, Contenuto> idPairingContenuti)
+        {
+            if (idPairingContenuti[idFiglio].idContenutoPadre == 0 || idFiglio == idPadre)
+                return false;
+            bool isFiglio = false;
+            int tmpIdPadre, tmpIdFiglio = idFiglio;
+            do
+            {
+                tmpIdPadre = idPairingContenuti[tmpIdFiglio].idContenutoPadre;
+                isFiglio = tmpIdPadre == idPadre;
+                tmpIdFiglio = tmpIdPadre;
+            } while (tmpIdPadre != 0 && tmpIdPadre != idPadre && !isFiglio);
+            return isFiglio;
+        }
+
+
         //Eventi Click
 
         /// <summary>
@@ -1162,6 +1194,136 @@ namespace MuseumsManager
             else
                 MessageBox.Show("E' possibile licenziare un personale soltanto il primo di ogni mese!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+        private void btn_modificaContenuti_aggiorna_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime r = new DateTime(), a = new DateTime();
+            if (!(cmb_modificaContenuti_contenuto.SelectedItem is null) &&
+                txt_modificaContenuti_nome.Text != "" && txt_modificaContenuti_nome.Text != "Nome" &&
+                txt_modificaContenuti_descrizione.Text != "" && txt_modificaContenuti_descrizione.Text != "Descrizione" &&
+                DateTime.TryParse(txt_modificaContenuti_dataRitrovamento.Text, out r) &&
+                DateTime.TryParse(txt_modificaContenuti_dataArrivo.Text, out a) &&
+                !(cmb_modificaContenuti_sezione.SelectedItem is null) &&
+                !(cmb_modificaContenuti_provenienza.SelectedItem is null) &&
+                !(cmb_modificaContenuti_periodoStorico.SelectedItem is null))
+            {
+                Contenuto contenuto = cmb_modificaContenuti_contenuto.SelectedItem as Contenuto;
+                int idOldProv = contenuto.idProvenienza, idOldPS = contenuto.idPeriodoStorico;
+                contenuto.Nome = txt_modificaContenuti_nome.Text;
+                contenuto.Descrizione = txt_modificaContenuti_descrizione.Text;
+                contenuto.DataRitrovamento = r;
+                contenuto.DataArrivoMuseo = a;
+                contenuto.idSezione = (cmb_modificaContenuti_sezione.SelectedItem as Sezione).idSezione;
+                contenuto.idProvenienza = (cmb_modificaContenuti_provenienza.SelectedItem as Provenienza).idProvenienza;
+                contenuto.idPeriodoStorico = (cmb_modificaContenuti_periodoStorico.SelectedItem as PeriodoStorico).idPeriodoStorico;
+
+                contenuto.idContenutoPadre = (cmb_modificaContenuti_padre.SelectedItem is null) ? 0 : (cmb_modificaContenuti_padre.SelectedItem as Contenuto).idContenuto;
+
+                int res = DBEntity.Update<Contenuto>("idContenuto", contenuto.idContenuto, "Nome", contenuto.Nome, "Descrizione", contenuto.Descrizione,
+                    "DataRitrovamento", contenuto.DataRitrovamento.Date.ToString("yyyy-MM-dd"),
+                    "DataArrivoMuseo", contenuto.DataArrivoMuseo.Date.ToString("yyyy-MM-dd"),
+                    "idSezione", contenuto.idSezione, "idProvenienza", contenuto.idProvenienza, "idPeriodoStorico", contenuto.idPeriodoStorico, "idContenutoPadre", contenuto.idContenutoPadre);
+                if (checkQueryResult(res))
+                    MessageBox.Show("Contenuto aggiornato", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                //Vecchi indici
+                if (DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo + " AND Contenuto.idProvenienza = " + idOldProv)).Count == 0)
+                {
+                    DBRelationN2NOnlyIndexes<Museo_Provenienza>.Delete("idMuseo", museoSelezionato.idMuseo, "idProvenienza", idOldProv);
+                }
+                if (DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo + " AND Contenuto.idPeriodoStorico = " + idOldPS)).Count == 0)
+                {
+                    DBRelationN2NOnlyIndexes<Museo_PeriodoStorico>.Delete("idMuseo", museoSelezionato.idMuseo, "idPeriodoStorico", idOldPS);
+                }
+
+                //Nuovi indici
+                if (DBObject<Museo_Provenienza>.CustomSelect(new SqlCommand("SELECT Museo_Provenienza.* FROM Museo_Provenienza WHERE idMuseo = " + museoSelezionato.idMuseo + " AND idProvenienza = " + contenuto.idProvenienza)).Count == 0)
+                {
+                    DBObject<Museo_Provenienza>.Insert("idMuseo", museoSelezionato.idMuseo, "idProvenienza", idOldProv);
+                }
+                if (DBObject<Museo_PeriodoStorico>.CustomSelect(new SqlCommand("SELECT Museo_PeriodoStorico.* FROM Museo_PeriodoStorico WHERE idMuseo = " + museoSelezionato.idMuseo + " AND Museo_PeriodoStorico = " + contenuto.idPeriodoStorico)).Count == 0)
+                {
+                    DBObject<Museo_PeriodoStorico>.Insert("idMuseo", museoSelezionato.idMuseo, "idPeriodoStorico", idOldPS);
+                }
+            }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+
+
+            cmb_modificaContenuti_contenuto.ItemsSource = null;
+            txt_modificaContenuti_nome.IsEnabled = false;
+            txt_modificaContenuti_nome.Text = "Nome";
+            txt_modificaContenuti_descrizione.IsEnabled = false;
+            txt_modificaContenuti_descrizione.Text = "Descrizione";
+            txt_modificaContenuti_dataRitrovamento.IsEnabled = false;
+            txt_modificaContenuti_dataRitrovamento.Text = "Data di ritrovamento";
+            txt_modificaContenuti_dataArrivo.IsEnabled = false;
+            txt_modificaContenuti_dataArrivo.Text = "Data di arrivo";
+            cmb_modificaContenuti_sezione.IsEnabled = false;
+            cmb_modificaContenuti_sezione.ItemsSource = null;
+            cmb_modificaContenuti_provenienza.IsEnabled = false;
+            cmb_modificaContenuti_provenienza.ItemsSource = null;
+            cmb_modificaContenuti_periodoStorico.IsEnabled = false;
+            cmb_modificaContenuti_periodoStorico.ItemsSource = null;
+            cmb_modificaContenuti_padre.IsEnabled = false;
+            cmb_modificaContenuti_padre.ItemsSource = null;
+            btn_modificaContenuti_aggiorna.IsEnabled = false;
+        }
+        private void btn_filtraContenuti_Click(object sender, RoutedEventArgs e)
+        {
+            string sqlCommandString = "SELECT Contenuto.* FROM Contenuto ";
+            string whereString = " WHERE ";
+
+            if (!(cmb_contenuti_filtroSezione.SelectedItem is null))
+            {
+                whereString += "idSezione = " + (cmb_contenuti_filtroSezione.SelectedItem as Sezione).idSezione;
+            }
+
+            if (!(cmb_contenuti_filtroProvenienza.SelectedItem is null))
+            {
+                if (!whereString.Equals(" WHERE "))
+                    whereString += "AND ";
+                whereString += "idProvenienza = " + (cmb_contenuti_filtroProvenienza.SelectedItem as Provenienza).idProvenienza;
+            }
+            if (!(cmb_contenuti_filtroCreatore.SelectedItem is null))
+            {
+                if (!whereString.Equals(" WHERE "))
+                    whereString += "AND ";
+                sqlCommandString += "INNER JOIN Creato ON Contenuto.idContenuto = Creato.idContenuto ";
+                whereString += "idCreatore = " + (cmb_contenuti_filtroCreatore.SelectedItem as Creatore).idCreatore;
+            }
+            if (!(cmb_contenuti_filtroPeriodoStorico.SelectedItem is null))
+            {
+                if (!whereString.Equals(" WHERE "))
+                    whereString += "AND ";
+                whereString += "idPeriodoStorico = " + (cmb_contenuti_filtroPeriodoStorico.SelectedItem as PeriodoStorico).idPeriodoStorico;
+            }
+            if (!(cmb_contenuti_filtroTipoContenuto.SelectedItem is null))
+            {
+                if (!whereString.Equals(" WHERE "))
+                    whereString += "AND ";
+                sqlCommandString += "INNER JOIN Contenuto_Tipologia ON Contenuto.idContenuto = Contenuto_Tipologia.idContenuto ";
+                whereString += "idTipoContenuto = " + (cmb_contenuti_filtroTipoContenuto.SelectedItem as TipoContenuto).idTipoContenuto;
+            }
+
+            List<Contenuto> contenuti = DBObject<Contenuto>.CustomSelect(new SqlCommand(sqlCommandString)),
+                padri = contenuti.Where(c => c.idContenutoPadre == 0).ToList(),
+                allContenuti = DBObject<Contenuto>.SelectAll();
+
+            Dictionary<int, Contenuto> idPairingContenuti = new Dictionary<int, Contenuto>();
+            allContenuti.ForEach(c => idPairingContenuti.Add(c.idContenuto, c));
+
+            Dictionary<Contenuto, List<Contenuto>> padreFigli = new Dictionary<Contenuto, List<Contenuto>>();
+            contenuti.ForEach(c => padreFigli.Add(c, cercaFigli(c, idPairingContenuti)));
+
+            List<ContenutoForList> contenutoForLists = new List<ContenutoForList>();
+            padri.ForEach(c =>
+            {
+                contenutoForLists.Add(new ContenutoForList() { Contenuto = c, Figli = new List<Contenuto>(padreFigli[c]) });
+            });
+            lsv_contenuti.ItemsSource = contenutoForLists;
+
+
+        }
 
         //Eventi GotFocus
 
@@ -2077,6 +2239,13 @@ namespace MuseumsManager
                 cmb_delCreatore_creatore.ItemsSource = DBObject<Creatore>.CustomSelect(new SqlCommand("SELECT Creatore.* FROM Creatore INNER JOIN Creato ON Creatore.idCreatore = Creato.idCreatore WHERE Creato.idContenuto = " + idContenuto));
             }
         }
+        private void cmb_modificaContenuti_contenuto_DropDownOpened(object sender, EventArgs e)
+        {
+            cmb_modificaContenuti_contenuto.ItemsSource = DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo));
+            cmb_modificaContenuti_contenuto.DisplayMemberPath = "Nome";
+        }
+
+
 
         private void cmb_sezioni_elimina_DropDownOpened(object sender, EventArgs e)
         {
@@ -2478,120 +2647,9 @@ namespace MuseumsManager
             }
         }
 
-
-
-
-
-
-        private void btn_filtraContenuti_Click(object sender, RoutedEventArgs e)
-        {
-            string sqlCommandString = "SELECT Contenuto.* FROM Contenuto ";
-            string whereString = " WHERE ";
-
-            if(!(cmb_contenuti_filtroSezione.SelectedItem is null))
-            {
-                whereString += "idSezione = " + (cmb_contenuti_filtroSezione.SelectedItem as Sezione).idSezione;
-            }
-
-            if (!(cmb_contenuti_filtroProvenienza.SelectedItem is null))
-            {
-                if (!whereString.Equals(" WHERE "))
-                    whereString += "AND ";
-                whereString += "idProvenienza = " + (cmb_contenuti_filtroProvenienza.SelectedItem as Provenienza).idProvenienza;
-            }
-            if (!(cmb_contenuti_filtroCreatore.SelectedItem is null))
-            {
-                if (!whereString.Equals(" WHERE "))
-                    whereString += "AND ";
-                sqlCommandString += "INNER JOIN Creato ON Contenuto.idContenuto = Creato.idContenuto ";
-                whereString += "idCreatore = " + (cmb_contenuti_filtroCreatore.SelectedItem as Creatore).idCreatore;
-            }
-            if (!(cmb_contenuti_filtroPeriodoStorico.SelectedItem is null))
-            {
-                if (!whereString.Equals(" WHERE "))
-                    whereString += "AND ";
-                whereString += "idPeriodoStorico = " + (cmb_contenuti_filtroPeriodoStorico.SelectedItem as PeriodoStorico).idPeriodoStorico;
-            }
-            if (!(cmb_contenuti_filtroTipoContenuto.SelectedItem is null))
-            {
-                if (!whereString.Equals(" WHERE "))
-                    whereString += "AND ";
-                sqlCommandString += "INNER JOIN Contenuto_Tipologia ON Contenuto.idContenuto = Contenuto_Tipologia.idContenuto ";
-                whereString += "idTipoContenuto = " + (cmb_contenuti_filtroTipoContenuto.SelectedItem as TipoContenuto).idTipoContenuto;
-            }
-
-            List<Contenuto> contenuti = DBObject<Contenuto>.CustomSelect(new SqlCommand(sqlCommandString)),
-                padri = contenuti.Where(c => c.idContenutoPadre == 0).ToList(),
-                allContenuti = DBObject<Contenuto>.SelectAll();
-
-            Dictionary<int, Contenuto> idPairingContenuti = new Dictionary<int, Contenuto>();
-            allContenuti.ForEach(c => idPairingContenuti.Add(c.idContenuto, c));
-
-            Dictionary<Contenuto, List<Contenuto>> padreFigli = new Dictionary<Contenuto, List<Contenuto>>();
-            contenuti.ForEach(c => padreFigli.Add(c, cercaFigli(c, idPairingContenuti)));
-
-            List<ContenutoForList> contenutoForLists = new List<ContenutoForList>();
-            padri.ForEach(c =>
-            {
-                contenutoForLists.Add(new ContenutoForList() { Contenuto = c, Figli = new List<Contenuto>(padreFigli[c]) });
-            });
-            lsv_contenuti.ItemsSource = contenutoForLists;
-
-
-        }
-
-        /// <summary>
-        /// Trova i figli di un contenuto
-        /// </summary>
-        private List<Contenuto> cercaFigli(Contenuto padre, Dictionary<int, Contenuto> idPairingContenuti)
-        {
-            List<Contenuto> figli = new List<Contenuto>();
-            idPairingContenuti.Keys.ToList().ForEach(k =>
-            {
-                if(isFiglio(k, padre.idContenuto, idPairingContenuti))
-                {
-                    figli.Add(idPairingContenuti[k]);
-                }
-            });
-            return figli;
-        }
-
-        private bool isFiglio(int idFiglio, int idPadre, Dictionary<int, Contenuto> idPairingContenuti)
-        {
-            if (idPairingContenuti[idFiglio].idContenutoPadre == 0 || idFiglio == idPadre)
-                return false;
-            bool isFiglio = false;
-            int tmpIdPadre, tmpIdFiglio = idFiglio;
-            do
-            {
-                tmpIdPadre = idPairingContenuti[tmpIdFiglio].idContenutoPadre;
-                isFiglio = tmpIdPadre == idPadre;
-                tmpIdFiglio = tmpIdPadre;
-            } while (tmpIdPadre != 0 && tmpIdPadre != idPadre && !isFiglio);
-            return isFiglio;
-        }
-
-
-
-
-
-        /// <summary>
-        /// Metodo per l'eliminazione di una sezione.
-        /// </summary>
-        private void btn_sezioni_elimina_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void cmb_modificaContenuti_contenuto_DropDownOpened(object sender, EventArgs e)
-        {
-            cmb_modificaContenuti_contenuto.ItemsSource = DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo));
-            cmb_modificaContenuti_contenuto.DisplayMemberPath = "Nome";
-        }
-
         private void cmb_modificaContenuti_contenuto_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(!(cmb_modificaContenuti_contenuto.SelectedItem is null))
+            if (!(cmb_modificaContenuti_contenuto.SelectedItem is null))
             {
                 txt_modificaContenuti_nome.IsEnabled = true;
                 txt_modificaContenuti_descrizione.IsEnabled = true;
@@ -2615,7 +2673,7 @@ namespace MuseumsManager
                 cmb_modificaContenuti_periodoStorico.ItemsSource = ps;
                 cmb_modificaContenuti_periodoStorico.DisplayMemberPath = "Nome";
 
-                
+
 
                 Contenuto contenuto = cmb_modificaContenuti_contenuto.SelectedItem as Contenuto;
 
@@ -2637,80 +2695,7 @@ namespace MuseumsManager
             }
         }
 
-        private void btn_modificaContenuti_aggiorna_Click(object sender, RoutedEventArgs e)
-        {
-            DateTime r = new DateTime(), a = new DateTime();
-            if(!(cmb_modificaContenuti_contenuto.SelectedItem is null) &&
-                txt_modificaContenuti_nome.Text != "" && txt_modificaContenuti_nome.Text != "Nome" &&
-                txt_modificaContenuti_descrizione.Text != "" && txt_modificaContenuti_descrizione.Text != "Descrizione" &&
-                DateTime.TryParse(txt_modificaContenuti_dataRitrovamento.Text, out r) &&
-                DateTime.TryParse(txt_modificaContenuti_dataArrivo.Text, out a) &&
-                !(cmb_modificaContenuti_sezione.SelectedItem is null) &&
-                !(cmb_modificaContenuti_provenienza.SelectedItem is null) &&
-                !(cmb_modificaContenuti_periodoStorico.SelectedItem is null))
-            {
-                Contenuto contenuto = cmb_modificaContenuti_contenuto.SelectedItem as Contenuto;
-                int idOldProv = contenuto.idProvenienza, idOldPS = contenuto.idPeriodoStorico;
-                contenuto.Nome = txt_modificaContenuti_nome.Text;
-                contenuto.Descrizione = txt_modificaContenuti_descrizione.Text;
-                contenuto.DataRitrovamento = r;
-                contenuto.DataArrivoMuseo = a;
-                contenuto.idSezione = (cmb_modificaContenuti_sezione.SelectedItem as Sezione).idSezione;
-                contenuto.idProvenienza = (cmb_modificaContenuti_provenienza.SelectedItem as Provenienza).idProvenienza;
-                contenuto.idPeriodoStorico = (cmb_modificaContenuti_periodoStorico.SelectedItem as PeriodoStorico).idPeriodoStorico;
-
-                contenuto.idContenutoPadre = (cmb_modificaContenuti_padre.SelectedItem is null) ? 0 : (cmb_modificaContenuti_padre.SelectedItem as Contenuto).idContenuto;
-
-                int res = DBEntity.Update<Contenuto>("idContenuto", contenuto.idContenuto, "Nome", contenuto.Nome, "Descrizione", contenuto.Descrizione,
-                    "DataRitrovamento", contenuto.DataRitrovamento.Date.ToString("yyyy-MM-dd"),
-                    "DataArrivoMuseo", contenuto.DataArrivoMuseo.Date.ToString("yyyy-MM-dd"),
-                    "idSezione", contenuto.idSezione, "idProvenienza", contenuto.idProvenienza, "idPeriodoStorico", contenuto.idPeriodoStorico, "idContenutoPadre", contenuto.idContenutoPadre);
-                if (checkQueryResult(res))
-                    MessageBox.Show("Contenuto aggiornato", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //Vecchi indici
-                if(DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = "+museoSelezionato.idMuseo + " AND Contenuto.idProvenienza = " + idOldProv)).Count == 0)
-                {
-                    DBRelationN2NOnlyIndexes<Museo_Provenienza>.Delete("idMuseo", museoSelezionato.idMuseo, "idProvenienza", idOldProv);
-                }
-                if(DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = "+museoSelezionato.idMuseo + " AND Contenuto.idPeriodoStorico = " + idOldPS)).Count == 0)
-                {
-                    DBRelationN2NOnlyIndexes<Museo_PeriodoStorico>.Delete("idMuseo", museoSelezionato.idMuseo, "idPeriodoStorico", idOldPS);
-                }
-
-                //Nuovi indici
-                if (DBObject<Museo_Provenienza>.CustomSelect(new SqlCommand("SELECT Museo_Provenienza.* FROM Museo_Provenienza WHERE idMuseo = " + museoSelezionato.idMuseo + " AND idProvenienza = " + contenuto.idProvenienza)).Count == 0)
-                {
-                    DBObject<Museo_Provenienza>.Insert("idMuseo", museoSelezionato.idMuseo, "idProvenienza", idOldProv);
-                }
-                if (DBObject<Museo_PeriodoStorico>.CustomSelect(new SqlCommand("SELECT Museo_PeriodoStorico.* FROM Museo_PeriodoStorico WHERE idMuseo = " + museoSelezionato.idMuseo + " AND Museo_PeriodoStorico = " + contenuto.idPeriodoStorico)).Count == 0)
-                {
-                    DBObject<Museo_PeriodoStorico>.Insert("idMuseo", museoSelezionato.idMuseo, "idPeriodoStorico", idOldPS);
-                }
-            }
-            else
-                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
-
-
-            cmb_modificaContenuti_contenuto.ItemsSource = null;
-            txt_modificaContenuti_nome.IsEnabled = false;
-            txt_modificaContenuti_nome.Text = "Nome";
-            txt_modificaContenuti_descrizione.IsEnabled = false;
-            txt_modificaContenuti_descrizione.Text = "Descrizione";
-            txt_modificaContenuti_dataRitrovamento.IsEnabled = false;
-            txt_modificaContenuti_dataRitrovamento.Text = "Data di ritrovamento";
-            txt_modificaContenuti_dataArrivo.IsEnabled = false;
-            txt_modificaContenuti_dataArrivo.Text = "Data di arrivo";
-            cmb_modificaContenuti_sezione.IsEnabled = false;
-            cmb_modificaContenuti_sezione.ItemsSource = null;
-            cmb_modificaContenuti_provenienza.IsEnabled = false;
-            cmb_modificaContenuti_provenienza.ItemsSource = null;
-            cmb_modificaContenuti_periodoStorico.IsEnabled = false;
-            cmb_modificaContenuti_periodoStorico.ItemsSource = null;
-            cmb_modificaContenuti_padre.IsEnabled = false;
-            cmb_modificaContenuti_padre.ItemsSource = null;
-            btn_modificaContenuti_aggiorna.IsEnabled = false;
-        }
+        
 
         private void cmb_modificaContenuti_sezione_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -2721,5 +2706,28 @@ namespace MuseumsManager
                 cmb_modificaContenuti_padre.DisplayMemberPath = "Nome";
             }
         }
+
+
+
+
+        
+
+        
+
+
+
+
+
+        /// <summary>
+        /// Metodo per l'eliminazione di una sezione.
+        /// </summary>
+        private void btn_sezioni_elimina_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        
+
+        
     }
 }
