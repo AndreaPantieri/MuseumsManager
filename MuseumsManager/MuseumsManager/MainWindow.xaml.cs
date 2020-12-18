@@ -519,7 +519,11 @@ namespace MuseumsManager
                         {
                             List<CalendarioApertureSpeciali> casAdd = new List<CalendarioApertureSpeciali>(eventArgs.NewItems.Cast<CalendarioApertureSpeciali>());
                             casAdd.ForEach(cas => cas.idMuseo = museoSelezionato.idMuseo);
-                            casAdd.ForEach(cas => DBObject<CalendarioApertureSpeciali>.Insert("Data", cas.Data, "OrarioApertura", cas.OrarioApertura, "OrarioChiusura", cas.OrarioChiusura, "NumBigliettiMax", cas.NumBigliettiMax, "idMuseo", cas.idMuseo));
+                            casAdd.ForEach(cas =>
+                            {
+                                if (DBObject<CalendarioChiusure>.Select("idMuseo", cas.idMuseo, "Data", cas.Data).Count == 0)
+                                    DBObject<CalendarioApertureSpeciali>.Insert("Data", cas.Data, "OrarioApertura", cas.OrarioApertura, "OrarioChiusura", cas.OrarioChiusura, "NumBigliettiMax", cas.NumBigliettiMax, "idMuseo", cas.idMuseo);
+                            });
                             break;
                         }
                 }
@@ -558,7 +562,11 @@ namespace MuseumsManager
                         {
                             List<CalendarioApertureSpeciali> casAdd = new List<CalendarioApertureSpeciali>(eventArgs.NewItems.Cast<CalendarioApertureSpeciali>());
                             casAdd.ForEach(cas => cas.idMuseo = museoSelezionato.idMuseo);
-                            casAdd.ForEach(cas => DBObject<CalendarioApertureSpeciali>.Insert("Data", cas.Data, "OrarioApertura", cas.OrarioApertura, "OrarioChiusura", cas.OrarioChiusura, "NumBigliettiMax", cas.NumBigliettiMax, "idMuseo", cas.idMuseo));
+                            casAdd.ForEach(cas =>
+                            {
+                                if (DBObject<CalendarioChiusure>.Select("idMuseo", cas.idMuseo, "Data", cas.Data).Count == 0)
+                                    DBObject<CalendarioApertureSpeciali>.Insert("Data", cas.Data, "OrarioApertura", cas.OrarioApertura, "OrarioChiusura", cas.OrarioChiusura, "NumBigliettiMax", cas.NumBigliettiMax, "idMuseo", cas.idMuseo);
+                            });
                             break;
                         }
                 }
@@ -576,17 +584,19 @@ namespace MuseumsManager
                 Museo m = (Museo)cmb_museo_selezionaMuseo.SelectedItem;
                 DateTime date = (DateTime)cal_chiusura_data.SelectedDate;
                 string data = date.Date.ToString("yyyy-MM-dd");
+
                 if (DBObject<CalendarioApertureSpeciali>.Select("idMuseo", m.idMuseo, "Data", data).Count == 0)
                 {
                     int res = DBObject<CalendarioChiusure>.Insert("Data", data, "idMuseo", m.idMuseo);
                     if (checkQueryResult(res))
                         MessageBox.Show("Giorno di chiusura aggiunto correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
+                else
+                    MessageBox.Show("Data presente come giorno di apertura speciale!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
-            {
-                MessageBox.Show("Data presente come giorno di apertura speciale!", "ERRORE", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+
             List<CalendarioChiusure> lcc = DBObject<CalendarioChiusure>.Select("idMuseo", this.museoSelezionato.idMuseo);
             ObservableCollection<CalendarioChiusure> calendarioChiusure = new ObservableCollection<CalendarioChiusure>(lcc);
             calendarioChiusure.CollectionChanged += (s, eventArgs) =>
@@ -601,9 +611,13 @@ namespace MuseumsManager
                         }
                     case NotifyCollectionChangedAction.Add:
                         {
-                            List<CalendarioChiusure> ccAdd = new List<CalendarioChiusure>(eventArgs.NewItems.Cast<CalendarioChiusure>());
+                            List<CalendarioChiusure> ccAdd = new List<CalendarioChiusure>(eventArgs.NewItems.Cast<CalendarioChiusure>()); 
                             ccAdd.ForEach(cc => cc.idMuseo = museoSelezionato.idMuseo);
-                            ccAdd.ForEach(cc => DBObject<CalendarioChiusure>.Insert("Data", cc.Data, "idMuseo", cc.idMuseo));
+                            ccAdd.ForEach(cc =>
+                            {
+                                if (DBObject<CalendarioApertureSpeciali>.Select("idMuseo", cc.idMuseo, "Data", cc.Data).Count == 0)
+                                    DBObject<CalendarioChiusure>.Insert("Data", cc.Data, "idMuseo", cc.idMuseo);
+                            }); 
                             break;
                         }
                 }
@@ -643,7 +657,11 @@ namespace MuseumsManager
                         {
                             List<CalendarioChiusure> ccAdd = new List<CalendarioChiusure>(eventArgs.NewItems.Cast<CalendarioChiusure>());
                             ccAdd.ForEach(cc => cc.idMuseo = museoSelezionato.idMuseo);
-                            ccAdd.ForEach(cc => DBObject<CalendarioChiusure>.Insert("Data", cc.Data, "idMuseo", cc.idMuseo));
+                            ccAdd.ForEach(cc =>
+                            {
+                                if (DBObject<CalendarioApertureSpeciali>.Select("idMuseo", cc.idMuseo, "Data", cc.Data).Count == 0)
+                                    DBObject<CalendarioChiusure>.Insert("Data", cc.Data, "idMuseo", cc.idMuseo);
+                            });
                             break;
                         }
                 }
@@ -1240,7 +1258,7 @@ namespace MuseumsManager
                 {
                     DBObject<Museo_Provenienza>.Insert("idMuseo", museoSelezionato.idMuseo, "idProvenienza", idOldProv);
                 }
-                if (DBObject<Museo_PeriodoStorico>.CustomSelect(new SqlCommand("SELECT Museo_PeriodoStorico.* FROM Museo_PeriodoStorico WHERE idMuseo = " + museoSelezionato.idMuseo + " AND Museo_PeriodoStorico = " + contenuto.idPeriodoStorico)).Count == 0)
+                if (DBObject<Museo_PeriodoStorico>.CustomSelect(new SqlCommand("SELECT Museo_PeriodoStorico.* FROM Museo_PeriodoStorico WHERE idMuseo = " + museoSelezionato.idMuseo + " AND Museo_PeriodoStorico.idPeriodoStorico = " + contenuto.idPeriodoStorico)).Count == 0)
                 {
                     DBObject<Museo_PeriodoStorico>.Insert("idMuseo", museoSelezionato.idMuseo, "idPeriodoStorico", idOldPS);
                 }
@@ -1304,6 +1322,9 @@ namespace MuseumsManager
                 sqlCommandString += "INNER JOIN Contenuto_Tipologia ON Contenuto.idContenuto = Contenuto_Tipologia.idContenuto ";
                 whereString += "idTipoContenuto = " + (cmb_contenuti_filtroTipoContenuto.SelectedItem as TipoContenuto).idTipoContenuto;
             }
+
+            if (!whereString.Equals(" WHERE "))
+                sqlCommandString += whereString;
 
             List<Contenuto> contenuti = DBObject<Contenuto>.CustomSelect(new SqlCommand(sqlCommandString)),
                 padri = contenuti.Where(c => c.idContenutoPadre == 0).ToList(),
@@ -2438,7 +2459,11 @@ namespace MuseumsManager
                                     {
                                         List<CalendarioApertureSpeciali> casAdd = new List<CalendarioApertureSpeciali>(eventArgs.NewItems.Cast<CalendarioApertureSpeciali>());
                                         casAdd.ForEach(cas => cas.idMuseo = museoSelezionato.idMuseo);
-                                        casAdd.ForEach(cas => DBObject<CalendarioApertureSpeciali>.Insert("Data", cas.Data, "OrarioApertura", cas.OrarioApertura, "OrarioChiusura", cas.OrarioChiusura, "NumBigliettiMax", cas.NumBigliettiMax, "idMuseo", cas.idMuseo));
+                                        casAdd.ForEach(cas =>
+                                        {
+                                            if (DBObject<CalendarioChiusure>.Select("idMuseo", cas.idMuseo, "Data", cas.Data).Count == 0)
+                                                DBObject<CalendarioApertureSpeciali>.Insert("Data", cas.Data, "OrarioApertura", cas.OrarioApertura, "OrarioChiusura", cas.OrarioChiusura, "NumBigliettiMax", cas.NumBigliettiMax, "idMuseo", cas.idMuseo);
+                                        });
                                         break;
                                     }
                             }
@@ -2468,7 +2493,11 @@ namespace MuseumsManager
                                     {
                                         List<CalendarioChiusure> ccAdd = new List<CalendarioChiusure>(eventArgs.NewItems.Cast<CalendarioChiusure>());
                                         ccAdd.ForEach(cc => cc.idMuseo = museoSelezionato.idMuseo);
-                                        ccAdd.ForEach(cc => DBObject<CalendarioChiusure>.Insert("Data", cc.Data, "idMuseo", cc.idMuseo));
+                                        ccAdd.ForEach(cc =>
+                                        {
+                                            if (DBObject<CalendarioApertureSpeciali>.Select("idMuseo", cc.idMuseo, "Data", cc.Data).Count == 0)
+                                                DBObject<CalendarioChiusure>.Insert("Data", cc.Data, "idMuseo", cc.idMuseo);
+                                        });
                                         break;
                                     }
                             }
@@ -2483,7 +2512,7 @@ namespace MuseumsManager
                     if(tabItem.Header.Equals("Registri") && !(this.museoSelezionato is null))
                     {
                         dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo);
-                        List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* WHERE RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = "+ museoSelezionato.idMuseo));
+                        List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = "+ museoSelezionato.idMuseo));
                         List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
                         List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
                         lrp.ForEach(rp => {
@@ -2513,8 +2542,8 @@ namespace MuseumsManager
                         lsv_tipiBiglietti.ItemsSource = DBObject<TipoBiglietto>.SelectAll().Where(tb => tb.idMuseo == museoSelezionato.idMuseo);
 
                         //Query per ottenere tutte le info sui biglietti comprati.
-                        //string sqlCommandString = "SELECT DataValidita, PrezzoAcquisto, Prezzo, Nome, Descrizione FROM Biglietto INNER JOIN TipoBiglietto ON Biglietto.idTipoBiglietto = TipoBiglietto.idTipoBiglietto WHERE Biglietto.idMuseo = " + museoSelezionato.idMuseo;
-                        //lsv_bigliettiComprati.ItemsSource = DBObject<Biglietto>.CustomSelect(new SqlCommand(sqlCommandString));
+                        string sqlCommandString = "SELECT DataValidita, PrezzoAcquisto, Prezzo, Nome, Descrizione FROM Biglietto INNER JOIN TipoBiglietto ON Biglietto.idTipoBiglietto = TipoBiglietto.idTipoBiglietto WHERE Biglietto.idMuseo = " + museoSelezionato.idMuseo;
+                        lsv_bigliettiComprati.ItemsSource = DBObject<Biglietto>.CustomSelect(new SqlCommand(sqlCommandString));
                     }
                     if (tabItem.Header.Equals("Personale"))
                     {
@@ -2829,11 +2858,11 @@ namespace MuseumsManager
 
         private void ckb_presenze_giornaliere_Checked(object sender, RoutedEventArgs e)
         {
-            if ((bool)ckb_presenze_mensili.IsChecked && (bool)ckb_presenze_annuali.IsChecked)
+            if ((bool)ckb_presenze_mensili.IsChecked || (bool)ckb_presenze_annuali.IsChecked)
             {
                 ckb_presenze_mensili.IsChecked = false;
                 ckb_presenze_annuali.IsChecked = false;
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* WHERE RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Day == DateTime.Now.Day || r.DataUscita.Day == DateTime.Now.Day).ToList();
+                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Day == DateTime.Now.Day || r.DataUscita.Day == DateTime.Now.Day).ToList();
                 List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
                 List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
                 lrp.ForEach(rp => {
@@ -2851,7 +2880,7 @@ namespace MuseumsManager
             }
             else
             {
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* WHERE RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo));
+                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo));
                 List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
                 List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
                 lrp.ForEach(rp => {
@@ -2871,11 +2900,11 @@ namespace MuseumsManager
 
         private void ckb_presenze_mensili_Checked(object sender, RoutedEventArgs e)
         {
-            if ((bool)ckb_presenze_giornaliere.IsChecked && (bool)ckb_presenze_annuali.IsChecked)
+            if ((bool)ckb_presenze_giornaliere.IsChecked || (bool)ckb_presenze_annuali.IsChecked)
             {
                 ckb_presenze_giornaliere.IsChecked = false;
                 ckb_presenze_annuali.IsChecked = false;
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* WHERE RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Month == DateTime.Now.Month || r.DataUscita.Month == DateTime.Now.Month).ToList();
+                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Month == DateTime.Now.Month || r.DataUscita.Month == DateTime.Now.Month).ToList();
                 List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
                 List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
                 lrp.ForEach(rp => {
@@ -2893,7 +2922,7 @@ namespace MuseumsManager
             }
             else
             {
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* WHERE RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo));
+                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo));
                 List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
                 List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
                 lrp.ForEach(rp => {
@@ -2913,11 +2942,11 @@ namespace MuseumsManager
 
         private void ckb_presenze_annuali_Checked(object sender, RoutedEventArgs e)
         {
-            if ((bool)ckb_presenze_giornaliere.IsChecked && (bool)ckb_presenze_mensili.IsChecked)
+            if ((bool)ckb_presenze_giornaliere.IsChecked || (bool)ckb_presenze_mensili.IsChecked)
             {
                 ckb_presenze_giornaliere.IsChecked = false;
                 ckb_presenze_mensili.IsChecked = false;
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* WHERE RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Year == DateTime.Now.Year || r.DataUscita.Year == DateTime.Now.Year).ToList();
+                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Year == DateTime.Now.Year || r.DataUscita.Year == DateTime.Now.Year).ToList();
                 List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
                 List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
                 lrp.ForEach(rp => {
@@ -2935,7 +2964,7 @@ namespace MuseumsManager
             }
             else
             {
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* WHERE RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo));
+                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo));
                 List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
                 List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
                 lrp.ForEach(rp => {
