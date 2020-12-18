@@ -1961,8 +1961,8 @@ namespace MuseumsManager
         {
             SqlCommand sqlCommand = new SqlCommand("SELECT Provenienza.* FROM Provenienza INNER JOIN Museo_Provenienza ON Provenienza.idProvenienza = Museo_Provenienza.idProvenienza WHERE Museo_Provenienza.idMuseo = @idMuseo;");
             sqlCommand.Parameters.AddWithValue("@idMuseo", museoSelezionato.idMuseo);
-            cmb_contenuti_filtroSezione.ItemsSource = DBObject<Sezione>.CustomSelect(sqlCommand);
-            cmb_contenuti_filtroSezione.DisplayMemberPath = "Nome";
+            cmb_contenuti_filtroProvenienza.ItemsSource = DBObject<Provenienza>.CustomSelect(sqlCommand);
+            cmb_contenuti_filtroProvenienza.DisplayMemberPath = "Nome";
         }
 
         private void cmb_contenuti_filtroCreatore_DropDownOpened(object sender, EventArgs e)
@@ -2499,27 +2499,27 @@ namespace MuseumsManager
             {
                 if (!whereString.Equals(" WHERE "))
                     whereString += "AND ";
-                whereString += "idProvenienza = " + (cmb_contenuti_filtroProvenienza.SelectedItem as Sezione).idSezione;
+                whereString += "idProvenienza = " + (cmb_contenuti_filtroProvenienza.SelectedItem as Provenienza).idProvenienza;
             }
             if (!(cmb_contenuti_filtroCreatore.SelectedItem is null))
             {
                 if (!whereString.Equals(" WHERE "))
                     whereString += "AND ";
                 sqlCommandString += "INNER JOIN Creato ON Contenuto.idContenuto = Creato.idContenuto ";
-                whereString += "idCreatore = " + (cmb_contenuti_filtroCreatore.SelectedItem as Sezione).idSezione;
+                whereString += "idCreatore = " + (cmb_contenuti_filtroCreatore.SelectedItem as Creatore).idCreatore;
             }
             if (!(cmb_contenuti_filtroPeriodoStorico.SelectedItem is null))
             {
                 if (!whereString.Equals(" WHERE "))
                     whereString += "AND ";
-                whereString += "idPeriodoStorico = " + (cmb_contenuti_filtroPeriodoStorico.SelectedItem as Sezione).idSezione;
+                whereString += "idPeriodoStorico = " + (cmb_contenuti_filtroPeriodoStorico.SelectedItem as PeriodoStorico).idPeriodoStorico;
             }
             if (!(cmb_contenuti_filtroTipoContenuto.SelectedItem is null))
             {
                 if (!whereString.Equals(" WHERE "))
                     whereString += "AND ";
                 sqlCommandString += "INNER JOIN Contenuto_Tipologia ON Contenuto.idContenuto = Contenuto_Tipologia.idContenuto ";
-                whereString += "idTipoContenuto = " + (cmb_contenuti_filtroTipoContenuto.SelectedItem as Sezione).idSezione;
+                whereString += "idTipoContenuto = " + (cmb_contenuti_filtroTipoContenuto.SelectedItem as TipoContenuto).idTipoContenuto;
             }
 
             List<Contenuto> contenuti = DBObject<Contenuto>.CustomSelect(new SqlCommand(sqlCommandString)),
