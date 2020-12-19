@@ -378,7 +378,7 @@
                     <Label x:Name="lbl_ruoli" Content="Ruoli:" HorizontalAlignment="Left" Margin="10,436,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tbi_registri" Header="Registri" IsEnabled="False">
+            <TabItem x:Name="tbi_registri" Header="Registri" IsEnabled="False" >
                 <Grid x:Name="grid_registri">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="32*"/>
@@ -402,14 +402,14 @@
                             <Button x:Name="btn_manutenzioni_elimina" Content="Elimina" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Canvas.Left="426" Canvas.Top="199" FontWeight="Normal" Click="btn_manutenzioni_elimina_Click"/>
                         </Canvas>
                     </GroupBox>
-                    <DataGrid x:Name="dtg_manutenzioni" ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="248" Margin="126,54,0,0" VerticalAlignment="Top" Width="544" RenderTransformOrigin="-1.615,-0.45" Grid.Column="1">
+                    <DataGrid x:Name="dtg_manutenzioni" ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="248" Margin="126,54,0,0" VerticalAlignment="Top" Width="544" RenderTransformOrigin="-1.615,-0.45" Grid.Column="1" IsReadOnly="True" CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Data" Binding="{Binding Data, StringFormat=yyyy-MM-dd}"/>
                             <DataGridTextColumn Header="Descrizione"  Binding="{Binding Descrizione}"/>
                             <DataGridTextColumn Header="Prezzo"  Binding="{Binding Prezzo}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid x:Name="dtg_presenzeMensili" ItemsSource="{Binding}" AutoGenerateColumns="False"  HorizontalAlignment="Left" Height="286" Margin="126,346,0,0" VerticalAlignment="Top" Width="544" RenderTransformOrigin="-1.615,-0.45" Grid.Column="1">
+                    <DataGrid x:Name="dtg_presenzeMensili" ItemsSource="{Binding}" AutoGenerateColumns="False"  HorizontalAlignment="Left" Height="286" Margin="126,346,0,0" VerticalAlignment="Top" Width="544" RenderTransformOrigin="-1.615,-0.45" Grid.Column="1" IsReadOnly="True" CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="NomePersonale"  Binding="{Binding NomePersonale}"/>
                             <DataGridTextColumn Header="DataEntrata" Binding="{Binding DataEntrata, StringFormat=yyyy-MM-dd}"/>
@@ -489,7 +489,7 @@
                         <Label x:Name="lbl_statisticheMuseo_annoAttuale_speseTotali" Content="Spese totali:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="519" FontWeight="Normal"/>
                         <Label x:Name="lbl_statisticheMuseo_annoAttuale_ricavo" Content="Ricavo:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="550" FontWeight="Normal" Width="74"/>
                         <Label x:Name="lbl_statisticheMuseo_annoAttuale_fatturato" Content="Fatturato:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="37" Canvas.Top="581" FontWeight="Normal" Width="75"/>
-                        <Button x:Name="btn_statisticheMuseo_annoAttuale_calcola" Content="Calcola" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="37" Canvas.Top="612"/>
+                        <Button x:Name="btn_statisticheMuseo_annoAttuale_calcola" Content="Calcola" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="37" Canvas.Top="612" Click="btn_statisticheMuseo_annoAttuale_calcola_Click"/>
                         <Label x:Name="lbl_statisticheMuseo_meseAttuale_valoreNumeroBigliettiVenduti" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="55" Width="375"/>
                         <Label x:Name="lbl_statisticheMuseo_meseAttuale_valoreNumeroManutenzioni" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="86" Width="370"/>
                         <Label x:Name="lbl_statisticheMuseo_meseAttuale_valoreNumeroNuoviContenuti" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="245" Canvas.Top="117" Width="370"/>
