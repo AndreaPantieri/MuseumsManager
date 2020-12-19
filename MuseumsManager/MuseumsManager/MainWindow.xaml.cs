@@ -3248,27 +3248,30 @@ namespace MuseumsManager
         private void btn_statisticheMuseo_meseAttuale_calcola_Click(object sender, RoutedEventArgs e)
         {
             //Numero di biglietti venduti
-            string numBiglietti = "SELECT COUNT(*) " +
+            string numBiglietti = "SELECT COUNT(*) AS numBiglietti " +
                 "FROM Biglietto " +
                 "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
 
             //Numero di manutenzioni svolte
-            string numManutenzioni = "SELECT COUNT(*) " +
+            string numManutenzioni = "SELECT COUNT(*) AS numManutenzioni " +
                 "FROM RegistroManutenzioni " +
                 "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + ";";
 
             //Numero di nuovi contenuti aggiunti
-            string numNuoviContenuti = "SELECT COUNT(*) " +
+            string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
                 "FROM Contenuto " +
                 "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
 
             //Numero di giorni di chiusura totali
-            string numGiorniChiusura = "SELECT COUNT(*) " +
+            string numGiorniChiusura = "SELECT COUNT(*) AS numGiorniChiusura " +
                 "FROM CalendarioChiusure " +
                 "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + ";";
 
             //Spese totali
-            string speseTotali = "SELECT SUM(Prezzo) ";
+            string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
+                "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month +") " +
+                "UNION (" +
+                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (MONTH(DataEntrata) = "+ DateTime.Now.Month + "OR MONTH(DataUscita) = " + DateTime.Now.Month +" ) )";
 
         }
     }
