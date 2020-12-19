@@ -3244,5 +3244,32 @@ namespace MuseumsManager
             }
             dtg_presenzeMensili.Items.Refresh();
         }
+
+        private void btn_statisticheMuseo_meseAttuale_calcola_Click(object sender, RoutedEventArgs e)
+        {
+            //Numero di biglietti venduti
+            string numBiglietti = "SELECT COUNT(*) " +
+                "FROM Biglietto " +
+                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
+
+            //Numero di manutenzioni svolte
+            string numManutenzioni = "SELECT COUNT(*) " +
+                "FROM RegistroManutenzioni " +
+                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + ";";
+
+            //Numero di nuovi contenuti aggiunti
+            string numNuoviContenuti = "SELECT COUNT(*) " +
+                "FROM Contenuto " +
+                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
+
+            //Numero di giorni di chiusura totali
+            string numGiorniChiusura = "SELECT COUNT(*) " +
+                "FROM CalendarioChiusure " +
+                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + ";";
+
+            //Spese totali
+            string speseTotali = "SELECT SUM(Prezzo) ";
+
+        }
     }
 }
