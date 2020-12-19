@@ -463,20 +463,20 @@ namespace MuseumsManager
         {
             if (cmb_creatore_rimuovi.SelectedItem != null)
             {
-                //if(DBRelationN2NOnlyIndexes<Museo_Creatore>.SelectAll().Any(mc => ((Museo_Creatore)mc).idCreatore == ((Creatore)cmb_creatore_rimuovi.SelectedItem).idCreatore) ||
-                //DBRelationN2NOnlyIndexes<Creato>.SelectAll().Any(cc => ((Creato)cc).idCreatore == ((Creato)cmb_creatore_rimuovi.SelectedItem).idCreatore))
-                //{
-                //MessageBox.Show("Impossibile eliminare il creatore selezionato: è possibile che esso abbia altre dipendenze in altri musei o contenuti!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
-                //}
-                //else
-                //{
-                string nomeCreatore = ((Creatore)cmb_creatore_rimuovi.SelectedItem).ToString();
-                if (checkQueryResult(DBEntity.Delete<Creatore>("idCreatore", (cmb_creatore_rimuovi.SelectedItem as Creatore).idCreatore)))
+                if (DBObject<Museo_Creatore>.SelectAll().Any(mc => ((Museo_Creatore)mc).idCreatore == ((Creatore)cmb_creatore_rimuovi.SelectedItem).idCreatore) ||
+                DBObject<Creato>.SelectAll().Any(cc => ((Creato)cc).idCreatore == ((Creatore)cmb_creatore_rimuovi.SelectedItem).idCreatore))
                 {
-                    MessageBox.Show("Creatore \"" + nomeCreatore + "\" eliminato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
-                    cmb_creatore_rimuovi.ItemsSource = null;
+                    MessageBox.Show("Impossibile eliminare il creatore selezionato: è possibile che esso abbia ancora dipendenze in altri musei o contenuti!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                //}
+                else
+                {
+                    string nomeCreatore = ((Creatore)cmb_creatore_rimuovi.SelectedItem).ToString();
+                    if (checkQueryResult(DBEntity.Delete<Creatore>("idCreatore", (cmb_creatore_rimuovi.SelectedItem as Creatore).idCreatore)))
+                    {
+                        MessageBox.Show("Creatore \"" + nomeCreatore + "\" eliminato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                        cmb_creatore_rimuovi.ItemsSource = null;
+                    }
+                }
             }
             else
                 MessageBox.Show("Nessun creatore selezionato!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -619,13 +619,13 @@ namespace MuseumsManager
                         }
                     case NotifyCollectionChangedAction.Add:
                         {
-                            List<CalendarioChiusure> ccAdd = new List<CalendarioChiusure>(eventArgs.NewItems.Cast<CalendarioChiusure>()); 
+                            List<CalendarioChiusure> ccAdd = new List<CalendarioChiusure>(eventArgs.NewItems.Cast<CalendarioChiusure>());
                             ccAdd.ForEach(cc => cc.idMuseo = museoSelezionato.idMuseo);
                             ccAdd.ForEach(cc =>
                             {
                                 if (DBObject<CalendarioApertureSpeciali>.Select("idMuseo", cc.idMuseo, "Data", cc.Data).Count == 0)
                                     DBObject<CalendarioChiusure>.Insert("Data", cc.Data, "idMuseo", cc.idMuseo);
-                            }); 
+                            });
                             break;
                         }
                 }
@@ -695,20 +695,20 @@ namespace MuseumsManager
         {
             if (cmb_provenienza_rimuovi.SelectedItem != null)
             {
-                //if(DBRelationN2NOnlyIndexes<Museo_Provenienza>.SelectAll().Any(mp => ((Museo_Provenienza)mp).idProvenienza == ((Provenienza)cmb_provenienza_rimuovi.SelectedItem).idProvenienza) ||
-                //DBObject<Contenuto>.SelectAll().Any(c => ((Contenuto)c).idProvenienza == ((Provenienza)cmb_creatore_rimuovi.SelectedItem).idProvenienza))
-                //{
-                //MessageBox.Show("Impossibile eliminare la provenienza selezionata: è possibile che essa abbia altre dipendenze in altri musei o contenuti!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
-                //}
-                //else
-                //{
-                string nomeProvenienza = ((Provenienza)cmb_provenienza_rimuovi.SelectedItem).Nome;
-                if (checkQueryResult(DBEntity.Delete<Provenienza>("idProvenienza", (cmb_provenienza_rimuovi.SelectedItem as Provenienza).idProvenienza)))
+                if (DBObject<Museo_Provenienza>.SelectAll().Any(mp => ((Museo_Provenienza)mp).idProvenienza == ((Provenienza)cmb_provenienza_rimuovi.SelectedItem).idProvenienza) ||
+                DBObject<Contenuto>.SelectAll().Any(c => c.idProvenienza == ((Provenienza)cmb_provenienza_rimuovi.SelectedItem).idProvenienza))
                 {
-                    MessageBox.Show("La provenienza \"" + nomeProvenienza + "\" è stata eliminata correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
-                    cmb_provenienza_rimuovi.ItemsSource = null;
+                    MessageBox.Show("Impossibile eliminare la provenienza selezionata: è possibile che essa abbia ancora dipendenze in altri musei o contenuti!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                //}
+                else
+                {
+                    string nomeProvenienza = ((Provenienza)cmb_provenienza_rimuovi.SelectedItem).Nome;
+                    if (checkQueryResult(DBEntity.Delete<Provenienza>("idProvenienza", (cmb_provenienza_rimuovi.SelectedItem as Provenienza).idProvenienza)))
+                    {
+                        MessageBox.Show("La provenienza \"" + nomeProvenienza + "\" è stata eliminata correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                        cmb_provenienza_rimuovi.ItemsSource = null;
+                    }
+                }
             }
             else
                 MessageBox.Show("Nessuna provenienza selezionata!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -789,7 +789,7 @@ namespace MuseumsManager
                 List<Sezione_Tipologia> tabellaSezioneTipologia = new List<Sezione_Tipologia>(DBObject<Sezione_Tipologia>.SelectAll());
                 Sezione sezioneSelezionata = (cmb_sezioni_selezionaSezione.SelectedItem as Sezione);
                 List<Sezione_Tipologia> parzialeSezioneTipologia = new List<Sezione_Tipologia>();
-                
+
                 for (int i = 0; i < tabellaSezioneTipologia.Count; i++)
                 {
                     if (sezioneSelezionata.idSezione == tabellaSezioneTipologia[i].idSezione)
@@ -818,25 +818,25 @@ namespace MuseumsManager
                     DBRelationN2NOnlyIndexes<Sezione_Tipologia>.Delete("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", parzialeSezioneTipologia.First().idTipoSezione);
                     DBObject<Sezione_Tipologia>.Insert("idSezione", sezioneSelezionata.idSezione, "idTipoSezione", (cmb_sezioni_modificaTipo.SelectedItem as TipoSezione).idTipoSezione);
                 }
-                else 
-                if(!txt_sezioni_modificaNome.Text.Equals("") &&
+                else
+                if (!txt_sezioni_modificaNome.Text.Equals("") &&
                     !txt_sezioni_modificaDescrizione.Text.Equals("") &&
                     cmb_sezioni_modificaPadre.SelectedIndex != -1)
                 {
                     DBEntity.Update<Sezione>("idSezione", sezioneSelezionata.idSezione, "Nome", txt_sezioni_modificaNome.Text, "Descrizione", txt_sezioni_modificaDescrizione.Text, "idSezionePadre", (cmb_sezioni_modificaPadre.SelectedItem as Sezione).idSezionePadre);
-                    
+
                 }
                 else if (txt_sezioni_modificaNome.Text == sezioneSelezionata.Nome && txt_sezioni_modificaDescrizione.Text == sezioneSelezionata.Descrizione)
                 {
                     MessageBox.Show("Non è stata apportata alcuna modifica!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-                else 
+                else
                 if (!txt_sezioni_modificaNome.Text.Equals("") &&
                     !txt_sezioni_modificaDescrizione.Text.Equals(""))
                 {
                     DBEntity.Update<Sezione>("idSezione", sezioneSelezionata.idSezione, "Nome", txt_sezioni_modificaNome.Text, "Descrizione", txt_sezioni_modificaDescrizione.Text);
-                }  
+                }
                 else
                 {
                     MessageBox.Show("Qualche parametro non è stato compilato!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -844,7 +844,7 @@ namespace MuseumsManager
                 }
                 MessageBox.Show("Sezione modificata correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 lsv_riepilogo_sottosezioni.ItemsSource = null;
-                setMuseumAreas();  
+                setMuseumAreas();
             }
             else
                 MessageBox.Show("Nessuna sezione selezionata!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -936,7 +936,7 @@ namespace MuseumsManager
                     if (checkQueryResult(res))
                         MessageBox.Show("Contenuto inserito correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                if(DBObject<Museo_Creatore>.Select("idCreatore", c.idCreatore, "idMuseo", museoSelezionato.idMuseo).Count == 0)
+                if (DBObject<Museo_Creatore>.Select("idCreatore", c.idCreatore, "idMuseo", museoSelezionato.idMuseo).Count == 0)
                     DBObject<Museo_Creatore>.Insert("idCreatore", c.idCreatore, "idMuseo", museoSelezionato.idMuseo);
 
                 DBObject<Creato>.Insert("idCreatore", c.idCreatore, "idContenuto", res);
@@ -946,7 +946,7 @@ namespace MuseumsManager
 
                 if (DBObject<Museo_Provenienza>.Select("idProvenienza", p.idProvenienza, "idMuseo", museoSelezionato.idMuseo).Count == 0)
                     DBObject<Museo_Provenienza>.Insert("idProvenienza", p.idProvenienza, "idMuseo", museoSelezionato.idMuseo);
-                
+
                 cmb_contenuti_sezione.ItemsSource = null;
                 cmb_contenuti_provenienza.ItemsSource = null;
                 cmb_contenuti_creatore.ItemsSource = null;
@@ -983,12 +983,12 @@ namespace MuseumsManager
                 Contenuto c = cmb_addTipoContenuto_contenuto.SelectedItem as Contenuto;
                 TipoContenuto tc = cmb_addTipoContenuto_tipo.SelectedItem as TipoContenuto;
 
-                if(DBObject<Contenuto_Tipologia>.Select("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto).Count == 0)
+                if (DBObject<Contenuto_Tipologia>.Select("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto).Count == 0)
                 {
                     int res = DBObject<Contenuto_Tipologia>.Insert("idContenuto", c.idContenuto, "idTipoContenuto", tc.idTipoContenuto);
                     if (checkQueryResult(res))
                         MessageBox.Show("Tipo collegato correttamente al contenuto", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
-                    
+
                 }
                 cmb_addTipoContenuto_contenuto.ItemsSource = null;
                 cmb_addTipoContenuto_tipo.ItemsSource = null;
@@ -1037,7 +1037,7 @@ namespace MuseumsManager
                 }
                 else
                     MessageBox.Show("Creatore già collegato al contenuto", "ERRORE", MessageBoxButton.OK, MessageBoxImage.Error);
-                
+
             }
             else
                 MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -2212,7 +2212,7 @@ namespace MuseumsManager
             }
 
         }
-        
+
         private void cmb_contenuti_elimina_DropDownOpened(object sender, EventArgs e)
         {
             cmb_contenuti_elimina.ItemsSource = DBObject<Contenuto>.CustomSelect(new SqlCommand("SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione WHERE idMuseo = " + museoSelezionato.idMuseo));
@@ -2239,10 +2239,10 @@ namespace MuseumsManager
 
         private void cmb_delTipoContenuto_tipo_DropDownOpened(object sender, EventArgs e)
         {
-            if(cmb_delTipoContenuto_contenuto.SelectedIndex != -1)
+            if (cmb_delTipoContenuto_contenuto.SelectedIndex != -1)
             {
                 int idContenuto = (cmb_delTipoContenuto_contenuto.SelectedItem as Contenuto).idContenuto;
-                cmb_delTipoContenuto_tipo.ItemsSource = DBObject<TipoContenuto>.CustomSelect(new SqlCommand("SELECT TipoContenuto.* FROM TipoContenuto INNER JOIN Contenuto_Tipologia ON TipoContenuto.idTipoContenuto = Contenuto_Tipologia.idTipoContenuto WHERE Contenuto_Tipologia.idContenuto = "+ idContenuto));
+                cmb_delTipoContenuto_tipo.ItemsSource = DBObject<TipoContenuto>.CustomSelect(new SqlCommand("SELECT TipoContenuto.* FROM TipoContenuto INNER JOIN Contenuto_Tipologia ON TipoContenuto.idTipoContenuto = Contenuto_Tipologia.idTipoContenuto WHERE Contenuto_Tipologia.idContenuto = " + idContenuto));
                 cmb_delTipoContenuto_tipo.DisplayMemberPath = "Descrizione";
             }
         }
@@ -2265,7 +2265,7 @@ namespace MuseumsManager
 
         private void cmb_delCreatore_creatore_DropDownOpened(object sender, EventArgs e)
         {
-            if(cmb_delCrearore_contenuto.SelectedIndex != -1)
+            if (cmb_delCrearore_contenuto.SelectedIndex != -1)
             {
                 int idContenuto = (cmb_delCrearore_contenuto.SelectedItem as Contenuto).idContenuto;
                 cmb_delCreatore_creatore.ItemsSource = DBObject<Creatore>.CustomSelect(new SqlCommand("SELECT Creatore.* FROM Creatore INNER JOIN Creato ON Creatore.idCreatore = Creato.idCreatore WHERE Creato.idContenuto = " + idContenuto));
@@ -2329,7 +2329,7 @@ namespace MuseumsManager
                 }
                 cmb_ruolo_nuovoRuolo.ItemsSource = RuoliDisponibili;
                 cmb_ruolo_nuovoRuolo.DisplayMemberPath = "Descrizione";
-            }  
+            }
         }
 
         private void cmb_ruolo_selezionaPersona_DropDownOpened(object sender, EventArgs e)
@@ -2344,7 +2344,7 @@ namespace MuseumsManager
                 SqlCommand sqlCommand = new SqlCommand("SELECT TipoPersonale.* FROM TipoPersonale INNER JOIN Personale_Tipologia ON TipoPersonale.idTipoPersonale = Personale_Tipologia.idTipoPersonale INNER JOIN Personale ON Personale.idPersonale = Personale_Tipologia.idPersonale WHERE Personale.idPersonale = " + (cmb_ruolo_selezionaPersona.SelectedItem as Personale).idPersonale + ";");
                 cmb_ruolo_selezionaRuolo.ItemsSource = DBObject<TipoPersonale>.CustomSelect(sqlCommand);
                 cmb_ruolo_selezionaRuolo.DisplayMemberPath = "Descrizione";
-            }  
+            }
         }
 
         private void cmb_personale_ruolo_DropDownOpened(object sender, EventArgs e)
@@ -2437,7 +2437,7 @@ namespace MuseumsManager
         {
             cmb_eliminaTipo_selezionaTipo.ItemsSource = null;
         }
-         
+
         /// <summary>
         /// Opzioni generali per quando si cambia tab.
         /// </summary>
@@ -2520,18 +2520,19 @@ namespace MuseumsManager
                             DBEntity.Update<CalendarioChiusure>("idCalendarioChiusure", cc.idCalendarioChiusure, eventArgs.Column.Header.ToString(), (eventArgs.EditingElement as TextBox).Text);
                         };
                     }
-                    if(tabItem.Header.Equals("Registri") && !(this.museoSelezionato is null))
+                    if (tabItem.Header.Equals("Registri") && !(this.museoSelezionato is null))
                     {
                         dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo);
-                        List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = "+ museoSelezionato.idMuseo));
+                        List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo));
                         List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
                         List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
-                        lrp.ForEach(rp => {
+                        lrp.ForEach(rp =>
+                        {
                             RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
                             registroPresenzeForList.DataEntrata = rp.DataEntrata;
                             registroPresenzeForList.DataUscita = rp.DataUscita;
                             Personale p = lp.Where(tmp => tmp.idPersonale == rp.idPersonale).FirstOrDefault();
-                            if(!(p is null))
+                            if (!(p is null))
                             {
                                 registroPresenzeForList.NomePersonale = p.Nome;
                                 lrpfl.Add(registroPresenzeForList);
@@ -2600,10 +2601,10 @@ namespace MuseumsManager
             txt_sezioni_modificaDescrizione.Foreground = Brushes.Gray;
 
             if (cmb_sezioni_selezionaSezione.SelectedIndex != -1)
-            {          
+            {
                 txt_sezioni_modificaNome.Text = (cmb_sezioni_selezionaSezione.SelectedItem as Sezione).Nome;
                 txt_sezioni_modificaDescrizione.Text = (cmb_sezioni_selezionaSezione.SelectedItem as Sezione).Descrizione;
-            }     
+            }
             else
             {
                 txt_sezioni_modificaNome.Text = "Nome";
@@ -2754,7 +2755,7 @@ namespace MuseumsManager
             }
         }
 
-        
+
 
         private void cmb_modificaContenuti_sezione_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -2771,9 +2772,9 @@ namespace MuseumsManager
 
 
 
-        
 
-        
+
+
 
 
 
@@ -2794,7 +2795,7 @@ namespace MuseumsManager
                 ckb_manutenzioni_prezzo.IsChecked = false;
             }
             List<RegistroManutenzioni> lrm = (List<RegistroManutenzioni>)dtg_manutenzioni.DataContext;
-            lrm.Sort((x,y) => y.Data.CompareTo(x.Data));
+            lrm.Sort((x, y) => y.Data.CompareTo(x.Data));
             dtg_manutenzioni.DataContext = lrm;
             dtg_manutenzioni.Items.Refresh();
         }
@@ -2816,7 +2817,7 @@ namespace MuseumsManager
             DateTime dateTime = new DateTime();
             double prezzo = -1;
             string descrizione;
-            if(!(dtp_manutenzioni_data.SelectedDate is null) && double.TryParse(txt_manutenzioni_prezzo.Text, out prezzo) && txt_manutenzioni_descrizione.Text != "" && txt_manutenzioni_descrizione.Text != "Descrizione")
+            if (!(dtp_manutenzioni_data.SelectedDate is null) && double.TryParse(txt_manutenzioni_prezzo.Text, out prezzo) && txt_manutenzioni_descrizione.Text != "" && txt_manutenzioni_descrizione.Text != "Descrizione")
             {
                 dateTime = (DateTime)dtp_manutenzioni_data.SelectedDate;
                 descrizione = txt_manutenzioni_descrizione.Text;
@@ -2835,11 +2836,11 @@ namespace MuseumsManager
 
         private void btn_manutenzioni_elimina_Click(object sender, RoutedEventArgs e)
         {
-            if(cmb_manutenzioni_rimuovi.SelectedIndex != -1)
+            if (cmb_manutenzioni_rimuovi.SelectedIndex != -1)
             {
                 RegistroManutenzioni registroManutenzioni = (RegistroManutenzioni)cmb_manutenzioni_rimuovi.SelectedItem;
                 int res = DBEntity.Delete<RegistroManutenzioni>("idManutenzione", registroManutenzioni.idManutenzione);
-                if(checkQueryResult(res))
+                if (checkQueryResult(res))
                     MessageBox.Show("Manutenzione eliminata correttamente!", "Operazione eseguita", MessageBoxButton.OK);
                 dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo);
             }
@@ -2914,7 +2915,8 @@ namespace MuseumsManager
             List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Day == DateTime.Now.Day || r.DataUscita.Day == DateTime.Now.Day).ToList();
             List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
             List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
-            lrp.ForEach(rp => {
+            lrp.ForEach(rp =>
+            {
                 RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
                 registroPresenzeForList.DataEntrata = rp.DataEntrata;
                 registroPresenzeForList.DataUscita = rp.DataUscita;
@@ -2939,7 +2941,8 @@ namespace MuseumsManager
             List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Month == DateTime.Now.Month || r.DataUscita.Month == DateTime.Now.Month).ToList();
             List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
             List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
-            lrp.ForEach(rp => {
+            lrp.ForEach(rp =>
+            {
                 RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
                 registroPresenzeForList.DataEntrata = rp.DataEntrata;
                 registroPresenzeForList.DataUscita = rp.DataUscita;
@@ -2964,7 +2967,8 @@ namespace MuseumsManager
             List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Year == DateTime.Now.Year || r.DataUscita.Year == DateTime.Now.Year).ToList();
             List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
             List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
-            lrp.ForEach(rp => {
+            lrp.ForEach(rp =>
+            {
                 RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
                 registroPresenzeForList.DataEntrata = rp.DataEntrata;
                 registroPresenzeForList.DataUscita = rp.DataUscita;
@@ -3100,7 +3104,8 @@ namespace MuseumsManager
                 List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo));
                 List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
                 List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
-                lrp.ForEach(rp => {
+                lrp.ForEach(rp =>
+                {
                     RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
                     registroPresenzeForList.DataEntrata = rp.DataEntrata;
                     registroPresenzeForList.DataUscita = rp.DataUscita;
@@ -3161,7 +3166,8 @@ namespace MuseumsManager
                 List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo));
                 List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
                 List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
-                lrp.ForEach(rp => {
+                lrp.ForEach(rp =>
+                {
                     RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
                     registroPresenzeForList.DataEntrata = rp.DataEntrata;
                     registroPresenzeForList.DataUscita = rp.DataUscita;
@@ -3222,7 +3228,8 @@ namespace MuseumsManager
                 List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo));
                 List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
                 List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
-                lrp.ForEach(rp => {
+                lrp.ForEach(rp =>
+                {
                     RegistroPresenzeForList registroPresenzeForList = new RegistroPresenzeForList();
                     registroPresenzeForList.DataEntrata = rp.DataEntrata;
                     registroPresenzeForList.DataUscita = rp.DataUscita;
