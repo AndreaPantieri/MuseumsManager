@@ -242,14 +242,14 @@
                             <ComboBox x:Name="cmb_delCreatore_creatore" Height="20" Width="196" Canvas.Left="96" Canvas.Top="146" FontWeight="Normal" DropDownOpened="cmb_delCreatore_creatore_DropDownOpened" DisplayMemberPath="{Binding}"/>
                         </Canvas>
                     </GroupBox>
-                    <ListView x:Name="lsv_contenuti" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,241,657,228" >
+                    <ListView x:Name="lsv_contenuti" FontWeight="Normal" Margin="10,241,657,228" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Contenuto.Nome}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <ListView x:Name="lsv_sottocontenuti" ItemsSource="{Binding SelectedItem.Figli, ElementName=lsv_contenuti}" FontWeight="Normal" SelectionChanged="lsv_riepilogo_sezioni_SelectionChanged" Margin="10,450,657,10" >
+                    <ListView x:Name="lsv_sottocontenuti" ItemsSource="{Binding SelectedItem.Figli, ElementName=lsv_contenuti}" FontWeight="Normal" Margin="10,450,657,10" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Nome}" />
@@ -411,9 +411,9 @@
                     </DataGrid>
                     <DataGrid x:Name="dtg_presenzeMensili" ItemsSource="{Binding}" AutoGenerateColumns="False"  HorizontalAlignment="Left" Height="286" Margin="126,346,0,0" VerticalAlignment="Top" Width="544" RenderTransformOrigin="-1.615,-0.45" Grid.Column="1" IsReadOnly="True" CanUserAddRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="NomePersonale"  Binding="{Binding NomePersonale}"/>
-                            <DataGridTextColumn Header="DataEntrata" Binding="{Binding DataEntrata, StringFormat=yyyy-MM-dd}"/>
-                            <DataGridTextColumn Header="DataUscita"  Binding="{Binding DataUscita, StringFormat=yyyy-MM-dd}"/>
+                            <DataGridTextColumn Header="Nome"  Binding="{Binding NomePersonale}"/>
+                            <DataGridTextColumn Header="Data di entrata" Binding="{Binding DataEntrata, StringFormat=yyyy-MM-dd}"/>
+                            <DataGridTextColumn Header="Data di uscita"  Binding="{Binding DataUscita, StringFormat=yyyy-MM-dd}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Label x:Name="lbl_registri_presenzeMensili" Content="Presenze:" HorizontalAlignment="Left" Margin="10,307,0,0" VerticalAlignment="Top" Width="1219" FontWeight="Bold" Height="34" FontSize="20" Grid.ColumnSpan="2"/>

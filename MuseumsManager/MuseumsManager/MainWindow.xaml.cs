@@ -202,7 +202,7 @@ namespace MuseumsManager
 
         void setMuseumAreas()
         {
-            List<Sezione> ls = new List<Sezione>(DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == museoSelezionato.idMuseo));
+            List<Sezione> ls = new List<Sezione>(DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == museoSelezionato.idMuseo && s.idSezionePadre == 0));
             lsv_riepilogo_sezioni.ItemsSource = ls;
             lsv_riepilogo_sezioni.DisplayMemberPath = "Nome";
         }
@@ -969,7 +969,7 @@ namespace MuseumsManager
 
                 int res = DBObject<Contenuto>.GenericProcedure(sqlProcedure);
                 if (checkQueryResult(res))
-                    MessageBox.Show("Contenuto eliminato con tutti i sottocontenuti!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBox.Show("Contenuto eliminato con tutti i sottocontenuti!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 cmb_contenuti_elimina.ItemsSource = null;
             }
             else
@@ -2277,11 +2277,9 @@ namespace MuseumsManager
             cmb_modificaContenuti_contenuto.DisplayMemberPath = "Nome";
         }
 
-
-
         private void cmb_sezioni_elimina_DropDownOpened(object sender, EventArgs e)
         {
-            //cmb_sezioni_elimina.ItemsSource = DBObject<Sezione>.SelectAll().Where(s => s.idSezionePadre != 0 || s.idSezionePadre != s.idSezionePadre); //METODO SBAGLIATO PERCHE' DEVE PRENDERE SOLAMENTE GLI ULTIMI FIGLI DELL'ALBERO
+            cmb_sezioni_elimina.ItemsSource = DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == museoSelezionato.idMuseo);
             cmb_sezioni_elimina.DisplayMemberPath = "Nome";
         }
 
@@ -2785,7 +2783,27 @@ namespace MuseumsManager
         /// </summary>
         private void btn_sezioni_elimina_Click(object sender, RoutedEventArgs e)
         {
+            if (!(cmb_sezioni_elimina.SelectedItem is null))
+            {
+                if (MessageBox.Show("Attenzione: l'eliminazione di una sezione padre comporta l'eliminazione di tutte le relative sottosezioni. Inoltre, ogni contenuto presente in tali sezioni coinvolte verrà eliminato, si consiglia di spostare i contenuti interessati in un'altra sezione prima di procedere. Procedere?", "Attenzione", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    Sezione s = cmb_sezioni_elimina.SelectedItem as Sezione;
+                    SqlCommand sqlProcedure = new SqlCommand("DeleteSezione");
+                    sqlProcedure.Parameters.AddWithValue("idSezione", s.idSezione);
 
+                    int res = DBObject<Sezione>.GenericProcedure(sqlProcedure);
+
+                    if (checkQueryResult(res))
+                    {
+                        MessageBox.Show("Sezione eliminata assieme a tutte le eventuali sottosezioni!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                        setMuseumAreas();
+                        cmb_sezioni_elimina.ItemsSource = null;
+                    }
+                        
+                }    
+            }
+            else
+                MessageBox.Show("Qualche parametro non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void ckb_manutenzioni_data_Checked(object sender, RoutedEventArgs e)
@@ -2823,7 +2841,7 @@ namespace MuseumsManager
                 descrizione = txt_manutenzioni_descrizione.Text;
                 int res = DBObject<RegistroManutenzioni>.Insert("Data", dateTime.Date.ToString("yyyy-MM-dd"), "Descrizione", descrizione, "Prezzo", prezzo, "idMuseo", museoSelezionato.idMuseo);
                 if (checkQueryResult(res))
-                    MessageBox.Show("Manutenzione aggiunta correttamente!", "Operazione eseguita", MessageBoxButton.OK);
+                    MessageBox.Show("Manutenzione aggiunta correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo);
             }
             else
@@ -2841,7 +2859,7 @@ namespace MuseumsManager
                 RegistroManutenzioni registroManutenzioni = (RegistroManutenzioni)cmb_manutenzioni_rimuovi.SelectedItem;
                 int res = DBEntity.Delete<RegistroManutenzioni>("idManutenzione", registroManutenzioni.idManutenzione);
                 if (checkQueryResult(res))
-                    MessageBox.Show("Manutenzione eliminata correttamente!", "Operazione eseguita", MessageBoxButton.OK);
+                    MessageBox.Show("Manutenzione eliminata correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
                 dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo);
             }
             else
