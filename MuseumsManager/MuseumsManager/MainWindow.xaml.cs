@@ -2563,6 +2563,14 @@ namespace MuseumsManager
             }
         }
 
+        /// <summary>
+        /// Metodo ricorsivo per trovare tutti i figli (e per ognuno di essi i figli dei figli, e così via all'infinito) di una sezione selezionata.
+        /// Il metodo viene chiamato ricorsivamente per ogni figlio, passandogli anche la sua lista di figli (ovvero il livello successivo dell'albero).
+        /// Il metodo per ogni figlio si interrompe quando la sua lista di figli è vuota (ovvero quando sono arrivato in fondo all'albero).
+        /// </summary>
+        /// <param name="selected"> è la sezione che voglio selezionare per la quale andare a prendere i suoi figli </param>
+        /// <param name="nextTreeLevel"> è il livello successivo dell'albero (es. 1 > 1.1, 1.2 > 1.1.1, 1.1.2, 1.1.3, 1.2.1 > 1.2.1.1 > ...) </param>
+        /// <returns></returns>
         List<Sezione> recursiveSectionChildrens(Sezione selected, List<Sezione> nextTreeLevel)
         {
             List<Sezione> result = new List<Sezione>();
