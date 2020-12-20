@@ -202,7 +202,7 @@ namespace MuseumsManager
 
         void setMuseumAreas()
         {
-            List<Sezione> ls = new List<Sezione>(DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == museoSelezionato.idMuseo && s.idSezionePadre == 0));
+            List<Sezione> ls = new List<Sezione>(DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == museoSelezionato.idMuseo));
             lsv_riepilogo_sezioni.ItemsSource = ls;
             lsv_riepilogo_sezioni.DisplayMemberPath = "Nome";
         }
@@ -2563,26 +2563,32 @@ namespace MuseumsManager
             }
         }
 
+        List<Sezione> recursiveSectionChildrens(Sezione selected, List<Sezione> nextTreeLevel)
+        {
+            List<Sezione> result = new List<Sezione>();
+
+            for (int i = 0; i < nextTreeLevel.Count; i++)
+            {
+                List<Sezione> ntl = new List<Sezione>(DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == museoSelezionato.idMuseo && s.idSezione != nextTreeLevel[i].idSezione && s.idSezionePadre == nextTreeLevel[i].idSezione));
+
+                result.Add(nextTreeLevel[i]);
+                if(ntl.Count != 0)
+                    result.AddRange(recursiveSectionChildrens(nextTreeLevel[i], ntl));
+            }    
+
+            return result;
+        }
+
         /// <summary>
         /// Evento per popolare la listview di sottosezioni alla selezione di una sezione.
         /// </summary>
         private void lsv_riepilogo_sezioni_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            List<Sezione> sottosezioniDiSezione = new List<Sezione>();
+            Sezione selezionata = (Sezione)lsv_riepilogo_sezioni.SelectedItem;
 
             if (lsv_riepilogo_sezioni.SelectedIndex != -1)
             {
-                List<Sezione> sezioni = new List<Sezione>(DBObject<Sezione>.SelectAll());
-                Sezione selezionata = (Sezione)lsv_riepilogo_sezioni.SelectedItem;
-
-                for (int i = 0; i < sezioni.Count; i++)
-                {
-                    if (sezioni[i].idSezionePadre == selezionata.idSezione)
-                    {
-                        sottosezioniDiSezione.Add(sezioni[i]);
-                    }
-                }
-                lsv_riepilogo_sottosezioni.ItemsSource = sottosezioniDiSezione;
+                lsv_riepilogo_sottosezioni.ItemsSource = recursiveSectionChildrens(selezionata, new List<Sezione>(DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == museoSelezionato.idMuseo && s.idSezione != selezionata.idSezione && s.idSezionePadre == selezionata.idSezione)));
             }
         }
 
