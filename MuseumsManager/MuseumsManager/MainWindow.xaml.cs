@@ -3407,5 +3407,89 @@ namespace MuseumsManager
                 "FROM Biglietto " +
                 "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(DataValidita) = " + DateTime.Now.Year + ";";
         }
+
+        private void cmb_statisticheMuseo_mesePassato_selezionaMeseAnno_DropDownOpened(object sender, EventArgs e)
+        {
+            string sqlMeseAnno = "SELECT MeseAnno FROM Statistiche INNER JOIN StatisticheMuseo ON Statistiche.idStatistiche = StatisticheMuseo.idStatistiche WHERE idMuseo = " + museoSelezionato.idMuseo + ";";
+            List<DateTime> dates = new List<DateTime>();
+
+            using(DBConnection dBConnection = new DBConnection())
+            {
+                SqlCommand sqlCommand = new SqlCommand(sqlMeseAnno, dBConnection.Connection);
+                using(SqlDataReader sqlDataReader = sqlCommand.ExecuteReader())
+                {
+                    while (sqlDataReader.Read())
+                    {
+                        DateTime tmp = (DateTime)sqlDataReader["MeseAnno"];
+                        dates.Add(tmp);
+                    }
+                }
+            }
+            cmb_statisticheMuseo_mesePassato_selezionaMeseAnno.ItemsSource = dates;
+        }
+
+        private void cmb_statisticheMuseo_mesePassato_selezionaMeseAnno_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(cmb_statisticheMuseo_mesePassato_selezionaMeseAnno.SelectedIndex != -1)
+            {
+                DateTime date = (DateTime)cmb_statisticheMuseo_mesePassato_selezionaMeseAnno.SelectedItem;
+
+                string sqlStatistiche = "SELECT Statistiche.* FROM Statistiche INNER JOIN StatisticheMuseo ON Statistiche.idStatistiche = StatisticheMuseo.idStatistiche WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MeseAnno = '" + date + "';";
+                List<Statistiche> tmp = DBObject<Statistiche>.CustomSelect(new SqlCommand(sqlStatistiche));
+
+                if(tmp.Count == 1)
+                {
+                    Statistiche statistiche = tmp[0];
+                    lbl_statisticheMuseo_mesePassato_valoreNumeroBigliettiVenduti.Content = statistiche.NumBigliettiVenduti;
+                    lbl_statisticheMuseo_mesePassato_valoreNumeroManutenzioniSvolte.Content = statistiche.NumManutenzioni;
+                    lbl_statisticheMuseo_mesePassato_valoreNumeroNuoviContenuti.Content = statistiche.NumContenutiNuovi;
+                    lbl_statisticheMuseo_mesePassato_valoreNumeroGiorniChiusura.Content = statistiche.NumChiusure;
+                    lbl_statisticheMuseo_mesePassato_valoreSpeseTotali.Content = statistiche.SpeseTotali;
+                    lbl_statisticheMuseo_mesePassato_valoreFatturato.Content = statistiche.Fatturato;
+                }
+            }
+        }
+
+        private void cmb_statisticheMuseo_annoPassato_selezionaMeseAnno_DropDownOpened(object sender, EventArgs e)
+        {
+            string sqlMeseAnno = "SELECT YEAR(MeseAnno) FROM Statistiche INNER JOIN StatisticheMuseo ON Statistiche.idStatistiche = StatisticheMuseo.idStatistiche WHERE idMuseo = " + museoSelezionato.idMuseo + " GROUP BY YEAR(MeseAnno);";
+            List<DateTime> dates = new List<DateTime>();
+
+            using (DBConnection dBConnection = new DBConnection())
+            {
+                SqlCommand sqlCommand = new SqlCommand(sqlMeseAnno, dBConnection.Connection);
+                using (SqlDataReader sqlDataReader = sqlCommand.ExecuteReader())
+                {
+                    while (sqlDataReader.Read())
+                    {
+                        DateTime tmp = (DateTime)sqlDataReader["MeseAnno"];
+                        dates.Add(tmp);
+                    }
+                }
+            }
+            cmb_statisticheMuseo_annoPassato_selezionaMeseAnno.ItemsSource = dates;
+        }
+
+        private void cmb_statisticheMuseo_annoPassato_selezionaMeseAnno_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmb_statisticheMuseo_annoPassato_selezionaMeseAnno.SelectedIndex != -1)
+            {
+                DateTime date = (DateTime)cmb_statisticheMuseo_annoPassato_selezionaMeseAnno.SelectedItem;
+
+                string sqlStatistiche = "SELECT Statistiche.* FROM Statistiche INNER JOIN StatisticheMuseo ON Statistiche.idStatistiche = StatisticheMuseo.idStatistiche WHERE idMuseo = " + museoSelezionato.idMuseo + " AND YEAR(MeseAnno) = " + date.Year + ";";
+                List<Statistiche> tmp = DBObject<Statistiche>.CustomSelect(new SqlCommand(sqlStatistiche));
+
+                if (tmp.Count == 1)
+                {
+                    Statistiche statistiche = tmp[0];
+                    lbl_statisticheMuseo_annoPassato_valoreNumeroBigliettiVenduti.Content = statistiche.NumBigliettiVenduti;
+                    lbl_statisticheMuseo_annoPassato_valoreNumeroManutenzioniSvolte.Content = statistiche.NumManutenzioni;
+                    lbl_statisticheMuseo_annoPassato_valoreNumeroNuoviContenuti.Content = statistiche.NumContenutiNuovi;
+                    lbl_statisticheMuseo_annoPassato_valoreNumeroGiorniChiusura.Content = statistiche.NumChiusure;
+                    lbl_statisticheMuseo_annoPassato_valoreSpeseTotali.Content = statistiche.SpeseTotali;
+                    lbl_statisticheMuseo_annoPassato_valoreFatturato.Content = statistiche.Fatturato;
+                }
+            }
+        }
     }
 }
