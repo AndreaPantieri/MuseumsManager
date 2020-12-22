@@ -10,8 +10,8 @@ namespace Entities
     {
         public int idStatistiche { get; set; }
         public DateTime MeseAnno { get; set; }
-        public float SpeseTotali { get; set; }
-        public float Fatturato { get; set; }
+        public double SpeseTotali { get; set; }
+        public double Fatturato { get; set; }
         public int NumBigliettiVenduti { get; set; }
         public int NumPresenzeTotali { get; set; }
         public int NumManutenzioni { get; set; }
