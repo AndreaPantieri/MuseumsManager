@@ -3642,6 +3642,15 @@ namespace MuseumsManager
                 }
             }
 
+            //Guadagno
+            double fatt = (double)lbl_statisticheMuseo_meseAttuale_valoreFatturato.Content;
+            double speseTot = (double)lbl_statisticheMuseo_meseAttuale_valoreSpeseTotali.Content;
+
+            if (fatt - speseTot < 0)
+                lbl_statisticheMuseo_meseAttuale_valoreRicavo.Foreground = Brushes.Red;
+            else
+                lbl_statisticheMuseo_meseAttuale_valoreRicavo.Foreground = Brushes.Green;
+            lbl_statisticheMuseo_meseAttuale_valoreRicavo.Content = fatt - speseTot;
         }
 
         private void btn_statisticheMuseo_annoAttuale_calcola_Click(object sender, RoutedEventArgs e)
@@ -3754,6 +3763,16 @@ namespace MuseumsManager
                     }
                 }
             }
+
+            //Guadagno
+            double fatt = (double)lbl_statisticheMuseo_annoAttuale_valoreFatturato.Content;
+            double speseTot = (double)lbl_statisticheMuseo_annoAttuale_valoreSpeseTotali.Content;
+
+            if (fatt - speseTot < 0)
+                lbl_statisticheMuseo_annoAttuale_valoreRicavo.Foreground = Brushes.Red;
+            else
+                lbl_statisticheMuseo_annoAttuale_valoreRicavo.Foreground = Brushes.Green;
+            lbl_statisticheMuseo_annoAttuale_valoreRicavo.Content = fatt - speseTot;
         }
 
         private void btn_statisticheFamiglia_meseAttuale_calcola_Click(object sender, RoutedEventArgs e)
@@ -3869,8 +3888,14 @@ namespace MuseumsManager
             }
 
             //Guadagno
-            lbl_statisticheFamiglia_meseAttuale_valoreRicavo.Content = (double)lbl_statisticheFamiglia_meseAttuale_valoreFatturato.Content - (double)lbl_statisticheFamiglia_meseAttuale_valoreSpeseTotali.Content;
+            double fatt = (double)lbl_statisticheFamiglia_meseAttuale_valoreFatturato.Content;
+            double speseTot = (double)lbl_statisticheFamiglia_meseAttuale_valoreSpeseTotali.Content;
 
+            if (fatt - speseTot < 0)
+                lbl_statisticheFamiglia_meseAttuale_valoreRicavo.Foreground = Brushes.Red;
+            else
+                lbl_statisticheFamiglia_meseAttuale_valoreRicavo.Foreground = Brushes.Green;
+            lbl_statisticheFamiglia_meseAttuale_valoreRicavo.Content = fatt - speseTot;
         }
 
         private void btn_statisticheFamiglia_annoAttuale_calcola_Click(object sender, RoutedEventArgs e)
@@ -3985,6 +4010,15 @@ namespace MuseumsManager
                 }
             }
 
+            //Guadagno
+            double fatt = (double)lbl_statisticheFamiglia_annoAttuale_valoreFatturato.Content;
+            double speseTot = (double)lbl_statisticheFamiglia_annoAttuale_valoreSpeseTotali.Content;
+
+            if (fatt - speseTot < 0)
+                lbl_statisticheFamiglia_annoAttuale_valoreRicavo.Foreground = Brushes.Red;
+            else
+                lbl_statisticheFamiglia_annoAttuale_valoreRicavo.Foreground = Brushes.Green;
+            lbl_statisticheFamiglia_annoAttuale_valoreRicavo.Content = fatt - speseTot;
         }
 
         private void cmb_statisticheMuseo_mesePassato_selezionaMeseAnno_DropDownOpened(object sender, EventArgs e)
