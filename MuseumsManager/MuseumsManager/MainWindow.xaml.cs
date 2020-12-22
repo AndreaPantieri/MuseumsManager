@@ -424,14 +424,23 @@ namespace MuseumsManager
         /// </summary>
         private void btn_periodoStorico_elimina_Click(object sender, RoutedEventArgs e)
         {
-            //PANTIE DEVI FARE IL CONTROLLO SE IL PERIODO STORICO E' PRESENTE IN MUSEO_PERIODOSTORICO E IN CONTENUTO NON SI PUO' ELIMINARE!!!
             if (!(cmb_periodoStorico_elimina.SelectedItem is null))
             {
-                int res = DBEntity.Delete<PeriodoStorico>("idPeriodoStorico", (cmb_periodoStorico_elimina.SelectedItem as PeriodoStorico).idPeriodoStorico);
-                if (checkQueryResult(res))
-                    MessageBox.Show("Periodo storico eliminato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
-                cmb_periodoStorico_elimina.ItemsSource = null;
+                if (DBObject<Museo_PeriodoStorico>.SelectAll().Any(mp => ((Museo_PeriodoStorico)mp).idPeriodoStorico == ((PeriodoStorico)cmb_periodoStorico_elimina.SelectedItem).idPeriodoStorico) ||
+                DBObject<Contenuto>.SelectAll().Any(c => c.idPeriodoStorico == ((PeriodoStorico)cmb_periodoStorico_elimina.SelectedItem).idPeriodoStorico))
+                {
+                    MessageBox.Show("Impossibile eliminare la provenienza selezionata: è possibile che essa abbia ancora dipendenze in altri musei o contenuti!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    int res = DBEntity.Delete<PeriodoStorico>("idPeriodoStorico", (cmb_periodoStorico_elimina.SelectedItem as PeriodoStorico).idPeriodoStorico);
+                    if (checkQueryResult(res))
+                        MessageBox.Show("Periodo storico eliminato correttamente!", "Operazione eseguita", MessageBoxButton.OK, MessageBoxImage.Information);
+                    cmb_periodoStorico_elimina.ItemsSource = null;
+                }
             }
+            else
+                MessageBox.Show("Qualche parametro che si sta cercando di inserire non è stato compilato correttamente!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         /// <summary>
@@ -1335,7 +1344,7 @@ namespace MuseumsManager
 
             if (!whereString.Equals(" WHERE "))
                 whereString += " AND ";
-            whereString += " idMuseo = " + museoSelezionato.idMuseo+";";
+            whereString += " idMuseo = " + museoSelezionato.idMuseo + ";";
             sqlCommandString += whereString;
 
             List<Contenuto> contenuti = DBObject<Contenuto>.CustomSelect(new SqlCommand(sqlCommandString)),
@@ -2472,7 +2481,7 @@ namespace MuseumsManager
                 setMuseumTypes();
                 setMuseumAreas();
 
-                if(DateTime.Now.Day == 1)
+                if (DateTime.Now.Day == 1)
                 {
                     //Statistiche Museo
                     {
@@ -2624,7 +2633,7 @@ namespace MuseumsManager
                         //Numero di manutenzioni svolte
                         string numManutenzioni = "SELECT COUNT(*) AS numManutenzioni " +
                             "FROM RegistroManutenzioni " +
-                            "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2642,7 +2651,7 @@ namespace MuseumsManager
                         //Numero di nuovi contenuti aggiunti
                         string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
                             "FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
-                            "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2660,7 +2669,7 @@ namespace MuseumsManager
                         //Numero di giorni di chiusura totali
                         string numGiorniChiusura = "SELECT COUNT(*) AS numGiorniChiusura " +
                             "FROM CalendarioChiusure " +
-                            "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2677,9 +2686,9 @@ namespace MuseumsManager
 
                         //Spese totali
                         string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
-                            "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ") " +
+                            "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ") " +
                             "UNION (" +
-                            "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " ))) AS Spese";
+                            "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " ))) AS Spese";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2697,7 +2706,7 @@ namespace MuseumsManager
                         //Fatturato
                         string fatturato = "SELECT SUM(PrezzoAcquisto) AS fatturato " +
                             "FROM Biglietto " +
-                            "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2910,9 +2919,9 @@ namespace MuseumsManager
                 List<Sezione> ntl = new List<Sezione>(DBObject<Sezione>.SelectAll().Where(s => s.idMuseo == museoSelezionato.idMuseo && s.idSezione != nextTreeLevel[i].idSezione && s.idSezionePadre == nextTreeLevel[i].idSezione));
 
                 result.Add(nextTreeLevel[i]);
-                if(ntl.Count != 0)
+                if (ntl.Count != 0)
                     result.AddRange(recursiveSectionChildrens(nextTreeLevel[i], ntl));
-            }    
+            }
 
             return result;
         }
@@ -3529,10 +3538,10 @@ namespace MuseumsManager
                 "FROM Biglietto " +
                 "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
 
-            using(DBConnection dBConnection = new DBConnection())
+            using (DBConnection dBConnection = new DBConnection())
             {
                 SqlCommand sqlCommand = new SqlCommand(numBiglietti, dBConnection.Connection);
-                using(SqlDataReader sqlDataReader = sqlCommand.ExecuteReader())
+                using (SqlDataReader sqlDataReader = sqlCommand.ExecuteReader())
                 {
                     if (sqlDataReader.Read())
                     {
@@ -3598,9 +3607,9 @@ namespace MuseumsManager
 
             //Spese totali
             string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
-                "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month +") " +
+                "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + ") " +
                 "UNION (" +
-                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (MONTH(DataEntrata) = "+ DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month +" ))) AS Spese";
+                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " ))) AS Spese";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3650,7 +3659,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numBiglietti"]))
-                            lbl_statisticheMuseo_annoAttuale_valoreNumeroBigliettiVenduti.Content = (string)sqlDataReader["numBiglietti"];
+                            lbl_statisticheMuseo_annoAttuale_valoreNumeroBigliettiVenduti.Content = sqlDataReader["numBiglietti"];
                     }
                 }
             }
@@ -3668,7 +3677,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numManutenzioni"]))
-                            lbl_statisticheMuseo_annoAttuale_valoreNumeroManutenzioni.Content = (string)sqlDataReader["numManutenzioni"];
+                            lbl_statisticheMuseo_annoAttuale_valoreNumeroManutenzioni.Content = sqlDataReader["numManutenzioni"];
                     }
                 }
             }
@@ -3686,7 +3695,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numNuoviContenuti"]))
-                            lbl_statisticheMuseo_annoAttuale_valoreNumeroNuoviContenuti.Content = (string)sqlDataReader["numNuoviContenuti"];
+                            lbl_statisticheMuseo_annoAttuale_valoreNumeroNuoviContenuti.Content = sqlDataReader["numNuoviContenuti"];
                     }
                 }
             }
@@ -3704,7 +3713,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numGiorniChiusura"]))
-                            lbl_statisticheMuseo_annoAttuale_valoreNumeroGiorniChiusura.Content = (string)sqlDataReader["numGiorniChiusura"];
+                            lbl_statisticheMuseo_annoAttuale_valoreNumeroGiorniChiusura.Content = sqlDataReader["numGiorniChiusura"];
                     }
                 }
             }
@@ -3723,7 +3732,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["speseTotali"]))
-                            lbl_statisticheMuseo_annoAttuale_valoreSpeseTotali.Content = (string)sqlDataReader["speseTotali"];
+                            lbl_statisticheMuseo_annoAttuale_valoreSpeseTotali.Content = sqlDataReader["speseTotali"];
                     }
                 }
             }
@@ -3741,7 +3750,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["fatturato"]))
-                            lbl_statisticheMuseo_annoAttuale_valoreFatturato.Content = (string)sqlDataReader["fatturato"];
+                            lbl_statisticheMuseo_annoAttuale_valoreFatturato.Content = sqlDataReader["fatturato"];
                     }
                 }
             }
@@ -3753,8 +3762,8 @@ namespace MuseumsManager
             //Numero di biglietti venduti
             string numBiglietti = "SELECT COUNT(*) AS numBiglietti " +
                 "FROM Biglietto " +
-                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = "+ idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
-            
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
+
             using (DBConnection dBConnection = new DBConnection())
             {
                 SqlCommand sqlCommand = new SqlCommand(numBiglietti, dBConnection.Connection);
@@ -3763,7 +3772,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numBiglietti"]))
-                            lbl_statisticheFamiglia_meseAttuale_valoreNumeroBigliettiVenduti.Content = (string)sqlDataReader["numBiglietti"];
+                            lbl_statisticheFamiglia_meseAttuale_valoreNumeroBigliettiVenduti.Content = sqlDataReader["numBiglietti"];
                     }
                 }
             }
@@ -3771,7 +3780,7 @@ namespace MuseumsManager
             //Numero di manutenzioni svolte
             string numManutenzioni = "SELECT COUNT(*) AS numManutenzioni " +
                 "FROM RegistroManutenzioni " +
-                "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3781,7 +3790,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numManutenzioni"]))
-                            lbl_statisticheFamiglia_meseAttuale_valoreNumeroManutenzioni.Content = (string)sqlDataReader["numManutenzioni"];
+                            lbl_statisticheFamiglia_meseAttuale_valoreNumeroManutenzioni.Content = sqlDataReader["numManutenzioni"];
                     }
                 }
             }
@@ -3789,7 +3798,7 @@ namespace MuseumsManager
             //Numero di nuovi contenuti aggiunti
             string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
               "FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
-                "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3799,7 +3808,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numNuoviContenuti"]))
-                            lbl_statisticheFamiglia_meseAttuale_valoreNumeroNuoviContenuti.Content = (string)sqlDataReader["numNuoviContenuti"];
+                            lbl_statisticheFamiglia_meseAttuale_valoreNumeroNuoviContenuti.Content = sqlDataReader["numNuoviContenuti"];
                     }
                 }
             }
@@ -3807,7 +3816,7 @@ namespace MuseumsManager
             //Numero di giorni di chiusura totali
             string numGiorniChiusura = "SELECT COUNT(*) AS numGiorniChiusura " +
                 "FROM CalendarioChiusure " +
-                "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3817,16 +3826,16 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numGiorniChiusura"]))
-                            lbl_statisticheFamiglia_meseAttuale_valoreNumeroNuoviContenuti.Content = (string)sqlDataReader["numGiorniChiusura"];
+                            lbl_statisticheFamiglia_meseAttuale_valoreNumeroGiorniChiusura.Content = sqlDataReader["numGiorniChiusura"];
                     }
                 }
             }
 
             //Spese totali
             string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
-                "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ") " +
+                "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ") " +
                 "UNION (" +
-                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " ))) AS Spese";
+                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " ))) AS Spese";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3836,7 +3845,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["speseTotali"]))
-                            lbl_statisticheFamiglia_meseAttuale_valoreSpeseTotali.Content = (string)sqlDataReader["speseTotali"];
+                            lbl_statisticheFamiglia_meseAttuale_valoreSpeseTotali.Content = sqlDataReader["speseTotali"];
                     }
                 }
             }
@@ -3844,7 +3853,7 @@ namespace MuseumsManager
             //Fatturato
             string fatturato = "SELECT SUM(PrezzoAcquisto) AS fatturato " +
                 "FROM Biglietto " +
-                "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3854,10 +3863,13 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["fatturato"]))
-                            lbl_statisticheFamiglia_meseAttuale_valoreFatturato.Content = (string)sqlDataReader["fatturato"];
+                            lbl_statisticheFamiglia_meseAttuale_valoreFatturato.Content = sqlDataReader["fatturato"];
                     }
                 }
             }
+
+            //Guadagno
+            lbl_statisticheFamiglia_meseAttuale_valoreRicavo.Content = (double)lbl_statisticheFamiglia_meseAttuale_valoreFatturato.Content - (double)lbl_statisticheFamiglia_meseAttuale_valoreSpeseTotali.Content;
 
         }
 
@@ -3877,7 +3889,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numBiglietti"]))
-                            lbl_statisticheFamiglia_annoAttuale_valoreNumeroBigliettiVenduti.Content = (string)sqlDataReader["numBiglietti"];
+                            lbl_statisticheFamiglia_annoAttuale_valoreNumeroBigliettiVenduti.Content = sqlDataReader["numBiglietti"];
                     }
                 }
             }
@@ -3885,7 +3897,7 @@ namespace MuseumsManager
             //Numero di manutenzioni svolte
             string numManutenzioni = "SELECT COUNT(*) AS numManutenzioni " +
                 "FROM RegistroManutenzioni " +
-                "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(Data) = " + DateTime.Now.Year + ";";
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(Data) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3895,7 +3907,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numManutenzioni"]))
-                            lbl_statisticheFamiglia_annoAttuale_valoreNumeroManutenzioni.Content = (string)sqlDataReader["numManutenzioni"];
+                            lbl_statisticheFamiglia_annoAttuale_valoreNumeroManutenzioni.Content = sqlDataReader["numManutenzioni"];
                     }
                 }
             }
@@ -3903,7 +3915,7 @@ namespace MuseumsManager
             //Numero di nuovi contenuti aggiunti
             string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
                 "FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
-                "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(DataArrivoMuseo) = " + DateTime.Now.Year + ";";
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(DataArrivoMuseo) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3913,7 +3925,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numNuoviContenuti"]))
-                            lbl_statisticheFamiglia_annoAttuale_valoreNumeroNuoviContenuti.Content = (string)sqlDataReader["numNuoviContenuti"];
+                            lbl_statisticheFamiglia_annoAttuale_valoreNumeroNuoviContenuti.Content = sqlDataReader["numNuoviContenuti"];
                     }
                 }
             }
@@ -3921,7 +3933,7 @@ namespace MuseumsManager
             //Numero di giorni di chiusura totali
             string numGiorniChiusura = "SELECT COUNT(*) AS numGiorniChiusura " +
                 "FROM CalendarioChiusure " +
-                "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(Data) = " + DateTime.Now.Year + ";";
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(Data) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3931,16 +3943,16 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numGiorniChiusura"]))
-                            lbl_statisticheFamiglia_annoAttuale_valoreNumeroGiorniChiusura.Content = (string)sqlDataReader["numGiorniChiusura"];
+                            lbl_statisticheFamiglia_annoAttuale_valoreNumeroGiorniChiusura.Content = sqlDataReader["numGiorniChiusura"];
                     }
                 }
             }
 
             //Spese totali
             string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
-                "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(Data) = " + DateTime.Now.Year + ") " +
+                "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(Data) = " + DateTime.Now.Year + ") " +
                 "UNION (" +
-                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (YEAR(DataEntrata) = " + DateTime.Now.Year + " OR YEAR(DataUscita) = " + DateTime.Now.Year + " ))) AS Spese";
+                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (YEAR(DataEntrata) = " + DateTime.Now.Year + " OR YEAR(DataUscita) = " + DateTime.Now.Year + " ))) AS Spese";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3950,7 +3962,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["speseTotali"]))
-                            lbl_statisticheFamiglia_annoAttuale_valoreSpeseTotali.Content = (string)sqlDataReader["speseTotali"];
+                            lbl_statisticheFamiglia_annoAttuale_valoreSpeseTotali.Content = sqlDataReader["speseTotali"];
                     }
                 }
             }
@@ -3958,7 +3970,7 @@ namespace MuseumsManager
             //Fatturato
             string fatturato = "SELECT SUM(PrezzoAcquisto) AS fatturato " +
                 "FROM Biglietto " +
-                "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(DataValidita) = " + DateTime.Now.Year + ";";
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(DataValidita) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3968,7 +3980,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["fatturato"]))
-                            lbl_statisticheFamiglia_annoAttuale_valoreFatturato.Content = (string)sqlDataReader["fatturato"];
+                            lbl_statisticheFamiglia_annoAttuale_valoreFatturato.Content = sqlDataReader["fatturato"];
                     }
                 }
             }
@@ -3980,10 +3992,10 @@ namespace MuseumsManager
             string sqlMeseAnno = "SELECT MeseAnno FROM Statistiche INNER JOIN StatisticheMuseo ON Statistiche.idStatistiche = StatisticheMuseo.idStatistiche WHERE idMuseo = " + museoSelezionato.idMuseo + ";";
             List<DateTime> dates = new List<DateTime>();
 
-            using(DBConnection dBConnection = new DBConnection())
+            using (DBConnection dBConnection = new DBConnection())
             {
                 SqlCommand sqlCommand = new SqlCommand(sqlMeseAnno, dBConnection.Connection);
-                using(SqlDataReader sqlDataReader = sqlCommand.ExecuteReader())
+                using (SqlDataReader sqlDataReader = sqlCommand.ExecuteReader())
                 {
                     while (sqlDataReader.Read())
                     {
@@ -3997,14 +4009,14 @@ namespace MuseumsManager
 
         private void cmb_statisticheMuseo_mesePassato_selezionaMeseAnno_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(cmb_statisticheMuseo_mesePassato_selezionaMeseAnno.SelectedIndex != -1)
+            if (cmb_statisticheMuseo_mesePassato_selezionaMeseAnno.SelectedIndex != -1)
             {
                 DateTime date = (DateTime)cmb_statisticheMuseo_mesePassato_selezionaMeseAnno.SelectedItem;
 
                 string sqlStatistiche = "SELECT Statistiche.* FROM Statistiche INNER JOIN StatisticheMuseo ON Statistiche.idStatistiche = StatisticheMuseo.idStatistiche WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MeseAnno = '" + date + "';";
                 List<Statistiche> tmp = DBObject<Statistiche>.CustomSelect(new SqlCommand(sqlStatistiche));
 
-                if(tmp.Count == 1)
+                if (tmp.Count == 1)
                 {
                     Statistiche statistiche = tmp[0];
                     lbl_statisticheMuseo_mesePassato_valoreNumeroBigliettiVenduti.Content = statistiche.NumBigliettiVenduti;
