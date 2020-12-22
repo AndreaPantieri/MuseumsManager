@@ -2515,7 +2515,7 @@ namespace MuseumsManager
 
                         //Numero di nuovi contenuti aggiunti
                         string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
-                            "FROM Contenuto " +
+                            "FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
                             "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
@@ -2641,7 +2641,7 @@ namespace MuseumsManager
 
                         //Numero di nuovi contenuti aggiunti
                         string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
-                            "FROM Contenuto " +
+                            "FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
                             "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
@@ -3562,7 +3562,7 @@ namespace MuseumsManager
 
             //Numero di nuovi contenuti aggiunti
             string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
-                "FROM Contenuto " +
+                "FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
                 "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
 
             using (DBConnection dBConnection = new DBConnection())
@@ -3675,7 +3675,7 @@ namespace MuseumsManager
 
             //Numero di nuovi contenuti aggiunti
             string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
-                "FROM Contenuto " +
+                "FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
                 "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND YEAR(DataArrivoMuseo) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
@@ -3788,7 +3788,7 @@ namespace MuseumsManager
 
             //Numero di nuovi contenuti aggiunti
             string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
-                "FROM Contenuto " +
+              "FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
                 "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
 
             using (DBConnection dBConnection = new DBConnection())
@@ -3902,7 +3902,7 @@ namespace MuseumsManager
 
             //Numero di nuovi contenuti aggiunti
             string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
-                "FROM Contenuto " +
+                "FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
                 "WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(DataArrivoMuseo) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
