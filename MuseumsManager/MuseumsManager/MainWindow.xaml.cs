@@ -1298,12 +1298,12 @@ namespace MuseumsManager
         }
         private void btn_filtraContenuti_Click(object sender, RoutedEventArgs e)
         {
-            string sqlCommandString = "SELECT Contenuto.* FROM Contenuto ";
+            string sqlCommandString = "SELECT Contenuto.* FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione ";
             string whereString = " WHERE ";
 
             if (!(cmb_contenuti_filtroSezione.SelectedItem is null))
             {
-                whereString += " idSezione = " + (cmb_contenuti_filtroSezione.SelectedItem as Sezione).idSezione;
+                whereString += " Contenuto.idSezione = " + (cmb_contenuti_filtroSezione.SelectedItem as Sezione).idSezione;
             }
 
             if (!(cmb_contenuti_filtroProvenienza.SelectedItem is null))
