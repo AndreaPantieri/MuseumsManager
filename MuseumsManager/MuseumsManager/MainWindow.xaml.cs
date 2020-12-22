@@ -3537,7 +3537,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numBiglietti"]))
-                            lbl_statisticheMuseo_meseAttuale_valoreNumeroBigliettiVenduti.Content = (string)sqlDataReader["numBiglietti"];
+                            lbl_statisticheMuseo_meseAttuale_valoreNumeroBigliettiVenduti.Content = sqlDataReader["numBiglietti"];
                     }
                 }
             }
@@ -3555,7 +3555,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numManutenzioni"]))
-                            lbl_statisticheMuseo_meseAttuale_valoreNumeroManutenzioni.Content = (string)sqlDataReader["numManutenzioni"];
+                            lbl_statisticheMuseo_meseAttuale_valoreNumeroManutenzioni.Content = sqlDataReader["numManutenzioni"];
                     }
                 }
             }
@@ -3573,7 +3573,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numNuoviContenuti"]))
-                            lbl_statisticheMuseo_meseAttuale_valoreNumeroNuoviContenuti.Content = (string)sqlDataReader["numNuoviContenuti"];
+                            lbl_statisticheMuseo_meseAttuale_valoreNumeroNuoviContenuti.Content = sqlDataReader["numNuoviContenuti"];
                     }
                 }
             }
@@ -3591,7 +3591,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["numGiorniChiusura"]))
-                            lbl_statisticheMuseo_meseAttuale_valoreNumeroGiorniChiusura.Content = (string)sqlDataReader["numGiorniChiusura"];
+                            lbl_statisticheMuseo_meseAttuale_valoreNumeroGiorniChiusura.Content = sqlDataReader["numGiorniChiusura"];
                     }
                 }
             }
@@ -3610,7 +3610,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["speseTotali"]))
-                            lbl_statisticheMuseo_meseAttuale_valoreSpeseTotali.Content = (string)sqlDataReader["speseTotali"];
+                            lbl_statisticheMuseo_meseAttuale_valoreSpeseTotali.Content = sqlDataReader["speseTotali"];
                     }
                 }
             }
@@ -3628,7 +3628,7 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["fatturato"]))
-                            lbl_statisticheMuseo_meseAttuale_valoreFatturato.Content = (string)sqlDataReader["fatturato"];
+                            lbl_statisticheMuseo_meseAttuale_valoreFatturato.Content = sqlDataReader["fatturato"];
                     }
                 }
             }
