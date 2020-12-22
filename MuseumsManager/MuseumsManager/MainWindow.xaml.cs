@@ -2553,7 +2553,7 @@ namespace MuseumsManager
                         string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
                             "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + ") " +
                             "UNION (" +
-                            "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (MONTH(DataEntrata) = " + DateTime.Now.Month + "OR MONTH(DataUscita) = " + DateTime.Now.Month + " ) )";
+                            "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " )))";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2679,7 +2679,7 @@ namespace MuseumsManager
                         string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
                             "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ") " +
                             "UNION (" +
-                            "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (MONTH(DataEntrata) = " + DateTime.Now.Month + "OR MONTH(DataUscita) = " + DateTime.Now.Month + " ) )";
+                            "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " )))";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -3600,7 +3600,7 @@ namespace MuseumsManager
             string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
                 "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month +") " +
                 "UNION (" +
-                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (MONTH(DataEntrata) = "+ DateTime.Now.Month + "OR MONTH(DataUscita) = " + DateTime.Now.Month +" ) )";
+                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (MONTH(DataEntrata) = "+ DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month +" )))";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3713,7 +3713,7 @@ namespace MuseumsManager
             string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
                 "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = " + museoSelezionato.idMuseo + " AND YEAR(Data) = " + DateTime.Now.Year + ") " +
                 "UNION (" +
-                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (YEAR(DataEntrata) = " + DateTime.Now.Year + "OR YEAR(DataUscita) = " + DateTime.Now.Year + " ) )";
+                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (YEAR(DataEntrata) = " + DateTime.Now.Year + " OR YEAR(DataUscita) = " + DateTime.Now.Year + " )))";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3826,7 +3826,7 @@ namespace MuseumsManager
             string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
                 "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ") " +
                 "UNION (" +
-                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (MONTH(DataEntrata) = " + DateTime.Now.Month + "OR MONTH(DataUscita) = " + DateTime.Now.Month + " ) )";
+                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " )))";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3940,7 +3940,7 @@ namespace MuseumsManager
             string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
                 "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(Data) = " + DateTime.Now.Year + ") " +
                 "UNION (" +
-                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (YEAR(DataEntrata) = " + DateTime.Now.Year + "OR YEAR(DataUscita) = " + DateTime.Now.Year + " ) )";
+                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (YEAR(DataEntrata) = " + DateTime.Now.Year + " OR YEAR(DataUscita) = " + DateTime.Now.Year + " )))";
 
             using (DBConnection dBConnection = new DBConnection())
             {
