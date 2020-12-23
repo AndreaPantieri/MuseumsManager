@@ -3605,6 +3605,8 @@ namespace MuseumsManager
                 }
             }
 
+            double fatt = 0;
+            double speseTot = 0;
             //Spese totali
             string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
                 "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + ") " +
@@ -3619,7 +3621,11 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["speseTotali"]))
+                        {
                             lbl_statisticheMuseo_meseAttuale_valoreSpeseTotali.Content = sqlDataReader["speseTotali"];
+                            speseTot = (double)lbl_statisticheMuseo_meseAttuale_valoreSpeseTotali.Content;
+                        }
+                            
                     }
                 }
             }
@@ -3637,14 +3643,17 @@ namespace MuseumsManager
                     if (sqlDataReader.Read())
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["fatturato"]))
+                        {
                             lbl_statisticheMuseo_meseAttuale_valoreFatturato.Content = sqlDataReader["fatturato"];
+                            fatt = (double)lbl_statisticheMuseo_meseAttuale_valoreFatturato.Content;
+                        }
+                            
                     }
                 }
             }
 
             //Guadagno
-            double fatt = (double)lbl_statisticheMuseo_meseAttuale_valoreFatturato.Content;
-            double speseTot = (double)lbl_statisticheMuseo_meseAttuale_valoreSpeseTotali.Content;
+            
 
             if (fatt - speseTot < 0)
                 lbl_statisticheMuseo_meseAttuale_valoreRicavo.Foreground = Brushes.Red;
