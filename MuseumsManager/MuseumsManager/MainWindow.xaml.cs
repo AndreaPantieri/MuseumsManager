@@ -3774,8 +3774,9 @@ namespace MuseumsManager
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["fatturato"]))
                         {
-                            fatt = (double)lbl_statisticheMuseo_annoAttuale_valoreFatturato.Content;
+                            
                             lbl_statisticheMuseo_annoAttuale_valoreFatturato.Content = sqlDataReader["fatturato"];
+                            fatt = (double)lbl_statisticheMuseo_annoAttuale_valoreFatturato.Content;
                         }
                     }
                 }
@@ -3881,8 +3882,9 @@ namespace MuseumsManager
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["speseTotali"]))
                         {
-                            speseTot = (double)lbl_statisticheFamiglia_meseAttuale_valoreSpeseTotali.Content;
+                            
                             lbl_statisticheFamiglia_meseAttuale_valoreSpeseTotali.Content = sqlDataReader["speseTotali"];
+                            speseTot = (double)lbl_statisticheFamiglia_meseAttuale_valoreSpeseTotali.Content;
                         }                      
                     }
                 }
@@ -3902,8 +3904,9 @@ namespace MuseumsManager
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["fatturato"]))
                         {
-                            fatt = (double)lbl_statisticheFamiglia_meseAttuale_valoreFatturato.Content;
+                            
                             lbl_statisticheFamiglia_meseAttuale_valoreFatturato.Content = sqlDataReader["fatturato"];
+                            fatt = (double)lbl_statisticheFamiglia_meseAttuale_valoreFatturato.Content;
                         }           
                     }
                 }
@@ -4030,8 +4033,9 @@ namespace MuseumsManager
                     {
                         if (!DBNull.Value.Equals(sqlDataReader["fatturato"]))
                         {
-                            fatt = (double)lbl_statisticheFamiglia_annoAttuale_valoreFatturato.Content;
+                            
                             lbl_statisticheFamiglia_annoAttuale_valoreFatturato.Content = sqlDataReader["fatturato"];
+                            fatt = (double)lbl_statisticheFamiglia_annoAttuale_valoreFatturato.Content;
                         }
                             
                     }
