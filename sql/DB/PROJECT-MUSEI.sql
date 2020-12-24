@@ -292,10 +292,6 @@ alter table RegistroPresenze add constraint SID_Regis_Perso_FK
      foreign key (idPersonale)
      references Personale (idPersonale) on delete cascade;
 
-alter table Sezione add constraint REF_Sezio_Sezio_FK
-     foreign key (idSezionePadre)
-     references Sezione (idSezione);
-
 alter table Sezione add constraint EQU_Sezio_Museo_FK
      foreign key (idMuseo)
      references Museo (idMuseo) on delete cascade;
