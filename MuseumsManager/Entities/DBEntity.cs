@@ -50,7 +50,7 @@ namespace Entities
             {
                 throw new Exception("Wrong number of params");
             }
-
+            SqlCommand sqlCommand = new SqlCommand();
             string sqlCommandString = "UPDATE " + typeof(T).Name + " SET ";
             for (int i = 0; i < list.Length; i += 2)
             {
@@ -58,11 +58,18 @@ namespace Entities
                 sqlCommandString += "= ";
 
                 if(!list[i + 1].Equals("NULL"))
-                    sqlCommandString += "'";
+                {
+                    sqlCommandString += "'@";
 
-                sqlCommandString += list[i + 1];
-                if (!list[i + 1].Equals("NULL"))
+                    sqlCommandString += list[i];
                     sqlCommandString += "'";
+                    sqlCommand.Parameters.AddWithValue("@" + list[i], list[i + 1]);
+                }
+                else
+                {
+                    sqlCommandString += list[i+1];
+                }
+                    
                 if (i < list.Length - 2)
                 {
                     sqlCommandString += ", ";
@@ -72,7 +79,7 @@ namespace Entities
             int ret;
             using (DBConnection dBConnection = new DBConnection())
             {
-                SqlCommand sqlCommand = new SqlCommand(sqlCommandString);
+                sqlCommand.CommandText = sqlCommandString;
                 ret = dBConnection.GenericQuery(sqlCommand);
             }
             return ret;

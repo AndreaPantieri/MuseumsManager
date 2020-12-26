@@ -21,6 +21,7 @@ namespace Entities
             }
 
             Type t = typeof(T);
+            SqlCommand sqlCommand = new SqlCommand();
             string sqlCommandString = "INSERT INTO " + t.Name + "(";
             for (int i = 0; i < list.Length; i += 2)
             {
@@ -31,15 +32,22 @@ namespace Entities
                 }
             }
             sqlCommandString += ") VALUES (";
-            for (int i = 1; i < list.Length; i += 2)
+            for (int i = 0; i < list.Length; i += 2)
             {
-                if (!list[i].Equals("NULL"))
+                if (!list[i + 1].Equals("NULL"))
+                {
+                    sqlCommandString += "'@";
+                    sqlCommandString += list[i];
+                    sqlCommand.Parameters.AddWithValue("@" + list[i], list[i + 1]);
                     sqlCommandString += "'";
+                }
+                else
+                {
+                    sqlCommandString += list[i+1];
+                }
+                    
 
-                sqlCommandString += list[i];
-
-                if (!list[i].Equals("NULL"))
-                    sqlCommandString += "'";
+                
 
                 if (i < list.Length - 1)
                 {
@@ -52,12 +60,12 @@ namespace Entities
             {
                 sqlCommandString += " SELECT CONVERT(int, SCOPE_IDENTITY());";
             }
-
+            sqlCommand.CommandText = sqlCommandString;
             int ret;
             Debug.WriteLine(sqlCommandString);
             using (DBConnection dBConnection = new DBConnection())
             {
-                SqlCommand sqlCommand = new SqlCommand(sqlCommandString, dBConnection.Connection);
+                
                 ret = t.IsSubclassOf(typeof(DBEntity)) ? dBConnection.ScalarQuery(sqlCommand) : dBConnection.GenericQuery(sqlCommand);
             }
             return ret;
@@ -109,14 +117,16 @@ namespace Entities
                 using (DBConnection dBConnection = new DBConnection())
                 {
                     string sqlCommandString = "SELECT * FROM " + t.Name + " WHERE ";
-                    for(int i = 0; i < list.Length; i += 2)
+                    SqlCommand sqlCommand = new SqlCommand();
+                    for (int i = 0; i < list.Length; i += 2)
                     {
-                        sqlCommandString += list[i] + " = '" + list[i + 1] + "'";
+                        sqlCommandString += list[i] + " = '@" + list[i] + "'";
+                        sqlCommand.Parameters.AddWithValue("@" + list[i], list[i + 1]);
                         if (i < list.Length - 2)
                             sqlCommandString += " AND ";
                     }
                     sqlCommandString += ";";
-                    SqlCommand sqlCommand = new SqlCommand(sqlCommandString);
+                    sqlCommand.CommandText = sqlCommandString;
 
 
                     using (SqlDataReader sqlDataReader = dBConnection.SelectQuery(sqlCommand))
