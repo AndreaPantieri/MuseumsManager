@@ -36,10 +36,10 @@ namespace Entities
             {
                 if (!list[i + 1].Equals("NULL"))
                 {
-                    sqlCommandString += "'@";
+                    sqlCommandString += "@";
                     sqlCommandString += list[i];
                     sqlCommand.Parameters.AddWithValue("@" + list[i], list[i + 1]);
-                    sqlCommandString += "'";
+                    sqlCommandString += "";
                 }
                 else
                 {
@@ -49,7 +49,7 @@ namespace Entities
 
                 
 
-                if (i < list.Length - 1)
+                if (i < list.Length - 2)
                 {
                     sqlCommandString += ", ";
                 }
@@ -120,7 +120,7 @@ namespace Entities
                     SqlCommand sqlCommand = new SqlCommand();
                     for (int i = 0; i < list.Length; i += 2)
                     {
-                        sqlCommandString += list[i] + " = '@" + list[i] + "'";
+                        sqlCommandString += list[i] + " = @" + list[i] + "";
                         sqlCommand.Parameters.AddWithValue("@" + list[i], list[i + 1]);
                         if (i < list.Length - 2)
                             sqlCommandString += " AND ";

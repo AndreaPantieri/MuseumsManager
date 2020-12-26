@@ -59,10 +59,10 @@ namespace Entities
 
                 if(!list[i + 1].Equals("NULL"))
                 {
-                    sqlCommandString += "'@";
+                    sqlCommandString += "@";
 
                     sqlCommandString += list[i];
-                    sqlCommandString += "'";
+                    sqlCommandString += "";
                     sqlCommand.Parameters.AddWithValue("@" + list[i], list[i + 1]);
                 }
                 else
