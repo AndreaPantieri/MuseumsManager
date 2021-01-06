@@ -2489,7 +2489,7 @@ namespace MuseumsManager
                         //Numero di biglietti venduti
                         string numBiglietti = "SELECT COUNT(*) AS numBiglietti " +
                             "FROM Biglietto " +
-                            "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataValidita) = " + DateTime.Now.Month + " AND YEAR(DataValidita) = " + DateTime.Now.Year + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2507,7 +2507,7 @@ namespace MuseumsManager
                         //Numero di manutenzioni svolte
                         string numManutenzioni = "SELECT COUNT(*) AS numManutenzioni " +
                             "FROM RegistroManutenzioni " +
-                            "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + " AND YEAR(Data) = " + DateTime.Now.Year + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2525,7 +2525,7 @@ namespace MuseumsManager
                         //Numero di nuovi contenuti aggiunti
                         string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
                             "FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
-                            "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + " AND YEAR(DataArrivoMuseo) = " + DateTime.Now.Year + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2543,7 +2543,7 @@ namespace MuseumsManager
                         //Numero di giorni di chiusura totali
                         string numGiorniChiusura = "SELECT COUNT(*) AS numGiorniChiusura " +
                             "FROM CalendarioChiusure " +
-                            "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + " AND YEAR(Data) = " + DateTime.Now.Year + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2560,9 +2560,9 @@ namespace MuseumsManager
 
                         //Spese totali
                         string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
-                            "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + ") " +
+                            "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + " AND YEAR(Data) = " + DateTime.Now.Year + ") " +
                             "UNION (" +
-                            "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " ))) AS Spese";
+                            "SELECT SUM(StipendioOra * DATEDIFF(hour, DataEntrata, DataUscita)) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " AND YEAR(DataEntrata) = " + DateTime.Now.Year + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " AND YEAR(DataUscita) = " + DateTime.Now.Year + " ))) AS Spese";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2580,7 +2580,7 @@ namespace MuseumsManager
                         //Fatturato
                         string fatturato = "SELECT SUM(PrezzoAcquisto) AS fatturato " +
                             "FROM Biglietto " +
-                            "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataValidita) = " + DateTime.Now.Month + " AND YEAR(DataValidita) = " + DateTime.Now.Year + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2615,7 +2615,7 @@ namespace MuseumsManager
                         //Numero di biglietti venduti
                         string numBiglietti = "SELECT COUNT(*) AS numBiglietti " +
                             "FROM Biglietto " +
-                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + " AND YEAR(DataValidita) = " + DateTime.Now.Year + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2633,7 +2633,7 @@ namespace MuseumsManager
                         //Numero di manutenzioni svolte
                         string numManutenzioni = "SELECT COUNT(*) AS numManutenzioni " +
                             "FROM RegistroManutenzioni " +
-                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + " AND YEAR(Data) = " + DateTime.Now.Year + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2651,7 +2651,7 @@ namespace MuseumsManager
                         //Numero di nuovi contenuti aggiunti
                         string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
                             "FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
-                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + " AND YEAR(DataArrivoMuseo) = " + DateTime.Now.Year + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2669,7 +2669,7 @@ namespace MuseumsManager
                         //Numero di giorni di chiusura totali
                         string numGiorniChiusura = "SELECT COUNT(*) AS numGiorniChiusura " +
                             "FROM CalendarioChiusure " +
-                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + " AND YEAR(Data) = " + DateTime.Now.Year + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2686,9 +2686,9 @@ namespace MuseumsManager
 
                         //Spese totali
                         string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
-                            "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ") " +
+                            "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + " AND YEAR(Data) = " + DateTime.Now.Year + ") " +
                             "UNION (" +
-                            "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " ))) AS Spese";
+                            "SELECT SUM(StipendioOra * DATEDIFF(hour, DataEntrata, DataUscita)) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " AND YEAR(DataEntrata) = " + DateTime.Now.Year + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " AND YEAR(DataUscita) = " + DateTime.Now.Year + "))) AS Spese";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -2706,7 +2706,7 @@ namespace MuseumsManager
                         //Fatturato
                         string fatturato = "SELECT SUM(PrezzoAcquisto) AS fatturato " +
                             "FROM Biglietto " +
-                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
+                            "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + " AND YEAR(DataValidita) = " + DateTime.Now.Year + ";";
 
                         using (DBConnection dBConnection = new DBConnection())
                         {
@@ -3151,7 +3151,7 @@ namespace MuseumsManager
             {
                 ckb_manutenzioni_annuali.IsChecked = false;
             }
-            dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Month == DateTime.Now.Month).ToList();
+            dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Month == DateTime.Now.Month && rm.Data.Year == DateTime.Now.Year).ToList();
 
             if ((bool)ckb_manutenzioni_data.IsChecked)
             {
@@ -3224,7 +3224,7 @@ namespace MuseumsManager
                 ckb_presenze_giornaliere.IsChecked = false;
                 ckb_presenze_annuali.IsChecked = false;
             }
-            List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Month == DateTime.Now.Month || r.DataUscita.Month == DateTime.Now.Month).ToList();
+            List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Month == DateTime.Now.Month && r.DataEntrata.Year == DateTime.Now.Year || r.DataUscita.Month == DateTime.Now.Month && r.DataUscita.Year == DateTime.Now.Year).ToList();
             List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
             List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
             lrp.ForEach(rp =>
@@ -3272,7 +3272,7 @@ namespace MuseumsManager
         private void ckb_manutenzioni_data_Unchecked(object sender, RoutedEventArgs e)
         {
             if ((bool)ckb_manutenzioni_mensili.IsChecked)
-                dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Month == DateTime.Now.Month).ToList();
+                dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Month == DateTime.Now.Month && rm.Data.Year == DateTime.Now.Year).ToList();
             else if ((bool)ckb_manutenzioni_annuali.IsChecked)
                 dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Year == DateTime.Now.Year).ToList();
             else
@@ -3289,7 +3289,7 @@ namespace MuseumsManager
         private void ckb_manutenzioni_prezzo_Unchecked(object sender, RoutedEventArgs e)
         {
             if ((bool)ckb_manutenzioni_mensili.IsChecked)
-                dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Month == DateTime.Now.Month).ToList();
+                dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Month == DateTime.Now.Month && rm.Data.Year == DateTime.Now.Year).ToList();
             else if ((bool)ckb_manutenzioni_annuali.IsChecked)
                 dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Year == DateTime.Now.Year).ToList();
             else
@@ -3327,7 +3327,7 @@ namespace MuseumsManager
         private void ckb_manutenzioni_annuali_Unchecked(object sender, RoutedEventArgs e)
         {
             if ((bool)ckb_manutenzioni_mensili.IsChecked)
-                dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Month == DateTime.Now.Month).ToList();
+                dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo).Where(rm => rm.Data.Month == DateTime.Now.Month && rm.Data.Year == DateTime.Now.Year).ToList();
             else
                 dtg_manutenzioni.DataContext = DBObject<RegistroManutenzioni>.Select("idMuseo", museoSelezionato.idMuseo);
             if ((bool)ckb_manutenzioni_prezzo.IsChecked)
@@ -3349,7 +3349,7 @@ namespace MuseumsManager
         {
             if ((bool)ckb_presenze_mensili.IsChecked)
             {
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Month == DateTime.Now.Month || r.DataUscita.Month == DateTime.Now.Month).ToList();
+                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Month == DateTime.Now.Month && r.DataEntrata.Year == DateTime.Now.Year || r.DataUscita.Month == DateTime.Now.Month && r.DataUscita.Year == DateTime.Now.Year).ToList();
                 List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
                 List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
                 lrp.ForEach(rp =>
@@ -3492,7 +3492,7 @@ namespace MuseumsManager
             }
             else if ((bool)ckb_presenze_mensili.IsChecked)
             {
-                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Month == DateTime.Now.Month || r.DataUscita.Month == DateTime.Now.Month).ToList();
+                List<RegistroPresenze> lrp = DBObject<RegistroPresenze>.CustomSelect(new SqlCommand("SELECT RegistroPresenze.* FROM RegistroPresenze INNER JOIN Personale ON RegistroPresenze.idPersonale = Personale.idPersonale WHERE Personale.idMuseo = " + museoSelezionato.idMuseo)).Where(r => r.DataEntrata.Month == DateTime.Now.Month && r.DataEntrata.Year == DateTime.Now.Year || r.DataUscita.Month == DateTime.Now.Month && r.DataUscita.Year == DateTime.Now.Year).ToList();
                 List<Personale> lp = DBObject<Personale>.Select("idMuseo", museoSelezionato.idMuseo);
                 List<RegistroPresenzeForList> lrpfl = new List<RegistroPresenzeForList>();
                 lrp.ForEach(rp =>
@@ -3536,7 +3536,7 @@ namespace MuseumsManager
             //Numero di biglietti venduti
             string numBiglietti = "SELECT COUNT(*) AS numBiglietti " +
                 "FROM Biglietto " +
-                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataValidita) = " + DateTime.Now.Month + " AND YEAR(DataValidita) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3554,7 +3554,7 @@ namespace MuseumsManager
             //Numero di manutenzioni svolte
             string numManutenzioni = "SELECT COUNT(*) AS numManutenzioni " +
                 "FROM RegistroManutenzioni " +
-                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + " AND YEAR(Data) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3572,7 +3572,7 @@ namespace MuseumsManager
             //Numero di nuovi contenuti aggiunti
             string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
                 "FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
-                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + " AND YEAR(DataArrivoMuseo) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3590,7 +3590,7 @@ namespace MuseumsManager
             //Numero di giorni di chiusura totali
             string numGiorniChiusura = "SELECT COUNT(*) AS numGiorniChiusura " +
                 "FROM CalendarioChiusure " +
-                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + " AND YEAR(Data) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3609,9 +3609,9 @@ namespace MuseumsManager
             double speseTot = 0;
             //Spese totali
             string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
-                "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + ") " +
+                "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(Data) = " + DateTime.Now.Month + " AND YEAR(Data) = " + DateTime.Now.Year + ") " +
                 "UNION (" +
-                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " ))) AS Spese";
+                "SELECT SUM(StipendioOra * DATEDIFF(hour, DataEntrata, DataUscita)) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " AND YEAR(DataEntrata) = " + DateTime.Now.Year + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " AND YEAR(DataUscita) = " + DateTime.Now.Year + " ))) AS Spese";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3633,7 +3633,7 @@ namespace MuseumsManager
             //Fatturato
             string fatturato = "SELECT SUM(PrezzoAcquisto) AS fatturato " +
                 "FROM Biglietto " +
-                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(DataValidita) = " + DateTime.Now.Month + " AND YEAR(DataValidita) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3742,7 +3742,7 @@ namespace MuseumsManager
             string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
                 "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo = " + museoSelezionato.idMuseo + " AND YEAR(Data) = " + DateTime.Now.Year + ") " +
                 "UNION (" +
-                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (YEAR(DataEntrata) = " + DateTime.Now.Year + " OR YEAR(DataUscita) = " + DateTime.Now.Year + " ))) AS Spese";
+                "SELECT SUM(StipendioOra * DATEDIFF(hour, DataEntrata, DataUscita)) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo = " + museoSelezionato.idMuseo + " AND (YEAR(DataEntrata) = " + DateTime.Now.Year + " OR YEAR(DataUscita) = " + DateTime.Now.Year + " ))) AS Spese";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3796,7 +3796,7 @@ namespace MuseumsManager
             //Numero di biglietti venduti
             string numBiglietti = "SELECT COUNT(*) AS numBiglietti " +
                 "FROM Biglietto " +
-                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + " AND YEAR(DataValidita) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3814,7 +3814,7 @@ namespace MuseumsManager
             //Numero di manutenzioni svolte
             string numManutenzioni = "SELECT COUNT(*) AS numManutenzioni " +
                 "FROM RegistroManutenzioni " +
-                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + " AND YEAR(Data) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3832,7 +3832,7 @@ namespace MuseumsManager
             //Numero di nuovi contenuti aggiunti
             string numNuoviContenuti = "SELECT COUNT(*) AS numNuoviContenuti " +
               "FROM Contenuto INNER JOIN Sezione ON Contenuto.idSezione = Sezione.idSezione " +
-                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataArrivoMuseo) = " + DateTime.Now.Month + " AND YEAR(DataArrivoMuseo) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3850,7 +3850,7 @@ namespace MuseumsManager
             //Numero di giorni di chiusura totali
             string numGiorniChiusura = "SELECT COUNT(*) AS numGiorniChiusura " +
                 "FROM CalendarioChiusure " +
-                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + " AND YEAR(Data) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3869,9 +3869,9 @@ namespace MuseumsManager
             double speseTot = 0;
             //Spese totali
             string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
-                "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + ") " +
+                "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(Data) = " + DateTime.Now.Month + " AND YEAR(Data) = " + DateTime.Now.Year + ") " +
                 "UNION (" +
-                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " ))) AS Spese";
+                "SELECT SUM(StipendioOra * DATEDIFF(hour, DataEntrata, DataUscita)) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (MONTH(DataEntrata) = " + DateTime.Now.Month + " AND YEAR(DataEntrata) = " + DateTime.Now.Year + " OR MONTH(DataUscita) = " + DateTime.Now.Month + " AND YEAR(DataUscita) = " + DateTime.Now.Year + " ))) AS Spese";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -3893,7 +3893,7 @@ namespace MuseumsManager
             //Fatturato
             string fatturato = "SELECT SUM(PrezzoAcquisto) AS fatturato " +
                 "FROM Biglietto " +
-                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + ";";
+                "WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND MONTH(DataValidita) = " + DateTime.Now.Month + " AND YEAR(DataValidita) = " + DateTime.Now.Year + ";";
 
             using (DBConnection dBConnection = new DBConnection())
             {
@@ -4001,7 +4001,7 @@ namespace MuseumsManager
             string speseTotali = "SELECT SUM(Spese) AS speseTotali " +
                 "FROM ((SELECT SUM(Prezzo) AS Spese FROM RegistroManutenzioni WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND YEAR(Data) = " + DateTime.Now.Year + ") " +
                 "UNION (" +
-                "SELECT SUM(StipendioOra) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (YEAR(DataEntrata) = " + DateTime.Now.Year + " OR YEAR(DataUscita) = " + DateTime.Now.Year + " ))) AS Spese";
+                "SELECT SUM(StipendioOra * DATEDIFF(hour, DataEntrata, DataUscita)) AS Spese FROM Personale INNER JOIN RegistroPresenze ON Personale.idPersonale = RegistroPresenze.idPersonale WHERE idMuseo IN (SELECT idMuseo FROM Museo WHERE idFamiglia = " + idFamiglia + " ) AND (YEAR(DataEntrata) = " + DateTime.Now.Year + " OR YEAR(DataUscita) = " + DateTime.Now.Year + " ))) AS Spese";
 
             using (DBConnection dBConnection = new DBConnection())
             {
