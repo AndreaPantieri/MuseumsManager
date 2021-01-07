@@ -234,7 +234,7 @@ alter table Creato add constraint EQU_Creat_Creat_FK
 
 alter table Creato add constraint REF_Creat_Conte
      foreign key (idContenuto)
-     references Contenuto (idContenuto);
+     references Contenuto (idContenuto) on delete cascade;
 
 alter table Museo add constraint EQU_Museo_Famig_FK
      foreign key (idFamiglia)

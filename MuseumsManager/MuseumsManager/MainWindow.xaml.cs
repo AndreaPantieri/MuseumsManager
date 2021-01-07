@@ -4088,6 +4088,7 @@ namespace MuseumsManager
                     lbl_statisticheMuseo_mesePassato_valoreNumeroGiorniChiusura.Content = statistiche.NumChiusure;
                     lbl_statisticheMuseo_mesePassato_valoreSpeseTotali.Content = statistiche.SpeseTotali;
                     lbl_statisticheMuseo_mesePassato_valoreFatturato.Content = statistiche.Fatturato;
+                    lbl_statisticheMuseo_mesePassato_valoreRicavo.Content = statistiche.Fatturato - statistiche.SpeseTotali;
                 }
             }
         }
@@ -4130,6 +4131,7 @@ namespace MuseumsManager
                     lbl_statisticheMuseo_annoPassato_valoreNumeroGiorniChiusura.Content = statistiche.NumChiusure;
                     lbl_statisticheMuseo_annoPassato_valoreSpeseTotali.Content = statistiche.SpeseTotali;
                     lbl_statisticheMuseo_annoPassato_valoreFatturato.Content = statistiche.Fatturato;
+                    lbl_statisticheMuseo_annoPassato_valoreRicavo .Content = statistiche.Fatturato - statistiche.SpeseTotali;
                 }
             }
         }
@@ -4174,6 +4176,7 @@ namespace MuseumsManager
                     lbl_statisticheFamiglia_mesePassato_valoreNumeroGiorniChiusura.Content = statistiche.NumChiusure;
                     lbl_statisticheFamiglia_mesePassato_valoreSpeseTotali.Content = statistiche.SpeseTotali;
                     lbl_statisticheFamiglia_mesePassato_valoreFatturato.Content = statistiche.Fatturato;
+                    lbl_statisticheFamiglia_mesePassato_valoreRicavo.Content = statistiche.Fatturato - statistiche.SpeseTotali;
                 }
             }
         }
@@ -4218,6 +4221,7 @@ namespace MuseumsManager
                     lbl_statisticheFamiglia_annoPassato_valoreNumeroGiorniChiusura.Content = statistiche.NumChiusure;
                     lbl_statisticheFamiglia_annoPassato_valoreSpeseTotali.Content = statistiche.SpeseTotali;
                     lbl_statisticheFamiglia_annoPassato_valoreFatturato.Content = statistiche.Fatturato;
+                    lbl_statisticheFamiglia_annoPassato_valoreRicavo .Content = statistiche.Fatturato - statistiche.SpeseTotali;
                 }
             }
         }
