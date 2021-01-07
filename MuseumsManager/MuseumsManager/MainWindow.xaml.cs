@@ -4076,7 +4076,7 @@ namespace MuseumsManager
             {
                 DateTime date = (DateTime)cmb_statisticheMuseo_mesePassato_selezionaMeseAnno.SelectedItem;
 
-                string sqlStatistiche = "SELECT Statistiche.* FROM Statistiche INNER JOIN StatisticheMuseo ON Statistiche.idStatistiche = StatisticheMuseo.idStatistiche WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MeseAnno = '" + date + "';";
+                string sqlStatistiche = "SELECT Statistiche.* FROM Statistiche INNER JOIN StatisticheMuseo ON Statistiche.idStatistiche = StatisticheMuseo.idStatistiche WHERE idMuseo = " + museoSelezionato.idMuseo + " AND MONTH(MeseAnno) = " + date.Month + " AND YEAR(MeseAnno) = " + date.Year + ";";
                 List<Statistiche> tmp = DBObject<Statistiche>.CustomSelect(new SqlCommand(sqlStatistiche));
 
                 if (tmp.Count == 1)
@@ -4094,7 +4094,7 @@ namespace MuseumsManager
 
         private void cmb_statisticheMuseo_annoPassato_selezionaMeseAnno_DropDownOpened(object sender, EventArgs e)
         {
-            string sqlMeseAnno = "SELECT YEAR(MeseAnno) FROM Statistiche INNER JOIN StatisticheMuseo ON Statistiche.idStatistiche = StatisticheMuseo.idStatistiche WHERE idMuseo = " + museoSelezionato.idMuseo + " GROUP BY YEAR(MeseAnno);";
+            string sqlMeseAnno = "SELECT YEAR(MeseAnno) As MeseAnno FROM Statistiche INNER JOIN StatisticheMuseo ON Statistiche.idStatistiche = StatisticheMuseo.idStatistiche WHERE idMuseo = " + museoSelezionato.idMuseo + " GROUP BY YEAR(MeseAnno);";
             List<DateTime> dates = new List<DateTime>();
 
             using (DBConnection dBConnection = new DBConnection())
@@ -4104,7 +4104,7 @@ namespace MuseumsManager
                 {
                     while (sqlDataReader.Read())
                     {
-                        DateTime tmp = (DateTime)sqlDataReader["MeseAnno"];
+                        DateTime tmp = new DateTime((int)sqlDataReader["MeseAnno"], 1,1);
                         dates.Add(tmp);
                     }
                 }
@@ -4118,7 +4118,7 @@ namespace MuseumsManager
             {
                 DateTime date = (DateTime)cmb_statisticheMuseo_annoPassato_selezionaMeseAnno.SelectedItem;
 
-                string sqlStatistiche = "SELECT Statistiche.* FROM Statistiche INNER JOIN StatisticheMuseo ON Statistiche.idStatistiche = StatisticheMuseo.idStatistiche WHERE idMuseo = " + museoSelezionato.idMuseo + " AND YEAR(MeseAnno) = " + date.Year + ";";
+                string sqlStatistiche = "SELECT SUM(NumBigliettiVenduti) AS NumBigliettiVenduti, SUM(NumManutenzioni) AS NumManutenzioni, SUM(NumContenutiNuovi) AS NumContenutiNuovi, SUM(NumChiusure) AS NumChiusure, SUM(SpeseTotali) AS SpeseTotali, SUM(Fatturato) AS Fatturato FROM Statistiche INNER JOIN StatisticheMuseo ON Statistiche.idStatistiche = StatisticheMuseo.idStatistiche WHERE idMuseo = " + museoSelezionato.idMuseo + " AND YEAR(MeseAnno) = " + date.Year + " GROUP BY YEAR(MeseAnno);";
                 List<Statistiche> tmp = DBObject<Statistiche>.CustomSelect(new SqlCommand(sqlStatistiche));
 
                 if (tmp.Count == 1)
@@ -4160,9 +4160,9 @@ namespace MuseumsManager
             if (cmb_statisticheFamiglia_mesePassato_selezionaMeseAnno.SelectedIndex != -1)
             {
                 int idFamiglia = museoSelezionato.idFamiglia;
-                DateTime date = (DateTime)cmb_statisticheMuseo_mesePassato_selezionaMeseAnno.SelectedItem;
+                DateTime date = (DateTime)cmb_statisticheFamiglia_mesePassato_selezionaMeseAnno.SelectedItem;
 
-                string sqlStatistiche = "SELECT Statistiche.* FROM Statistiche INNER JOIN StatisticheFamigliaMusei ON Statistiche.idStatistiche = StatisticheFamigliaMusei.idStatistiche WHERE idFamiglia = " + idFamiglia + " AND MeseAnno = '" + date + "';";
+                string sqlStatistiche = "SELECT Statistiche.* FROM Statistiche INNER JOIN StatisticheFamigliaMusei ON Statistiche.idStatistiche = StatisticheFamigliaMusei.idStatistiche WHERE idFamiglia = " + idFamiglia + " AND MONTH(MeseAnno) = " + date.Month + " AND YEAR(MeseAnno) = " + date.Year + ";";
                 List<Statistiche> tmp = DBObject<Statistiche>.CustomSelect(new SqlCommand(sqlStatistiche));
 
                 if (tmp.Count == 1)
@@ -4181,7 +4181,7 @@ namespace MuseumsManager
         private void cmb_statisticheFamiglia_annoPassato_selezionaMeseAnno_DropDownOpened(object sender, EventArgs e)
         {
             int idFamiglia = museoSelezionato.idFamiglia;
-            string sqlMeseAnno = "SELECT YEAR(MeseAnno) FROM Statistiche INNER JOIN StatisticheFamigliaMusei ON Statistiche.idStatistiche = StatisticheFamigliaMusei.idStatistiche WHERE idFamiglia = " + idFamiglia + " GROUP BY YEAR(MeseAnno);";
+            string sqlMeseAnno = "SELECT YEAR(MeseAnno) AS MeseAnno FROM Statistiche INNER JOIN StatisticheFamigliaMusei ON Statistiche.idStatistiche = StatisticheFamigliaMusei.idStatistiche WHERE idFamiglia = " + idFamiglia + " GROUP BY YEAR(MeseAnno);";
             List<DateTime> dates = new List<DateTime>();
 
             using (DBConnection dBConnection = new DBConnection())
@@ -4191,7 +4191,7 @@ namespace MuseumsManager
                 {
                     while (sqlDataReader.Read())
                     {
-                        DateTime tmp = (DateTime)sqlDataReader["MeseAnno"];
+                        DateTime tmp = new DateTime((int)sqlDataReader["MeseAnno"],1,1);
                         dates.Add(tmp);
                     }
                 }
@@ -4201,12 +4201,12 @@ namespace MuseumsManager
 
         private void cmb_statisticheFamiglia_annoPassato_selezionaMeseAnno_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cmb_statisticheMuseo_annoPassato_selezionaMeseAnno.SelectedIndex != -1)
+            if (cmb_statisticheFamiglia_annoPassato_selezionaMeseAnno.SelectedIndex != -1)
             {
                 int idFamiglia = museoSelezionato.idFamiglia;
-                DateTime date = (DateTime)cmb_statisticheMuseo_annoPassato_selezionaMeseAnno.SelectedItem;
+                DateTime date = (DateTime)cmb_statisticheFamiglia_annoPassato_selezionaMeseAnno.SelectedItem;
 
-                string sqlStatistiche = "SELECT Statistiche.* FROM Statistiche INNER JOIN StatisticheFamigliaMusei ON Statistiche.idStatistiche = StatisticheFamigliaMusei.idStatistiche WHERE idFamiglia = " + idFamiglia + " AND YEAR(MeseAnno) = " + date.Year + ";";
+                string sqlStatistiche = "SELECT SUM(NumBigliettiVenduti) AS NumBigliettiVenduti, SUM(NumManutenzioni) AS NumManutenzioni, SUM(NumContenutiNuovi) AS NumContenutiNuovi, SUM(NumChiusure) AS NumChiusure, SUM(SpeseTotali) AS SpeseTotali, SUM(Fatturato) AS Fatturato FROM Statistiche INNER JOIN StatisticheFamigliaMusei ON Statistiche.idStatistiche = StatisticheFamigliaMusei.idStatistiche WHERE idFamiglia = " + idFamiglia + " AND YEAR(MeseAnno) = " + date.Year + ";";
                 List<Statistiche> tmp = DBObject<Statistiche>.CustomSelect(new SqlCommand(sqlStatistiche));
 
                 if (tmp.Count == 1)

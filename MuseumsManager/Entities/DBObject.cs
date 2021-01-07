@@ -175,7 +175,7 @@ namespace Entities
                         lpi.ForEach(pi =>
                         {
                             object value;
-                            if (IsDBNull(sqlDataReader[pi.Name]))
+                            if (!Enumerable.Range(0, sqlDataReader.FieldCount).Select(i => sqlDataReader.GetName(i)).Contains(pi.Name) || IsDBNull(sqlDataReader[pi.Name]))
                             {
                                 value = Activator.CreateInstance(pi.PropertyType);
                             }
