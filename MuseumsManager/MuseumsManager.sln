@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuseumsManager", "MuseumsMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{8BD4BA2F-3364-4764-8753-512EA5B4E5E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inserts", "Inserts\Inserts.csproj", "{B2238671-A83D-4D92-AE11-D61ABDA3712B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{8BD4BA2F-3364-4764-8753-512EA5B4E5E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BD4BA2F-3364-4764-8753-512EA5B4E5E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BD4BA2F-3364-4764-8753-512EA5B4E5E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2238671-A83D-4D92-AE11-D61ABDA3712B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2238671-A83D-4D92-AE11-D61ABDA3712B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2238671-A83D-4D92-AE11-D61ABDA3712B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2238671-A83D-4D92-AE11-D61ABDA3712B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
