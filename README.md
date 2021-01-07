@@ -15,7 +15,7 @@ L'applicativo permette il completo controllo di ogni ambito che può essere pres
 - calcolo di diverse tipologie di statistiche ed indici mensili ed annuali, resoconti archiviabili 
 
 
-#Tutorial all'avvio:
+# Tutorial all'avvio:
 1) Prima di tutto bisognerà disporre di "Visual Studio 2019" con pacchetto C# WPF e "Microsoft SQL Server Management Studio 18" (o superiori), e creare il Database seguendo questa procedura:
 - eseguire lo script SQL "PROJECT-MUSEI.sql" che si trova nella cartella "/sql/DB"
 - eseguire lo script SQL "MuseumsManager.sql" che si trova nella cartella "/sql/Data"
