@@ -13,3 +13,12 @@ L'applicativo permette il completo controllo di ogni ambito che può essere pres
 - gestione del personale del museo e dei ruoli
 - gestione dei registri (manutenzione, spese e presenze dei dipendenti)
 - calcolo di diverse tipologie di statistiche ed indici mensili ed annuali, resoconti archiviabili 
+
+
+#Tutorial all'avvio:
+1) Prima di tutto bisognerà disporre di "Visual Studio 2019" con pacchetto C# WPF e "Microsoft SQL Server Management Studio 18" (o superiori), e creare il Database seguendo questa procedura:
+- eseguire lo script SQL "PROJECT-MUSEI.sql" che si trova nella cartella "/sql/DB"
+- eseguire lo script SQL "MuseumsManager.sql" che si trova nella cartella "/sql/Data"
+
+2) Prima di compilare o eseguire il progetto assicurarsi di modificare il parametro "HostName" della ConnectionString all'interno di "Entities/DBConnection.cs", avendo così la propria QueryString corretta.
+3) Compilare il progetto ed avviarlo.
